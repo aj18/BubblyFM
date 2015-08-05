@@ -1,0 +1,20 @@
+{
+  "name": "bubbly_photoCollage",
+  "version": "1.0.0",
+  "description": "photo collage carosel",
+  "main": "bubblyPC.jsx",
+  "scripts": {
+    "test": "watchify -t 6to5ify ./src/bubblyPCMixIt.jsx -o ./dist/bundlePC.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "jigarrdesai"
+  },
+  "keywords": [
+    "photo",
+    "collage",
+    "social"
+  ],
+  "author": "Jigar R Desai",
+  "license": "ISC"
+}

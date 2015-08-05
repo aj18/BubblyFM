@@ -1,0 +1,18 @@
+{
+  "name": "bubbly_rsslist_desc",
+  "version": "1.0.0",
+  "description": "rssfeed",
+  "main": "rssListDesc.js",
+  "scripts": {
+    "test": "watchify -t 6to5ify ./src/rssListDesc.jsx -o ./dist/bundleRssListDesc.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "jigarrdesai"
+  },
+  "keywords": [
+    "rsslist"
+  ],
+  "author": "Jigar R Desai",
+  "license": "ISC"
+}

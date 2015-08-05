@@ -1,0 +1,30 @@
+{
+  "name": "bubbly_materializecss_basic_card",
+  "version": "1.0.0",
+  "description": "materialize basic card",
+  "main": "basicCardMCSS.jsx",
+  "scripts": {
+    "watch": "npm run image & npm run large & npm run medium & npm run small & npm run basic & npm run cardRevel & npm run cardPanel ",
+
+    "image": "watchify -t 6to5ify ./src/imageCard.jsx -o ./dist/bundleImageCard.js -v",
+    "large": "watchify -t 6to5ify ./src/largeCard.jsx -o ./dist/bundleLargeCard.js -v",
+    "medium": "watchify -t 6to5ify ./src/mediumCard.jsx -o ./dist/bundleMediumCard.js -v",
+    "small": "watchify -t 6to5ify ./src/smallCard.jsx -o ./dist/bundleSmallCard.js -v",
+    "basic": "watchify -t 6to5ify ./src/basicCard.jsx -o ./dist/bundleBasicCard.js -v",
+    "cardRevel": "watchify -t 6to5ify ./src/cardReveal.jsx -o ./dist/bundleCardReveal.js -v",
+    "cardPanel": "watchify -t 6to5ify ./src/cardPanel.jsx -o ./dist/bundleCardPanel.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jigar/social"
+  },
+  "keywords": [
+    "basic",
+    "card"
+  ],
+  "author": "Jigar R Desai",
+  "license": "Social24x7",
+  "bugs": {
+    "url": "https://github.com/jigar/social/issues"
+  }
+}

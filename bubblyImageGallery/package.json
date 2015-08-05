@@ -1,0 +1,23 @@
+{
+  "name": "bubblyImageGallery",
+  "version": "1.0.0",
+  "description": "image gallery component",
+  "main": "imageGallery.js",
+  "scripts": {
+    "watch": "watchify -t 6to5ify ./src/imageGallery.js -o ./dist/bundleImageGallery.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jigar/social"
+  },
+  "keywords": [
+    "image",
+    "gallery",
+    "component"
+  ],
+  "author": "Jigar R Desai",
+  "license": "Social24x7",
+  "bugs": {
+    "url": "https://github.com/jigar/social/issues"
+  }
+}

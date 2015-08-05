@@ -1,0 +1,28 @@
+{
+  "name": "bubbly_small_msn",
+  "version": "1.0.0",
+  "description": "small component like msn",
+  "main": "smmsn.jsx",
+  "dependencies": {
+    "browserify": "^10.1.1",
+    "6to5ify": "^4.1.1",
+    "watchify": "^3.2.1",
+    "react": "^0.13.2",
+    "react-tools": "^0.13.2",
+    "radium": "^0.11.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "watchify -t 6to5ify ./src/smallmsn.jsx -o ./dist/bundleSmallMSN.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "jigarrdesai"
+  },
+  "keywords": [
+    "small",
+    "social"
+  ],
+  "author": "Jigar R Desai",
+  "license": "ISC"
+}

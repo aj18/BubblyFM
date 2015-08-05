@@ -1,0 +1,18 @@
+{
+  "name": "bubbly_wall",
+  "version": "1.0.0",
+  "description": "wall for social comments",
+  "main": "wall.jsx",
+  "scripts": {
+    "test": "watchify -t 6to5ify ./src/wall.jsx -o ./dist/bundleWall.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "aj18"
+  },
+  "keywords": [
+    "wall"
+  ],
+  "author": "Jigar R Desai",
+  "license": "social24x7"
+}

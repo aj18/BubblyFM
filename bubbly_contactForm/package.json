@@ -1,0 +1,36 @@
+{
+  "name": "bubbly_ContacForm",
+  "version": "1.0.0",
+  "description": "bm component",
+  "main": "bm.jsx",
+  "dependencies": {
+    "browserify": "^10.1.1",
+    "6to5ify": "^4.1.1",
+    "watchify": "^3.2.1",
+    "react": "^0.13.2",
+    "react-tools": "^0.13.2",
+    "radium": "^0.11.1"
+  },
+  "scripts": {
+    "watch": "watchify -t 6to5ify ./src/contactForm.jsx -o ./dist/bundleContactForm.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jigardesai/Social"
+  },
+  "keywords": [
+    "social"
+  ],
+  "author": "Jigar R Desai",
+  "license": "social24x7",
+  "bugs": {
+    "url": "https://github.com/jigardesai/Social/issues"
+  },
+  "devDependencies": {
+    "bootstrap": "^3.3.4",
+    "css-to-radium": "^1.0.0",
+    "jquery": "^2.1.4",
+    "radium-bootstrap": "0.0.1",
+    "react-bootstrap": "^0.22.3"
+  }
+}

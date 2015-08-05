@@ -1,0 +1,19 @@
+{
+  "name": "bubbly_small",
+  "version": "1.0.0",
+  "description": "this is small container for all flowly",
+  "main": "small.jsx",
+  "dependencies": {
+    "6to5ify": "^4.1.1",
+    "browserify": "^10.1.1",
+    "react": "^0.13.2",
+    "react-tools": "^0.13.2",
+    "watchify": "^3.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "watch": "watchify -t 6to5ify ./src/small.jsx -o ./dist/bundleSmall.js -v"
+  },
+  "author": "Jigar R Desai",
+  "license": "social24x7"
+}

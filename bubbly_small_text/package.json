@@ -1,0 +1,18 @@
+{
+  "name": "bubbly_small_text",
+  "version": "1.0.0",
+  "description": "smalltext",
+  "main": "smallText.js",
+  "scripts": {
+    "test": "watchify -t 6to5ify ./src/smallText.jsx -o ./dist/bundleSmallText.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "jigarrdesai"
+  },
+  "keywords": [
+    "small"
+  ],
+  "author": "jigar r desai",
+  "license": "social"
+}

@@ -1,0 +1,21 @@
+{
+  "name": "bubbly_medium",
+  "version": "1.0.0",
+  "description": "mediumsize widget component",
+  "main": "medium.jsx",
+  "scripts": {
+    "watch": "watchify -t 6to5ify ./src/medium.jsx -o ./dist/bundleMedium.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jigardesai/Social"
+  },
+  "keywords": [
+    "social"
+  ],
+  "author": "Jigar R Desai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jigardesai/Social/issues"
+  }
+}

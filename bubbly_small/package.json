@@ -1,0 +1,30 @@
+{
+  "name": "bubbly_small",
+  "version": "1.0.0",
+  "description": "social24x7 web component",
+  "main": "small.jsx",
+  "dependencies": {
+    "browserify": "^10.1.1",
+    "6to5ify": "^4.1.1",
+    "watchify": "^3.2.1",
+    "react": "^0.13.2",
+    "react-tools": "^0.13.2",
+    "radium": "^0.11.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "watch": "watchify -t 6to5ify ./src/small.jsx -o ./dist/bundleSmall.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jigardesai/Social"
+  },
+  "keywords": [
+    "social"
+  ],
+  "author": "Jigar R Desai",
+  "license": "social24x7",
+  "bugs": {
+    "url": "https://github.com/jigardesai/Social/issues"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "bubbly_large",
+  "version": "1.0.0",
+  "description": "large web component",
+  "main": "large.jsx",
+  "scripts": {
+    "watch": "watchify -t 6to5ify ./src/large.jsx -o ./dist/bundleLarge.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jigar/social"
+  },
+  "keywords": [
+    "social",
+    "large"
+  ],
+  "author": "Jigar R Desai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jigar/social/issues"
+  },
+  "devDependencies": {
+    "6to5ify": "^4.1.1",
+    "browserify": "^10.2.1",
+    "radium": "^0.12.2",
+    "react": "^0.13.3",
+    "react-tools": "^0.13.3",
+    "reactify": "^1.1.1",
+    "watchify": "^3.2.1"
+  }
+}

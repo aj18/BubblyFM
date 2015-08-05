@@ -1,0 +1,69 @@
+Twitter Bootstrap
+Foundation
+HTML5 Boilerplate
+Skeleton
+Gumby
+Zurb v3.3.4
+https://dineshramitc.wordpress.com/2015/01/02/a-collection-of-awesome-react-tools-resources-videos-and-shiny-things/
+https://github.com/andreypopp/react-stylesheet
+https://github.com/js-next/react-style
+
+Materialize
+
+materializecss
+http://material-ui.com/
+https://www.npmjs.com/package/semantic-ui
+http://superdevresources.com/material-design-web-ui-frameworks/
+http://getleaf.com/grid
+https://www.npmjs.com/package/react-material
+http://materialdesignblog.com/material-ui-css-framework-and-react-components-tool-based-on-material-design/
+
+
+Page 2 - CommentList Loads
+1.  Page2.html 
+DetailPageRunner.page("bolly_data3315",document.getElementById('socialinfluence'),null,'http://bharatmovies.social');
+
+2. DetailWidgetRunner.js
+
+DetailPageRunner.page
+React.render(   <PageWrapper data = {dataFromPage} id = { id } returnurl={returnurl}/> , container);
+
+3. Detail.js
+PageWrapper.
+ componentDidMount
+ a.RSSListRunner.rssWidget(this.props.data.SearchQuery,jQuery(this.getDOMNode()).find('.rss')[0]);
+        b.DetailListRunner.topCardWidget(this.props.id, jQuery(this.getDOMNode()).find('.pos')[0],"popular",25,"",'Popular Comments on Social Media');
+
+4. DetailWidgetRunner.js
+
+DetailListRunner.topCardWidget
+React.render( < CommentList data = {data } id = { id } title = { title } returnurl={returnurl} type={type} />, container);
+
+5. Details.js
+    CommentList Loads
+
+Page 2 - PhotoCollageLoad Loads
+
+1. Page2.html
+
+collageScrollWidgetRunner.collageCardWidget("bolly_data3315",  document.getElementById('pic'),"photo",24,"twitter",null,'http://bharatmovies.social');
+
+2. DetailWidgetRunner.js
+   var collageScrollWidgetRunner.collageCardWidget
+   React.render( <PhotoSlider data = {data.Photos}  id = {id} type = {type} limit = {limit} q = {q} /> , container);
+
+3. Details.js
+   var PhotoSlider loads 
+
+
+Page 3: - CommentList Loads
+1. Page3.html
+
+DetailWidgetRunner.infiniteCardWidget("bolly_data3206",document.getElementById('cric_data2469_page3_gal'),"gender",100,"Male",null,'http://bharatmovies.social');
+
+2. DetailWidgetRunner.js
+    var DetailWidgetRunner.infiniteCardWidget
+    React.render( < CommentList data = {data } id = { id } title = { title } returnurl={returnurl} type={type} q={q} container={container} />, container);
+
+3. Details.js
+ CommentList Loads

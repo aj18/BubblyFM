@@ -1,0 +1,30 @@
+{
+  "name": "bubbly_bgVideo",
+  "version": "1.0.0",
+  "description": "background video compoment",
+  "main": "bgVideo.jsx",
+  "scripts": {
+    "watch": "watchify -t 6to5ify ./src/bgVideo.jsx -o ./dist/bundleBgVideo.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jigar/social"
+  },
+  "keywords": [
+    "background",
+    "video"
+  ],
+  "author": "Jigar R Desai",
+  "license": "Social24x7",
+  "bugs": {
+    "url": "https://github.com/jigar/social/issues"
+  },
+  "dependencies": {
+    "react-drive-in": "^1.5.0"
+  },
+  "devDependencies": {
+    "browserify": "^10.2.3",
+    "browserify-shim": "^3.8.7",
+    "react-drive-in": "^1.5.0"
+  }
+}

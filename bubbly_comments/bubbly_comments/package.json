@@ -1,0 +1,21 @@
+{
+  "name": "bubbly_comments",
+  "version": "1.0.0",
+  "description": "comments list",
+  "main": "commentsar.jsx",
+  "scripts": {
+    "test": "watchify -t 6to5ify ./src/commentsMaterial.jsx -o ./dist/bundleComments.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "jigarrdesai"
+  },
+  "keywords": [
+    "comments"
+  ],
+  "author": "jigar r desai",
+  "license": "ISC",
+  "dependencies": {
+    "autoresponsive-react": "^1.1.6"
+  }
+}

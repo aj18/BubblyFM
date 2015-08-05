@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Bubbly</title>	
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <link href="./css/bubbly.css" rel="stylesheet" />
+   
+	<meta charset="UTF-8">
+  <title>Contact Form</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
+  <link href="./example.css" rel="stylesheet">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+  <script src="https://cdn.firebase.com/js/client/2.1.2/firebase.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.12.2/JSXTransformer.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.12.2/react.js"></script>
+  <script src="https://github.com/js-data/js-data/releases/download/2.0.0-rc.1/js-data.min.js"></script>
+  <script src="https://github.com/js-data/js-data-firebase/releases/download/2.0.0-rc.1/js-data-firebase.min.js"></script>
+  	<script src="./dist/bubbly.js"></script>
+</head>
+<body>
+
+
+<!--<link href="./css/image-gallery.css" rel="stylesheet" />-->
+
+
+
+
+
+<!--<link type="text/css" rel="stylesheet" href="./materialize/css/materialize.min.css"  media="screen,projection"/>-->
+ 	<script src="./js/jquery-2.1.0.js" type="text/javascript"></script>
+    <script src="./js/owl.carousel.min.js" type="text/javascript"></script>
+    <script src="./js/jquery.prettyPhoto.js" type="text/javascript"></script>
+     <script src="./js/jquery.mixitup.min.js" type="text/javascript"></script> 
+    <script src="./js/morris.js"></script>
+	<script src="./js/raphael.js"></script>
+	<script src="./js/sparklines.js"></script>
+	<script src="./materialize/js/materialize.min.js" type="text/javascript"></script>
+	<script  src="./materialize/js/plugins/chartjs/chart.min.js" type="text/javascript"></script>
+	<script src="./js/sliderengine/amazingslider.js"></script>
+	
+
+	
+	<script src="./dist/bubbly.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.1/masonry.pkgd.js"></script>
+	<script type="text/javascript" src="data.js"></script>
+
+</head>
+<body>
+	<div class="container" style="margin-top: 100px">
+	  <div class="col-sm-5">
+	    <h2 class="page-header">Data capture</h2>
+
+	    <div id="contactform"></div>
+	  </div>
+	<div>
+   
+    
+    <script type="text/javascript">
+   
+	var Bubbly = new BubblyCard();
+
+	
+	var containersbm = document.getElementById('contactform') ;
+	var para15 ={
+		"campaignId" : "",
+		"cardType" : "CONTACTFORM",
+	    "returnUrl" : "",
+	    "styles" : {} ,
+	    "clientId" : "100" 
+	};
+	Bubbly.showCard(para15,null,containersbm);
+
+	</script>
+	
+
+</body>
+
+</html>

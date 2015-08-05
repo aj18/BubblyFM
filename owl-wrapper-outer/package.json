@@ -1,0 +1,20 @@
+{
+  "name": "bubbly_socialInfluance_material",
+  "version": "1.0.0",
+  "description": "social influence material",
+  "main": "sim.jsx",
+  "scripts": {
+    "test": "watchify -t 6to5ify ./src/sim.jsx --standalone BubblyCard -o ./dist/bundleSim.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "jigarrdesai"
+  },
+  "keywords": [
+    "materialize",
+    "social",
+    "influance"
+  ],
+  "author": "jigar r desai",
+  "license": "social24x7"
+}

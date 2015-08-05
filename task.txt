@@ -1,0 +1,12 @@
+medium,
+mediumvideo,
+photo gallery,
+Twiiter wall- Missionary,
+social infulence,
+vidoe gallery,
+MenuBand (Yes/no) (sharing)
+Border (Yes,no)
+Background(color)
+Header size(h1,h2,h3)
+
+bootstrap 3.4

@@ -1,0 +1,19 @@
+{
+  "name": "bubbly_rsslist_img",
+  "version": "1.0.0",
+  "description": "rss with image",
+  "main": "rssListImg.jsx",
+  "scripts": {
+    "test": "watchify -t 6to5ify ./src/rssListImg.jsx -o ./dist/bundleRssListImg.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "jigarrdesai"
+  },
+  "keywords": [
+    "rss",
+    "image"
+  ],
+  "author": "Jigar R Desai",
+  "license": "social24x7"
+}

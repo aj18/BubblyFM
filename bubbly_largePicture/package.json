@@ -1,0 +1,23 @@
+{
+  "name": "bubbly_largePicture",
+  "version": "1.0.0",
+  "description": "large picture web component",
+  "main": "largePicture.jsx",
+  "scripts": {
+    "test": "watchify -t 6to5ify ./src/largePicture.jsx -o ./dist/bundleLargePicture.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jigar/social"
+  },
+  "keywords": [
+    "large",
+    "picture",
+    "social"
+  ],
+  "author": "Jigar R Desai",
+  "license": "social24x7",
+  "bugs": {
+    "url": "https://github.com/jigar/social/issues"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "bubbly_socialInfluance",
+  "version": "1.0.0",
+  "description": "socia influance ",
+  "main": "socialInfluance.jsx",
+  "scripts": {
+    "watch": "watchify -t 6to5ify ./src/socialInfluance.jsx -o ./dist/bundleSocialInfluance.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jigar/social"
+  },
+  "keywords": [
+    "social",
+    "influance"
+  ],
+  "author": "Jigar R Desai",
+  "license": "Social24x7",
+  "bugs": {
+    "url": "https://github.com/jigar/social/issues"
+  }
+}

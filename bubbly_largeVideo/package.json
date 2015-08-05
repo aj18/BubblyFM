@@ -1,0 +1,22 @@
+{
+  "name": "bubbly_largeVideo",
+  "version": "1.0.0",
+  "description": "large video component",
+  "main": "largeVideo.jsx",
+  "scripts": {
+    "test": "watchify -t 6to5ify ./src/largeVideo.jsx -o ./dist/bundleLargeVideo.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jigar/social"
+  },
+  "keywords": [
+    "large",
+    "video"
+  ],
+  "author": "Jigar R Desai",
+  "license": "Social24x7",
+  "bugs": {
+    "url": "https://github.com/jigar/social/issues"
+  }
+}
