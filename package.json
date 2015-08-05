@@ -1,40 +1,23 @@
 {
-  "name": "social24x7",
+  "name": "bubbly_largePicture",
   "version": "1.0.0",
-  "description": "Bubbly FrameWork",
-  "main": "bubblyRunner.js",
-  "dependencies": {
-    "6to5ify": "^4.1.1",
-    "autoresponsive-common": "^1.0.0",
-    "autoresponsive-react": "^1.1.6",
-    "bootstrap": "^3.3.4",
-    "browserify": "^10.2.0",
-    "firebase": "^2.2.7",
-    "jquery": "^2.1.4",
-    "js-data": "^2.2.3",
-    "js-data-firebase": "^2.1.1",
-    "npm-css": "^0.2.3",
-    "radium": "^0.11.1",
-    "react": "^0.13.3",
-    "react-bootstrap": "^0.22.3",
-    "react-image-gallery": "^0.4.1",
-    "reactify": "^1.1.1",
-    "watchify": "^3.2.1"
-  },
-  "devDependencies": {},
+  "description": "large picture web component",
+  "main": "largePicture.jsx",
   "scripts": {
-    "test": "watchify -t 6to5ify ./src/bubblyRunner.js --standalone BubblyCard -o ./dist/bubbly.js -v"
+    "test": "watchify -t 6to5ify ./src/largePicture.jsx -o ./dist/bundleLargePicture.js -v"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jigarrdesai/social24x7.git"
+    "url": "http://github.com/jigar/social"
   },
   "keywords": [
-    "bubbly"
+    "large",
+    "picture",
+    "social"
   ],
   "author": "Jigar R Desai",
   "license": "social24x7",
   "bugs": {
-    "url": "https://github.com/jigarrdesai/social24x7/issues"
+    "url": "https://github.com/jigar/social/issues"
   }
 }
