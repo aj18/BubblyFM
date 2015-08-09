@@ -36,7 +36,7 @@ var ItemYoutube = React.createClass({
 	 var s2 = {'position':'absolute','bottom':'50px','height':'40px','padding':'9px 5px 0px  10px'}
      var s3 = {'position':'absolute','background-color':'whitesmoke','bottom':'10px','height':'40px','padding':'9px 5px 0px  10px'}
         return (
-        	<div className="grid-item grid-item--YouTube-width grid-item--YouTube-height card" style={{'margin':'5px 5px 5px 5px'}}>
+        	<div className="gridWall-item gridWall-item--YouTube-width gridWall-item--YouTube-height card" style={{'margin':'5px 5px 5px 5px'}}>
 			 	<div className="card-image"  style={s4}><span style={s1} className="fa fa-youtube"></span>
 					<div className="white-text" style={{'padding':'90px 0px 0px 0px'}}>
 						<span style={s2} className="amber darken-2">{this.props.text.substr(0,30)}</span> 
@@ -57,7 +57,7 @@ var ItemVimeo = React.createClass({
     render: function(){
     	var s4={ opacity: '1',float: 'left',height:'520px',width:'100%',overflow: 'hidden', display: 'block', 'background-image': 'url(//img.youtube.com/vi/' + this.props.data + '/0.jpg)', 'background-size': 'cover','background-position':'25% 0%', 'background-repeat': 'no-repeat' };
         return (
-        	<div className="grid-item grid-item--Vimeo-width grid-item--Vimeo-height" style={{'margin':'5px 5px 5px 5px'}}>
+        	<div className="gridWall-item gridWall-item--Vimeo-width gridWall-item--Vimeo-height" style={{'margin':'5px 5px 5px 5px'}}>
 			 	<div style={s4}></div>
 			 </div>
            
@@ -78,7 +78,7 @@ var ItemFbTextPhoto = React.createClass({
 		var s4={ opacity: '1',float: 'left',height:'255px',width:'100%',overflow: 'hidden', display: 'block', 'background-image': 'url(' + this.props.photo + ')', 'background-size': 'cover','background-position':'70% 0%','margin-left':'-11px', 'background-repeat': 'no-repeat' };
 		return (
         <a href={this.props.href} target="_blank">
-			<div className="grid-item grid-item--fbTextPhoto-width grid-item--fbTextPhoto-height card" style={{'margin':'5px 5px 5px 5px','background-color':'#3a5795'}}>
+			<div className="gridWall-item gridWall-item--fbTextPhoto-width gridWall-item--fbTextPhoto-height card" style={{'margin':'5px 5px 5px 5px','background-color':'#3a5795'}}>
 				<div className="row">
 					<div className="col s12 m7">
 					<div style={s4}>
@@ -109,7 +109,7 @@ var ItemFbPhoto = React.createClass({
     	var s4={ opacity: '1',float: 'left',height:'520px',width:'100%',overflow: 'hidden', display: 'block', 'background-image': 'url(' + this.props.data + ')', 'background-size': 'cover','background-position':'25% 0%', 'background-repeat': 'no-repeat' };
         return (
           <a href={this.props.href} target="_blank">
-			<div className="grid-item grid-item--fbPhoto-width grid-item--fbPhoto-height card" style={{'margin':'5px 5px 5px 5px'}}>
+			<div className="gridWall-item gridWall-item--fbPhoto-width gridWall-item--fbPhoto-height card" style={{'margin':'5px 5px 5px 5px'}}>
 				<div className="card-image" style={s4}></div>
 			 </div>
           </a>
@@ -127,7 +127,7 @@ var ItemfbText = React.createClass({
 		var s3 = {'width':'100%','text-align':'center'}
         return (
 		<a href={this.props.href} target="_blank">
-        	<div className="grid-item grid-item--text-width grid-item--text-height card-panel" style={{'margin':'5px 5px 5px 5px','background-color':'#3a5795'}}>
+        	<div className="gridWall-item gridWall-item--text-width gridWall-item--text-height card-panel" style={{'margin':'5px 5px 5px 5px','background-color':'#3a5795'}}>
                   <div className="white-text">
 				   <p style={s1} className="fa fa-facebook" ></p>
 			       <p style={s2}>{this.props.data.substr(0,70) + "..."}</p> 
@@ -152,7 +152,7 @@ var ItemtwTextPhoto = React.createClass({
 		var s4={ opacity: '1',float: 'left',height:'520px',width:'100%',overflow: 'hidden', display: 'block', 'background-image': 'url(' + this.props.photo + ')', 'background-size': 'cover','background-position':'25% 0%', 'background-repeat': 'no-repeat' };
         return (
         <a href={this.props.href} target="_blank">
-			<div className="grid-item grid-item--fbPhoto-width grid-item--fbPhoto-height card" style={{'margin':'5px 5px 5px 5px'}}>
+			<div className="gridWall-item gridWall-item--fbPhoto-width gridWall-item--fbPhoto-height card" style={{'margin':'5px 5px 5px 5px'}}>
 				
 				 <div style={s4}>
 					<span style={s1} className="fa fa-twitter"></span>
@@ -180,7 +180,7 @@ var ItemtwText = React.createClass({
 		var s4={'margin':'5px 5px 5px 5px','background-color': this.props.sentiment}
         return (
 		 <a href={this.props.href} target="_blank">
-        	<div className="grid-item grid-item--text-width grid-item--text-height card-panel card-content" style={s4}>
+        	<div className="gridWall-item gridWall-item--text-width gridWall-item--text-height card-panel card-content" style={s4}>
                   <div className="white-text">
 				   <p style={s1} className="fa fa-twitter" ></p>
 			       <p style={s2}>{this.props.data.substr(0,70) + "..."}</p> 
@@ -206,7 +206,7 @@ var ItemTmbTextPhoto = React.createClass({
 		var s4={ opacity: '1',float: 'left',height:'255px',width:'103%',overflow: 'hidden', display: 'block', 'background-image': 'url(' + this.props.photo + ')', 'background-size': 'cover','background-position':'70% 0%','margin-left':'-11px', 'background-repeat': 'no-repeat' };
 		return (
         <a href={this.props.href} target="_blank">
-		 <div className="grid-item grid-item--fbTextPhoto-width grid-item--fbTextPhoto-height card" style={{'margin':'5px 5px 5px 5px'}}>
+		 <div className="gridWall-item gridWall-item--fbTextPhoto-width gridWall-item--fbTextPhoto-height card" style={{'margin':'5px 5px 5px 5px'}}>
             <div style={s4}>
 					<p style={s1} className="fa fa-tumblr" ></p>
 				<div className="white-text" style={{'padding':'90px 0px 0px 0px'}}>
@@ -231,7 +231,7 @@ var ItemTmbPhoto = React.createClass({
     	var s4={ opacity: '1',float: 'left',height:'520px',width:'100%',overflow: 'hidden', display: 'block', 'background-image': 'url(' + this.props.data + ')', 'background-size': 'cover','background-position':'25% 0%', 'background-repeat': 'no-repeat' };
         return (
         	<a href={this.props.href} target="_blank">
-			 <div className="grid-item grid-item--fbPhoto-width grid-item--fbPhoto-height card" style={{'margin':'5px 5px 5px 5px'}}>
+			 <div className="gridWall-item gridWall-item--fbPhoto-width gridWall-item--fbPhoto-height card" style={{'margin':'5px 5px 5px 5px'}}>
 				<div className="card-image" style={s4}></div>
 			 </div>
            </a>
@@ -249,7 +249,7 @@ var ItemTmbText = React.createClass({
 		var s3 = {'width':'100%','text-align':'center'}
         return (
 		 <a href={this.props.href} target="_blank">
-        	<div className="grid-item grid-item--text-width grid-item--text-height card-panel" style={{'margin':'5px 5px 5px 5px','background-color':' #36465d'}}>
+        	<div className="gridWall-item gridWall-item--text-width gridWall-item--text-height card-panel" style={{'margin':'5px 5px 5px 5px','background-color':' #36465d'}}>
                   <div className="white-text">
 				   <p style={s1} className="fa fa-tumblr" ></p>
 			       <p style={s2}>{this.props.data.substr(0,70) + "..."}</p> 
@@ -271,7 +271,7 @@ var ItemInstagramPhoto = React.createClass({
     	var s4={ opacity: '1',float: 'left',height:'255px',width:'100%',overflow: 'hidden', display: 'block', 'background-image': 'url(' + this.props.photo + ')', 'background-size': 'cover','background-position':'25% 0%', 'background-repeat': 'no-repeat' };
         return (
         <a href={this.props.href} target="_blank">
-			<div className="grid-item grid-item--text-width grid-item--text-height card" style={{'margin':'5px 5px 5px 5px'}}>
+			<div className="gridWall-item gridWall-item--text-width gridWall-item--text-height card" style={{'margin':'5px 5px 5px 5px'}}>
 				<div style={s4}>
 					<span style={s1} className="fa fa-instagram"></span>
 				</div>
@@ -294,7 +294,7 @@ var ItemgpTextPhoto = React.createClass({
 		var s4={ opacity: '1',float: 'left',height:'520px',width:'100%',overflow: 'hidden', display: 'block', 'background-image': 'url(' + this.props.photo + ')', 'background-size': 'cover','background-position':'25% 0%', 'background-repeat': 'no-repeat' };
         return (
         <a href={this.props.href} target="_blank">
-			<div className="grid-item grid-item--fbPhoto-width grid-item--fbPhoto-height card" style={{'margin':'5px 5px 5px 5px'}}>
+			<div className="gridWall-item gridWall-item--fbPhoto-width gridWall-item--fbPhoto-height card" style={{'margin':'5px 5px 5px 5px'}}>
 				
 				 <div style={s4}>
 					<span style={s1} className="fa fa-google-plus"></span>
@@ -320,7 +320,7 @@ var ItemgpPhoto = React.createClass({
     	var s4={ opacity: '1',float: 'left',height:'520px',width:'100%',overflow: 'hidden', display: 'block', 'background-image': 'url(' + this.props.data + ')', 'background-size': 'cover','background-position':'25% 0%', 'background-repeat': 'no-repeat' };
         return (
 		 <a href={this.props.href} target="_blank">
-        	<div className="grid-item grid-item--fbPhoto-width grid-item--fbPhoto-height card" style={{'margin':'5px 5px 5px 5px'}}>
+        	<div className="gridWall-item gridWall-item--fbPhoto-width gridWall-item--fbPhoto-height card" style={{'margin':'5px 5px 5px 5px'}}>
 				<div className="card-image" style={s4}></div>
 			 </div>
           </a>
@@ -338,7 +338,7 @@ var ItemgpText = React.createClass({
 		var s3 = {'width':'100%','text-align':'center'}
         return (
 		<a href={this.props.href} target="_blank">
-        	<div className="grid-item grid-item--text-width grid-item--text-height card-panel" style={{'margin':'5px 5px 5px 5px','background-color':'#3a5795'}}>
+        	<div className="gridWall-item gridWall-item--text-width grid-item--text-height card-panel" style={{'margin':'5px 5px 5px 5px','background-color':'#3a5795'}}>
                   <div className="white-text">
 				   <p style={s1} className="fa fa-google-plus" ></p>
 			       <p style={s2}>{this.props.data.substr(0,70) + "..."}</p> 
@@ -357,11 +357,11 @@ var Wall = React.createClass({
     
    
     componentDidMount:function(){
-		jQuery(document).ready(function () {
+		$(document).ready(function () {
 
-            jQuery(this.refs.grids.getDOMNode()).masonry({
+            $('.gridWall').masonry({
                 itemSelector: '.grid-item',
-                columnWidth: 240
+                columnWidth: '240'
             });
 
         });	
@@ -429,20 +429,20 @@ var Wall = React.createClass({
         });
 
         return (
-          <section className="content-module">
-            <header className="content-module-header">
+          
+          <div>
             <div className="row">
               <div className="col s12 m9">
-               <h3><a href={urlTitle}>{this.props.title}</a>
+               <h3>{this.props.title}
 			   </h3>
 			  </div>
 			  
            </div>
-            </header>
-                   <div className="grid" ref="grids">
-					 {commentNodes}
-                   </div>
-            </section>
+           
+           <div className="gridWall">
+			 {commentNodes}
+           </div>
+            </div>
        );
     }
 });

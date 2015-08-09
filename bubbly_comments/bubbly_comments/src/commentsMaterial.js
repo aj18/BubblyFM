@@ -108,33 +108,7 @@ var CommentListMaterial = React.createClass({
     	console.log("Selection : " + event.target.value);
         this.setState({value: event.target.value});
       
-        switch(event.target.value) {
-            case "Instagram":
-                DetailWidgetRunner.infiniteCardWidget(this.props.id,this.props.container,"Source",100,"Instagram",null,'http://bharatmovies.social');
-               
-                break;
-            case "Googleplus":
-                DetailWidgetRunner.infiniteCardWidget(this.props.id,this.props.container,"Source",100,"GooglePlus",null,'http://bharatmovies.social');
-                break;
-            case "select":
-                if(this.props.q  == "tumblr"){
-                    DetailWidgetRunner.infiniteCardWidget(this.props.id,this.props.container,"Source",100,"tumblr",null,'http://bharatmovies.social');
-                }else if(this.props.q  == "Facebook"){
-                    DetailWidgetRunner.infiniteCardWidget(this.props.id,this.props.container,"Source",100,"Facebook",null,'http://bharatmovies.social');
-                }
-                else if(this.props.q  == "Googleplus"){
-                    DetailWidgetRunner.infiniteCardWidget(this.props.id,this.props.container,"Source",100,"Googleplus",null,'http://bharatmovies.social');
-                }
-                else if(this.props.q  == "Instagram"){
-                    DetailWidgetRunner.infiniteCardWidget(this.props.id,this.props.container,"Source",100,"Instagram",null,'http://bharatmovies.social');
-                }
-                break;
-            case "Female","Male":
-                DetailWidgetRunner.infiniteCardWidget(this.props.id,this.props.container,"gender",100,event.target.value,null,'http://bharatmovies.social');
-                break;
-            default:
-                DetailWidgetRunner.infiniteCardWidget(this.props.id,this.props.container,event.target.value,100,"",null,'http://bharatmovies.social');
-        }
+         window.location.href=event.target.value;
     },
     render: function() {
         var s2 = { 'min-height': '60px','margin': '-5px'};
@@ -285,151 +259,44 @@ var CommentListMaterial = React.createClass({
           );
         });
         return (
-          <section className="content-module">
-            <header className="content-module-header">
+           <div>
+            
             <div className="row">
-              <div className="col s12 m9">
-               <h3><a href={urlTitle}>{this.props.title}</a>
-			   </h3>
-			  </div>
+                <div className="col s12 m8">
+                  <h5>{this.props.title}
+			      </h5>
+			    </div>
 			  
-				  <div className="col s12 m3">Dropdown              
-				   <select id="lang" onChange={this.change} value={this.state.value} className="pull-right" style={{'color': '#23527c','outline': 'none','cursor': 'pointer','font-weight': 'bold',  'font-size': '18px', 'display':'inherit'}}>
-	                  <option value='select'>Comments on : {this.props.q }</option>
-	                  <option value='positive'>Compliments on Social Media</option>
-	                  <option value='negative'>Dark Comments on Social Media</option>
-	                  <option value='popular'>Popular Comments On Social Media</option>
-	                  <option value='celebrity'>Celebrity Comments On Social Media</option>
-	                  <option value='question'>What people are Asking</option>
-	                  <option value='Male'>Comments on Male population</option>
-	                  <option value='Female'>Comments on Female population</option>
-	                  <option value='neutral'>Comments - neutral</option>
-	               </select>
-				</div>
+			    <div className="col s12 m4">             
+                   <select id="lang" onChange={this.change} value={this.state.value} className="pull-right" style={{'color': '#23527c','outline': 'none','cursor': 'pointer','font-weight': 'bold',  'font-size': '18px', 'display':'inherit'}}>
+                      <option value='select'>Select</option>
+                      <option value={this.props.returnurl + "?id=" + this.props.id + "&type=positive&skipby=0&limit=" + this.props.limit + "&q="}>Compliments on Social Media</option>
+                      <option value={this.props.returnurl + "?id=" + this.props.id + "&type=negative&skipby=0&limit=" + this.props.limit + "&q="}>Dark Comments on Social Media</option>
+                      <option value={this.props.returnurl + "?id=" + this.props.id + "&type=popular&skipby=0&limit=" + this.props.limit + "&q="}>Popular Comments On Social Media</option>
+                      <option value={this.props.returnurl + "?id=" + this.props.id + "&type=celebrity&skipby=0&limit=" + this.props.limit + "&q="}>Celebrity Comments On Social Media</option>
+                      <option value={this.props.returnurl + "?id=" + this.props.id + "&type=question&skipby=0&limit=" + this.props.limit + "&q="}>What people are Asking</option>
+                      <option value={this.props.returnurl + "?id=" + this.props.id + "&type=gender&skipby=0&limit=" + this.props.limit + "&q=Male"}>Comments on Male population</option>
+                      <option value={this.props.returnurl + "?id=" + this.props.id + "&type=gender&skipby=0&limit=" + this.props.limit + "&q=Female"}>Comments on Female population</option>
+                      <option value={this.props.returnurl + "?id=" + this.props.id + "&type=neutral&skipby=0&limit=" + this.props.limit + "&q="}>Comments - neutral</option>
+      
+                   </select>
+                </div>
 				
            </div>
-            </header>
-                   <div className="grid" ref="grid">
-					<div className="grid-sizer"></div>
-					<div className="divider"></div>
-                    <div id="card-reveal" className="row">
-					 {commentNodes}
-					</div>
-                   </div>
-            </section>
+           
+               <div className="grid" ref="grid">
+				<div className="grid-sizer"></div>
+				<div className="divider"></div>
+                <div id="card-reveal" className="row">
+				 {commentNodes}
+				</div>
+               </div>
+            </div>
        );
     }
 });
 
-var DetailWidgetRunner = function() {
-    var infiniteCardWidget = function(id, container, type, limit, q, dataFromPage,returnUrl) {
-        debugger;
-        var returnurl="http://www.cricket24x7.social";
-        if (returnUrl)
-        {
-            returnurl=returnUrl;
-        }
-        var title="Comments"
-        if (type.toLowerCase() == "positive")
-        {
-            title = "Compliments on Social Media";
-        }
-        if (type.toLowerCase() == "negative")
-        {
-            title = "Dark Comments on Social Media";
-        }
-        if (type.toLowerCase() == "popular")
-        {
-            title = "Popular Comments On Social Media";             
 
-        }
-        if (type.toLowerCase() == "celebrity")
-        {
-            title = "Celebrity Comments On Social Media";
-        }
-
-        if (type.toLowerCase() == "question")
-        {
-            title = "What people are Asking";
-        }
-        
-        if (type.toLowerCase() == "neutral")
-        {
-            title = "Comments";
-        }
-
-        if (type.toLowerCase() == "gender")
-        {
-            if( q.substring(0, 1).toLowerCase()=="m")
-            {
-                title = "Comments By Male population";
-            }
-            if( q.substring(0, 1).toLowerCase()=="f")
-            {
-                title = "Comments By Female population";
-            }
-            
-        }
-
-        if (type.toLowerCase() == "hashtag")
-        {
-            title = "Comments on : " +q;
-
-        }
-        if (type.toLowerCase() == "emotion")
-        {
-            title = "Comments on : " +q;
-
-        }
-        if (type.toLowerCase() == "trend")
-        {
-            title = "Comments on : " +q;
-
-        }
-        if (type.toLowerCase() == "geo")
-        {
-
-            title = "Comments on : " +q;
-
-    }
-
-        if (type.toLowerCase() == "source")
-    {
-        title = "Comments on : " +q;
-    }
-
-        if (type.toLowerCase() == "video")
-    {
-        title = "Video Comments";
-    }
-        if (type.toLowerCase() == "photo")
-    {
-        title = "Picture Comments";
-    }
-        var weburl = 'http://s24x7.azurewebsites.net/api/summary/comments';
-        var url = weburl + '?id=' + id + '&type=' + type + '&skipby=0&limit=100&q=' + q;
- 
-        jQuery.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'JSON',
-            cache: false
-        }).done(function(data) {
-            jQuery.each(data, function(i, val) {
-                if(val.PhotoUrl === null && (jQuery.trim(val.Text)==='' || val.Text === null)) // delete index -- By Arun on 05/20/2015
-                {
-                    delete data[i];
-                }
-            });
-            React.render( < CommentListMaterial data = {data } id = { id } title = { title } returnurl={returnurl} type={type} q={q} container={container} styles={''}/>);
-
-});
-
-};
-return {
-    infiniteCardWidget: infiniteCardWidget
-};
-}();
 
 
 

@@ -1,5 +1,6 @@
 var React = require("react");
 var jQuery = require("jquery");
+var navigate = require('react-mini-router').navigate;
 
 var FluidVid = React.createClass({
   getDefaultProps: function () {
@@ -109,34 +110,10 @@ var CommentList = React.createClass({
     	console.log("Container : " + this.props.container);
 
         this.setState({value: event.target.value});
+        //navigate(event.target.value);
+        window.location.href=event.target.value;
       
-        switch(event.target.value) {
-            case "Instagram":
-                DetailWidgetRunner.infiniteCardWidget(this.props.id,this.props.container,"Source",100,"Instagram",null,'http://bharatmovies.social');
-               
-                break;
-            case "Googleplus":
-                DetailWidgetRunner.infiniteCardWidget(this.props.id,this.props.container,"Source",100,"GooglePlus",null,'http://bharatmovies.social');
-                break;
-            case "select":
-                if(this.props.q  == "tumblr"){
-                    DetailWidgetRunner.infiniteCardWidget(this.props.id,this.props.container,"Source",100,"tumblr",null,'http://bharatmovies.social');
-                }else if(this.props.q  == "Facebook"){
-                    DetailWidgetRunner.infiniteCardWidget(this.props.id,this.props.container,"Source",100,"Facebook",null,'http://bharatmovies.social');
-                }
-                else if(this.props.q  == "Googleplus"){
-                    DetailWidgetRunner.infiniteCardWidget(this.props.id,this.props.container,"Source",100,"Googleplus",null,'http://bharatmovies.social');
-                }
-                else if(this.props.q  == "Instagram"){
-                    DetailWidgetRunner.infiniteCardWidget(this.props.id,this.props.container,"Source",100,"Instagram",null,'http://bharatmovies.social');
-                }
-                break;
-            case "Female","Male":
-                DetailWidgetRunner.infiniteCardWidget(this.props.id,this.props.container,"gender",100,event.target.value,null,'http://bharatmovies.social');
-                break;
-            default:
-                DetailWidgetRunner.infiniteCardWidget(this.props.id,this.props.container,event.target.value,100,"",null,'http://bharatmovies.social');
-        }
+        
     },
     render: function() {
         var s2 = { 'min-height': '60px','margin': '-5px'};
@@ -294,22 +271,25 @@ var CommentList = React.createClass({
                <h3><a href={urlTitle}>{this.props.title}</a>
 			   </h3>
 			  </div>
-			  
-				  <div className="col s12 m3">Dropdown              
-				   <select id="lang" onChange={this.change} value={this.state.value} className="pull-right" style={{'color': '#23527c','outline': 'none','cursor': 'pointer','font-weight': 'bold',  'font-size': '18px', 'display':'inherit'}}>
-	                  <option value='select'>Comments on : {this.props.q }</option>
-	                  <option value='positive'>Compliments on Social Media</option>
-	                  <option value='negative'>Dark Comments on Social Media</option>
-	                  <option value='popular'>Popular Comments On Social Media</option>
-	                  <option value='celebrity'>Celebrity Comments On Social Media</option>
-	                  <option value='question'>What people are Asking</option>
-	                  <option value='Male'>Comments on Male population</option>
-	                  <option value='Female'>Comments on Female population</option>
-	                  <option value='neutral'>Comments - neutral</option>
-	               </select>
-				</div>
+			 
 				
-           </div>
+				<div className="col s12 m3">             
+					   <select id="lang" onChange={this.change} value={this.state.value} className="pull-right" style={{'color': '#23527c','outline': 'none','cursor': 'pointer','font-weight': 'bold',  'font-size': '18px', 'display':'inherit'}}>
+		                  <option value='select'>Select</option>
+		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=positive&skipby=0&limit=" + this.props.limit + "&q="}>Compliments on Social Media</option>
+		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=negative&skipby=0&limit=" + this.props.limit + "&q="}>Dark Comments on Social Media</option>
+		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=popular&skipby=0&limit=" + this.props.limit + "&q="}>Popular Comments On Social Media</option>
+		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=celebrity&skipby=0&limit=" + this.props.limit + "&q="}>Celebrity Comments On Social Media</option>
+		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=question&skipby=0&limit=" + this.props.limit + "&q="}>What people are Asking</option>
+		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=gender&skipby=0&limit=" + this.props.limit + "&q=Male"}>Comments on Male population</option>
+		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=gender&skipby=0&limit=" + this.props.limit + "&q=Female"}>Comments on Female population</option>
+		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=neutral&skipby=0&limit=" + this.props.limit + "&q="}>Comments - neutral</option>
+		  
+		               </select>
+				</div>
+			</div>
+				
+           
             </header>
                    <div className="grid" ref="grid">
 					<div className="grid-sizer"></div>

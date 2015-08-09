@@ -3,7 +3,7 @@ var React = require("react");
 
 
 var NameAndComment = require('../../flowly/NameAndComment.js');
-var PhotoLarge = require('../../flowly/PhotoLarge.js');
+var PhotoDynamic = require('../../flowly/PhotoDynamic.js');
 
 var LargePicture = React.createClass({
 
@@ -16,7 +16,7 @@ var LargePicture = React.createClass({
             
                 <div className="card-panel" style={this.props.styles.panelStyle}>
                         <div className="card-image">
-                             <PhotoLarge url= {this.props.data.Photo}/>
+                             <PhotoDynamic url= {this.props.data.Photo} pictureStyle={this.props.styles.pictureStyle}/>
                         </div>
 
                   <span className="card-title social-main-title" style={this.props.styles.titleStyle}>{this.props.data.Description}</span>

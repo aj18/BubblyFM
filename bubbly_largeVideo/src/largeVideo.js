@@ -4,7 +4,7 @@ var React = require("react");
 
 var NameAndComment = require('../../flowly/NameAndComment.js');
 var VideoLarge = require('../../flowly/VideoLarge.js');
-var PhotoThumb = require('../../flowly/PhotoThumb.js');
+var VideoCover = require('../../flowly/VideoCover.js');
 
 var LargeVideo = React.createClass({
 
@@ -19,7 +19,7 @@ var LargeVideo = React.createClass({
             <div className="card-panel" style={this.props.styles.panelStyle}>
                 <div className="card">
                     <div className="card-image">
-                       <PhotoThumb url= {imageURL}/>
+                       <VideoCover url= {imageURL} pictureStyle={this.props.styles.pictureStyle}/>
                  
                       <span className="card-title social-icon-play-center">
                       <a href={videoURL} style={this.props.styles.iconStyle}>

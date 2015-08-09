@@ -123,7 +123,7 @@ hr{color:#A0A0A0;}
 
         .grid {
           background: transparent none repeat scroll 0% 0%;
-          max-width: 1280px;
+          max-width: 100%;
         }
 
         .gutter-sizer { width: 4%; }
@@ -640,8 +640,8 @@ th {
 }
 
 .gridWall {
-  background: #EEE;
-  max-width: 1205px;
+  background: transparent none repeat scroll 0% 0%;
+          max-width: 100%;
 }
 
 /* clearfix */
