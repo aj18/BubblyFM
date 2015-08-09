@@ -89,12 +89,95 @@ var  BubblyRSSCardRunner = function (campaignId,cardType,returnUrl,styles,client
 var BubblyCommentsRunner = function(campaignId,cardType,returnUrl,styles,clientId,dataFromPage,container,commentsTitle,commentsType,commentsSkipBy,commentsLimit,commentsQ){
 
    console.log(campaignId+"-"+cardType+"-"+returnUrl+"-"+container +"-"+commentsTitle+"-"+commentsType+"-"+commentsSkipBy+"-"+commentsLimit+"-"+commentsQ);
-	if (dataFromPage) {
+	
+   var title="Comments"
+   if(commentsTitle){
+        title = commentsTitle;
+   }else {
+        if (commentsType.toLowerCase() == "positive")
+        {
+            title = "Compliments on Social Media";
+        }
+        if (commentsType.toLowerCase() == "negative")
+        {
+            title = "Dark Comments on Social Media";
+        }
+        if (commentsType.toLowerCase() == "popular")
+        {
+            title = "Popular Comments On Social Media";             
+
+        }
+        if (commentsType.toLowerCase() == "celebrity")
+        {
+            title = "Celebrity Comments On Social Media";
+        }
+
+        if (commentsType.toLowerCase() == "question")
+        {
+            title = "What people are Asking";
+        }
+        
+        if (commentsType.toLowerCase() == "neutral")
+        {
+            title = "Comments";
+        }
+
+        if (commentsType.toLowerCase() == "gender")
+        {
+            if( commentsQ.substring(0, 1).toLowerCase()=="m")
+            {
+                title = "Comments By Male population";
+            }
+            if( commentsQ.substring(0, 1).toLowerCase()=="f")
+            {
+                title = "Comments By Female population";
+            }
+            
+        }
+
+        if (commentsType.toLowerCase() == "hashtag")
+        {
+            title = "Comments on : " +commentsQ;
+
+        }
+        if (commentsType.toLowerCase() == "emotion")
+        {
+            title = "Comments on : " +commentsQ;
+
+        }
+        if (commentsType.toLowerCase() == "trend")
+        {
+            title = "Comments on : " +commentsQ;
+
+        }
+        if (commentsType.toLowerCase() == "geo")
+        {
+
+            title = "Comments on : " +commentsQ;
+
+        }
+
+        if (commentsType.toLowerCase() == "source")
+        {
+            title = "Comments on : " +commentsQ;
+        }
+
+        if (commentsType.toLowerCase() == "video")
+        {
+            title = "Video Comments";
+        }
+        if (commentsType.toLowerCase() == "photo")
+        {
+            title = "Picture Comments";
+        }
+    }
+
+  if (dataFromPage) {
 
 		console.log("dataFromPage True");
 		console.log("cardtype " + cardType);
 		console.log("container " + container);
-		React.render(<Bubbly data={dataFromPage}  id={campaignId} cardtype={cardType} returnurl={returnUrl} styles={styles} clientid={clientId} commentstitle = { commentsTitle }  commentstype={commentsType} commentsskipby={commentsSkipBy} commentslimit={commentsLimit} commentsq={commentsQ} commentscontainer={container}/>,container);
+		React.render(<Bubbly data={dataFromPage}  id={campaignId} cardtype={cardType} returnurl={returnUrl} styles={styles} clientid={clientId} commentstitle = { title }  commentstype={commentsType} commentsskipby={commentsSkipBy} commentslimit={commentsLimit} commentsq={commentsQ} commentscontainer={container}/>,container);
 
 	} else {
 
@@ -113,7 +196,7 @@ var BubblyCommentsRunner = function(campaignId,cardType,returnUrl,styles,clientI
             cache: false
         }).done(function(data) {
            
-           React.render(<Bubbly data={data}  id={campaignId} cardtype={cardType} returnurl={returnUrl} styles={styles} clientid={clientId} commentstitle = { commentsTitle }  commentstype={commentsType} commentsskipby={commentsSkipBy} commentslimit={commentsLimit} commentsq={commentsQ}/>,container);
+           React.render(<Bubbly data={data}  id={campaignId} cardtype={cardType} returnurl={returnUrl} styles={styles} clientid={clientId} commentstitle = { title }  commentstype={commentsType} commentsskipby={commentsSkipBy} commentslimit={commentsLimit} commentsq={commentsQ}/>,container);
 
            
 		});

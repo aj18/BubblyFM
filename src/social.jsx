@@ -15,7 +15,7 @@ var VideoCollage = require("../bubbly_videoCollage/src/bubblyVC.js");
 var SmallMSN = require("../bubbly_small_msn/src/smallmsn.js");
 var SmallText = require("../bubbly_small_text/src/smallText.js");
 var SocialInfluance = require("../bubbly_socialInfluance/src/socialInfluance.js");
-var CommentList = require("../bubbly_comments/bubbly_comments/src/comments.js");
+
 var CommentListMaterial = require("../bubbly_comments/bubbly_comments/src/commentsMaterial.js");
 var RSSListDesc = require("../bubbly_rsslist_desc/src/rssListDesc.js");
 var RSSListImg = require("../bubbly_rsslist_img/src/rssListImg.js");
