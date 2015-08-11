@@ -1120,7 +1120,7 @@ module.exports = arrayReduce;
 },{}],15:[function(require,module,exports){
 var baseCopy = require('./baseCopy'),
     getSymbols = require('./getSymbols'),
-    isNative = require('../lang/isNative'),
+    isNative = require('../lang/isNative'),   
     keys = require('../object/keys');
 
 /** Native method references. */
