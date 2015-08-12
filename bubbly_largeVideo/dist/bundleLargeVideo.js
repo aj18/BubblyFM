@@ -21149,17 +21149,51 @@ var React = require("react");
 var NameAndComment = require("../../flowly/NameAndComment.js");
 var VideoLarge = require("../../flowly/VideoLarge.js");
 var VideoCover = require("../../flowly/VideoCover.js");
-
+var player;
+var $ = function (id) {
+    return document.getElementById(id);
+};
+var $$ = function (tagname) {
+    return document.getElementsByTagName(tagname);
+};
 var LargeVideo = React.createClass({
     displayName: "LargeVideo",
 
 
+    onYouTubeIframeAPIReady: function () {
+        debugger;
+        var videos = $$("iframe"),
+            // the iframes elements
+        players = [],
+            // an array where we stock each videos youtube instances class
+        playingID = null; // stock the current playing video
+        for (var i = 0; i < videos.length; i++) // for each iframes
+        {
+            var currentIframeID = videos[i].id; // we get the iframe ID
+            players[currentIframeID] = new YT.Player(currentIframeID); // we stock in the array the instance
+            // note, the key of each array element will be the iframe ID
 
+            videos[i].onmouseover = function (e) {
+                // assigning a callback for this event
+                var currentHoveredElement = e.target;
+                if (playingID) // if a video is currently played
+                    {
+                        players[playingID].pauseVideo();
+                    }
+                players[currentHoveredElement.id].playVideo();
+                playingID = currentHoveredElement.id;
+            };
+        }
+    },
 
+    componentDidMount: function () {
+        this.onYouTubeIframeAPIReady();
+    },
+    componentWillMount: function () {},
 
     render: function () {
-        var imageURL = getYouTubeVideoImage(this.props.data.Video, "big");
-        var videoURL = "http://youtu.be/" + this.props.data.Video;
+        debugger;
+        var videoURL = "http://www.youtube.com/embed/" + this.props.data.Video + "?rel=0&wmode=Opaque&enablejsapi=1;showinfo=0;controls=0";
         console.log(videoURL);
         console.log(this.props.returnurl);
         return React.createElement(
@@ -21167,38 +21201,21 @@ var LargeVideo = React.createClass({
             { className: "card-panel", style: { padding: "0px;", height: "500px;" } },
             React.createElement(
                 "div",
-                { className: "card" },
+                { className: "card-image" },
+                React.createElement("iframe", { id: "player1", style: { width: "100%", height: "500px" }, src: videoURL, frameborder: "0", allowfullscreen: true }),
                 React.createElement(
-                    "div",
-                    { className: "card-image" },
-                    React.createElement(VideoCover, { url: imageURL, pictureStyle: { height: "500px !important" } }),
+                    "span",
+                    { className: "card-title social-main-title1", style: { "background-color": "rgba(75, 188, 150, 0.85);", "font-size": "16px;", color: "#fff;" } },
+                    this.props.data.Description
+                ),
+                React.createElement(
+                    "span",
+                    { className: "card-title social-main-title2", style: { "background-color": "rgba(255, 255, 255, 0.65);", "font-size": "14px;", color: "#000;" } },
                     React.createElement(
-                        "span",
-                        { className: "card-title social-icon-play-center" },
-                        React.createElement(
-                            "a",
-                            { href: videoURL, style: { color: "rgba(75, 188, 150, 0.85);" } },
-                            React.createElement(
-                                "i",
-                                { className: "medium material-icons dp48" },
-                                "play_circle_filled"
-                            )
-                        )
-                    ),
-                    React.createElement(
-                        "span",
-                        { className: "card-title social-main-title1", style: { "background-color": "rgba(75, 188, 150, 0.85);", "font-size": "16px;", color: "#fff;" } },
-                        this.props.data.Description
-                    ),
-                    React.createElement(
-                        "span",
-                        { className: "card-title social-main-title2", style: { "background-color": "rgba(255, 255, 255, 0.65);", "font-size": "14px;", color: "#000;" } },
-                        React.createElement(
-                            "a",
-                            { href: this.props.returnurl },
-                            this.props.data.Name,
-                            " "
-                        )
+                        "a",
+                        { href: this.props.returnurl },
+                        this.props.data.Name,
+                        " "
                     )
                 )
             )
@@ -21207,51 +21224,6 @@ var LargeVideo = React.createClass({
 
 });
 
-/*<div className="card-panel" style={this.props.styles.panelStyle}>
-                        <div className="card-image">
-
-                                        <PhotoThumb url={imageURL} />
-
-
-                                 <div className="caption" style={{'position':'relative'}}>
-                                        <a href={videoURL}>
-                                        <i className="material-icons medium dp48" style={this.props.styles.iconStyle}>play_circle_filled</i>
-                                        </a>
-                                        <span className="card-title social-main-title" style={this.props.styles.titleStyle}>
-                                            {this.props.data.Description}
-                                        </span>
-                                        <br></br>
-                                          <span className="card-title  social-sub-title" style={this.props.styles.subTitleStyle}>
-                                          <a href={this.props.returnurl}>{this.props.data.Name}</a>
-                                          </span>
-                                 </div>
-
-
-
-
-                        </div>
-
-</div>*/
-
-/*<div className="card-panel" style={this.props.styles.panelStyle}>
-                        <div className="card-image">
-                                   <img src={imageURL} style={{'height':'295px'}} />
-
-                                  <span className="card-title social-icon-play">
-                                  <i className="small material-icons dp48">play_circle_filled</i>
-                                  </span>
-                                  <span className="card-title social-main-title1">{this.props.data.Description}</span>
-                                  <span className="card-title social-main-title2"><a href={this.props.returnurl}>{this.props.data.Name}</a></span>
-
-
-
-
-
-
-                        </div>
-
-</div>
-            */
 
 function getYouTubeVideoImage(vid, size) {
     console.log("vidoeurl " + vid);
@@ -21269,7 +21241,7 @@ function getYouTubeVideoImage(vid, size) {
     }
 }
 
-var data = { ID: "bolly_data235", Name: "Shah Rukh With Abram", Description: "Shah Rukh watches KKR match with AbRam", Category: "", ShowDefaultPicture: true, SearchQuery: "Shah Rukh Khan watches KKR match with AbRam and Dilwale team", VideosCount: 3415, PhotosCount: 68311, PictureUrl: "http://media2.intoday.in/indiatoday/images/stories//2015MAY/shah-rukh-story_650_051715020614.jpg", Photos: [{ Url: "http://pbs.twimg.com/media/CETh0Q_WYAAVkWL.jpg", Description: null, Count: 0 }], Videos: [{ ID: "", Url: "http://youtu.be/c25GKl5VNeY,RT @SRK_DDLJ_Fan: Dilwale Dulhania Le Jayenge NEW TRAILER. Celebrating 1000 Weeks http://t.co/Jk8Wrz59WC  #DDLJ #SRK @iamsrk @KajolAtUN htt…", Source: "None", Count: 0 }], Photo: "http://media2.intoday.in/indiatoday/images/stories//2015MAY/shah-rukh-story_650_051715020614.jpg", Video: "", Total: 178387, Stat: { Type: "ALL", PosCount: 37516, NegCount: 2529, NeuCount: 138342, PosPercent: 21, NegPercent: 1, NeuPercent: 77 }, SocialStats: [{ Type: "TW", PosCount: 37217, NegCount: 2506, NeuCount: 137280, PosPercent: 21, NegPercent: 1, NeuPercent: 77 }, { Type: "FB", PosCount: 257, NegCount: 19, NeuCount: 797, PosPercent: 25700, NegPercent: 1900, NeuPercent: 79700 }, { Type: "TM", PosCount: 42, NegCount: 4, NeuCount: 265, PosPercent: 4200, NegPercent: 400, NeuPercent: 26500 }], GenderStats: [{ Type: "Male", Count: 108354, Percent: 61.21591159471873 }, { Type: "Female", Count: 60512, Percent: 34.18699118094044 }, { Type: "Others", Count: 108354, Percent: 0 }], Comments: [{ Source: "Twitter", Comment: "RT @iamsrk: This kid is so cool. May Allah bless him. Dinner time at the Asian Awards. http://t.co/l0gV12n0kv" }], Tags: [{ key: "shahrukhkhan", value: 6900, valuestr: null, label: null }, { key: "srk", value: 3688, valuestr: null, label: null }, { key: "bollywood", value: 947, valuestr: null, label: null }, { key: "salmankhan", value: 475, valuestr: null, label: null }, { key: "abram", value: 439, valuestr: null, label: null }], Emotions: [{ key: "fan", value: 515, valuestr: null, label: null }, { key: "love", value: 458, valuestr: null, label: null }, { key: "good", value: 407, valuestr: null, label: null }, { key: "best", value: 213, valuestr: null, label: null }, { key: "like", value: 194, valuestr: null, label: null }], Locations: null, Trends: [{ Source: "TW", Data: "0,41,-1,66,-1,28,78,-3,39,-4,19,47" }, { Source: "FB", Data: "0,1" }, { Source: "TM", Data: "0,1,2,3,-1,1,1,1,1" }], Decision: "Medium", DecisionImage: "/images/medium.png", ReturnUrl: null, ContainerID: null };
+var data = { ID: "bolly_data327", Name: "Bajrangi Bhaijaan", Description: "Bajrangi Bhaijaan is Still Leaving Pakistan in Tears", Category: "1105", ShowDefaultPicture: true, SearchQuery: "bajrangi bhaijaan starring salman khan", VideosCount: 4, PhotosCount: 107, PictureUrl: "http://www.bollywoodtabloid.com/wp-content/uploads/2015/06/CIXB7mlUwAAV-nS1-599x400.jpg", Photos: [{ Url: "http://pbs.twimg.com/media/CKpkYbKUYAAWTBP.jpg", Description: null, Count: 0 }], Videos: [{ ID: "o82eaSZmE1A", Url: "https://www.youtube.com/watch?v=o82eaSZmE1A", Source: "Youtube", Count: 0, Description: null }], Photo: "http://www.bollywoodtabloid.com/wp-content/uploads/2015/06/CIXB7mlUwAAV-nS1-599x400.jpg", Video: "4nwAra0mz_Q", Total: 211, Stat: { Type: "ALL", PosCount: 119, NegCount: 2, NeuCount: 262, PosPercent: 31, NegPercent: 0, NeuPercent: 68 }, SocialStats: [{ Type: "TW", PosCount: 20, NegCount: 1, NeuCount: 16, PosPercent: 54, NegPercent: 2, NeuPercent: 43 }, { Type: "FB", PosCount: 96, NegCount: 1, NeuCount: 72, PosPercent: 9600, NegPercent: 100, NeuPercent: 7200 }, { Type: "TM", PosCount: 3, NegCount: 0, NeuCount: 2, PosPercent: 300, NegPercent: 0, NeuPercent: 200 }], GenderStats: [{ Type: "Male", Count: 29, Percent: 63.04347826086956 }, { Type: "Female", Count: 15, Percent: 32.608695652173914 }, { Type: "Others", Count: 29, Percent: 0 }], Comments: [{ Source: "Facebook", Comment: "Your love is overwhelming guys! Bajrangi Bhaijaan has made 184.6 crores in India! This is incredible! Let's watch #BBAgainThisWeekend? \n\nBook your tickets here: http://bit.ly/BB_BookTickets" }], Tags: [{ key: "bajrangibhaijaan", value: 59, valuestr: null, label: null }, { key: "bajrangi", value: 6, valuestr: null, label: null }, { key: "bollywood", value: 4, valuestr: null, label: null }, { key: "39;bajrangi bhaijaan&", value: 4, valuestr: null, label: null }, { key: "bhaijaan", value: 4, valuestr: null, label: null }], Emotions: [{ key: "cute", value: 1, valuestr: null, label: null }], Locations: null, Trends: [{ Source: "TW", Data: "0" }, { Source: "FB", Data: "0,1" }, { Source: "TM", Data: "0" }], Decision: "Mild", DecisionImage: "/images/mild.png", ReturnUrl: null, ContainerID: null };
 var returnurl = "http://www.cricket24x7.social/news/?id=bolly_data235";
 React.render(React.createElement(LargeVideo, { data: data, returnurl: returnurl }), document.getElementById("bolly_data235_LargeVideo"));
 //http://s24x7.azurewebsites.net/api/summary/min?id=bolly_data235

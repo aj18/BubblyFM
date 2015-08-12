@@ -10716,18 +10716,18 @@ hr{color:#A0A0A0;}
     bottom: 90px !important;
     left: 0px;
     position: relative;
-    padding: 5px;
+    padding: 10px;
     background-color: rgba(75, 188, 150, 0.85) !important;
     font-size: 16px !important;
     color:#fff !important;
 }
 .social-main-title2 {
-    bottom: 44px !important;
-    left: 0px;
+    bottom: 53px !important;
+    left: -380px;
     position: relative;
-    padding: 4px;
+    padding: 10px;
     background-color: rgba(255, 255, 255, 0.65)!important;
-    font-size: 14px !important;
+    font-size: 16px !important;
     color:#fff !important;
 }
 
