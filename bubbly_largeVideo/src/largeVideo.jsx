@@ -28,6 +28,9 @@ var LargeVideo = React.createClass({
                     players[playingID].pauseVideo();
                 }
                 players[currentHoveredElement.id].playVideo();
+                //players[currentHoveredElement.id].mute();
+                //players[currentHoveredElement.id].controls = 1;
+                //players[currentHoveredElement.id].showinfo = 1;
                 playingID = currentHoveredElement.id;
             };
         }
