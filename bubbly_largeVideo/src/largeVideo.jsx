@@ -51,12 +51,11 @@ var LargeVideo = React.createClass({
             <div className="card-panel" style={{'padding':'0px;','height':'500px;'}}>
                     <div className="card-image">
                       <iframe id="player1"  style= {{'width':'100%', 'height':'500px'}} src={videoURL} frameborder="0" allowfullscreen></iframe>
-                    <span className="card-title social-main-title1" style={{'background-color': 'rgba(75, 188, 150, 0.85);','font-size': '16px;','color':'#fff;'}}>{this.props.data.Description}</span>
-                      <span className="card-title social-main-title2" style={{'background-color': 'rgba(255, 255, 255, 0.65);','font-size': '14px;','color':'#000;'}}>
-                      <a href={this.props.returnurl}>{this.props.data.Name} </a>
-                      </span>       
+                    <span className="card-title social-main-title1" >{this.props.data.Description.substr(0,70)}</span>     
                     </div>
-               
+                     <span className="card-title social-main-title2">
+                      <a href={this.props.returnurl}>{this.props.data.Name} </a>
+                     </span>  
             </div>
 
 
