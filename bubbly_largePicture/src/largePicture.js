@@ -16,14 +16,15 @@ var LargePicture = React.createClass({
             
                 <div className="card-panel" style={this.props.styles.panelStyle}>
                         <div className="card-image">
-                             <PhotoDynamic url= {this.props.data.Photo} pictureStyle={this.props.styles.pictureStyle}/>
+                             <a  href={this.props.returnurl}><PhotoDynamic url= {this.props.data.Photo} pictureStyle={this.props.styles.pictureStyle}/></a>
                         </div>
 
-                  <span className="card-title social-main-title" style={this.props.styles.titleStyle}>{this.props.data.Description}</span>
+                  <span className="card-title social-main-title" style={this.props.styles.titleStyle}>
+                  <a  href={this.props.returnurl} style={{'color':'inherit','text-decoration':'inherit'}}>{this.props.data.Description}</a></span>
                   <br></br>
                   
                   <span className="card-title social-sub-title" style={this.props.styles.subTitleStyle}>
-                  <a  href={this.props.returnurl}>{this.props.data.Name} </a></span>
+                  <a  href={this.props.returnurl} style={{'color':'inherit','text-decoration':'inherit'}}>{this.props.data.Name} </a></span>
                  
                   
                 </div>

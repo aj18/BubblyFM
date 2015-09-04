@@ -19,16 +19,14 @@ var LargeVideo = React.createClass({
             <div className="card-panel" style={this.props.styles.panelStyle}>
                 <div className="card">
                     <div className="card-image">
-                       <VideoCover url= {imageURL} pictureStyle={this.props.styles.pictureStyle}/>
+                       <VideoCover url= {this.props.data.Video} pictureStyle={this.props.styles.pictureStyle}/>
                  
-                      <span className="card-title social-icon-play-center">
-                      <a href={videoURL} style={this.props.styles.iconStyle}>
-                      <i className="medium material-icons dp48">play_circle_filled</i>
-                      </a>
+                      <span className="card-title social-main-title" style={this.props.styles.titleStyle}>
+                          <a  href={this.props.returnurl} style={{'color':'inherit','text-decoration':'inherit'}}>{this.props.data.Description}</a>
                       </span>
-                      <span className="card-title social-main-title1" style={this.props.styles.titleStyle}>{this.props.data.Description}</span>
-                      <span className="card-title social-main-title2" style={this.props.styles.subTitleStyle}>
-                      <a  href={this.props.returnurl}>{this.props.data.Name} </a>
+                      <br></br>
+                      <span className="card-title social-sub-title" style={this.props.styles.subTitleStyle}>
+                      <a  href={this.props.returnurl} style={{'color':'inherit','text-decoration':'inherit'}}>{this.props.data.Name} </a>
                       </span>
                      
                     </div>
