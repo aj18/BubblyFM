@@ -7,7 +7,8 @@ var VideoCover = React.createClass({
         var imgStyle = { width: '100%',height:this.props.pictureStyle.height };
 
         return (<div style={imageContainerStyle}>
-                <iframe style={imgStyle} src={"http://www.youtube.com/embed/" + this.props.url  + "?rel=0"}></iframe> 
+                <img id="imageCover" src={this.props.url} style={imgStyle} />
+                <iframe id="youtube" style={imgStyle} frameborder="0" allowfullscreen></iframe>
             </div>);
 
 }

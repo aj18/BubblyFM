@@ -7,20 +7,33 @@ var VideoLarge = require('../../flowly/VideoLarge.js');
 var VideoCover = require('../../flowly/VideoCover.js');
 
 var LargeVideo = React.createClass({
-
+    onbuttonclick:function(){
+        $("#imageCover").hide();
+        $("#CoverLink").hide();
+        var src = '//www.youtube.com/embed/'+ this.props.data.Video + '?autoplay=1';
+        $("#youtube").attr('src', src);
+        return false;
+    },
 
 	render: function() {
 		
          var imageURL =  getYouTubeVideoImage(this.props.data.Video,'big');
          var videoURL = "http://youtu.be/" + this.props.data.Video;
+         var imgStyle = { width: '100%',height:this.props.styles.pictureStyle.height };
          console.log(videoURL);
          console.log(this.props.returnurl);
         return (  
             <div className="card-panel" style={this.props.styles.panelStyle}>
                 <div className="card">
                     <div className="card-image">
-                       <VideoCover url= {this.props.data.Video} pictureStyle={this.props.styles.pictureStyle}/>
+                      <VideoCover url= {imageURL} pictureStyle={this.props.styles.pictureStyle}/>
                  
+                      <span id="CoverLink" className="card-title social-icon-play-center">
+                      <a style={this.props.styles.iconStyle}  onClick={this.onbuttonclick.bind(this)}>
+                      <i className="medium material-icons dp48">play_circle_filled</i>
+                      </a>
+                      </span>
+                      
                       <span className="card-title social-main-title" style={this.props.styles.titleStyle}>
                           <a  href={this.props.returnurl} style={{'color':'inherit','text-decoration':'inherit'}}>{this.props.data.Description}</a>
                       </span>
@@ -37,7 +50,7 @@ var LargeVideo = React.createClass({
                 
             );
    
- 	}
+                      }
 
 });
 
