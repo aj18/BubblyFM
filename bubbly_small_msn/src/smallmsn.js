@@ -9,14 +9,18 @@ var SmallMSN = React.createClass({
 	render() {
 		
 		return (
-			<div className="social-card z-depth-3">
+			<div className="card z-depth-1" style={{'margin':'0px'}}>
 			<div className="main-box-social-smallmsn">
-			<PhotoSmall  url= {this.props.data.PictureUrl} />
+				<a href={this.props.returnurl} style={{'margin':'0px'}} >
+					<span>
+					<PhotoSmall  url= {this.props.data.PictureUrl} />
+					</span>
+				</a>
 		        
 		            <div className="side-contain-social-smallmsn">
 		                <h4>{this.props.data.Description}</h4>
 		                
-		                <p><a className="socialTitleColor" href={this.props.returnurl} >{this.props.data.Name}</a></p>
+		                <p><a className="socialTitleColor" href={this.props.returnurl} style={{'width':'140px !important'}} >{this.props.data.Name}</a></p>
 		            </div>
 		        <div className="clear"></div>
 		  	</div>

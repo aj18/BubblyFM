@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Story</title>
+   <style>
+       * {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+/* force scrollbar */
+html { overflow-y: scroll; }
+
+body {
+  font-family: sans-serif;
+}
+
+/* ---- isotope ---- */
+
+.grid {
+  background: #DDD;
+}
+
+/* clear fix */
+.grid:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+/* ---- .grid-item ---- */
+
+.grid-sizer,
+.grid-item {
+  width: 33.333%;
+}
+
+.grid-item {
+  float: left;
+}
+
+.grid-item img {
+  display: block;
+  max-width: 100%;
+}
+
+   </style>
+</head>
+<body>
+    <h1>Masonry - imagesLoaded callback</h1>
+
+    <div class="grid">
+        <div class="grid-sizer"></div>
+        <div class="grid-item">
+            <img src="http://i.imgur.com/bwy74ok.jpg" />
+        </div>
+        <div class="grid-item">
+            <img src="http://i.imgur.com/bAZWoqx.jpg" />
+        </div>
+        <div class="grid-item">
+            <img src="http://i.imgur.com/PgmEBSB.jpg" />
+        </div>
+        <div class="grid-item">
+            <img src="http://i.imgur.com/aboaFoB.jpg" />
+        </div>
+        <div class="grid-item">
+            <img src="http://i.imgur.com/LkmcILl.jpg" />
+        </div>
+        <div class="grid-item">
+            <img src="http://i.imgur.com/q9zO6tw.jpg" />
+        </div>
+        <div class="grid-item">
+            <img src="http://i.imgur.com/r8p3Xgq.jpg" />
+        </div>
+        <div class="grid-item">
+            <img src="http://i.imgur.com/hODreXI.jpg" />
+        </div>
+        <div class="grid-item">
+            <img src="http://i.imgur.com/UORFJ3w.jpg" />
+        </div>
+    </div>
+    <div id="story"></div>
+    <!-- jQuery Library -->
+    <script type="text/javascript" src="../js/jquery-2.1.0.js"></script>
+    <script src="../js/imagesloaded.pkgd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.1/masonry.pkgd.js"></script>
+    <script type="text/javascript" src="./dist/bundleStory.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // init Masonry after all images have loaded
+            var $grid = $('.grid').imagesLoaded(function () {
+                $grid.masonry({
+                    itemSelector: '.grid-item',
+                    percentPosition: true,
+                    columnWidth: '.grid-sizer'
+                });
+            });
+
+        });
+
+    </script>
+    <script>
+   
+    
+
+
+    </script>
+</body>
+</html>

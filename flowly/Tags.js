@@ -4,6 +4,7 @@ var Tags = React.createClass({
 
 
     render : function() {
+      var url=this.props.returnurl+ '?id=' + this.props.id + '&page=1&type=Hashtag&q=';
         var styles = {
                 s1 : { marginRight: '5px' , fontSize: '10px'},
                 s2 : { marginTop: '5px', marginBottom: '5px' , overflow: 'hidden', fontSize:'8px'},
@@ -28,9 +29,9 @@ var Tags = React.createClass({
             <table className="table table-hover socialtd">
             <tbody>
                 <tr>
-                   <td style= {styles.s3 } ><a style= {styles.s1 } href="#">#{tag1}</a></td>
-                   <td style= {styles.s3 }><a style= {styles.s1 } href="#">#{tag2}</a></td>
-                   <td style= {styles.s3 }><a style= {styles.s1 } href="#">#{tag3}</a></td>
+                   <td style= {styles.s3 } ><a style= {styles.s1 } href={url+tag1}>#{tag1}</a></td>
+                   <td style= {styles.s3 }><a style= {styles.s1 } href={url+tag2}>#{tag2}</a></td>
+                   <td style= {styles.s3 }><a style= {styles.s1 } href={url+tag3}>#{tag3}</a></td>
                    
                 </tr>
                 

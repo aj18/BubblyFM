@@ -21,14 +21,18 @@ var MediumCard = React.createClass({
 			            <div className="card-image">
 
 			              <Photo url= {this.props.data.Photo} />
-			              <span className="card-title" ><a className="socialTitleColor" href={this.props.returnurl}>{this.props.data.Name}</a></span>
+			              <a href={this.props.returnurl}>
+			              	<span className="card-title social-main-title" style={{'bottom':'5px !important'}}>
+			              		{this.props.data.Name}
+			              	</span>
+			              </a>
 			            </div>
 			            <div className="card-content">
 			              <p>{this.props.data.Description}</p>
 			            </div>
 			           
 			            <div className="card-action">
-			              <StatisticsTable id={this.props.id} returnurl={this.props.returnurl} videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} />
+			              <StatisticsTable id={this.props.id} returnurl={this.props.returnurl3} videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} />
 			            </div>
 		            </div>
 		         	

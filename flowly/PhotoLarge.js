@@ -8,7 +8,7 @@ var PhotoLarge = React.createClass({
         var imgStyle = { width: '100%' };
         var s4={opacity: '1',float: 'left',height:'400px',overflow: 'hidden',width:'100%', display: 'block', 'background-image': 'url('+this.props.url+')', 'background-size': 'cover','background-position':'25% 0%', 'background-repeat': 'no-repeat' };
     
-        return (<img className="materialboxed" style={s4}>
+        return (<img style={s4}>
                 
             </img>);
 

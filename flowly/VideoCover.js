@@ -1,4 +1,4 @@
-﻿var React = require("react");
+var React = require("react");
 
 var VideoCover = React.createClass({
     render : function() {

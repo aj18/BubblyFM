@@ -22,8 +22,11 @@ var RSSListImg = require("../bubbly_rsslist_img/src/rssListImg.js");
 var ImageGallery =require("../bubbly_rsslist_img/src/rssListImageGallery.js");
 var BubblyBMYahoo = require("../bubbly_bm/src/bubblyBmReal.js");
 var LargePicture = require("../bubbly_largePicture/src/largePicture.js");
+var LargeVideoAutoPlay = require("../bubbly_largeVideo/src/LargeVideoAutoPlay.js");
 var LargeVideo = require("../bubbly_largeVideo/src/largeVideo.js");
 var Wall = require("../bubbly_wall/src/wall.js");
+var ImageGalleryThumbNail = require("../bubbly_bm/src/imageGalleryThumbNail.js");
+var Story = require("../bubbly_story/src/story.js");
 //var UserApp = require("../bubbly_contactForm/src/contactForm.js");
 
 var Bubbly = React.createClass({
@@ -71,9 +74,11 @@ var Bubbly = React.createClass({
 	    if (this.props.returnurl) {
 	              cmpreturnurl = this.props.returnurl;
 	    }
+
+
     
     
-		console.log( this.props.id + ' ' + JSON.stringify(this.props.data) + ' ' + this.props.returnurl  + ' ' +this.props.styles);
+		console.log( this.props.id + ' ' + JSON.stringify(this.props.data) + ' ' + this.props.returnurl  + ' ' +this.props.styles );
 		if( this.props.cardtype === "BMOLD"){
 			
 			return( 
@@ -90,7 +95,15 @@ var Bubbly = React.createClass({
 				</div>
 			);
 
-		} else if ( this.props.cardtype === "SMALLOLD") {
+		}  else if( this.props.cardtype === "STORY"){
+			
+			return( 
+				<div>
+				<Story id={this.props.id} data={this.state.cmpdata} title={this.props.title} discription={this.props.Description}  returnurl={cmpreturnurl} styles={this.props.styles}/>
+				</div>
+			);
+
+		}else if ( this.props.cardtype === "SMALLOLD") {
 			return (
 				<div>
 				<BubblySmall id={this.props.id} data={this.state.cmpdata} returnurl={cmpreturnurl} styles={this.props.styles}/>	
@@ -99,13 +112,13 @@ var Bubbly = React.createClass({
 		} else if ( this.props.cardtype === "MEDIUM") {
 			return (
 				<div>
-				<MediumCard id={this.props.id} data={this.state.cmpdata} returnurl={cmpreturnurl} styles={this.props.styles}/>	
+				<MediumCard id={this.props.id} data={this.state.cmpdata} returnurl={cmpreturnurl} returnurl3={this.props.returnurl3} styles={this.props.styles}/>	
 				</div>
 			);
 		} else if ( this.props.cardtype === "LARGE") {
 			return (
 				<div>
-				<LargeCard id={this.props.id} data={this.state.cmpdata} returnurl={cmpreturnurl} styles={this.props.styles}/>	
+				<LargeCard id={this.props.id} data={this.state.cmpdata} returnurl={cmpreturnurl} returnurl3={this.props.returnurl3}  styles={this.props.styles}/>	
 				</div>
 			);
 		} else if ( this.props.cardtype === "SMALLVERTICAL") {
@@ -148,6 +161,12 @@ var Bubbly = React.createClass({
 			return (
 				<div>
 				<LargeVideo id={this.props.id}  data={this.state.cmpdata} returnurl={cmpreturnurl} styles={this.props.styles}/>	
+				</div>
+			);
+		} else if ( this.props.cardtype === "VCARDAUTO") {
+			return (
+				<div>
+				<LargeVideoAutoPlay id={this.props.id}  data={this.state.cmpdata} returnurl={cmpreturnurl} styles={this.props.styles}/>	
 				</div>
 			);
 		} else if ( this.props.cardtype === "VC") {
@@ -196,6 +215,12 @@ var Bubbly = React.createClass({
 				<ImageGallery id={this.props.id} data={this.state.cmpdata}  returnurl={cmpreturnurl} styles={this.props.styles}/>
 				</div>
 			);
+		} else if ( this.props.cardtype === "IMAGEGALLERYTHUMBNAIL") {
+			return (
+				<div>
+				<ImageGalleryThumbNail id={this.props.id} data={this.state.cmpdata}  returnurl={cmpreturnurl} styles={this.props.styles}/>
+				</div>
+			);
 		} else if ( this.props.cardtype === "BMYAHOO") {
 			return (
 				<div>
@@ -218,7 +243,8 @@ module.exports = Bubbly;
 //React.render(<Bubbly   id={'bolly_data3046'} cardtype={'BM'} returnurl={'http://bharatmovies.social'} styles={'styles'} clientid={'100'}/>,document.getElementById('pic'));
 
 
-
+//Main converter
+// NODE_ENV=production browserify -t [ reactify --es6 ] ./js/jquery.prettyPhoto.js ./js/owl.carousel.min.js ./js/jquery.mixitup.min.js ./js/sliderengine/amazingslider.js ./src/bubblyRunner.js --standalone BubblyCard | uglifyjs > ./dist/bubbly.min.js 
 
 /*
 

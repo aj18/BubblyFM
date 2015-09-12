@@ -12,13 +12,12 @@ var DonutChartMaterial = React.createClass({
             animationSteps : 100,
             segmentStrokeWidth : 4,
             animateScale: true,
-            percentageInnerCutout : 60,
             responsive : true
 
         });
     },
     render : function() {
-        return (<canvas id="doughnut-chart-socialinfluance-bm" height="200"></canvas>);
+        return (<canvas id="doughnut-chart-socialinfluance-bm" height='150px'></canvas>);
 
     }
 

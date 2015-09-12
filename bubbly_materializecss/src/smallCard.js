@@ -15,11 +15,15 @@ var SmallCardVertical = React.createClass({
 		return(
 				
 		            <div className="card small z-depth-3">
-			            <div className="card-image">
-			              <img className="imageSize" src={this.props.data.Photos[0].Url}/>
-			              <span className="card-title " ><a className="socialTitleColor" href={this.props.returnUrl}>{this.props.data.Name}</a></span>
+			            <div className="card-image" style={{'height':'200px'}}>
+			              <img className="imageSize" src={this.props.data.PictureUrl}/>
+			              	<a href={this.props.returnurl}>
+				              <span className="card-title social-main-title" style={{'bottom':'5px !important'}} >
+				              	{this.props.data.Name}
+				              </span>
+			              	</a>
 			            </div>
-			            <div className="card-content">
+			            <div className="card-content" style={{'height':'100px'}}>
 			              <p>{this.props.data.Description}</p>
 			            </div>
 			            

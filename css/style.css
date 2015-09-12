@@ -1,11 +1,11 @@
-@import "../materialize/css/materialize.css";
 @import "./image-gallery.css";
 @import "./owl.theme.css";
 @import "./owl.carousel.css";
 @import "./prettyPhoto.css";
 @import "./portfolio-new.css";
 @import "./amazingslider-1.css";
-@import "./styleFromDoc.css";
+
+
 
 * {
       -webkit-box-sizing: border-box;
@@ -16,10 +16,6 @@
 
 
 
-h1 {
-     color: inherit;
-     margin: 20px 0px;
-}
 
 .imageSize {
   width: 100%;
@@ -78,7 +74,7 @@ width: 100%;
 .clear-social-smallmsn{clear:both;}
 hr{color:#A0A0A0;}
 .main-wrapper-social-smallmsn{background:#fff;margin:0 auto;width:300px; padding: 0;}
-.main-box-social-smallmsn{width:300px;height:100px;font-family:Segoe UI;margin-bottom:5px;background: #fff;margin:0;padding:5px;}
+.main-box-social-smallmsn{width:270px;height:100px;font-family:Segoe UI;margin-bottom:5px;background: #fff;margin:0;padding:5px;}
 .main-img-social-smallmsn{float:left;margin:0;padding:1px;}
 .side-contain-social-smallmsn h4{  font-size: 14px;  line-height: 1.184;  color: #333;  position: relative;  font-weight: bolder;margin-bottom:5px;margin-bottom:5px;overflow:hidden;height:70px;  margin: 0px; padding: 5px;}
 .side-contain-img-social-smallmsn{float:left;margin-right:5px;margin: 0px; padding: 0px}
@@ -330,6 +326,8 @@ hr{color:#A0A0A0;}
  
 }
 
+
+
  
 .card.large .card-image .card-title.social-main-title {
     position: absolute;
@@ -560,8 +558,8 @@ th {
 
 /*----styledoc--------*/
 .social-collection-header {
-  font-size: 1.64rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600; 
 }
 
 .social-task-cat {
@@ -613,8 +611,8 @@ th {
     left: 0px;
     padding: 7px;
     font-size: 11px;
-  display: block;
-  float: left;
+   display: block;
+   float: left;
   text-decoration: none;
   color: #222;
   background-color: rgba(255, 255, 255, 0.9);
@@ -675,42 +673,29 @@ th {
 .gridWall-item--fbTextPhoto-height { height: 255px; }
 
 
-@media only screen and (min-width: 1229px) {
-  .showcase .horizontal-images.content { width: 1060px; }
+.social-collection .social-collection-item.avatar i.circle {
+    font-size: 13px;
+    line-height: 35px;
+    color: #FFF;
+    background-color: #999;
+    text-align: center;
+    width: 35px;
+    height: 35px;
+    left: 0px;
+}
+.social-collection .social-collection-item.avatar .circle {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    overflow: hidden;
+    left: 15px;
+    display: inline-block;
+    vertical-align: middle;
 }
 
-@media only screen and (min-width: 1629px) {
-  .showcase .horizontal-images.content { width: 700px; }
+.social-collection .social-collection-item.avatar {
+    min-height: 0px;
+    padding-left: 5px;
+    position: relative;
 }
 
-@media (min-width:300px) {
-    #columns {
-        -webkit-column-count: 1;
-        -moz-column-count: 1;
-        column-count: 1;
-    }
-}
-
-@media (min-width: 770px) {
-    #columns {
-        -webkit-column-count: 2;
-        -moz-column-count: 2;
-        column-count: 2;
-    }
-}
-
-@media (min-width: 900px) {
-    #columns {
-        -webkit-column-count: 3;
-        -moz-column-count: 3;
-        column-count: 3;
-    }
-}
-
-@media (min-width: 1280px) {
-    #columns {
-        -webkit-column-count: 3;
-        -moz-column-count: 3;
-        column-count: 3;
-    }
-}

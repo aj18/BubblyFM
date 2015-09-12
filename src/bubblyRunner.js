@@ -4,8 +4,8 @@ var Bubbly = require("./social.jsx");
 var SIM =require("../bubbly_socialInfluance_material/src/sim.js");
 
 
-var  BubblyCardRunner = function (campaignId,cardType,returnUrl,styles,clientId,dataFromPage,container) {
-  console.log(campaignId+"-"+cardType+"-"+returnUrl+"-"+container);
+var  BubblyCardRunner = function (campaignId,cardType,returnUrl,styles,clientId,dataFromPage,container,returnUrl3) {
+  console.log(campaignId+"-"+cardType+"-"+returnUrl+"-"+container+"-"+returnUrl3);
 
 	if (dataFromPage) {
 
@@ -14,9 +14,9 @@ var  BubblyCardRunner = function (campaignId,cardType,returnUrl,styles,clientId,
 		console.log("container " + container);
 
      if(cardType=="SIM"){
-        SoicalInfluanceMaterialData(campaignId,dataFromPage,returnUrl,container);
+        SoicalInfluanceMaterialData(campaignId,dataFromPage,returnUrl,container,returnUrl3);
      } else{
-		  React.render(<Bubbly data={dataFromPage}  id={campaignId} cardtype={cardType} returnurl={returnUrl} styles={styles} clientid={clientId}/>,container);
+		  React.render(<Bubbly data={dataFromPage}  id={campaignId} cardtype={cardType} returnurl={returnUrl} returnurl3={returnUrl3} styles={styles} clientid={clientId}/>,container);
     }
 
 	} else {
@@ -25,6 +25,7 @@ var  BubblyCardRunner = function (campaignId,cardType,returnUrl,styles,clientId,
     if(cardType=="BM" || 
        cardType=="BMYAHOO" || 
        cardType=="IMGGALLERY" || 
+       cardType=="IMAGEGALLERYTHUMBNAIL" ||
        cardType=="COMMENTS" || 
        cardType=="SI" || 
        cardType=="BMOLD" || cardType==="SIM" || cardType==="PC" || cardType==="VC"){
@@ -44,10 +45,10 @@ var  BubblyCardRunner = function (campaignId,cardType,returnUrl,styles,clientId,
 	    }).done(function(ajaxdata) {
 
         if(cardType=="SIM"){
-            SoicalInfluanceMaterialData( campaignId, ajaxdata,returnUrl,container);
+            SoicalInfluanceMaterialData( campaignId, ajaxdata,returnUrl,container,returnUrl3);
         } else{
 
-	         React.render(<Bubbly data={ajaxdata}  id={campaignId} cardtype={cardType} returnurl={returnUrl} styles={styles} clientid={clientId}/>,container);
+	         React.render(<Bubbly data={ajaxdata}  id={campaignId} cardtype={cardType} returnurl={returnUrl} returnurl3={returnUrl3} styles={styles} clientid={clientId}/>,container);
         }
 
 	    });
@@ -84,6 +85,54 @@ var  BubblyRSSCardRunner = function (campaignId,cardType,returnUrl,styles,client
       });
   }
 };
+
+var BubblyStoryRunner = function (id, storyId, container, dataFromPage, returnUrl, style, cardType,clientId,limit,description,title) {
+        var returnurl="http://www.cricket24x7.social";
+        var titleLocal = "Bubbly Story";
+        var storyIdLocal = "story_default";
+        if (returnUrl)
+        {
+            returnurl=returnUrl;
+        }
+        if (title) {
+            titleLocal = title;
+        }
+
+        if (storyId) {
+            storyIdLocal = storyId;
+        }
+        
+        if (dataFromPage == null || dataFromPage == "") {
+            var weburl = 'http://s24x7.azurewebsites.net/api/summary/story';
+            var url = weburl + '?id=' + id + '&storyid=' + storyIdLocal;
+
+            jQuery.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                cache: false
+            }).done(function (ajaxdata) {
+                jQuery.each(ajaxdata, function (i, val) {
+                    if (val.PhotoUrl === null && (jQuery.trim(val.Text) === '' || val.Text === null)) // delete index -- By Arun on 05/20/2015
+                    {
+                        delete data[i];
+                    }
+                });
+                debugger;
+                React.render(<Bubbly data={ajaxdata.Data}  title={ajaxdata.Title} discription={ajaxdata.Description} id={id} cardtype={cardType} returnurl={returnUrl} styles={style} clientid={clientId}/>,container);
+
+
+            });
+        }
+        else{
+           React.render(<Bubbly data={dataFromPage.Data} title={titleLocal} discription={dataFromPage.Description} id={id} cardtype={cardType} returnurl={returnUrl} styles={style} clientid={clientId}/>,container);
+
+        }
+
+
+};
+
+
 
 
 var BubblyCommentsRunner = function(campaignId,cardType,returnUrl,styles,clientId,dataFromPage,container,commentsTitle,commentsType,commentsSkipBy,commentsLimit,commentsQ){
@@ -518,9 +567,9 @@ function SoicalInfluanceMaterialData(id,data,returnurl,container){
      
 }
 
-BubblyCard.prototype.showCard = function(para, dataFromPage, container) {
+BubblyCard.prototype.showCard = function(para, dataFromPage, container,returnUrl3) {
   console.log(this.aSetting);
-  BubblyCardRunner(para.campaignId,para.cardType,para.returnUrl,para.styles,para.clientId,dataFromPage,container);
+  BubblyCardRunner(para.campaignId,para.cardType,para.returnUrl,para.styles,para.clientId,dataFromPage,container,para.returnUrl3);
 }
 
 BubblyCard.prototype.showComments = function(para, dataFromPage, container) {
@@ -535,6 +584,12 @@ BubblyCard.prototype.showComments = function(para, dataFromPage, container) {
 BubblyCard.prototype.showRSSCard = function(para, dataFromPage, container) {
   console.log(this.aSetting);
   BubblyRSSCardRunner(para.campaignId,para.cardType,para.returnUrl,para.styles,para.clientId,dataFromPage,container,para.rssCriteria);
+}
+
+BubblyCard.prototype.showStoryCards = function(para, dataFromPage, container) {
+  console.log(this.aSetting);
+  BubblyStoryRunner(para.campaignId, para.storyId, container, dataFromPage, para.returnUrl, para.style, para.cardType, para.limit,para.description,para.title);
+
 }
 
 BubblyCard.prototype.parseData = function(para, dataFromPage, container) {

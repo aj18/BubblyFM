@@ -149,7 +149,7 @@ var DBTS = React.createClass({
                         </li>
                         <li className="collection-item">
                             <div className="row">
-                               <StatisticsTable videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} id={this.props.id}  returnurl={this.props.returnurl} />
+                                <StatisticsTable id={this.props.id} returnurl={this.props.returnurl3} videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} />
                             </div>
                         </li>
                         <li className="collection-item">

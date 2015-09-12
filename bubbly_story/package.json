@@ -1,0 +1,19 @@
+{
+  "name": "bubbly_story",
+  "version": "1.0.0",
+  "description": "story",
+  "main": "story.jsx",
+  "scripts": {
+    "test": "watchify -t 6to5ify ./src/story.jsx -o ./dist/bundleStory.js -v"
+    
+  },
+  "repository": {
+    "type": "git",
+    "url": "social24x7"
+  },
+  "keywords": [
+    "story"
+  ],
+  "author": "Jigar R Desai",
+  "license": "social24x7"
+}

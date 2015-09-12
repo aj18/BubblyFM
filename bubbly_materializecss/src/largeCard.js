@@ -27,8 +27,8 @@ var LargeCard = React.createClass({
 			              <p>{this.props.data.Description} </p>
 			            </div>
 			            <div className="card-action">
-                          <StatisticsTable id={this.props.id} returnurl={this.props.returnurl} videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} />
-                      	  <Tags tags= {this.props.data.Tags} />       
+                          <StatisticsTable id={this.props.id} returnurl={this.props.returnurl3} videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} />
+                      	  <Tags tags= {this.props.data.Tags} returnurl={this.props.returnurl3}/>       
 			            </div>
 		            </div>
 		         	

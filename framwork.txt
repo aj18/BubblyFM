@@ -67,3 +67,6 @@ DetailWidgetRunner.infiniteCardWidget("bolly_data3206",document.getElementById('
 
 3. Details.js
  CommentList Loads
+
+ Command
+ NODE_ENV=production browserify -t [ reactify --es6 ] ./js/jquery.prettyPhoto.js ./js/owl.carousel.min.js ./js/jquery.mixitup.min.js ./js/sliderengine/amazingslider.js ./src/bubblyRunner.js --standalone BubblyCard | uglifyjs > ./dist/bubbly.min.js

@@ -7,13 +7,15 @@ var VideoLarge = require('../../flowly/VideoLarge.js');
 var VideoCover = require('../../flowly/VideoCover.js');
 
 var LargeVideo = React.createClass({
-    onbuttonclick:function(){
+
+  onbuttonclick:function(){
         $("#imageCover").hide();
         $("#CoverLink").hide();
         var src = '//www.youtube.com/embed/'+ this.props.data.Video + '?autoplay=1';
         $("#youtube").attr('src', src);
         return false;
     },
+
 
 	render: function() {
 		
@@ -22,6 +24,7 @@ var LargeVideo = React.createClass({
          var imgStyle = { width: '100%',height:this.props.styles.pictureStyle.height };
          console.log(videoURL);
          console.log(this.props.returnurl);
+       
         return (  
             <div className="card-panel" style={this.props.styles.panelStyle}>
                 <div className="card">
@@ -34,10 +37,7 @@ var LargeVideo = React.createClass({
                       </a>
                       </span>
                       
-                      <span className="card-title social-main-title" style={this.props.styles.titleStyle}>
-                          <a  href={this.props.returnurl} style={{'color':'inherit','text-decoration':'inherit'}}>{this.props.data.Description}</a>
-                      </span>
-                      <br></br>
+                      
                       <span className="card-title social-sub-title" style={this.props.styles.subTitleStyle}>
                       <a  href={this.props.returnurl} style={{'color':'inherit','text-decoration':'inherit'}}>{this.props.data.Name} </a>
                       </span>
@@ -50,7 +50,9 @@ var LargeVideo = React.createClass({
                 
             );
    
-                      }
+ 	}
+
+  
 
 });
 

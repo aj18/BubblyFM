@@ -1,11 +1,11 @@
 var Radium = require('radium');
 var React = require("react");
-var jQuery = require('jquery');
+
 var PhotoFull =  require('./PhotoFull.js');
 var Photo =  require('./Photo.js');
 var PhotoFullImage =  require('./PhotoFullImage.js');
 // load everything 
-require('jquery-ui');
+
 
 
 
@@ -20,7 +20,7 @@ var ImageGalleryYahoo = React.createClass({
 
         width:'100%',
 
-        height:385,
+        height:335,
 
         skinsfoldername:"http://social24x7.azurewebsites.net/cdn/images",
 
@@ -424,13 +424,13 @@ var ImageGalleryYahoo = React.createClass({
         console.log("rss : "+ JSON.stringify(this.props.data));
         return (  
                 
-               <div className="social-card">
+              
                     
                     <div id="amazingslider-wrapper-1" style={styles.s4}>
                         <div id="amazingslider-1" ref="amazingsliderbm" style={{'display': 'block !important;',
                                                                                  'position': 'relative !important;',
                                                                                  'width': '100% !important;',
-                                                                                 'height': '400px;'}}>
+                                                                                 'height': '350px;'}}>
                             <ul className="amazingslider-slides" style={styles.s5}>
 
                                 {this.props.data.map(function(item, i) {
@@ -466,7 +466,7 @@ var ImageGalleryYahoo = React.createClass({
                         </div>
                     </div>
 
-                </div>
+              
               
             );
    

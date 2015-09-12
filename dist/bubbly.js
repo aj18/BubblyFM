@@ -7,433 +7,541 @@ var Bubbly = require("./social.jsx");
 var SIM = require("../bubbly_socialInfluance_material/src/sim.js");
 
 
-var BubblyCardRunner = function (campaignId, cardType, returnUrl, styles, clientId, dataFromPage, container) {
-  console.log(campaignId + "-" + cardType + "-" + returnUrl + "-" + container);
+var BubblyCardRunner = function (campaignId, cardType, returnUrl, styles, clientId, dataFromPage, container, returnUrl3) {
+    console.log(campaignId + "-" + cardType + "-" + returnUrl + "-" + container + "-" + returnUrl3);
 
-  if (dataFromPage) {
-    console.log("dataFromPage True");
-    console.log("cardtype " + cardType);
-    console.log("container " + container);
+    if (dataFromPage) {
+        console.log("dataFromPage True");
+        console.log("cardtype " + cardType);
+        console.log("container " + container);
 
-    if (cardType == "SIM") {
-      SoicalInfluanceMaterialData(campaignId, dataFromPage, returnUrl, container);
+        if (cardType == "SIM") {
+            SoicalInfluanceMaterialData(campaignId, dataFromPage, returnUrl, container, returnUrl3);
+        } else {
+            React.render(React.createElement(Bubbly, { data: dataFromPage, id: campaignId, cardtype: cardType, returnurl: returnUrl, returnurl3: returnUrl3, styles: styles, clientid: clientId }), container);
+        }
     } else {
-      React.render(React.createElement(Bubbly, { data: dataFromPage, id: campaignId, cardtype: cardType, returnurl: returnUrl, styles: styles, clientid: clientId }), container);
-    }
-  } else {
-    console.log("dataFromPage False");
-    var WidgetUrl = "http://s24x7.azurewebsites.net/api/summary/min";
-    if (cardType == "BM" || cardType == "BMYAHOO" || cardType == "IMGGALLERY" || cardType == "COMMENTS" || cardType == "SI" || cardType == "BMOLD" || cardType === "SIM" || cardType === "PC" || cardType === "VC") {
-      WidgetUrl = "http://s24x7.azurewebsites.net/api/summary/";
-    }
-    var url = WidgetUrl + "?id=" + campaignId;
+        console.log("dataFromPage False");
+        var WidgetUrl = "http://s24x7.azurewebsites.net/api/summary/min";
+        if (cardType == "BM" || cardType == "BMYAHOO" || cardType == "IMGGALLERY" || cardType == "IMAGEGALLERYTHUMBNAIL" || cardType == "COMMENTS" || cardType == "SI" || cardType == "BMOLD" || cardType === "SIM" || cardType === "PC" || cardType === "VC") {
+            WidgetUrl = "http://s24x7.azurewebsites.net/api/summary/";
+        }
+        var url = WidgetUrl + "?id=" + campaignId;
 
-    console.log("Url : " + url);
+        console.log("Url : " + url);
 
-    jQuery.ajax({
-      url: url,
-      type: "GET",
-      dataType: "JSON",
-      cache: false
-    }).done(function (ajaxdata) {
-      if (cardType == "SIM") {
-        SoicalInfluanceMaterialData(campaignId, ajaxdata, returnUrl, container);
-      } else {
-        React.render(React.createElement(Bubbly, { data: ajaxdata, id: campaignId, cardtype: cardType, returnurl: returnUrl, styles: styles, clientid: clientId }), container);
-      }
-    });
-  }
+        jQuery.ajax({
+            url: url,
+            type: "GET",
+            dataType: "JSON",
+            cache: false
+        }).done(function (ajaxdata) {
+            if (cardType == "SIM") {
+                SoicalInfluanceMaterialData(campaignId, ajaxdata, returnUrl, container, returnUrl3);
+            } else {
+                React.render(React.createElement(Bubbly, { data: ajaxdata, id: campaignId, cardtype: cardType, returnurl: returnUrl, returnurl3: returnUrl3, styles: styles, clientid: clientId }), container);
+            }
+        });
+    }
 };
 
 var BubblyRSSCardRunner = function (campaignId, cardType, returnUrl, styles, clientId, dataFromPage, container, rssCriteria) {
-  console.log(campaignId + "-" + cardType + "-" + returnUrl + "-" + container + "-" + rssCriteria);
+    console.log(campaignId + "-" + cardType + "-" + returnUrl + "-" + container + "-" + rssCriteria);
 
-  if (dataFromPage) {
-    console.log("dataFromPage True");
-    console.log("cardtype " + cardType);
-    console.log("container " + container);
-    React.render(React.createElement(Bubbly, { data: dataFromPage, id: campaignId, cardtype: cardType, returnurl: returnUrl, styles: styles, clientid: clientId }), container);
-  } else {
-    console.log("dataFromPage False");
-    var WidgetUrl = "http://s24x7.azurewebsites.net/api/summary/rss";
+    if (dataFromPage) {
+        console.log("dataFromPage True");
+        console.log("cardtype " + cardType);
+        console.log("container " + container);
+        React.render(React.createElement(Bubbly, { data: dataFromPage, id: campaignId, cardtype: cardType, returnurl: returnUrl, styles: styles, clientid: clientId }), container);
+    } else {
+        console.log("dataFromPage False");
+        var WidgetUrl = "http://s24x7.azurewebsites.net/api/summary/rss";
 
-    var url = WidgetUrl + "?id=" + rssCriteria;
+        var url = WidgetUrl + "?id=" + rssCriteria;
 
-    console.log("RSSURL " + url);
-    jQuery.ajax({
-      url: url,
-      type: "GET",
-      dataType: "JSON",
-      cache: false
-    }).done(function (ajaxdata) {
-      React.render(React.createElement(Bubbly, { data: ajaxdata, id: campaignId, cardtype: cardType, returnurl: returnUrl, styles: styles, clientid: clientId }), container);
+        console.log("RSSURL " + url);
+        jQuery.ajax({
+            url: url,
+            type: "GET",
+            dataType: "JSON",
+            cache: false
+        }).done(function (ajaxdata) {
+            React.render(React.createElement(Bubbly, { data: ajaxdata, id: campaignId, cardtype: cardType, returnurl: returnUrl, styles: styles, clientid: clientId }), container);
 
-    });
-  }
+        });
+    }
+};
+
+var BubblyStoryRunner = function (id, storyId, container, dataFromPage, returnUrl, style, cardType, clientId, limit, description, title) {
+    var returnurl = "http://www.cricket24x7.social";
+    var titleLocal = "Bubbly Story";
+    var storyIdLocal = "story_default";
+    if (returnUrl) {
+        returnurl = returnUrl;
+    }
+    if (title) {
+        titleLocal = title;
+    }
+
+    if (storyId) {
+        storyIdLocal = storyId;
+    }
+
+    if (dataFromPage == null || dataFromPage == "") {
+        var weburl = "http://s24x7.azurewebsites.net/api/summary/story";
+        var url = weburl + "?id=" + id + "&storyid=" + storyIdLocal;
+
+        jQuery.ajax({
+            url: url,
+            type: "GET",
+            dataType: "JSON",
+            cache: false
+        }).done(function (ajaxdata) {
+            jQuery.each(ajaxdata, function (i, val) {
+                if (val.PhotoUrl === null && (jQuery.trim(val.Text) === "" || val.Text === null)) // delete index -- By Arun on 05/20/2015
+                    {
+                        delete data[i];
+                    }
+            });
+            debugger;
+            React.render(React.createElement(Bubbly, { data: ajaxdata.Data, title: ajaxdata.Title, discription: ajaxdata.Description, id: id, cardtype: cardType, returnurl: returnUrl, styles: style, clientid: clientId }), container);
+
+        });
+    } else {
+        React.render(React.createElement(Bubbly, { data: dataFromPage.Data, title: titleLocal, discription: dataFromPage.Description, id: id, cardtype: cardType, returnurl: returnUrl, styles: style, clientid: clientId }), container);
+    }
+
 };
 
 
-var BubblyCommentsRunner = function (campaignId, cardType, returnUrl, styles, clientId, dataFromPage, container, commentsTitle, commentsType, commentsSkipBy, commentsLimit, commentsQ) {
-  console.log(campaignId + "-" + cardType + "-" + returnUrl + "-" + container + "-" + commentsTitle + "-" + commentsType + "-" + commentsSkipBy + "-" + commentsLimit + "-" + commentsQ);
-  if (dataFromPage) {
-    console.log("dataFromPage True");
-    console.log("cardtype " + cardType);
-    console.log("container " + container);
-    React.render(React.createElement(Bubbly, { data: dataFromPage, id: campaignId, cardtype: cardType, returnurl: returnUrl, styles: styles, clientid: clientId, commentstitle: commentsTitle, commentstype: commentsType, commentsskipby: commentsSkipBy, commentslimit: commentsLimit, commentsq: commentsQ, commentscontainer: container }), container);
-  } else {
-    var returnurl = "http://www.cricket24x7.social";
-    if (returnUrl) {
-      returnurl = returnUrl;
-    }
-    var weburl = "http://s24x7.azurewebsites.net/api/summary/comments";
-    var url = weburl + "?id=" + campaignId + "&type=" + commentsType + "&skipby=" + commentsSkipBy + "&limit=" + commentsLimit + "&q=" + commentsQ;
-    console.log("Url : " + url);
-    jQuery.ajax({
-      url: url,
-      type: "GET",
-      dataType: "JSON",
-      cache: false
-    }).done(function (data) {
-      React.render(React.createElement(Bubbly, { data: data, id: campaignId, cardtype: cardType, returnurl: returnUrl, styles: styles, clientid: clientId, commentstitle: commentsTitle, commentstype: commentsType, commentsskipby: commentsSkipBy, commentslimit: commentsLimit, commentsq: commentsQ }), container);
 
-    });
-  }
+
+var BubblyCommentsRunner = function (campaignId, cardType, returnUrl, styles, clientId, dataFromPage, container, commentsTitle, commentsType, commentsSkipBy, commentsLimit, commentsQ) {
+    console.log(campaignId + "-" + cardType + "-" + returnUrl + "-" + container + "-" + commentsTitle + "-" + commentsType + "-" + commentsSkipBy + "-" + commentsLimit + "-" + commentsQ);
+
+    var title = "Comments";
+    if (commentsTitle) {
+        title = commentsTitle;
+    } else {
+        if (commentsType.toLowerCase() == "positive") {
+            title = "Compliments on Social Media";
+        }
+        if (commentsType.toLowerCase() == "negative") {
+            title = "Dark Comments on Social Media";
+        }
+        if (commentsType.toLowerCase() == "popular") {
+            title = "Popular Comments On Social Media";
+        }
+        if (commentsType.toLowerCase() == "celebrity") {
+            title = "Celebrity Comments On Social Media";
+        }
+
+        if (commentsType.toLowerCase() == "question") {
+            title = "What people are Asking";
+        }
+
+        if (commentsType.toLowerCase() == "neutral") {
+            title = "Comments";
+        }
+
+        if (commentsType.toLowerCase() == "gender") {
+            if (commentsQ.substring(0, 1).toLowerCase() == "m") {
+                title = "Comments By Male population";
+            }
+            if (commentsQ.substring(0, 1).toLowerCase() == "f") {
+                title = "Comments By Female population";
+            }
+        }
+
+        if (commentsType.toLowerCase() == "hashtag") {
+            title = "Comments on : " + commentsQ;
+        }
+        if (commentsType.toLowerCase() == "emotion") {
+            title = "Comments on : " + commentsQ;
+        }
+        if (commentsType.toLowerCase() == "trend") {
+            title = "Comments on : " + commentsQ;
+        }
+        if (commentsType.toLowerCase() == "geo") {
+            title = "Comments on : " + commentsQ;
+        }
+
+        if (commentsType.toLowerCase() == "source") {
+            title = "Comments on : " + commentsQ;
+        }
+
+        if (commentsType.toLowerCase() == "video") {
+            title = "Video Comments";
+        }
+        if (commentsType.toLowerCase() == "photo") {
+            title = "Picture Comments";
+        }
+    }
+
+    if (dataFromPage) {
+        console.log("dataFromPage True");
+        console.log("cardtype " + cardType);
+        console.log("container " + container);
+        React.render(React.createElement(Bubbly, { data: dataFromPage, id: campaignId, cardtype: cardType, returnurl: returnUrl, styles: styles, clientid: clientId, commentstitle: title, commentstype: commentsType, commentsskipby: commentsSkipBy, commentslimit: commentsLimit, commentsq: commentsQ, commentscontainer: container }), container);
+    } else {
+        var returnurl = "http://www.cricket24x7.social";
+        if (returnUrl) {
+            returnurl = returnUrl;
+        }
+        var weburl = "http://s24x7.azurewebsites.net/api/summary/comments";
+        var url = weburl + "?id=" + campaignId + "&type=" + commentsType + "&skipby=" + commentsSkipBy + "&limit=" + commentsLimit + "&q=" + commentsQ;
+        console.log("Url : " + url);
+        jQuery.ajax({
+            url: url,
+            type: "GET",
+            dataType: "JSON",
+            cache: false
+        }).done(function (data) {
+            React.render(React.createElement(Bubbly, { data: data, id: campaignId, cardtype: cardType, returnurl: returnUrl, styles: styles, clientid: clientId, commentstitle: title, commentstype: commentsType, commentsskipby: commentsSkipBy, commentslimit: commentsLimit, commentsq: commentsQ }), container);
+
+        });
+    }
 };
 
 module.exports = BubblyCard;
 
 function BubblyCard() {
-  this.aSetting = true;
+    this.aSetting = true;
 };
 
 
 function SoicalInfluanceMaterialData(id, data, returnurl, container) {
-  //  debugger;
-  var title = "Dashboard";
-  var totalCount = 0;
-  var doughnutData = [{
-    color: "#F7464A",
-    highlight: "#FF5A5E",
-    label: "Negative" }, {
-    color: "#46BFBD",
-    highlight: "#5AD3D1",
-    label: "Positive" }, {
-    color: "#FDB45C",
-    highlight: "#FFC870",
-    label: "Neutral" }];
-  var ClientBar = { ClientBarPos: [], ClientBarNeutral: [], ClientBarNegative: [] };
-  var meterData = {};
-  var Projects = { Twitter: [], Facebook: [], Tumblr: [] };
-  var polarChartData = [];
-  var wordMarkers = [];
+    //  debugger;
+    var title = "Dashboard";
+    var totalCount = 0;
+    var doughnutData = [{
+        color: "#F7464A",
+        highlight: "#FF5A5E",
+        label: "Negative" }, {
+        color: "#46BFBD",
+        highlight: "#5AD3D1",
+        label: "Positive" }, {
+        color: "#FDB45C",
+        highlight: "#FFC870",
+        label: "Neutral" }];
+    var ClientBar = { ClientBarPos: [], ClientBarNeutral: [], ClientBarNegative: [] };
+    var meterData = {};
+    var Projects = { Twitter: [], Facebook: [], Tumblr: [] };
+    var polarChartData = [];
+    var wordMarkers = [];
 
-  var pos = 0;
-  var neg = 0;
-  var neu = 0;
-  //debugger;
-  var i = 29;
-  var j1 = 0;
-  var j2 = 0;
-  var j3 = 0;
-  if (data.ByDate != null) {
-    jQuery.each(data.ByDate, function (index, item) {
-      if (item.Sentiment == "Neutral") {
-        neu = neu + item.Count;
-      } else if (item.Sentiment == "Positive") {
-        pos = pos + item.Count;
-      } else if (item.Sentiment == "Negative") {
-        neg = neg + item.Count;
-      }
-    });
-  }
-
-  if (data.SocialStats != null) {
-    meterData.Twitter = 0;
-    meterData.Facebook = 0;
-    meterData.Tumblr = 0;
-    jQuery.each(data.SocialStats, function (index, item) {
-      //debugger;
-      neu = neu + item.NeuCount;
-      pos = pos + item.PosCount;
-      neg = neg + item.NegCount;
-      if (item.Type == "TW") {
-        meterData.Twitter = item.PosCount + item.NegCount + item.NeuCount;
-      } else if (item.Type == "FB") {
-        meterData.Facebook = item.PosCount + item.NegCount + item.NeuCount;
-      } else if (item.Type == "TM") {
-        meterData.Tumblr = item.PosCount + item.NegCount + item.NeuCount;
-      }
-    });
-  }
-  totalCount = pos + neg + neu;
-  if (data.Sentiments != null) {
-    jQuery.each(data.Sentiments, function (index, item) {
-      if (item.key == "Negative") {
-        doughnutData[0].value = item.value;
-      } else if (item.key == "Positive") {
-        doughnutData[1].value = item.value;
-      } else {
-        doughnutData[2].value = item.value;
-      }
-    });
-  } else {
+    var pos = 0;
+    var neg = 0;
+    var neu = 0;
     //debugger;
-    doughnutData[0].value = neg;
-    doughnutData[1].value = pos;
-    doughnutData[2].value = neu;
-  }
+    var i = 29;
+    var j1 = 0;
+    var j2 = 0;
+    var j3 = 0;
+    if (data.ByDate != null) {
+        jQuery.each(data.ByDate, function (index, item) {
+            if (item.Sentiment == "Neutral") {
+                neu = neu + item.Count;
+            } else if (item.Sentiment == "Positive") {
+                pos = pos + item.Count;
+            } else if (item.Sentiment == "Negative") {
+                neg = neg + item.Count;
+            }
+        });
+    }
 
-  if (data.GenderStats != null) {
-    jQuery.each(data.GenderStats, function (index, item) {
-      meterData.OthersPer = "< 1%";
-      meterData.Others = 0;
-      if (item.Type == "Male") {
-        meterData.Male = item.Count;
-        meterData.MalePer = item.Percent.toFixed(2) + "%";
-      } else if (item.Type == "Female") {
-        meterData.Female = item.Count;
-        meterData.FemalePer = item.Percent.toFixed(2) + "%";
-      } else {
-        meterData.Others = item.Count;
-        if (item.Percent < 1) meterData.OthersPer = "< 1%";else meterData.OthersPer = item.Percent.toFixed(2) + "%";
-      }
-    });
-  }
+    if (data.SocialStats != null) {
+        meterData.Twitter = 0;
+        meterData.Facebook = 0;
+        meterData.Tumblr = 0;
+        jQuery.each(data.SocialStats, function (index, item) {
+            //debugger;
+            neu = neu + item.NeuCount;
+            pos = pos + item.PosCount;
+            neg = neg + item.NegCount;
+            if (item.Type == "TW") {
+                meterData.Twitter = item.PosCount + item.NegCount + item.NeuCount;
+            } else if (item.Type == "FB") {
+                meterData.Facebook = item.PosCount + item.NegCount + item.NeuCount;
+            } else if (item.Type == "TM") {
+                meterData.Tumblr = item.PosCount + item.NegCount + item.NeuCount;
+            }
+        });
+    }
+    totalCount = pos + neg + neu;
+    if (data.Sentiments != null) {
+        jQuery.each(data.Sentiments, function (index, item) {
+            if (item.key == "Negative") {
+                doughnutData[0].value = item.value;
+            } else if (item.key == "Positive") {
+                doughnutData[1].value = item.value;
+            } else {
+                doughnutData[2].value = item.value;
+            }
+        });
+    } else {
+        //debugger;
+        doughnutData[0].value = neg;
+        doughnutData[1].value = pos;
+        doughnutData[2].value = neu;
+    }
 
-  if (data.LatestDS != null) {
-    data.LatestDS.sort(function (a, b) {
-      return new Date(b.Date).getTime() - new Date(a.Date).getTime();
-    });
+    if (data.GenderStats != null) {
+        jQuery.each(data.GenderStats, function (index, item) {
+            meterData.OthersPer = "< 1%";
+            meterData.Others = 0;
+            if (item.Type == "Male") {
+                meterData.Male = item.Count;
+                meterData.MalePer = item.Percent.toFixed(2) + "%";
+            } else if (item.Type == "Female") {
+                meterData.Female = item.Count;
+                meterData.FemalePer = item.Percent.toFixed(2) + "%";
+            } else {
+                meterData.Others = item.Count;
+                if (item.Percent < 1) meterData.OthersPer = "< 1%";else meterData.OthersPer = item.Percent.toFixed(2) + "%";
+            }
+        });
+    }
 
-    i = 0;
-    meterData.Twitter = 0;
-    meterData.Facebook = 0;
-    meterData.Tumblr = 0;
+    if (data.LatestDS != null) {
+        data.LatestDS.sort(function (a, b) {
+            return new Date(b.Date).getTime() - new Date(a.Date).getTime();
+        });
 
-    jQuery.each(data.LatestDS, function (index, item) {
-      //i = index;
-      //if(item.Date.indexOf("2015")>-1)
-      //{
-      if (i <= 10) {
-        Projects.Twitter[i] = item.Twitter;
-        meterData.Twitter = meterData.Twitter + item.Twitter;
+        i = 0;
+        meterData.Twitter = 0;
+        meterData.Facebook = 0;
+        meterData.Tumblr = 0;
 
-        Projects.Facebook[i] = item.Facebook;
-        meterData.Facebook = meterData.Facebook + item.Facebook;
+        jQuery.each(data.LatestDS, function (index, item) {
+            //i = index;
+            //if(item.Date.indexOf("2015")>-1)
+            //{
+            if (i <= 10) {
+                Projects.Twitter[i] = item.Twitter;
+                meterData.Twitter = meterData.Twitter + item.Twitter;
 
-        Projects.Tumblr[i] = item.Tumblr;
-        meterData.Tumblr = meterData.Tumblr + item.Tumblr;
+                Projects.Facebook[i] = item.Facebook;
+                meterData.Facebook = meterData.Facebook + item.Facebook;
 
-        i = i + 1;
-      }
-      //}
-    });
-  }
+                Projects.Tumblr[i] = item.Tumblr;
+                meterData.Tumblr = meterData.Tumblr + item.Tumblr;
 
-
-
-  meterData.TwitterPer = (meterData.Twitter / (meterData.Twitter + meterData.Facebook + meterData.Tumblr) * 100).toFixed(2);
-  meterData.FacebookPer = (meterData.Facebook / (meterData.Twitter + meterData.Facebook + meterData.Tumblr) * 100).toFixed(2);
-  meterData.TumblrPer = (meterData.Tumblr / (meterData.Twitter + meterData.Facebook + meterData.Tumblr) * 100).toFixed(2);
-
-  if (meterData.TwitterPer < 1) meterData.TwitterPer = "< 1";
-  if (meterData.FacebookPer < 1) meterData.FacebookPer = "< 1";
-  if (meterData.TumblrPer < 1) meterData.TumblrPer = "< 1";
-
-  Projects.Meter = meterData;
-
-  if (data.Locations != null) {
-    var arr = {};
-    var i = 0;
-    var arrMarker = {};
-    var style = {};
-    jQuery.each(data.Locations, function (index, item) {
-      arr = {};
-      arrMarker = {};
-      switch (item.key) {
-        case "in":
-          arr.value = item.value;
-          arr.color = "#ff9800";
-          arr.highlight = "#ffb74d";
-          arr.label = item.valuestr;
-          arrMarker.latLng = [20.59, 78.96];
-          arrMarker.name = item.valuestr;
-
-          wordMarkers[i] = arrMarker;
-
-          polarChartData[i] = arr;
-          i = i + 1;
-          break;
-        case "us":
-          arr.value = item.value;
-          arr.color = "#f44336";
-          arr.highlight = "#FF5A5E";
-          arr.label = item.valuestr;
-          arrMarker.latLng = [37.09, -95.71];
-          arrMarker.name = item.valuestr;
-          wordMarkers[i] = arrMarker;
-
-          polarChartData[i] = arr;
-          i = i + 1;
-          break;
-        case "gb":
-          arr.value = item.value;
-          arr.color = "#9c27b0";
-          arr.highlight = "#ce93d8";
-          arr.label = item.valuestr;
-          arrMarker.latLng = [55.38, -3.43];
-          arrMarker.name = item.valuestr;
-          wordMarkers[i] = arrMarker;
-
-          polarChartData[i] = arr;
-          i = i + 1;
-          break;
-        case "au":
-          arr.value = item.value;
-          arr.color = "#2196f3";
-          arr.highlight = "#90caf9";
-          arr.label = item.valuestr;
-          arrMarker.latLng = [-25.27, 133.77];
-          arrMarker.name = item.valuestr;
-          wordMarkers[i] = arrMarker;
-
-          polarChartData[i] = arr;
-          i = i + 1;
-          break;
-        case "pk":
-          arr.value = item.value;
-          arr.color = "#009688";
-          arr.highlight = "#80cbc4";
-          arr.label = item.valuestr;
-          arrMarker.latLng = [24.86, 67.01];
-          arrMarker.name = item.valuestr;
-          wordMarkers[i] = arrMarker;
-
-          polarChartData[i] = arr;
-          i = i + 1;
-          break;
-        case "ae":
-          arr.value = item.value;
-          arr.color = "#00acc1";
-          arr.highlight = "#4dd0e1";
-          arr.label = item.valuestr;
-          arrMarker.latLng = [23.42, 53.85];
-          arrMarker.name = item.valuestr;
-          wordMarkers[i] = arrMarker;
-
-          polarChartData[i] = arr;
-          i = i + 1;
-          break;
-        case "my":
-          arr.value = item.value;
-          arr.color = "#4caf50";
-          arr.highlight = "#81c784";
-          arr.label = item.valuestr;
-          arrMarker.latLng = [4.21, 101.97];
-          arrMarker.name = item.valuestr;
-          wordMarkers[i] = arrMarker;
-
-          polarChartData[i] = arr;
-          i = i + 1;
-          break;
-        case "np":
-          arr.value = item.value;
-          arr.color = "#3f51b5";
-          arr.highlight = "#7986cb";
-          arr.label = item.valuestr;
-          arrMarker.latLng = [28.39, 84.12];
-          arrMarker.name = item.valuestr;
-          wordMarkers[i] = arrMarker;
-
-          polarChartData[i] = arr;
-          i = i + 1;
-          break;
-        case "za":
-          arrMarker.latLng = [-30.56, 22.94];
-          arrMarker.name = item.valuestr;
-          wordMarkers[i] = arrMarker;
-          break;
-        case "nz":
-          arrMarker.latLng = [-40.9, 174.88];
-          arrMarker.name = item.valuestr;
-          wordMarkers[i] = arrMarker;
-          break;
-        case "ca":
-          arrMarker.latLng = [56.13, -106.34];
-          arrMarker.name = item.valuestr;
-          wordMarkers[i] = arrMarker;
-          break;
-        case "br":
-          arrMarker.latLng = [-14.23, -51.92];
-          arrMarker.name = item.valuestr;
-          wordMarkers[i] = arrMarker;
-          break;
-        case "it":
-          arrMarker.latLng = [41.87, 12.56];
-          arrMarker.name = item.valuestr;
-          wordMarkers[i] = arrMarker;
-          break;
-        case "jp":
-          arrMarker.latLng = [35.68, 139.69];
-          arrMarker.name = item.valuestr;
-          wordMarkers[i] = arrMarker;
-          break;
-        case "fr":
-          arrMarker.latLng = [46.22, 2.21];
-          arrMarker.name = item.valuestr;
-          wordMarkers[i] = arrMarker;
-          break;
-        case "de":
-          arrMarker.latLng = [51.16, 10.45];
-          arrMarker.name = item.valuestr;
-          wordMarkers[i] = arrMarker;
-          break;
+                i = i + 1;
+            }
+            //}
+        });
+    }
 
 
-      }
-    });
-  }
+
+    meterData.TwitterPer = (meterData.Twitter / (meterData.Twitter + meterData.Facebook + meterData.Tumblr) * 100).toFixed(2);
+    meterData.FacebookPer = (meterData.Facebook / (meterData.Twitter + meterData.Facebook + meterData.Tumblr) * 100).toFixed(2);
+    meterData.TumblrPer = (meterData.Tumblr / (meterData.Twitter + meterData.Facebook + meterData.Tumblr) * 100).toFixed(2);
+
+    if (meterData.TwitterPer < 1) meterData.TwitterPer = "< 1";
+    if (meterData.FacebookPer < 1) meterData.FacebookPer = "< 1";
+    if (meterData.TumblrPer < 1) meterData.TumblrPer = "< 1";
+
+    Projects.Meter = meterData;
+
+    if (data.Locations != null) {
+        var arr = {};
+        var i = 0;
+        var arrMarker = {};
+        var style = {};
+        jQuery.each(data.Locations, function (index, item) {
+            arr = {};
+            arrMarker = {};
+            switch (item.key) {
+                case "in":
+                    arr.value = item.value;
+                    arr.color = "#ff9800";
+                    arr.highlight = "#ffb74d";
+                    arr.label = item.valuestr;
+                    arrMarker.latLng = [20.59, 78.96];
+                    arrMarker.name = item.valuestr;
+
+                    wordMarkers[i] = arrMarker;
+
+                    polarChartData[i] = arr;
+                    i = i + 1;
+                    break;
+                case "us":
+                    arr.value = item.value;
+                    arr.color = "#f44336";
+                    arr.highlight = "#FF5A5E";
+                    arr.label = item.valuestr;
+                    arrMarker.latLng = [37.09, -95.71];
+                    arrMarker.name = item.valuestr;
+                    wordMarkers[i] = arrMarker;
+
+                    polarChartData[i] = arr;
+                    i = i + 1;
+                    break;
+                case "gb":
+                    arr.value = item.value;
+                    arr.color = "#9c27b0";
+                    arr.highlight = "#ce93d8";
+                    arr.label = item.valuestr;
+                    arrMarker.latLng = [55.38, -3.43];
+                    arrMarker.name = item.valuestr;
+                    wordMarkers[i] = arrMarker;
+
+                    polarChartData[i] = arr;
+                    i = i + 1;
+                    break;
+                case "au":
+                    arr.value = item.value;
+                    arr.color = "#2196f3";
+                    arr.highlight = "#90caf9";
+                    arr.label = item.valuestr;
+                    arrMarker.latLng = [-25.27, 133.77];
+                    arrMarker.name = item.valuestr;
+                    wordMarkers[i] = arrMarker;
+
+                    polarChartData[i] = arr;
+                    i = i + 1;
+                    break;
+                case "pk":
+                    arr.value = item.value;
+                    arr.color = "#009688";
+                    arr.highlight = "#80cbc4";
+                    arr.label = item.valuestr;
+                    arrMarker.latLng = [24.86, 67.01];
+                    arrMarker.name = item.valuestr;
+                    wordMarkers[i] = arrMarker;
+
+                    polarChartData[i] = arr;
+                    i = i + 1;
+                    break;
+                case "ae":
+                    arr.value = item.value;
+                    arr.color = "#00acc1";
+                    arr.highlight = "#4dd0e1";
+                    arr.label = item.valuestr;
+                    arrMarker.latLng = [23.42, 53.85];
+                    arrMarker.name = item.valuestr;
+                    wordMarkers[i] = arrMarker;
+
+                    polarChartData[i] = arr;
+                    i = i + 1;
+                    break;
+                case "my":
+                    arr.value = item.value;
+                    arr.color = "#4caf50";
+                    arr.highlight = "#81c784";
+                    arr.label = item.valuestr;
+                    arrMarker.latLng = [4.21, 101.97];
+                    arrMarker.name = item.valuestr;
+                    wordMarkers[i] = arrMarker;
+
+                    polarChartData[i] = arr;
+                    i = i + 1;
+                    break;
+                case "np":
+                    arr.value = item.value;
+                    arr.color = "#3f51b5";
+                    arr.highlight = "#7986cb";
+                    arr.label = item.valuestr;
+                    arrMarker.latLng = [28.39, 84.12];
+                    arrMarker.name = item.valuestr;
+                    wordMarkers[i] = arrMarker;
+
+                    polarChartData[i] = arr;
+                    i = i + 1;
+                    break;
+                case "za":
+                    arrMarker.latLng = [-30.56, 22.94];
+                    arrMarker.name = item.valuestr;
+                    wordMarkers[i] = arrMarker;
+                    break;
+                case "nz":
+                    arrMarker.latLng = [-40.9, 174.88];
+                    arrMarker.name = item.valuestr;
+                    wordMarkers[i] = arrMarker;
+                    break;
+                case "ca":
+                    arrMarker.latLng = [56.13, -106.34];
+                    arrMarker.name = item.valuestr;
+                    wordMarkers[i] = arrMarker;
+                    break;
+                case "br":
+                    arrMarker.latLng = [-14.23, -51.92];
+                    arrMarker.name = item.valuestr;
+                    wordMarkers[i] = arrMarker;
+                    break;
+                case "it":
+                    arrMarker.latLng = [41.87, 12.56];
+                    arrMarker.name = item.valuestr;
+                    wordMarkers[i] = arrMarker;
+                    break;
+                case "jp":
+                    arrMarker.latLng = [35.68, 139.69];
+                    arrMarker.name = item.valuestr;
+                    wordMarkers[i] = arrMarker;
+                    break;
+                case "fr":
+                    arrMarker.latLng = [46.22, 2.21];
+                    arrMarker.name = item.valuestr;
+                    wordMarkers[i] = arrMarker;
+                    break;
+                case "de":
+                    arrMarker.latLng = [51.16, 10.45];
+                    arrMarker.name = item.valuestr;
+                    wordMarkers[i] = arrMarker;
+                    break;
 
 
-  //debugger;
-  React.render(React.createElement(SIM, { id: id, data: data, doughnutData: doughnutData, ClientBar: ClientBar, Projects: Projects, polarChartData: polarChartData, wordMarkers: wordMarkers, title: title, count: totalCount, returnurl: returnurl }), container);
+            }
+        });
+    }
+
+
+    //debugger;
+    React.render(React.createElement(SIM, { id: id, data: data, doughnutData: doughnutData, ClientBar: ClientBar, Projects: Projects, polarChartData: polarChartData, wordMarkers: wordMarkers, title: title, count: totalCount, returnurl: returnurl }), container);
 }
 
-BubblyCard.prototype.showCard = function (para, dataFromPage, container) {
-  console.log(this.aSetting);
-  BubblyCardRunner(para.campaignId, para.cardType, para.returnUrl, para.styles, para.clientId, dataFromPage, container);
+BubblyCard.prototype.showCard = function (para, dataFromPage, container, returnUrl3) {
+    console.log(this.aSetting);
+    BubblyCardRunner(para.campaignId, para.cardType, para.returnUrl, para.styles, para.clientId, dataFromPage, container, para.returnUrl3);
 };
 
 BubblyCard.prototype.showComments = function (para, dataFromPage, container) {
-  console.log("para : " + para);
-  console.log("commentdata : " + dataFromPage);
-  console.log("container : " + container);
+    console.log("para : " + para);
+    console.log("commentdata : " + dataFromPage);
+    console.log("container : " + container);
 
-  BubblyCommentsRunner(para.campaignId, para.cardType, para.returnUrl, para.styles, para.clientId, dataFromPage, container, para.commentsTitle, para.commentsType, para.commentsSkipBy, para.commentsLimit, para.commentsQ);
+    BubblyCommentsRunner(para.campaignId, para.cardType, para.returnUrl, para.styles, para.clientId, dataFromPage, container, para.commentsTitle, para.commentsType, para.commentsSkipBy, para.commentsLimit, para.commentsQ);
 };
 
 BubblyCard.prototype.showRSSCard = function (para, dataFromPage, container) {
-  console.log(this.aSetting);
-  BubblyRSSCardRunner(para.campaignId, para.cardType, para.returnUrl, para.styles, para.clientId, dataFromPage, container, para.rssCriteria);
+    console.log(this.aSetting);
+    BubblyRSSCardRunner(para.campaignId, para.cardType, para.returnUrl, para.styles, para.clientId, dataFromPage, container, para.rssCriteria);
+};
+
+BubblyCard.prototype.showStoryCards = function (para, dataFromPage, container) {
+    console.log(this.aSetting);
+    BubblyStoryRunner(para.campaignId, para.storyId, container, dataFromPage, para.returnUrl, para.style, para.cardType, para.limit, para.description, para.title);
 };
 
 BubblyCard.prototype.parseData = function (para, dataFromPage, container) {
-  console.log(dataFromPage);
-  console.log(para.campaignId);
-  console.log(para.cardType);
-  console.log(para.returnUrl);
-  console.log(para.styles);
-  console.log(para.clientId);
-  console.log(container);
+    console.log(dataFromPage);
+    console.log(para.campaignId);
+    console.log(para.cardType);
+    console.log(para.returnUrl);
+    console.log(para.styles);
+    console.log(para.clientId);
+    console.log(container);
 
-  if (dataFromPage === null) {
-    console.log("No data from page");
-  } else {
-    console.log(JSON.stringify(dataFromPage));
-  }
+    if (dataFromPage === null) {
+        console.log("No data from page");
+    } else {
+        console.log(JSON.stringify(dataFromPage));
+    }
 };
 
-},{"../bubbly_socialInfluance_material/src/sim.js":435,"./social.jsx":828,"react":827}],2:[function(require,module,exports){
+},{"../bubbly_socialInfluance_material/src/sim.js":436,"./social.jsx":806,"react":805}],2:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -1120,7 +1228,7 @@ module.exports = arrayReduce;
 },{}],15:[function(require,module,exports){
 var baseCopy = require('./baseCopy'),
     getSymbols = require('./getSymbols'),
-    isNative = require('../lang/isNative'),   
+    isNative = require('../lang/isNative'),
     keys = require('../object/keys');
 
 /** Native method references. */
@@ -4595,7 +4703,7 @@ var CSSCore = {
 module.exports = CSSCore;
 
 }).call(this,require('_process'))
-},{"./invariant":237,"_process":463}],91:[function(require,module,exports){
+},{"./invariant":237,"_process":467}],91:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4902,7 +5010,7 @@ var CSSPropertyOperations = {
 module.exports = CSSPropertyOperations;
 
 }).call(this,require('_process'))
-},{"./CSSProperty":91,"./ExecutionEnvironment":108,"./camelizeStyleName":208,"./dangerousStyleValue":215,"./hyphenateStyleName":235,"./memoizeStringOnly":246,"./warning":258,"_process":463}],93:[function(require,module,exports){
+},{"./CSSProperty":91,"./ExecutionEnvironment":108,"./camelizeStyleName":208,"./dangerousStyleValue":215,"./hyphenateStyleName":235,"./memoizeStringOnly":246,"./warning":258,"_process":467}],93:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -5002,7 +5110,7 @@ PooledClass.addPoolingTo(CallbackQueue);
 module.exports = CallbackQueue;
 
 }).call(this,require('_process'))
-},{"./Object.assign":115,"./PooledClass":116,"./invariant":237,"_process":463}],94:[function(require,module,exports){
+},{"./Object.assign":115,"./PooledClass":116,"./invariant":237,"_process":467}],94:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -5547,7 +5655,7 @@ var DOMChildrenOperations = {
 module.exports = DOMChildrenOperations;
 
 }).call(this,require('_process'))
-},{"./Danger":99,"./ReactMultiChildUpdateTypes":165,"./invariant":237,"./setTextContent":252,"_process":463}],97:[function(require,module,exports){
+},{"./Danger":99,"./ReactMultiChildUpdateTypes":165,"./invariant":237,"./setTextContent":252,"_process":467}],97:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -5846,7 +5954,7 @@ var DOMProperty = {
 module.exports = DOMProperty;
 
 }).call(this,require('_process'))
-},{"./invariant":237,"_process":463}],98:[function(require,module,exports){
+},{"./invariant":237,"_process":467}],98:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -6038,7 +6146,7 @@ var DOMPropertyOperations = {
 module.exports = DOMPropertyOperations;
 
 }).call(this,require('_process'))
-},{"./DOMProperty":97,"./quoteAttributeValueForBrowser":250,"./warning":258,"_process":463}],99:[function(require,module,exports){
+},{"./DOMProperty":97,"./quoteAttributeValueForBrowser":250,"./warning":258,"_process":467}],99:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -6225,7 +6333,7 @@ var Danger = {
 module.exports = Danger;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":108,"./createNodesFromMarkup":213,"./emptyFunction":216,"./getMarkupWrap":229,"./invariant":237,"_process":463}],100:[function(require,module,exports){
+},{"./ExecutionEnvironment":108,"./createNodesFromMarkup":213,"./emptyFunction":216,"./getMarkupWrap":229,"./invariant":237,"_process":467}],100:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -6566,7 +6674,7 @@ var EventListener = {
 module.exports = EventListener;
 
 }).call(this,require('_process'))
-},{"./emptyFunction":216,"_process":463}],104:[function(require,module,exports){
+},{"./emptyFunction":216,"_process":467}],104:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -6844,7 +6952,7 @@ var EventPluginHub = {
 module.exports = EventPluginHub;
 
 }).call(this,require('_process'))
-},{"./EventPluginRegistry":105,"./EventPluginUtils":106,"./accumulateInto":205,"./forEachAccumulated":222,"./invariant":237,"_process":463}],105:[function(require,module,exports){
+},{"./EventPluginRegistry":105,"./EventPluginUtils":106,"./accumulateInto":205,"./forEachAccumulated":222,"./invariant":237,"_process":467}],105:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -7124,7 +7232,7 @@ var EventPluginRegistry = {
 module.exports = EventPluginRegistry;
 
 }).call(this,require('_process'))
-},{"./invariant":237,"_process":463}],106:[function(require,module,exports){
+},{"./invariant":237,"_process":467}],106:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -7345,7 +7453,7 @@ var EventPluginUtils = {
 module.exports = EventPluginUtils;
 
 }).call(this,require('_process'))
-},{"./EventConstants":102,"./invariant":237,"_process":463}],107:[function(require,module,exports){
+},{"./EventConstants":102,"./invariant":237,"_process":467}],107:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -7487,7 +7595,7 @@ var EventPropagators = {
 module.exports = EventPropagators;
 
 }).call(this,require('_process'))
-},{"./EventConstants":102,"./EventPluginHub":104,"./accumulateInto":205,"./forEachAccumulated":222,"_process":463}],108:[function(require,module,exports){
+},{"./EventConstants":102,"./EventPluginHub":104,"./accumulateInto":205,"./forEachAccumulated":222,"_process":467}],108:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -8030,7 +8138,7 @@ var LinkedValueUtils = {
 module.exports = LinkedValueUtils;
 
 }).call(this,require('_process'))
-},{"./ReactPropTypes":172,"./invariant":237,"_process":463}],113:[function(require,module,exports){
+},{"./ReactPropTypes":172,"./invariant":237,"_process":467}],113:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -8087,7 +8195,7 @@ var LocalEventTrapMixin = {
 module.exports = LocalEventTrapMixin;
 
 }).call(this,require('_process'))
-},{"./ReactBrowserEventEmitter":119,"./accumulateInto":205,"./forEachAccumulated":222,"./invariant":237,"_process":463}],114:[function(require,module,exports){
+},{"./ReactBrowserEventEmitter":119,"./accumulateInto":205,"./forEachAccumulated":222,"./invariant":237,"_process":467}],114:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -8310,7 +8418,7 @@ var PooledClass = {
 module.exports = PooledClass;
 
 }).call(this,require('_process'))
-},{"./invariant":237,"_process":463}],117:[function(require,module,exports){
+},{"./invariant":237,"_process":467}],117:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -8462,7 +8570,7 @@ React.version = '0.13.3';
 module.exports = React;
 
 }).call(this,require('_process'))
-},{"./EventPluginUtils":106,"./ExecutionEnvironment":108,"./Object.assign":115,"./ReactChildren":123,"./ReactClass":124,"./ReactComponent":125,"./ReactContext":130,"./ReactCurrentOwner":131,"./ReactDOM":132,"./ReactDOMTextComponent":143,"./ReactDefaultInjection":146,"./ReactElement":149,"./ReactElementValidator":150,"./ReactInstanceHandles":158,"./ReactMount":163,"./ReactPerf":168,"./ReactPropTypes":172,"./ReactReconciler":175,"./ReactServerRendering":178,"./findDOMNode":219,"./onlyChild":247,"_process":463}],118:[function(require,module,exports){
+},{"./EventPluginUtils":106,"./ExecutionEnvironment":108,"./Object.assign":115,"./ReactChildren":123,"./ReactClass":124,"./ReactComponent":125,"./ReactContext":130,"./ReactCurrentOwner":131,"./ReactDOM":132,"./ReactDOMTextComponent":143,"./ReactDefaultInjection":146,"./ReactElement":149,"./ReactElementValidator":150,"./ReactInstanceHandles":158,"./ReactMount":163,"./ReactPerf":168,"./ReactPropTypes":172,"./ReactReconciler":175,"./ReactServerRendering":178,"./findDOMNode":219,"./onlyChild":247,"_process":467}],118:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -9064,7 +9172,7 @@ var ReactCSSTransitionGroupChild = React.createClass({
 module.exports = ReactCSSTransitionGroupChild;
 
 }).call(this,require('_process'))
-},{"./CSSCore":90,"./React":117,"./ReactTransitionEvents":183,"./onlyChild":247,"./warning":258,"_process":463}],122:[function(require,module,exports){
+},{"./CSSCore":90,"./React":117,"./ReactTransitionEvents":183,"./onlyChild":247,"./warning":258,"_process":467}],122:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -9344,7 +9452,7 @@ var ReactChildren = {
 module.exports = ReactChildren;
 
 }).call(this,require('_process'))
-},{"./PooledClass":116,"./ReactFragment":155,"./traverseAllChildren":256,"./warning":258,"_process":463}],124:[function(require,module,exports){
+},{"./PooledClass":116,"./ReactFragment":155,"./traverseAllChildren":256,"./warning":258,"_process":467}],124:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -10290,7 +10398,7 @@ var ReactClass = {
 module.exports = ReactClass;
 
 }).call(this,require('_process'))
-},{"./Object.assign":115,"./ReactComponent":125,"./ReactCurrentOwner":131,"./ReactElement":149,"./ReactErrorUtils":152,"./ReactInstanceMap":159,"./ReactLifeCycle":160,"./ReactPropTypeLocationNames":170,"./ReactPropTypeLocations":171,"./ReactUpdateQueue":185,"./invariant":237,"./keyMirror":243,"./keyOf":244,"./warning":258,"_process":463}],125:[function(require,module,exports){
+},{"./Object.assign":115,"./ReactComponent":125,"./ReactCurrentOwner":131,"./ReactElement":149,"./ReactErrorUtils":152,"./ReactInstanceMap":159,"./ReactLifeCycle":160,"./ReactPropTypeLocationNames":170,"./ReactPropTypeLocations":171,"./ReactUpdateQueue":185,"./invariant":237,"./keyMirror":243,"./keyOf":244,"./warning":258,"_process":467}],125:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -10444,7 +10552,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = ReactComponent;
 
 }).call(this,require('_process'))
-},{"./ReactUpdateQueue":185,"./invariant":237,"./warning":258,"_process":463}],126:[function(require,module,exports){
+},{"./ReactUpdateQueue":185,"./invariant":237,"./warning":258,"_process":467}],126:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -10552,7 +10660,7 @@ var ReactComponentEnvironment = {
 module.exports = ReactComponentEnvironment;
 
 }).call(this,require('_process'))
-},{"./invariant":237,"_process":463}],128:[function(require,module,exports){
+},{"./invariant":237,"_process":467}],128:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -11514,7 +11622,7 @@ var ReactCompositeComponent = {
 module.exports = ReactCompositeComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":115,"./ReactComponentEnvironment":127,"./ReactContext":130,"./ReactCurrentOwner":131,"./ReactElement":149,"./ReactElementValidator":150,"./ReactInstanceMap":159,"./ReactLifeCycle":160,"./ReactNativeComponent":166,"./ReactPerf":168,"./ReactPropTypeLocationNames":170,"./ReactPropTypeLocations":171,"./ReactReconciler":175,"./ReactUpdates":186,"./emptyObject":217,"./invariant":237,"./shouldUpdateReactComponent":254,"./warning":258,"_process":463}],130:[function(require,module,exports){
+},{"./Object.assign":115,"./ReactComponentEnvironment":127,"./ReactContext":130,"./ReactCurrentOwner":131,"./ReactElement":149,"./ReactElementValidator":150,"./ReactInstanceMap":159,"./ReactLifeCycle":160,"./ReactNativeComponent":166,"./ReactPerf":168,"./ReactPropTypeLocationNames":170,"./ReactPropTypeLocations":171,"./ReactReconciler":175,"./ReactUpdates":186,"./emptyObject":217,"./invariant":237,"./shouldUpdateReactComponent":254,"./warning":258,"_process":467}],130:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -11592,7 +11700,7 @@ var ReactContext = {
 module.exports = ReactContext;
 
 }).call(this,require('_process'))
-},{"./Object.assign":115,"./emptyObject":217,"./warning":258,"_process":463}],131:[function(require,module,exports){
+},{"./Object.assign":115,"./emptyObject":217,"./warning":258,"_process":467}],131:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -11805,7 +11913,7 @@ var ReactDOM = mapObject({
 module.exports = ReactDOM;
 
 }).call(this,require('_process'))
-},{"./ReactElement":149,"./ReactElementValidator":150,"./mapObject":245,"_process":463}],133:[function(require,module,exports){
+},{"./ReactElement":149,"./ReactElementValidator":150,"./mapObject":245,"_process":467}],133:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -12379,7 +12487,7 @@ ReactDOMComponent.injection = {
 module.exports = ReactDOMComponent;
 
 }).call(this,require('_process'))
-},{"./CSSPropertyOperations":92,"./DOMProperty":97,"./DOMPropertyOperations":98,"./Object.assign":115,"./ReactBrowserEventEmitter":119,"./ReactComponentBrowserEnvironment":126,"./ReactMount":163,"./ReactMultiChild":164,"./ReactPerf":168,"./escapeTextContentForBrowser":218,"./invariant":237,"./isEventSupported":238,"./keyOf":244,"./warning":258,"_process":463}],135:[function(require,module,exports){
+},{"./CSSPropertyOperations":92,"./DOMProperty":97,"./DOMPropertyOperations":98,"./Object.assign":115,"./ReactBrowserEventEmitter":119,"./ReactComponentBrowserEnvironment":126,"./ReactMount":163,"./ReactMultiChild":164,"./ReactPerf":168,"./escapeTextContentForBrowser":218,"./invariant":237,"./isEventSupported":238,"./keyOf":244,"./warning":258,"_process":467}],135:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -12596,7 +12704,7 @@ ReactPerf.measureMethods(ReactDOMIDOperations, 'ReactDOMIDOperations', {
 module.exports = ReactDOMIDOperations;
 
 }).call(this,require('_process'))
-},{"./CSSPropertyOperations":92,"./DOMChildrenOperations":96,"./DOMPropertyOperations":98,"./ReactMount":163,"./ReactPerf":168,"./invariant":237,"./setInnerHTML":251,"_process":463}],137:[function(require,module,exports){
+},{"./CSSPropertyOperations":92,"./DOMChildrenOperations":96,"./DOMPropertyOperations":98,"./ReactMount":163,"./ReactPerf":168,"./invariant":237,"./setInnerHTML":251,"_process":467}],137:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -12864,7 +12972,7 @@ var ReactDOMInput = ReactClass.createClass({
 module.exports = ReactDOMInput;
 
 }).call(this,require('_process'))
-},{"./AutoFocusMixin":88,"./DOMPropertyOperations":98,"./LinkedValueUtils":112,"./Object.assign":115,"./ReactBrowserComponentMixin":118,"./ReactClass":124,"./ReactElement":149,"./ReactMount":163,"./ReactUpdates":186,"./invariant":237,"_process":463}],140:[function(require,module,exports){
+},{"./AutoFocusMixin":88,"./DOMPropertyOperations":98,"./LinkedValueUtils":112,"./Object.assign":115,"./ReactBrowserComponentMixin":118,"./ReactClass":124,"./ReactElement":149,"./ReactMount":163,"./ReactUpdates":186,"./invariant":237,"_process":467}],140:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -12916,7 +13024,7 @@ var ReactDOMOption = ReactClass.createClass({
 module.exports = ReactDOMOption;
 
 }).call(this,require('_process'))
-},{"./ReactBrowserComponentMixin":118,"./ReactClass":124,"./ReactElement":149,"./warning":258,"_process":463}],141:[function(require,module,exports){
+},{"./ReactBrowserComponentMixin":118,"./ReactClass":124,"./ReactElement":149,"./warning":258,"_process":467}],141:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -13564,7 +13672,7 @@ var ReactDOMTextarea = ReactClass.createClass({
 module.exports = ReactDOMTextarea;
 
 }).call(this,require('_process'))
-},{"./AutoFocusMixin":88,"./DOMPropertyOperations":98,"./LinkedValueUtils":112,"./Object.assign":115,"./ReactBrowserComponentMixin":118,"./ReactClass":124,"./ReactElement":149,"./ReactUpdates":186,"./invariant":237,"./warning":258,"_process":463}],145:[function(require,module,exports){
+},{"./AutoFocusMixin":88,"./DOMPropertyOperations":98,"./LinkedValueUtils":112,"./Object.assign":115,"./ReactBrowserComponentMixin":118,"./ReactClass":124,"./ReactElement":149,"./ReactUpdates":186,"./invariant":237,"./warning":258,"_process":467}],145:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -13796,7 +13904,7 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
-},{"./BeforeInputEventPlugin":89,"./ChangeEventPlugin":94,"./ClientReactRootIndex":95,"./DefaultEventPluginOrder":100,"./EnterLeaveEventPlugin":101,"./ExecutionEnvironment":108,"./HTMLDOMPropertyConfig":110,"./MobileSafariClickEventPlugin":114,"./ReactBrowserComponentMixin":118,"./ReactClass":124,"./ReactComponentBrowserEnvironment":126,"./ReactDOMButton":133,"./ReactDOMComponent":134,"./ReactDOMForm":135,"./ReactDOMIDOperations":136,"./ReactDOMIframe":137,"./ReactDOMImg":138,"./ReactDOMInput":139,"./ReactDOMOption":140,"./ReactDOMSelect":141,"./ReactDOMTextComponent":143,"./ReactDOMTextarea":144,"./ReactDefaultBatchingStrategy":145,"./ReactDefaultPerf":147,"./ReactElement":149,"./ReactEventListener":154,"./ReactInjection":156,"./ReactInstanceHandles":158,"./ReactMount":163,"./ReactReconcileTransaction":174,"./SVGDOMPropertyConfig":188,"./SelectEventPlugin":189,"./ServerReactRootIndex":190,"./SimpleEventPlugin":191,"./createFullPageComponent":212,"_process":463}],147:[function(require,module,exports){
+},{"./BeforeInputEventPlugin":89,"./ChangeEventPlugin":94,"./ClientReactRootIndex":95,"./DefaultEventPluginOrder":100,"./EnterLeaveEventPlugin":101,"./ExecutionEnvironment":108,"./HTMLDOMPropertyConfig":110,"./MobileSafariClickEventPlugin":114,"./ReactBrowserComponentMixin":118,"./ReactClass":124,"./ReactComponentBrowserEnvironment":126,"./ReactDOMButton":133,"./ReactDOMComponent":134,"./ReactDOMForm":135,"./ReactDOMIDOperations":136,"./ReactDOMIframe":137,"./ReactDOMImg":138,"./ReactDOMInput":139,"./ReactDOMOption":140,"./ReactDOMSelect":141,"./ReactDOMTextComponent":143,"./ReactDOMTextarea":144,"./ReactDefaultBatchingStrategy":145,"./ReactDefaultPerf":147,"./ReactElement":149,"./ReactEventListener":154,"./ReactInjection":156,"./ReactInstanceHandles":158,"./ReactMount":163,"./ReactReconcileTransaction":174,"./SVGDOMPropertyConfig":188,"./SelectEventPlugin":189,"./ServerReactRootIndex":190,"./SimpleEventPlugin":191,"./createFullPageComponent":212,"_process":467}],147:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -14576,7 +14684,7 @@ ReactElement.isValidElement = function(object) {
 module.exports = ReactElement;
 
 }).call(this,require('_process'))
-},{"./Object.assign":115,"./ReactContext":130,"./ReactCurrentOwner":131,"./warning":258,"_process":463}],150:[function(require,module,exports){
+},{"./Object.assign":115,"./ReactContext":130,"./ReactCurrentOwner":131,"./warning":258,"_process":467}],150:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -15041,7 +15149,7 @@ var ReactElementValidator = {
 module.exports = ReactElementValidator;
 
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":131,"./ReactElement":149,"./ReactFragment":155,"./ReactNativeComponent":166,"./ReactPropTypeLocationNames":170,"./ReactPropTypeLocations":171,"./getIteratorFn":228,"./invariant":237,"./warning":258,"_process":463}],151:[function(require,module,exports){
+},{"./ReactCurrentOwner":131,"./ReactElement":149,"./ReactFragment":155,"./ReactNativeComponent":166,"./ReactPropTypeLocationNames":170,"./ReactPropTypeLocations":171,"./getIteratorFn":228,"./invariant":237,"./warning":258,"_process":467}],151:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -15136,7 +15244,7 @@ var ReactEmptyComponent = {
 module.exports = ReactEmptyComponent;
 
 }).call(this,require('_process'))
-},{"./ReactElement":149,"./ReactInstanceMap":159,"./invariant":237,"_process":463}],152:[function(require,module,exports){
+},{"./ReactElement":149,"./ReactInstanceMap":159,"./invariant":237,"_process":467}],152:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15586,7 +15694,7 @@ var ReactFragment = {
 module.exports = ReactFragment;
 
 }).call(this,require('_process'))
-},{"./ReactElement":149,"./warning":258,"_process":463}],156:[function(require,module,exports){
+},{"./ReactElement":149,"./warning":258,"_process":467}],156:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16099,7 +16207,7 @@ var ReactInstanceHandles = {
 module.exports = ReactInstanceHandles;
 
 }).call(this,require('_process'))
-},{"./ReactRootIndex":177,"./invariant":237,"_process":463}],159:[function(require,module,exports){
+},{"./ReactRootIndex":177,"./invariant":237,"_process":467}],159:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17197,7 +17305,7 @@ ReactPerf.measureMethods(ReactMount, 'ReactMount', {
 module.exports = ReactMount;
 
 }).call(this,require('_process'))
-},{"./DOMProperty":97,"./ReactBrowserEventEmitter":119,"./ReactCurrentOwner":131,"./ReactElement":149,"./ReactElementValidator":150,"./ReactEmptyComponent":151,"./ReactInstanceHandles":158,"./ReactInstanceMap":159,"./ReactMarkupChecksum":162,"./ReactPerf":168,"./ReactReconciler":175,"./ReactUpdateQueue":185,"./ReactUpdates":186,"./containsNode":210,"./emptyObject":217,"./getReactRootElementInContainer":231,"./instantiateReactComponent":236,"./invariant":237,"./setInnerHTML":251,"./shouldUpdateReactComponent":254,"./warning":258,"_process":463}],164:[function(require,module,exports){
+},{"./DOMProperty":97,"./ReactBrowserEventEmitter":119,"./ReactCurrentOwner":131,"./ReactElement":149,"./ReactElementValidator":150,"./ReactEmptyComponent":151,"./ReactInstanceHandles":158,"./ReactInstanceMap":159,"./ReactMarkupChecksum":162,"./ReactPerf":168,"./ReactReconciler":175,"./ReactUpdateQueue":185,"./ReactUpdates":186,"./containsNode":210,"./emptyObject":217,"./getReactRootElementInContainer":231,"./instantiateReactComponent":236,"./invariant":237,"./setInnerHTML":251,"./shouldUpdateReactComponent":254,"./warning":258,"_process":467}],164:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17767,7 +17875,7 @@ var ReactNativeComponent = {
 module.exports = ReactNativeComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":115,"./invariant":237,"_process":463}],167:[function(require,module,exports){
+},{"./Object.assign":115,"./invariant":237,"_process":467}],167:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -17879,7 +17987,7 @@ var ReactOwner = {
 module.exports = ReactOwner;
 
 }).call(this,require('_process'))
-},{"./invariant":237,"_process":463}],168:[function(require,module,exports){
+},{"./invariant":237,"_process":467}],168:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -17983,7 +18091,7 @@ function _noMeasure(objName, fnName, func) {
 module.exports = ReactPerf;
 
 }).call(this,require('_process'))
-},{"_process":463}],169:[function(require,module,exports){
+},{"_process":467}],169:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18121,7 +18229,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = ReactPropTypeLocationNames;
 
 }).call(this,require('_process'))
-},{"_process":463}],171:[function(require,module,exports){
+},{"_process":467}],171:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18850,7 +18958,7 @@ var ReactReconciler = {
 module.exports = ReactReconciler;
 
 }).call(this,require('_process'))
-},{"./ReactElementValidator":150,"./ReactRef":176,"_process":463}],176:[function(require,module,exports){
+},{"./ReactElementValidator":150,"./ReactRef":176,"_process":467}],176:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -19034,7 +19142,7 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
-},{"./ReactElement":149,"./ReactInstanceHandles":158,"./ReactMarkupChecksum":162,"./ReactServerRenderingTransaction":179,"./emptyObject":217,"./instantiateReactComponent":236,"./invariant":237,"_process":463}],179:[function(require,module,exports){
+},{"./ReactElement":149,"./ReactInstanceHandles":158,"./ReactMarkupChecksum":162,"./ReactServerRenderingTransaction":179,"./emptyObject":217,"./instantiateReactComponent":236,"./invariant":237,"_process":467}],179:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -20512,7 +20620,7 @@ var ReactUpdateQueue = {
 module.exports = ReactUpdateQueue;
 
 }).call(this,require('_process'))
-},{"./Object.assign":115,"./ReactCurrentOwner":131,"./ReactElement":149,"./ReactInstanceMap":159,"./ReactLifeCycle":160,"./ReactUpdates":186,"./invariant":237,"./warning":258,"_process":463}],186:[function(require,module,exports){
+},{"./Object.assign":115,"./ReactCurrentOwner":131,"./ReactElement":149,"./ReactInstanceMap":159,"./ReactLifeCycle":160,"./ReactUpdates":186,"./invariant":237,"./warning":258,"_process":467}],186:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -20794,7 +20902,7 @@ var ReactUpdates = {
 module.exports = ReactUpdates;
 
 }).call(this,require('_process'))
-},{"./CallbackQueue":93,"./Object.assign":115,"./PooledClass":116,"./ReactCurrentOwner":131,"./ReactPerf":168,"./ReactReconciler":175,"./Transaction":203,"./invariant":237,"./warning":258,"_process":463}],187:[function(require,module,exports){
+},{"./CallbackQueue":93,"./Object.assign":115,"./PooledClass":116,"./ReactCurrentOwner":131,"./ReactPerf":168,"./ReactReconciler":175,"./Transaction":203,"./invariant":237,"./warning":258,"_process":467}],187:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -20850,7 +20958,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = React;
 
 }).call(this,require('_process'))
-},{"./LinkedStateMixin":111,"./React":117,"./ReactCSSTransitionGroup":120,"./ReactComponentWithPureRenderMixin":128,"./ReactDefaultPerf":147,"./ReactFragment":155,"./ReactTestUtils":181,"./ReactTransitionGroup":184,"./ReactUpdates":186,"./cloneWithProps":209,"./cx":214,"./update":257,"_process":463}],188:[function(require,module,exports){
+},{"./LinkedStateMixin":111,"./React":117,"./ReactCSSTransitionGroup":120,"./ReactComponentWithPureRenderMixin":128,"./ReactDefaultPerf":147,"./ReactFragment":155,"./ReactTestUtils":181,"./ReactTransitionGroup":184,"./ReactUpdates":186,"./cloneWithProps":209,"./cx":214,"./update":257,"_process":467}],188:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -21598,7 +21706,7 @@ var SimpleEventPlugin = {
 module.exports = SimpleEventPlugin;
 
 }).call(this,require('_process'))
-},{"./EventConstants":102,"./EventPluginUtils":106,"./EventPropagators":107,"./SyntheticClipboardEvent":192,"./SyntheticDragEvent":194,"./SyntheticEvent":195,"./SyntheticFocusEvent":196,"./SyntheticKeyboardEvent":198,"./SyntheticMouseEvent":199,"./SyntheticTouchEvent":200,"./SyntheticUIEvent":201,"./SyntheticWheelEvent":202,"./getEventCharCode":224,"./invariant":237,"./keyOf":244,"./warning":258,"_process":463}],192:[function(require,module,exports){
+},{"./EventConstants":102,"./EventPluginUtils":106,"./EventPropagators":107,"./SyntheticClipboardEvent":192,"./SyntheticDragEvent":194,"./SyntheticEvent":195,"./SyntheticFocusEvent":196,"./SyntheticKeyboardEvent":198,"./SyntheticMouseEvent":199,"./SyntheticTouchEvent":200,"./SyntheticUIEvent":201,"./SyntheticWheelEvent":202,"./getEventCharCode":224,"./invariant":237,"./keyOf":244,"./warning":258,"_process":467}],192:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -22558,7 +22666,7 @@ var Transaction = {
 module.exports = Transaction;
 
 }).call(this,require('_process'))
-},{"./invariant":237,"_process":463}],204:[function(require,module,exports){
+},{"./invariant":237,"_process":467}],204:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -22653,7 +22761,7 @@ function accumulateInto(current, next) {
 module.exports = accumulateInto;
 
 }).call(this,require('_process'))
-},{"./invariant":237,"_process":463}],206:[function(require,module,exports){
+},{"./invariant":237,"_process":467}],206:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -22820,7 +22928,7 @@ function cloneWithProps(child, props) {
 module.exports = cloneWithProps;
 
 }).call(this,require('_process'))
-},{"./ReactElement":149,"./ReactPropTransferer":169,"./keyOf":244,"./warning":258,"_process":463}],210:[function(require,module,exports){
+},{"./ReactElement":149,"./ReactPropTransferer":169,"./keyOf":244,"./warning":258,"_process":467}],210:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23012,7 +23120,7 @@ function createFullPageComponent(tag) {
 module.exports = createFullPageComponent;
 
 }).call(this,require('_process'))
-},{"./ReactClass":124,"./ReactElement":149,"./invariant":237,"_process":463}],213:[function(require,module,exports){
+},{"./ReactClass":124,"./ReactElement":149,"./invariant":237,"_process":467}],213:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -23102,7 +23210,7 @@ function createNodesFromMarkup(markup, handleScript) {
 module.exports = createNodesFromMarkup;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":108,"./createArrayFromMixed":211,"./getMarkupWrap":229,"./invariant":237,"_process":463}],214:[function(require,module,exports){
+},{"./ExecutionEnvironment":108,"./createArrayFromMixed":211,"./getMarkupWrap":229,"./invariant":237,"_process":467}],214:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -23158,7 +23266,7 @@ function cx(classNames) {
 module.exports = cx;
 
 }).call(this,require('_process'))
-},{"./warning":258,"_process":463}],215:[function(require,module,exports){
+},{"./warning":258,"_process":467}],215:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23274,7 +23382,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = emptyObject;
 
 }).call(this,require('_process'))
-},{"_process":463}],218:[function(require,module,exports){
+},{"_process":467}],218:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23387,7 +23495,7 @@ function findDOMNode(componentOrElement) {
 module.exports = findDOMNode;
 
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":131,"./ReactInstanceMap":159,"./ReactMount":163,"./invariant":237,"./isNode":239,"./warning":258,"_process":463}],220:[function(require,module,exports){
+},{"./ReactCurrentOwner":131,"./ReactInstanceMap":159,"./ReactMount":163,"./invariant":237,"./isNode":239,"./warning":258,"_process":467}],220:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -23445,7 +23553,7 @@ function flattenChildren(children) {
 module.exports = flattenChildren;
 
 }).call(this,require('_process'))
-},{"./traverseAllChildren":256,"./warning":258,"_process":463}],221:[function(require,module,exports){
+},{"./traverseAllChildren":256,"./warning":258,"_process":467}],221:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -23932,7 +24040,7 @@ function getMarkupWrap(nodeName) {
 module.exports = getMarkupWrap;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":108,"./invariant":237,"_process":463}],230:[function(require,module,exports){
+},{"./ExecutionEnvironment":108,"./invariant":237,"_process":467}],230:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -24331,7 +24439,7 @@ function instantiateReactComponent(node, parentCompositeType) {
 module.exports = instantiateReactComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":115,"./ReactCompositeComponent":129,"./ReactEmptyComponent":151,"./ReactNativeComponent":166,"./invariant":237,"./warning":258,"_process":463}],237:[function(require,module,exports){
+},{"./Object.assign":115,"./ReactCompositeComponent":129,"./ReactEmptyComponent":151,"./ReactNativeComponent":166,"./invariant":237,"./warning":258,"_process":467}],237:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -24388,7 +24496,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 }).call(this,require('_process'))
-},{"_process":463}],238:[function(require,module,exports){
+},{"_process":467}],238:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -24644,7 +24752,7 @@ var keyMirror = function(obj) {
 module.exports = keyMirror;
 
 }).call(this,require('_process'))
-},{"./invariant":237,"_process":463}],244:[function(require,module,exports){
+},{"./invariant":237,"_process":467}],244:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -24806,7 +24914,7 @@ function onlyChild(children) {
 module.exports = onlyChild;
 
 }).call(this,require('_process'))
-},{"./ReactElement":149,"./invariant":237,"_process":463}],248:[function(require,module,exports){
+},{"./ReactElement":149,"./invariant":237,"_process":467}],248:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25169,7 +25277,7 @@ function shouldUpdateReactComponent(prevElement, nextElement) {
 module.exports = shouldUpdateReactComponent;
 
 }).call(this,require('_process'))
-},{"./warning":258,"_process":463}],255:[function(require,module,exports){
+},{"./warning":258,"_process":467}],255:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -25241,7 +25349,7 @@ function toArray(obj) {
 module.exports = toArray;
 
 }).call(this,require('_process'))
-},{"./invariant":237,"_process":463}],256:[function(require,module,exports){
+},{"./invariant":237,"_process":467}],256:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -25494,7 +25602,7 @@ function traverseAllChildren(children, callback, traverseContext) {
 module.exports = traverseAllChildren;
 
 }).call(this,require('_process'))
-},{"./ReactElement":149,"./ReactFragment":155,"./ReactInstanceHandles":158,"./getIteratorFn":228,"./invariant":237,"./warning":258,"_process":463}],257:[function(require,module,exports){
+},{"./ReactElement":149,"./ReactFragment":155,"./ReactInstanceHandles":158,"./getIteratorFn":228,"./invariant":237,"./warning":258,"_process":467}],257:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -25665,7 +25773,7 @@ function update(value, spec) {
 module.exports = update;
 
 }).call(this,require('_process'))
-},{"./Object.assign":115,"./invariant":237,"./keyOf":244,"_process":463}],258:[function(require,module,exports){
+},{"./Object.assign":115,"./invariant":237,"./keyOf":244,"_process":467}],258:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -25728,7 +25836,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = warning;
 
 }).call(this,require('_process'))
-},{"./emptyFunction":216,"_process":463}],259:[function(require,module,exports){
+},{"./emptyFunction":216,"_process":467}],259:[function(require,module,exports){
 module.exports = require('./lib/React');
 
 },{"./lib/React":117}],260:[function(require,module,exports){
@@ -25853,7 +25961,7 @@ var BubblyBM = React.createClass({
 
 module.exports = BubblyBM;
 
-},{"../../flowly/BulletGenderChart.js":439,"../../flowly/DonutChart.js":440,"../../flowly/GenderHorizontalList.js":444,"../../flowly/ImageGallery.js":446,"../../flowly/NameAndComment.js":447,"../../flowly/PhotoGallery.js":451,"../../flowly/SocialList.js":456,"../../flowly/StatisticsTable.js":457,"radium":3,"react":259}],261:[function(require,module,exports){
+},{"../../flowly/BulletGenderChart.js":441,"../../flowly/DonutChart.js":442,"../../flowly/GenderHorizontalList.js":446,"../../flowly/ImageGallery.js":448,"../../flowly/NameAndComment.js":449,"../../flowly/PhotoGallery.js":454,"../../flowly/SocialList.js":459,"../../flowly/StatisticsTable.js":460,"radium":3,"react":259}],261:[function(require,module,exports){
 "use strict";
 
 var Radium = require("radium");
@@ -25876,1220 +25984,209 @@ var NameAndComment = require("../../flowly/NameAndComment.js");
 var StatisticsTable = require("../../flowly/StatisticsTable.js");
 var GenderHorizontalList = require("../../flowly/GenderHorizontalList.js");
 var SocialList = require("../../flowly/SocialList.js");
-var DonutChart = require("../../flowly/DonutChart.js");
+
 var DonutChartMaterial = require("../../flowly/DonutChartMaterial.js");
 var BulletGenderChart = require("../../flowly/BulletGenderChart.js");
 
 
 var BubblyBMYahoo = React.createClass({
-    displayName: "BubblyBMYahoo",
-
-
-    render: function () {
-        var total = this.props.data.Stat.PosCount + this.props.data.Stat.NegCount + this.props.data.Stat.NeuCount;
-        console.log("Total " + total);
-
-        var donutData = [{
-            color: "#F7464A",
-            highlight: "#FF5A5E",
-            label: "Negative" }, {
-            color: "#46BFBD",
-            highlight: "#5AD3D1",
-            label: "Positive" }, {
-            color: "#FDB45C",
-            highlight: "#FFC870",
-            label: "Neutral" }];
-
-        if (this.props.data.Stat != null) {
-            donutData[0].value = this.props.data.Stat.NegCount;
-            console.log(this.props.data.Stat.NegCount);
-            donutData[1].value = this.props.data.Stat.PosCount;
-            console.log(this.props.data.Stat.PosCount);
-            donutData[2].value = this.props.data.Stat.NeuCount;
-            console.log(this.props.data.Stat.NeuCount);
-        } else {
-            donutData[0].value = "0";
-            donutData[1].value = "0";
-            donutData[2].value = "0";
-        }
-
-        var twSocialState = { Type: "TW", PosCount: 0, NegCount: 0, NeuCount: 0, PosPercent: 0, NegPercent: 0, NeuPercent: 0 };
-        var fbSocialState = { Type: "FB", PosCount: 0, NegCount: 0, NeuCount: 0, PosPercent: 0, NegPercent: 0, NeuPercent: 0 };
-        var tmSocialState = { Type: "TM", PosCount: 0, NegCount: 0, NeuCount: 0, PosPercent: 0, NegPercent: 0, NeuPercent: 0 };
-        var istwSocialState = 0,
-            isfbSocialState = 0,
-            istmSocialState = 0;
-
-        this.props.data.SocialStats.map(function (item) {
-            console.log(item.Type);
-            var icon = "";
-            var key = "";
-            if (item.Type == "TW") {
-                istwSocialState = 1;
-            }
-
-            if (item.Type == "FB") {
-                isfbSocialState = 1;
-            }
-            if (item.Type == "TM") {
-                istmSocialState = 1;
-            }
-        });
-
-        if (istmSocialState == 0) {
-            this.props.data.SocialStats.push(tmSocialState);
-        } else if (istwSocialState == 0) {
-            this.props.data.SocialStats.push(twSocialState);
-        } else if (isfbSocialState == 0) {
-            this.props.data.SocialStats.push(fbSocialState);
-        }
-
-        var styles = {
-
-            s1: { marginTop: "20px" },
-            s2: { marginTop: "-75px" },
-            s3: { boxShadow: "0px 3px 10px 0px rgba(50, 50, 50, 0.5)" } };
-        return React.createElement(
-            "div",
-            { className: "card z-depth-3" },
-            React.createElement(
-                "div",
-                { className: "row", style: { padding: "0px" } },
-                React.createElement(
-                    "div",
-                    { className: "col m6", style: { padding: "0px" } },
-                    React.createElement(ImageGalleryYahoo, { data: this.props.data.Photos })
-                ),
-                React.createElement(
-                    "div",
-                    { className: "col m6", style: { padding: "0px" } },
-                    React.createElement(
-                        "div",
-                        { className: "row" },
-                        React.createElement(
-                            "div",
-                            { className: "col s12", style: { padding: "0px" } },
-                            React.createElement(
-                                "ul",
-                                { id: "projects-collection", className: "collection", style: { border: "none" } },
-                                React.createElement(
-                                    "li",
-                                    { className: "collection-item avatar", style: { border: "none" } },
-                                    React.createElement("i", { className: "mdi-social-pages circle red darken-2" }),
-                                    React.createElement(
-                                        "span",
-                                        { className: "social-collection-header" },
-                                        React.createElement(
-                                            "a",
-                                            { href: this.props.returnurl + "/news/?id=" + this.props.id },
-                                            "#",
-                                            this.props.data.Name
-                                        )
-                                    ),
-                                    React.createElement(
-                                        "p",
-                                        null,
-                                        this.props.data.Description
-                                    )
-                                ),
-                                React.createElement(
-                                    "li",
-                                    { className: "collection-item", style: { border: "none" } },
-                                    React.createElement(
-                                        "div",
-                                        { className: "row", style: { "margin-bottom": "0px !important" } },
-                                        React.createElement(
-                                            "div",
-                                            { className: "col m6", style: { padding: "0px" } },
-                                            React.createElement(
-                                                "div",
-                                                { className: "card-content" },
-                                                React.createElement(
-                                                    "div",
-                                                    { id: "doughnut-chart-wrapper" },
-                                                    React.createElement(DonutChartMaterial, { id: "hero-donut", donutD: donutData }),
-                                                    React.createElement(
-                                                        "div",
-                                                        { className: "doughnut-chart-status", style: { top: "-100px !important" } },
-                                                        total,
-                                                        React.createElement(
-                                                            "p",
-                                                            { className: "ultra-small center-align" },
-                                                            "Counts"
-                                                        )
-                                                    )
-                                                ),
-                                                React.createElement(
-                                                    "div",
-                                                    { style: { "text-align": "center", padding: "10px" } },
-                                                    React.createElement(
-                                                        "ul",
-                                                        { className: "doughnut-chart-legend", style: { display: "inline-flex" } },
-                                                        React.createElement(
-                                                            "li",
-                                                            { className: "kitchen ultra-small" },
-                                                            React.createElement("span", { className: "legend-color" }),
-                                                            "Pos.."
-                                                        ),
-                                                        React.createElement(
-                                                            "li",
-                                                            { className: "mobile ultra-small", style: { "padding-left": "20px", "padding-right": "20px" } },
-                                                            React.createElement("span", { className: "legend-color" }),
-                                                            " Neg.."
-                                                        ),
-                                                        React.createElement(
-                                                            "li",
-                                                            { className: "home ultra-small" },
-                                                            React.createElement("span", { className: "legend-color" }),
-                                                            " Neu.."
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        ),
-                                        React.createElement(
-                                            "div",
-                                            { className: "col m6", style: { padding: "0px !important" } },
-                                            React.createElement(SocialList, { data: this.props.data.SocialStats, returnurl: this.props.returnurl, id: this.props.id, total: total })
-                                        )
-                                    )
-                                ),
-                                React.createElement(
-                                    "li",
-                                    { className: "collection-item avatar", style: { border: "none" } },
-                                    React.createElement("i", { className: "mdi-action-picture-in-picture circle red darken-2" }),
-                                    React.createElement(
-                                        "span",
-                                        { className: "social-collection-header " },
-                                        "Media"
-                                    ),
-                                    React.createElement(StatisticsTable, { videoCount: this.props.data.VideosCount, photoCount: this.props.data.PhotosCount, id: this.props.id, returnurl: this.props.returnurl })
-                                ),
-                                React.createElement(
-                                    "li",
-                                    { className: "collection-item avatar", style: { border: "none" } },
-                                    React.createElement("i", { className: "mdi-social-people circle red darken-2" }),
-                                    React.createElement(
-                                        "span",
-                                        { className: "social-collection-header" },
-                                        "Gender"
-                                    ),
-                                    React.createElement(GenderHorizontalList, { id: "gener-bi", data: this.props.data.GenderStats, returnurl: this.props.returnurl, id: this.props.id })
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
-    }
-
-});
-
-
-module.exports = BubblyBMYahoo;
-
-},{"../../flowly/BulletGenderChart.js":439,"../../flowly/DonutChart.js":440,"../../flowly/DonutChartMaterial.js":441,"../../flowly/GenderHorizontalList.js":444,"../../flowly/NameAndComment.js":447,"../../flowly/PhotoGallery.js":451,"../../flowly/SocialList.js":456,"../../flowly/StatisticsTable.js":457,"../../flowly/imageGalleryYahoo.js":462,"radium":3,"react":259}],262:[function(require,module,exports){
-"use strict";
-
-var React = require("react");
-var Isotope = require("isotope-layout");
-// add cellsByRow layout mode
-require("isotope-packery");
-
-var FluidVid = React.createClass({
-    displayName: "FluidVid",
-    getDefaultProps: function () {
-        return {
-            src: "",
-            width: 1600,
-            height: 900
-        };
-    },
-    getRatio: function (width, height) {
-        return parseInt(height, 10) / parseInt(width, 10) * 100 + "%";
-    },
-    render: function () {
-        var ratio = {
-            paddingTop: this.getRatio(this.props.width, this.props.height)
-        };
-        return React.createElement(
-            "div",
-            { className: "fluidvids", style: ratio },
-            React.createElement("iframe", { src: this.props.src, width: this.props.width, height: this.props.height, frameBorder: 0 })
-        );
-    }
-});
-
-var MyDialogButton = React.createClass({
-    displayName: "MyDialogButton",
-
-
-    componentDidMount: function () {},
-    childHandleClick: function (e) {
-        //  debugger;
-        alert(this.props.pageUrl);
-
-    },
-    onbuttonclick: function () {},
-    render: function () {
-        return React.createElement(
-            "button",
-            { type: "button", id: this.props.pageUrl, onClick: this.onbuttonclick.bind(this), className: "btn btn-link" },
-            React.createElement("i", { className: "fa fa-external-link-square" })
-        );
-    }
-});
-
-var CommentList = React.createClass({
-    displayName: "CommentList",
-
-
-    getInitialState: function () {
-        return {
-            value: "select"
-        };
-    },
-    componentDidMount: function () {
-
-
-        /*$('.grid').masonry({
-            itemSelector: '.grid-item',
-            columnWidth: '.grid-sizer',
-            percentPosition: true
-        }); */
-
-        var iso = new Isotope(".grid", {
-            layoutMode: "packery",
-            packery: {
-                columnWidth: ".grid-sizer",
-                rowHeight: 500
-            },
-            itemSelector: ".grid-item",
-            percentPosition: true });
-
-    },
-    change: function (event) {
-        this.setState({ value: event.target.value });
-
-        switch (event.target.value) {
-            case "Instagram":
-                DetailWidgetRunner.infiniteCardWidget(this.props.id, this.props.container, "Source", 100, "Instagram", null, "http://bharatmovies.social");
-                break;
-            case "Googleplus":
-                DetailWidgetRunner.infiniteCardWidget(this.props.id, this.props.container, "Source", 100, "GooglePlus", null, "http://bharatmovies.social");
-                break;
-            case "select":
-                if (this.props.q == "tumblr") {
-                    DetailWidgetRunner.infiniteCardWidget(this.props.id, this.props.container, "Source", 100, "tumblr", null, "http://bharatmovies.social");
-                } else if (this.props.q == "Facebook") {
-                    DetailWidgetRunner.infiniteCardWidget(this.props.id, this.props.container, "Source", 100, "Facebook", null, "http://bharatmovies.social");
-                } else if (this.props.q == "Googleplus") {
-                    DetailWidgetRunner.infiniteCardWidget(this.props.id, this.props.container, "Source", 100, "Googleplus", null, "http://bharatmovies.social");
-                } else if (this.props.q == "Instagram") {
-                    DetailWidgetRunner.infiniteCardWidget(this.props.id, this.props.container, "Source", 100, "Instagram", null, "http://bharatmovies.social");
-                }
-                break;
-            case ("Female", "Male"):
-                DetailWidgetRunner.infiniteCardWidget(this.props.id, this.props.container, "gender", 100, event.target.value, null, "http://bharatmovies.social");
-                break;
-            default:
-                DetailWidgetRunner.infiniteCardWidget(this.props.id, this.props.container, event.target.value, 100, "", null, "http://bharatmovies.social");
-        }
-    },
-    render: function () {
-        var s2 = { "min-height": "60px", overflow: "hidden", margin: "-5px" };
-        var s4 = { "padding-top": "1px" };
-        var s5 = { height: "48px", width: "48px", padding: "4px", "border-bottom": "none" };
-        var url = this.props.returnurl + "/Comments?id=" + this.props.id + "&type=" + this.props.type + "&page=1&q=";
-        var bgg = { background: "#dd4b39" };
-        var bgfb = { background: "#3b5998" };
-        var bgtw = { background: "#00aced" };
-        var forecolor = { color: "white" };
-        var bgul = { color: "antiquewhite", "min-height": "100px", "min-width": "100px", "margin-left": "-100px" };
-        var s6 = { position: "relative" };
-        var s10 = { position: "relative", width: "230px" };
-        var s7 = { position: "absolute", top: "5px", right: "5px", color: "darkgray" };
-        var s8 = { top: "5px", right: "5px", color: "darkgray" };
-        var s9 = { "padding-bottom": "2%" };
-        var drpStyle = { display: "flex", color: "#23527c", outline: "none", cursor: "pointer", "font-weight": "bold", "font-size": "18px" };
-
-        // http://, https://, ftp://
-        var urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
-        var date = Date.parse(Date().toString());
-
-        var commentNodes = this.props.data.map(function (item) {
-            return React.createElement(
-                "div",
-                { className: "grid-item" },
-                React.createElement(
-                    "div",
-                    { className: "gridblock" },
-                    item.VideoID ? React.createElement(
-                        "div",
-                        { className: "fluidvids-youtube", style: s9 },
-                        React.createElement(FluidVid, { src: "http://www.youtube.com/embed/" + item.VideoID + "?rel=0" })
-                    ) : item.PhotoUrl && item.Datasource == "Instagram" ? React.createElement(
-                        "div",
-                        { style: s6 },
-                        React.createElement("img", { src: item.PhotoUrl }),
-                        React.createElement("span", { style: s7, className: "fi-social-instagram" })
-                    ) : item.PhotoUrl && item.Datasource == "GooglePlus" ? React.createElement(
-                        "div",
-                        { style: s6 },
-                        React.createElement("img", { src: item.PhotoUrl }),
-                        React.createElement("span", { style: s7, className: "fa fa-google-plus-square" })
-                    ) : item.PhotoUrl && item.Datasource == "Tumblr" ? React.createElement(
-                        "div",
-                        { style: s6 },
-                        React.createElement("img", { src: item.PhotoUrl }),
-                        React.createElement("span", { style: s7, className: "fa fa-tumblr-square" })
-                    ) : item.PhotoUrl && item.Datasource == "Twitter" ? React.createElement(
-                        "div",
-                        { style: s6 },
-                        React.createElement("img", { src: item.PhotoUrl }),
-                        React.createElement("span", { style: s7, className: "fa fa-twitter-square" })
-                    ) : item.PhotoUrl && item.Datasource == "Facebook" ? React.createElement(
-                        "div",
-                        { style: s6 },
-                        React.createElement("img", { src: item.PhotoUrl }),
-                        React.createElement("span", { style: s7, className: "fa fa-facebook-square" })
-                    ) : false,
-                    item.Datasource == "Twitter" ? React.createElement(
-                        "div",
-                        null,
-                        React.createElement(
-                            "a",
-                            { href: "https://twitter.com/" + item.ProfileID.substr(1), target: "_blank", className: "pull-left" },
-                            React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 }),
-                            " "
-                        ),
-                        React.createElement(
-                            "div",
-                            { style: s2 },
-                            React.createElement(
-                                "div",
-                                null,
-                                React.createElement(
-                                    "a",
-                                    { href: "https://twitter.com/" + item.ProfileID.substr(1), target: "_blank" },
-                                    item.ProfileName.substr(1)
-                                ),
-                                React.createElement(
-                                    "div",
-                                    { className: "pull-right" },
-                                    item.PhotoUrl == null ? React.createElement("span", { style: s8, className: "fa fa-twitter-square" }) : false
-                                )
-                            ),
-                            React.createElement(
-                                "p",
-                                null,
-                                item.ProfileID,
-                                " (",
-                                item.ProfileFollower,
-                                ")"
-                            )
-                        )
-                    ) : item.Datasource == "Instagram" ? React.createElement(
-                        "div",
-                        null,
-                        React.createElement(
-                            "a",
-                            { href: "https://instagram.com/" + item.ProfileID, target: "_blank", className: "pull-left" },
-                            React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 }),
-                            " "
-                        ),
-                        React.createElement(
-                            "div",
-                            { style: s2 },
-                            React.createElement(
-                                "a",
-                                { href: "https://instagram.com/" + item.ProfileID, target: "_blank" },
-                                item.ProfileName
-                            ),
-                            React.createElement(
-                                "div",
-                                { className: "pull-right" },
-                                item.PhotoUrl == null ? React.createElement("span", { style: s8, className: "fi-social-instagram" }) : false
-                            )
-                        )
-                    ) : item.Datasource == "GooglePlus" ? React.createElement(
-                        "div",
-                        null,
-                        React.createElement(
-                            "a",
-                            { href: "https://plus.google.com/" + item.ProfileID, target: "_blank", className: "pull-left" },
-                            React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 }),
-                            " "
-                        ),
-                        React.createElement(
-                            "div",
-                            { style: s2 },
-                            React.createElement(
-                                "a",
-                                { href: "https://plus.google.com/" + item.ProfileID, target: "_blank" },
-                                item.ProfileName
-                            ),
-                            React.createElement(
-                                "div",
-                                { className: "pull-right" },
-                                item.PhotoUrl == null ? React.createElement("span", { style: s8, className: "fa fa-google-plus-square" }) : false
-                            )
-                        )
-                    ) : item.Datasource == "Tumblr" ? React.createElement(
-                        "div",
-                        null,
-                        React.createElement(
-                            "a",
-                            { href: "http://" + item.ProfileID + ".tumblr.com", target: "_blank", className: "pull-left" },
-                            React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 }),
-                            " "
-                        ),
-                        React.createElement(
-                            "div",
-                            { style: s2 },
-                            React.createElement(
-                                "a",
-                                { href: "http://" + item.ProfileID + ".tumblr.com", target: "_blank" },
-                                item.ProfileName
-                            ),
-                            React.createElement(
-                                "div",
-                                { className: "pull-right" },
-                                item.PhotoUrl == null ? React.createElement("span", { style: s8, className: "fa fa-tumblr-square" }) : false
-                            )
-                        )
-                    ) : item.Datasource == "Facebook" ? React.createElement(
-                        "div",
-                        null,
-                        React.createElement(
-                            "a",
-                            { href: "https://www.facebook.com/profile.php?id=" + item.ProfileID, target: "_blank", className: "pull-left" },
-                            React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 }),
-                            " "
-                        ),
-                        React.createElement(
-                            "div",
-                            { style: s2 },
-                            React.createElement(
-                                "a",
-                                { href: "https://www.facebook.com/profile.php?id=" + item.ProfileID, target: "_blank" },
-                                item.ProfileName
-                            ),
-                            React.createElement(
-                                "div",
-                                { className: "pull-right" },
-                                item.PhotoUrl == null ? React.createElement("span", { style: s8, className: "fa fa-facebook-square" }) : false
-                            )
-                        )
-                    ) : false,
-                    React.createElement("br", null),
-                    React.createElement("div", { dangerouslySetInnerHTML: { __html: item.Text != null ? item.Text.replace(urlPattern, "<a style=\"word-break:break-word;\" href=\"$&\" target=\"_blank\">$&</a>") : false } }),
-                    React.createElement("br", null),
-                    React.createElement(
-                        "div",
-                        { className: "pull-left", style: s4 },
-                        item.Datasource == "Instagram" ? Math.round((date / 1000 - parseInt(item.DocDate)) * 1.1574074074074e-8) >= 1 ? React.createElement(
-                            "span",
-                            null,
-                            Math.round((date / 1000 - parseInt(item.DocDate)) * 1.1574074074074e-8),
-                            "d"
-                        ) : Math.round((date / 1000 - parseInt(item.DocDate)) * 1.1574074074074e-8) < 1 && Math.round((date / 1000 - parseInt(item.DocDate)) * 2.7777777777778e-7) > 1 ? React.createElement(
-                            "span",
-                            null,
-                            Math.round((date / 1000 - parseInt(item.DocDate)) * 2.7777777777778e-7),
-                            "h"
-                        ) : Math.round((date / 1000 - item.DocDate) * 2.7777777777778e-7) < 1 ? React.createElement(
-                            "span",
-                            null,
-                            Math.round((date / 1000 - parseInt(item.DocDate)) / 60000),
-                            "m"
-                        ) : false : Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074e-8) >= 1 ? React.createElement(
-                            "span",
-                            null,
-                            Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074e-8),
-                            "d"
-                        ) : Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074e-8) < 1 && Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778e-7) > 1 ? React.createElement(
-                            "span",
-                            null,
-                            Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778e-7),
-                            "h"
-                        ) : Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778e-7) < 1 ? React.createElement(
-                            "span",
-                            null,
-                            Math.round((date - Date.parse(item.DocDate)) / 60000),
-                            "m"
-                        ) : false
-                    )
-                )
-            );
-        });
-        return React.createElement(
-            "section",
-            { className: "content-module" },
-            React.createElement(
-                "header",
-                { className: "content-module-header" },
-                React.createElement(
-                    "div",
-                    null,
-                    React.createElement(
-                        "h3",
-                        null,
-                        React.createElement(
-                            "a",
-                            { href: url },
-                            this.props.title
-                        )
-                    )
-                )
-            ),
-            React.createElement(
-                "div",
-                { className: "grid" },
-                React.createElement("div", { className: "grid-sizer" }),
-                commentNodes
-            )
-        );
-    }
-});
-
-
-
-module.exports = CommentList;
-
-},{"isotope-layout":464,"isotope-packery":497,"react":827}],263:[function(require,module,exports){
-"use strict";
-
-var React = require("react");
-var jQuery = require("jquery");
-
-var FluidVid = React.createClass({
-    displayName: "FluidVid",
-    getDefaultProps: function () {
-        return {
-            src: "",
-            width: 1600,
-            height: 900
-        };
-    },
-    getRatio: function (width, height) {
-        return parseInt(height, 10) / parseInt(width, 10) * 100 + "%";
-    },
-    render: function () {
-        var ratio = {
-            paddingTop: this.getRatio(this.props.width, this.props.height)
-        };
-        return React.createElement(
-            "div",
-            { className: "fluidvids", style: ratio },
-            React.createElement("iframe", { src: this.props.src, width: this.props.width, height: this.props.height, frameBorder: 0 })
-        );
-    }
-});
-var LoadMaterialDialog = React.createClass({
-    displayName: "LoadMaterialDialog",
-    componentWillMount: function () {
-        debugger;
-        jQuery("#dialog").load(this.props.data);
-    },
-    render: function () {
-        return React.createElement("div", { id: "dialog" });
-    }
-});
-var MyMaterialDialog = React.createClass({
-    displayName: "MyMaterialDialog",
-    render: function () {
-        debugger;
-        return React.createElement(
-            "div",
-            null,
-            React.createElement(
-                "p",
-                null,
-                React.createElement(
-                    "a",
-                    { className: "waves-effect waves-light btn modal-trigger  light-blue", href: "#" + this.props.itemid },
-                    "Modal"
-                )
-            ),
-            React.createElement(
-                "div",
-                { id: this.props.itemid, className: "modal" },
-                React.createElement(
-                    "div",
-                    { className: "modal-content" },
-                    React.createElement(
-                        "blockquote",
-                        { className: "twitter-tweet",
-                            "data-link-color": "#55acee", lang: "es" },
-                        React.createElement(
-                            "p",
-                            { lang: "en" },
-                            this.props.text
-                        ),
-                        "— ",
-                        this.props.name,
-                        " (",
-                        this.props.id,
-                        ")",
-                        React.createElement(
-                            "a",
-                            { href: "https://twitter.com/" + this.props.id.substr(1) + "/status/" + this.props.itemid },
-                            this.props.date
-                        )
-                    )
-                ),
-                React.createElement(
-                    "div",
-                    { className: "modal-footer" },
-                    React.createElement(
-                        "a",
-                        { href: "#", className: "waves-effect waves-green btn-flat modal-action modal-close" },
-                        "Close"
-                    )
-                )
-            )
-        );
-    }
-});
-
-var MyDialogButton = React.createClass({
-    displayName: "MyDialogButton",
-
-
-    componentDidMount: function () {},
-    childHandleClick: function (e) {},
-    onbuttonclick: function () {
-        debugger;
-    },
-    render: function () {
-        return React.createElement(
-            "button",
-            { type: "button", id: this.props.pageUrl, onClick: this.onbuttonclick.bind(this) },
-            React.createElement("i", { className: "fa fa-external-link-square" })
-        );
-    }
-});
-
-var CommentListMaterial = React.createClass({
-    displayName: "CommentListMaterial",
-
-
-    getInitialState: function () {
-        return {
-            value: "select"
-        };
-    },
-    componentDidMount: function () {
-        $(document).ready(function () {
-            $.getScript("http://platform.twitter.com/widgets.js");
-            // init Masonry after all images have loaded
-            var $grid = $(".grid").imagesLoaded(function () {
-                $grid.masonry({
-                    itemSelector: ".grid-item",
-                    percentPosition: true,
-                    columnWidth: ".grid-sizer"
-                });
-            });
-        });
-    },
-    change: function (event) {
-        console.log("Selection : " + event.target.value);
-        this.setState({ value: event.target.value });
-
-        switch (event.target.value) {
-            case "Instagram":
-                DetailWidgetRunner.infiniteCardWidget(this.props.id, this.props.container, "Source", 100, "Instagram", null, "http://bharatmovies.social");
-
-                break;
-            case "Googleplus":
-                DetailWidgetRunner.infiniteCardWidget(this.props.id, this.props.container, "Source", 100, "GooglePlus", null, "http://bharatmovies.social");
-                break;
-            case "select":
-                if (this.props.q == "tumblr") {
-                    DetailWidgetRunner.infiniteCardWidget(this.props.id, this.props.container, "Source", 100, "tumblr", null, "http://bharatmovies.social");
-                } else if (this.props.q == "Facebook") {
-                    DetailWidgetRunner.infiniteCardWidget(this.props.id, this.props.container, "Source", 100, "Facebook", null, "http://bharatmovies.social");
-                } else if (this.props.q == "Googleplus") {
-                    DetailWidgetRunner.infiniteCardWidget(this.props.id, this.props.container, "Source", 100, "Googleplus", null, "http://bharatmovies.social");
-                } else if (this.props.q == "Instagram") {
-                    DetailWidgetRunner.infiniteCardWidget(this.props.id, this.props.container, "Source", 100, "Instagram", null, "http://bharatmovies.social");
-                }
-                break;
-            case ("Female", "Male"):
-                DetailWidgetRunner.infiniteCardWidget(this.props.id, this.props.container, "gender", 100, event.target.value, null, "http://bharatmovies.social");
-                break;
-            default:
-                DetailWidgetRunner.infiniteCardWidget(this.props.id, this.props.container, event.target.value, 100, "", null, "http://bharatmovies.social");
-        }
-    },
-    render: function () {
-        var s2 = { "min-height": "60px", margin: "-5px" };
-        var urlTitle = this.props.returnurl + "/Comments?id=" + this.props.id + "&type=" + this.props.type + "&page=1&q=";
-        var url = "";
-        var s8 = { float: "right", "padding-right": "5px", "padding-top": "5px", color: "#039be5" };
-        var urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
-        var date = Date.parse(Date().toString());
-        var s5 = { height: "48px", width: "48px", padding: "4px", "border-bottom": "none" };
-
-        var commentNodes = this.props.data.map(function (item, i) {
-            return React.createElement(
-                "div",
-                { className: "grid-item col s12 m4" },
-                React.createElement(
-                    "div",
-                    { className: "col s12" },
-                    React.createElement(
-                        "div",
-                        { className: "card" },
-                        item.VideoID ? React.createElement(
-                            "div",
-                            { className: "fluidvids-youtube" },
-                            React.createElement(FluidVid, { className: "activator", src: "http://www.youtube.com/embed/" + item.VideoID + "?rel=0" })
-                        ) : item.Datasource == "Instagram" ? React.createElement(
-                            "div",
-                            null,
-                            React.createElement(
-                                "div",
-                                { className: "card-image" },
-                                " ",
-                                React.createElement("img", { className: "activator", src: item.PhotoUrl })
-                            ),
-                            React.createElement("span", { style: s8, className: "fi-social-instagram" })
-                        ) : item.Datasource == "GooglePlus" ? React.createElement(
-                            "div",
-                            null,
-                            React.createElement(
-                                "div",
-                                { className: "card-image" },
-                                " ",
-                                React.createElement("img", { className: "activator", src: item.PhotoUrl })
-                            ),
-                            React.createElement("span", { style: s8, className: "fa fa-google-plus-square" })
-                        ) : item.Datasource == "Tumblr" ? React.createElement(
-                            "div",
-                            null,
-                            React.createElement(
-                                "div",
-                                { className: "card-image" },
-                                " ",
-                                React.createElement("img", { className: "activator", src: item.PhotoUrl })
-                            ),
-                            React.createElement("span", { style: s8, className: "fa fa-tumblr-square" })
-                        ) : item.Datasource == "Twitter" ? React.createElement(
-                            "div",
-                            null,
-                            React.createElement(
-                                "div",
-                                { className: "card-image" },
-                                " ",
-                                React.createElement("img", { className: "activator", src: item.PhotoUrl })
-                            ),
-                            React.createElement("span", { style: s8, className: "fa fa-twitter-square" })
-                        ) : item.Datasource == "Facebook" ? React.createElement(
-                            "div",
-                            null,
-                            React.createElement(
-                                "div",
-                                { className: "card-image" },
-                                " ",
-                                React.createElement("img", { className: "activator", src: item.PhotoUrl })
-                            ),
-                            React.createElement("span", { style: s8, className: "fa fa-facebook-square" })
-                        ) : false,
-                        React.createElement(
-                            "div",
-                            { className: "card-content" },
-                            React.createElement(
-                                "span",
-                                { className: "card-title activator grey-text text-darken-4" },
-                                React.createElement("i", { className: "mdi-navigation-more-vert right" })
-                            ),
-                            item.Datasource == "Twitter" ? React.createElement(
-                                "div",
-                                null,
-                                React.createElement(
-                                    "a",
-                                    { href: "https://twitter.com/" + item.ProfileID.substr(1), target: "_blank", className: "pull-left" },
-                                    React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 }),
-                                    " "
-                                ),
-                                React.createElement(
-                                    "div",
-                                    { style: s2 },
-                                    React.createElement(
-                                        "div",
-                                        null,
-                                        React.createElement(
-                                            "a",
-                                            { href: "https://twitter.com/" + item.ProfileID.substr(1), target: "_blank" },
-                                            item.ProfileName.substr(1)
-                                        )
-                                    ),
-                                    item.ProfileID,
-                                    " (",
-                                    item.ProfileFollower,
-                                    ")"
-                                )
-                            ) : item.Datasource == "Instagram" ? React.createElement(
-                                "div",
-                                null,
-                                React.createElement(
-                                    "a",
-                                    { href: "https://instagram.com/" + item.ProfileID, target: "_blank", className: "pull-left" },
-                                    React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 }),
-                                    " "
-                                ),
-                                React.createElement(
-                                    "div",
-                                    { style: s2 },
-                                    React.createElement(
-                                        "a",
-                                        { href: "https://instagram.com/" + item.ProfileID, target: "_blank" },
-                                        item.ProfileName
-                                    )
-                                )
-                            ) : item.Datasource == "GooglePlus" ? React.createElement(
-                                "div",
-                                null,
-                                React.createElement(
-                                    "a",
-                                    { href: "https://plus.google.com/" + item.ProfileID, target: "_blank", className: "pull-left" },
-                                    React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 }),
-                                    " "
-                                ),
-                                React.createElement(
-                                    "a",
-                                    { href: "https://plus.google.com/" + item.ProfileID, target: "_blank" },
-                                    item.ProfileName
-                                )
-                            ) : item.Datasource == "Tumblr" ? React.createElement(
-                                "div",
-                                null,
-                                React.createElement(
-                                    "a",
-                                    { href: "http://" + item.ProfileID + ".tumblr.com", target: "_blank", className: "pull-left" },
-                                    React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 }),
-                                    " "
-                                ),
-                                React.createElement(
-                                    "a",
-                                    { href: "http://" + item.ProfileID + ".tumblr.com", target: "_blank" },
-                                    item.ProfileName
-                                )
-                            ) : item.Datasource == "Facebook" ? React.createElement(
-                                "div",
-                                null,
-                                React.createElement(
-                                    "a",
-                                    { href: "https://www.facebook.com/profile.php?id=" + item.ProfileID, target: "_blank", className: "pull-left" },
-                                    React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 }),
-                                    " "
-                                ),
-                                React.createElement(
-                                    "a",
-                                    { href: "https://www.facebook.com/profile.php?id=" + item.ProfileID, target: "_blank" },
-                                    item.ProfileName
-                                )
-                            ) : false
-                        ),
-                        React.createElement(
-                            "div",
-                            { className: "card-content" },
-                            React.createElement("div", { dangerouslySetInnerHTML: { __html: item.Text != null ? item.Text.replace(urlPattern, "<a style=\"word-break:break-word;\" href=\"$&\" target=\"_blank\">$&</a>") : false } })
-                        ),
-                        React.createElement(
-                            "div",
-                            { className: "card-reveal" },
-                            React.createElement(
-                                "span",
-                                { className: "card-title grey-text text-darken-4" },
-                                React.createElement("i", { className: "mdi-navigation-close right" })
-                            ),
-                            item.Datasource == "Twitter" ? React.createElement(
-                                "blockquote",
-                                { className: "twitter-tweet",
-                                    "data-link-color": "#55acee", lang: "es" },
-                                React.createElement(
-                                    "p",
-                                    { lang: "en" },
-                                    item.Text
-                                ),
-                                "— ",
-                                item.ProfileName,
-                                " (",
-                                item.ProfileID,
-                                ")",
-                                React.createElement(
-                                    "a",
-                                    { href: "https://twitter.com/" + item.ProfileID.substr(1) + "/status/" + item.ID },
-                                    item.DocDate
-                                )
-                            ) : item.Datasource == "Instagram" ? React.createElement("a", { className: "embedly-card", href: item.ID }) : item.Datasource == "GooglePlus" ? React.createElement("div", { className: "g-post", "data-href": item.ID }) : item.Datasource == "Tumblr" ? React.createElement("a", { className: "embedly-card", href: "https://embed.tumblr.com/embed/post/1khTIjEZ2P-OY8P4hcNhuQ/" + item.ID }) : item.Datasource == "Facebook" ? React.createElement("a", { className: "embedly-card", href: "https://www.facebook.com/" + item.ProfileID + "/posts/" + item.ID.split("_")[1] }) : false
-                        ),
-                        React.createElement(
-                            "p",
-                            { style: { "padding-left": "5px" } },
-                            item.Datasource == "Instagram" ? Math.round((date / 1000 - parseInt(item.DocDate)) * 1.1574074074074e-8) >= 1 ? React.createElement(
-                                "span",
-                                null,
-                                Math.round((date / 1000 - parseInt(item.DocDate)) * 1.1574074074074e-8),
-                                "d"
-                            ) : Math.round((date / 1000 - parseInt(item.DocDate)) * 1.1574074074074e-8) < 1 && Math.round((date / 1000 - parseInt(item.DocDate)) * 2.7777777777778e-7) > 1 ? React.createElement(
-                                "span",
-                                null,
-                                Math.round((date / 1000 - parseInt(item.DocDate)) * 2.7777777777778e-7),
-                                "h"
-                            ) : Math.round((date / 1000 - item.DocDate) * 2.7777777777778e-7) < 1 ? React.createElement(
-                                "span",
-                                null,
-                                Math.round((date / 1000 - parseInt(item.DocDate)) / 60000),
-                                "m"
-                            ) : false : Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074e-8) >= 1 ? React.createElement(
-                                "span",
-                                null,
-                                Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074e-8),
-                                "d"
-                            ) : Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074e-8) < 1 && Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778e-7) > 1 ? React.createElement(
-                                "span",
-                                null,
-                                Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778e-7),
-                                "h"
-                            ) : Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778e-7) < 1 ? React.createElement(
-                                "span",
-                                null,
-                                Math.round((date - Date.parse(item.DocDate)) / 60000),
-                                "m"
-                            ) : false
-                        )
-                    )
-                )
-            );
-        });
-        return React.createElement(
-            "section",
-            { className: "content-module" },
-            React.createElement(
-                "header",
-                { className: "content-module-header" },
-                React.createElement(
-                    "div",
-                    { className: "row" },
-                    React.createElement(
-                        "div",
-                        { className: "col s12 m9" },
-                        React.createElement(
-                            "h3",
-                            null,
-                            React.createElement(
-                                "a",
-                                { href: urlTitle },
-                                this.props.title
-                            )
-                        )
-                    ),
-                    React.createElement(
-                        "div",
-                        { className: "col s12 m3" },
-                        "Dropdown",
-                        React.createElement(
-                            "select",
-                            { id: "lang", onChange: this.change, value: this.state.value, className: "pull-right", style: { color: "#23527c", outline: "none", cursor: "pointer", "font-weight": "bold", "font-size": "18px", display: "inherit" } },
-                            React.createElement(
-                                "option",
-                                { value: "select" },
-                                "Comments on : ",
-                                this.props.q
-                            ),
-                            React.createElement(
-                                "option",
-                                { value: "positive" },
-                                "Compliments on Social Media"
-                            ),
-                            React.createElement(
-                                "option",
-                                { value: "negative" },
-                                "Dark Comments on Social Media"
-                            ),
-                            React.createElement(
-                                "option",
-                                { value: "popular" },
-                                "Popular Comments On Social Media"
-                            ),
-                            React.createElement(
-                                "option",
-                                { value: "celebrity" },
-                                "Celebrity Comments On Social Media"
-                            ),
-                            React.createElement(
-                                "option",
-                                { value: "question" },
-                                "What people are Asking"
-                            ),
-                            React.createElement(
-                                "option",
-                                { value: "Male" },
-                                "Comments on Male population"
-                            ),
-                            React.createElement(
-                                "option",
-                                { value: "Female" },
-                                "Comments on Female population"
-                            ),
-                            React.createElement(
-                                "option",
-                                { value: "neutral" },
-                                "Comments - neutral"
-                            )
-                        )
-                    )
-                )
-            ),
-            React.createElement(
-                "div",
-                { className: "grid", ref: "grid" },
-                React.createElement("div", { className: "grid-sizer" }),
-                React.createElement("div", { className: "divider" }),
-                React.createElement(
-                    "div",
-                    { id: "card-reveal", className: "row" },
-                    commentNodes
-                )
-            )
-        );
-    }
-});
-
-var DetailWidgetRunner = (function () {
-    var infiniteCardWidget = function (id, container, type, limit, q, dataFromPage, returnUrl) {
-        debugger;
-        var returnurl = "http://www.cricket24x7.social";
-        if (returnUrl) {
-            returnurl = returnUrl;
-        }
-        var title = "Comments";
-        if (type.toLowerCase() == "positive") {
-            title = "Compliments on Social Media";
-        }
-        if (type.toLowerCase() == "negative") {
-            title = "Dark Comments on Social Media";
-        }
-        if (type.toLowerCase() == "popular") {
-            title = "Popular Comments On Social Media";
-        }
-        if (type.toLowerCase() == "celebrity") {
-            title = "Celebrity Comments On Social Media";
-        }
-
-        if (type.toLowerCase() == "question") {
-            title = "What people are Asking";
-        }
-
-        if (type.toLowerCase() == "neutral") {
-            title = "Comments";
-        }
-
-        if (type.toLowerCase() == "gender") {
-            if (q.substring(0, 1).toLowerCase() == "m") {
-                title = "Comments By Male population";
-            }
-            if (q.substring(0, 1).toLowerCase() == "f") {
-                title = "Comments By Female population";
-            }
-        }
-
-        if (type.toLowerCase() == "hashtag") {
-            title = "Comments on : " + q;
-        }
-        if (type.toLowerCase() == "emotion") {
-            title = "Comments on : " + q;
-        }
-        if (type.toLowerCase() == "trend") {
-            title = "Comments on : " + q;
-        }
-        if (type.toLowerCase() == "geo") {
-            title = "Comments on : " + q;
-        }
-
-        if (type.toLowerCase() == "source") {
-            title = "Comments on : " + q;
-        }
-
-        if (type.toLowerCase() == "video") {
-            title = "Video Comments";
-        }
-        if (type.toLowerCase() == "photo") {
-            title = "Picture Comments";
-        }
-        var weburl = "http://s24x7.azurewebsites.net/api/summary/comments";
-        var url = weburl + "?id=" + id + "&type=" + type + "&skipby=0&limit=100&q=" + q;
-
-        jQuery.ajax({
-            url: url,
-            type: "GET",
-            dataType: "JSON",
-            cache: false
-        }).done(function (data) {
-            jQuery.each(data, function (i, val) {
-                if (val.PhotoUrl === null && (jQuery.trim(val.Text) === "" || val.Text === null)) // delete index -- By Arun on 05/20/2015
-                    {
-                        delete data[i];
-                    }
-            });
-            React.render(React.createElement(CommentListMaterial, { data: data, id: id, title: title, returnurl: returnurl, type: type, q: q, container: container, styles: "" }));
-        });
-    };
-    return {
-        infiniteCardWidget: infiniteCardWidget
-    };
-})();
-
-
-
-module.exports = CommentListMaterial;
-//  debugger;
-
-},{"jquery":500,"react":827}],264:[function(require,module,exports){
-"use strict";
-
-var Radium = require("radium");
-var React = require("react");
-
-
-var NameAndComment = require("../../flowly/NameAndComment.js");
-var PhotoLarge = require("../../flowly/PhotoLarge.js");
-
-var LargePicture = React.createClass({
-  displayName: "LargePicture",
-
+  displayName: "BubblyBMYahoo",
 
 
   render: function () {
-    console.log("LargePicture :" + this.props.returnurl);
+    var total = this.props.data.Stat.PosCount + this.props.data.Stat.NegCount + this.props.data.Stat.NeuCount;
+    console.log("Total " + total);
 
+    var donutData = [{
+      color: "#F7464A",
+      highlight: "#FF5A5E",
+      label: "Negative" }, {
+      color: "#46BFBD",
+      highlight: "#5AD3D1",
+      label: "Positive" }, {
+      color: "#FDB45C",
+      highlight: "#FFC870",
+      label: "Neutral" }];
+
+    if (this.props.data.Stat != null) {
+      donutData[0].value = this.props.data.Stat.NegCount;
+      console.log(this.props.data.Stat.NegCount);
+      donutData[1].value = this.props.data.Stat.PosCount;
+      console.log(this.props.data.Stat.PosCount);
+      donutData[2].value = this.props.data.Stat.NeuCount;
+      console.log(this.props.data.Stat.NeuCount);
+    } else {
+      donutData[0].value = "0";
+      donutData[1].value = "0";
+      donutData[2].value = "0";
+    }
+
+    var twSocialState = { Type: "TW", PosCount: 0, NegCount: 0, NeuCount: 0, PosPercent: 0, NegPercent: 0, NeuPercent: 0 };
+    var fbSocialState = { Type: "FB", PosCount: 0, NegCount: 0, NeuCount: 0, PosPercent: 0, NegPercent: 0, NeuPercent: 0 };
+    var tmSocialState = { Type: "TM", PosCount: 0, NegCount: 0, NeuCount: 0, PosPercent: 0, NegPercent: 0, NeuPercent: 0 };
+    var istwSocialState = 0,
+        isfbSocialState = 0,
+        istmSocialState = 0;
+
+    this.props.data.SocialStats.map(function (item) {
+      console.log(item.Type);
+      var icon = "";
+      var key = "";
+      if (item.Type == "TW") {
+        istwSocialState = 1;
+      }
+
+      if (item.Type == "FB") {
+        isfbSocialState = 1;
+      }
+      if (item.Type == "TM") {
+        istmSocialState = 1;
+      }
+    });
+
+    if (istmSocialState == 0) {
+      this.props.data.SocialStats.push(tmSocialState);
+    } else if (istwSocialState == 0) {
+      this.props.data.SocialStats.push(twSocialState);
+    } else if (isfbSocialState == 0) {
+      this.props.data.SocialStats.push(fbSocialState);
+    }
+
+    var styles = {
+
+      s1: { marginTop: "20px" },
+      s2: { marginTop: "-75px" },
+      s3: { boxShadow: "0px 3px 10px 0px rgba(50, 50, 50, 0.5)" } };
+
+    console.log("classnamestyle " + this.props.styles.classnameStyle);
     return React.createElement(
       "div",
-      { className: "card-panel", style: this.props.styles.panelStyle },
+      { className: "card z-depth-1" },
       React.createElement(
         "div",
-        { className: "card-image" },
-        React.createElement(PhotoLarge, { url: this.props.data.Photo })
-      ),
-      React.createElement(
-        "span",
-        { className: "card-title social-main-title", style: this.props.styles.titleStyle },
-        this.props.data.Description
-      ),
-      React.createElement("br", null),
-      React.createElement(
-        "span",
-        { className: "card-title social-sub-title", style: this.props.styles.subTitleStyle },
+        { className: "row", style: { padding: "0px", margin: "0px" } },
         React.createElement(
-          "a",
-          { href: this.props.returnurl },
-          this.props.data.Name,
-          " "
+          "div",
+          { className: "" + this.props.styles.classnameStyle + "", style: { padding: "0px" } },
+          React.createElement(ImageGalleryYahoo, { data: this.props.data.Photos })
+        ),
+        React.createElement(
+          "div",
+          { className: "" + this.props.styles.classnameStyle + "", style: { padding: "0px" } },
+          React.createElement(
+            "div",
+            { className: "row", style: { padding: "0px", margin: "0px" } },
+            React.createElement(
+              "ul",
+              { id: "projects-collection", className: "social-collection", style: { border: "none", padding: "5px; !important;" } },
+              React.createElement(
+                "li",
+                { className: "social-collection-item avatar", style: { border: "none;", padding: "0px; !important;", "list-style-type": "none;" } },
+                React.createElement(
+                  "span",
+                  { className: "social-collection-header" },
+                  React.createElement(
+                    "a",
+                    { href: this.props.returnurl + "/news/?id=" + this.props.id },
+                    "#",
+                    this.props.data.Name
+                  )
+                ),
+                React.createElement(
+                  "p",
+                  null,
+                  this.props.data.Description
+                )
+              ),
+              React.createElement(
+                "li",
+                { className: "social-collection-item", style: { border: "none;", padding: "0px; !important;", "list-style-type": "none;" } },
+                React.createElement(
+                  "div",
+                  { className: "row", style: { "margin-bottom": "0px !important" } },
+                  React.createElement(
+                    "div",
+                    { id: "doughnut-chart-wrapper" },
+                    React.createElement(DonutChartMaterial, { id: "hero-donut", donutD: donutData }),
+                    React.createElement(
+                      "div",
+                      { className: "doughnut-chart-status", style: { top: "-80px !important", "font-size": "16px" } },
+                      total
+                    )
+                  ),
+                  React.createElement(
+                    "div",
+                    { style: { "text-align": "center", padding: "10px" } },
+                    React.createElement(
+                      "ul",
+                      { className: "doughnut-chart-legend", style: { display: "inline-flex" } },
+                      React.createElement(
+                        "li",
+                        { className: "kitchen ultra-small", style: { "list-style": "none;" } },
+                        React.createElement("span", { className: "legend-color" }),
+                        "Positive"
+                      ),
+                      React.createElement(
+                        "li",
+                        { className: "mobile ultra-small", style: { "padding-left": "10px", "padding-right": "10px", "list-style": "none;" } },
+                        React.createElement("span", { className: "legend-color" }),
+                        " Negative"
+                      ),
+                      React.createElement(
+                        "li",
+                        { className: "home ultra-small", style: { "list-style": "none;" } },
+                        React.createElement("span", { className: "legend-color" }),
+                        " Neutral"
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "" + this.props.styles.classnameStyle + "", style: { padding: "0px" } },
+          React.createElement(
+            "div",
+            { className: "row", style: { padding: "0px", margin: "0px" } },
+            React.createElement(
+              "ul",
+              { id: "projects-collection", className: "social-collection", style: { border: "none", padding: "5px; !important;" } },
+              React.createElement(
+                "li",
+                { className: "social-collection-item avatar", style: { border: "none;", "list-style-type": "none;" } },
+                React.createElement(
+                  "span",
+                  { className: "social-collection-header" },
+                  "Statistics"
+                )
+              ),
+              React.createElement(
+                "li",
+                { className: "social-collection-item avatar", style: { border: "none;", "list-style-type": "none;" } },
+                React.createElement("i", { className: "fa fa-camera circle red darken-2" }),
+                React.createElement(
+                  "span",
+                  { className: "social-collection-header " },
+                  "Media"
+                ),
+                React.createElement(StatisticsTable, { videoCount: this.props.data.VideosCount, photoCount: this.props.data.PhotosCount, id: this.props.id, returnurl: this.props.returnurl })
+              ),
+              React.createElement(
+                "li",
+                { className: "social-collection-item avatar", style: { border: "none", "list-style-type": "none;" } },
+                React.createElement("i", { className: "fa fa-users circle red darken-2" }),
+                React.createElement(
+                  "span",
+                  { className: "social-collection-header" },
+                  "Gender"
+                ),
+                React.createElement(GenderHorizontalList, { id: "gener-bi", data: this.props.data.GenderStats, returnurl: this.props.returnurl, id: this.props.id })
+              )
+            )
+          )
         )
       )
     );
@@ -27097,9 +26194,514 @@ var LargePicture = React.createClass({
 
 });
 
+
+module.exports = BubblyBMYahoo;
+
+},{"../../flowly/BulletGenderChart.js":441,"../../flowly/DonutChartMaterial.js":443,"../../flowly/GenderHorizontalList.js":446,"../../flowly/NameAndComment.js":449,"../../flowly/PhotoGallery.js":454,"../../flowly/SocialList.js":459,"../../flowly/StatisticsTable.js":460,"../../flowly/imageGalleryYahoo.js":466,"radium":3,"react":259}],262:[function(require,module,exports){
+"use strict";
+
+var Radium = require("radium");
+var React = require("react");
+
+
+
+
+/*var Container = RadiumBootstrap.Container;
+var Row = RadiumBootstrap.Row;
+var Col = RadiumBootstrap.Col;*/
+
+
+
+
+var ImageGalleryYahoo = require("../../flowly/imageGalleryYahoo.js");
+
+
+
+var ImageGalleryThumbNail = React.createClass({
+  displayName: "ImageGalleryThumbNail",
+
+
+  render: function () {
+
+
+
+    return React.createElement(ImageGalleryYahoo, { data: this.props.data.Photos });
+  }
+
+});
+
+
+module.exports = ImageGalleryThumbNail;
+
+},{"../../flowly/imageGalleryYahoo.js":466,"radium":3,"react":259}],263:[function(require,module,exports){
+"use strict";
+
+var React = require("react");
+var jQuery = require("jquery");
+
+var navigate = require("react-mini-router").navigate;
+
+var FluidVid = React.createClass({
+	displayName: "FluidVid",
+	getDefaultProps: function () {
+		return {
+			src: "",
+			width: 1600,
+			height: 900
+		};
+	},
+	getRatio: function (width, height) {
+		return parseInt(height, 10) / parseInt(width, 10) * 100 + "%";
+	},
+	render: function () {
+		var ratio = {
+			paddingTop: this.getRatio(this.props.width, this.props.height)
+		};
+		return React.createElement(
+			"div",
+			{ className: "fluidvids", style: ratio },
+			React.createElement("iframe", { src: this.props.src, width: this.props.width, height: this.props.height, frameBorder: 0 })
+		);
+	}
+});
+var LoadMaterialDialog = React.createClass({
+	displayName: "LoadMaterialDialog",
+	componentWillMount: function () {
+		debugger;
+		jQuery("#dialog").load(this.props.data);
+	},
+	render: function () {
+		return React.createElement("div", { id: "dialog" });
+	}
+});
+
+
+var CommentListMaterial = React.createClass({
+	displayName: "CommentListMaterial",
+
+
+	getInitialState: function () {
+		return {
+			value: "select"
+		};
+	},
+	componentDidMount: function () {
+		$(document).ready(function () {
+			$.getScript("http://platform.twitter.com/widgets.js");
+			// init Masonry after all images have loaded
+			var $grid = $(".grid").imagesLoaded(function () {
+				$grid.masonry({
+					itemSelector: ".grid-item",
+					percentPosition: true,
+					columnWidth: ".grid-sizer"
+				});
+			});
+		});
+	},
+	change: function (event) {
+		console.log("Selection : " + event.target.value);
+		console.log("Container : " + this.props.container);
+
+		this.setState({ value: event.target.value });
+		//navigate(event.target.value);
+		window.location.href = event.target.value;
+
+	},
+	render: function () {
+		var s2 = { "min-height": "60px", margin: "0px 0px 0px 15px", width: "80%" };
+		var urlTitle = this.props.returnurl + "/Comments?id=" + this.props.id + "&type=" + this.props.type + "&page=1&q=";
+		var url = "";
+		var s8 = { float: "right", "padding-right": "5px", "padding-top": "5px", color: "#039be5" };
+		var urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
+		var date = Date.parse(Date().toString());
+		var s5 = { height: "48px", width: "48px", padding: "4px", "border-bottom": "none" };
+
+		var commentNodes = this.props.data.map(function (item, i) {
+			return React.createElement(
+				"div",
+				{ className: "grid-item col s12 m4" },
+				React.createElement(
+					"div",
+					{ className: "col s12" },
+					React.createElement(
+						"div",
+						{ className: "card" },
+						item.VideoID ? React.createElement(
+							"div",
+							{ className: "fluidvids-youtube" },
+							React.createElement(FluidVid, { src: "http://www.youtube.com/embed/" + item.VideoID + "?rel=0" })
+						) : item.Datasource == "Instagram" ? React.createElement(
+							"div",
+							null,
+							React.createElement(
+								"div",
+								{ className: "card-image" },
+								" ",
+								React.createElement("img", { src: item.PhotoUrl })
+							)
+						) : item.Datasource == "GooglePlus" ? React.createElement(
+							"div",
+							null,
+							React.createElement(
+								"div",
+								{ className: "card-image" },
+								" ",
+								React.createElement("img", { src: item.PhotoUrl })
+							)
+						) : item.Datasource == "Tumblr" ? React.createElement(
+							"div",
+							null,
+							React.createElement(
+								"div",
+								{ className: "card-image" },
+								" ",
+								React.createElement("img", { src: item.PhotoUrl })
+							)
+						) : item.Datasource == "Twitter" ? React.createElement(
+							"div",
+							null,
+							React.createElement(
+								"div",
+								{ className: "card-image" },
+								" ",
+								React.createElement("img", { src: item.PhotoUrl })
+							)
+						) : item.Datasource == "Facebook" ? React.createElement(
+							"div",
+							null,
+							React.createElement(
+								"div",
+								{ className: "card-image" },
+								" ",
+								React.createElement("img", { src: item.PhotoUrl })
+							)
+						) : false,
+						React.createElement(
+							"div",
+							{ className: "card-content", style: { "margin-bottom": "5px" } },
+							item.Datasource == "Twitter" ? React.createElement(
+								"div",
+								{ style: { display: "inline-flex", width: "100%" } },
+								React.createElement(
+									"a",
+									{ href: "https://twitter.com/" + item.ProfileID.substr(1), target: "_blank", className: "pull-left" },
+									React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 }),
+									" "
+								),
+								React.createElement(
+									"div",
+									{ style: s2 },
+									React.createElement(
+										"div",
+										null,
+										React.createElement(
+											"a",
+											{ href: "https://twitter.com/" + item.ProfileID.substr(1), target: "_blank" },
+											item.ProfileName.substr(1)
+										)
+									),
+									item.ProfileID,
+									" (",
+									item.ProfileFollower,
+									")"
+								),
+								React.createElement("span", { style: s8, className: "fa fa-twitter-square" })
+							) : item.Datasource == "Instagram" ? React.createElement(
+								"div",
+								{ style: { display: "inline-flex", width: "100%" } },
+								React.createElement(
+									"a",
+									{ href: "https://instagram.com/" + item.ProfileID, target: "_blank", className: "pull-left" },
+									React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 }),
+									" "
+								),
+								React.createElement(
+									"div",
+									{ style: s2 },
+									React.createElement(
+										"a",
+										{ href: "https://instagram.com/" + item.ProfileID, target: "_blank" },
+										item.ProfileName
+									)
+								),
+								React.createElement("span", { style: s8, className: "fi-social-instagram" })
+							) : item.Datasource == "GooglePlus" ? React.createElement(
+								"div",
+								{ style: { display: "inline-flex", width: "100%" } },
+								React.createElement(
+									"a",
+									{ href: "https://plus.google.com/" + item.ProfileID, target: "_blank", className: "pull-left" },
+									React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 }),
+									" "
+								),
+								React.createElement(
+									"div",
+									{ style: s2 },
+									React.createElement(
+										"a",
+										{ href: "https://plus.google.com/" + item.ProfileID, target: "_blank" },
+										item.ProfileName
+									)
+								),
+								React.createElement("span", { style: s8, className: "fa fa-google-plus-square" })
+							) : item.Datasource == "Tumblr" ? React.createElement(
+								"div",
+								{ style: { display: "inline-flex", width: "100%" } },
+								React.createElement(
+									"a",
+									{ href: "http://" + item.ProfileID + ".tumblr.com", target: "_blank", className: "pull-left" },
+									React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 }),
+									" "
+								),
+								React.createElement(
+									"div",
+									{ style: s2 },
+									React.createElement(
+										"a",
+										{ href: "http://" + item.ProfileID + ".tumblr.com", target: "_blank" },
+										item.ProfileName
+									)
+								),
+								React.createElement("span", { style: s8, className: "fa fa-tumblr-square" })
+							) : item.Datasource == "Facebook" ? React.createElement(
+								"div",
+								{ style: { display: "inline-flex", width: "100%" } },
+								React.createElement(
+									"a",
+									{ href: "https://www.facebook.com/profile.php?id=" + item.ProfileID, target: "_blank", className: "pull-left" },
+									React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 }),
+									" "
+								),
+								React.createElement(
+									"div",
+									{ style: s2 },
+									React.createElement(
+										"a",
+										{ href: "https://www.facebook.com/profile.php?id =" + item.ProfileID, target: " _blank" },
+										item.ProfileName
+									)
+								),
+								React.createElement("span", { style: s8, className: "fa fa-facebook-square" })
+							) : false
+						),
+						React.createElement(
+							"div",
+							{ className: "card-content" },
+							React.createElement("div", { dangerouslySetInnerHTML: { __html: item.Text != null ? item.Text.replace(urlPattern, "<a style=\"word-break:break-word;\" href=\"$&\" target=\"_blank\">$&</a>") : false } })
+						),
+						React.createElement(
+							"p",
+							{ style: { display: "block", margin: "10px", color: "black" } },
+							item.Datasource == "Instagram" ? Math.round((date / 1000 - parseInt(item.DocDate)) * 1.1574074074074e-8) >= 1 ? React.createElement(
+								"span",
+								null,
+								Math.round((date / 1000 - parseInt(item.DocDate)) * 1.1574074074074e-8),
+								"d"
+							) : Math.round((date / 1000 - parseInt(item.DocDate)) * 1.1574074074074e-8) < 1 && Math.round((date / 1000 - parseInt(item.DocDate)) * 2.7777777777778e-7) > 1 ? React.createElement(
+								"span",
+								null,
+								Math.round((date / 1000 - parseInt(item.DocDate)) * 2.7777777777778e-7),
+								"h"
+							) : Math.round((date / 1000 - item.DocDate) * 2.7777777777778e-7) < 1 ? React.createElement(
+								"span",
+								null,
+								Math.round((date / 1000 - parseInt(item.DocDate)) / 60000),
+								"m"
+							) : false : Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074e-8) >= 1 ? React.createElement(
+								"span",
+								null,
+								Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074e-8),
+								"d"
+							) : Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074e-8) < 1 && Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778e-7) > 1 ? React.createElement(
+								"span",
+								null,
+								Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778e-7),
+								"h"
+							) : Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778e-7) < 1 ? React.createElement(
+								"span",
+								null,
+								Math.round((date - Date.parse(item.DocDate)) / 60000),
+								"m"
+							) : false,
+							React.createElement(
+								"span",
+								{ style: { display: "block", float: "right", width: "38%", "margin-left": "10px", color: "black" } },
+								"Source :",
+								item.Datasource == "Twitter" ? React.createElement(
+									"a",
+									{ href: "https://twitter.com/" + item.ProfileID.substr(1) + "/status/" + item.ID, target: "_blank" },
+									" Twitter"
+								) : item.Datasource == "Instagram" ? React.createElement(
+									"a",
+									{ href: "https://instagram.com/" + item.ProfileID.substr(1), target: "_blank" },
+									" Instagram"
+								) : item.Datasource == "GooglePlus" ? React.createElement(
+									"a",
+									{ href: "https://plus.google.com/" + item.ProfileID, target: "_blank" },
+									" GooglePlus"
+								) : item.Datasource == "Tumblr" ? React.createElement(
+									"a",
+									{ href: "http://" + item.ProfileID + ".tumblr.com", target: "_blank" },
+									" Tumblr"
+								) : item.Datasource == "Facebook" ? React.createElement(
+									"a",
+									{ href: "https://www.facebook.com/" + item.ProfileID + "/posts/" + item.ID.split("_")[1], target: " _blank" },
+									" Facebook"
+								) : false
+							)
+						)
+					)
+				)
+			);
+		});
+		return React.createElement(
+			"section",
+			{ className: "content-module" },
+			React.createElement(
+				"header",
+				{ className: "content-module-header" },
+				React.createElement(
+					"div",
+					{ className: "row" },
+					React.createElement(
+						"div",
+						{ className: "col s12 m9" },
+						React.createElement(
+							"h3",
+							null,
+							React.createElement(
+								"a",
+								{ href: urlTitle },
+								this.props.title
+							)
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "col s12 m3" },
+						React.createElement(
+							"select",
+							{ id: "lang", onChange: this.change, value: this.state.value, className: "pull-right", style: { color: "#23527c", outline: "none", cursor: "pointer", "font-weight": "bold", "font-size": "18px", display: "inherit" } },
+							React.createElement(
+								"option",
+								{ value: "select" },
+								"Select"
+							),
+							React.createElement(
+								"option",
+								{ value: this.props.returnurl + "?id=" + this.props.id + "&type=positive&skipby=0&limit=" + this.props.limit + "&q=" },
+								"Compliments on Social Media"
+							),
+							React.createElement(
+								"option",
+								{ value: this.props.returnurl + "?id=" + this.props.id + "&type=negative&skipby=0&limit=" + this.props.limit + "&q=" },
+								"Dark Comments on Social Media"
+							),
+							React.createElement(
+								"option",
+								{ value: this.props.returnurl + "?id=" + this.props.id + "&type=popular&skipby=0&limit=" + this.props.limit + "&q=" },
+								"Popular Comments On Social Media"
+							),
+							React.createElement(
+								"option",
+								{ value: this.props.returnurl + "?id=" + this.props.id + "&type=celebrity&skipby=0&limit=" + this.props.limit + "&q=" },
+								"Celebrity Comments On Social Media"
+							),
+							React.createElement(
+								"option",
+								{ value: this.props.returnurl + "?id=" + this.props.id + "&type=question&skipby=0&limit=" + this.props.limit + "&q=" },
+								"What people are Asking"
+							),
+							React.createElement(
+								"option",
+								{ value: this.props.returnurl + "?id=" + this.props.id + "&type=gender&skipby=0&limit=" + this.props.limit + "&q=Male" },
+								"Comments on Male population"
+							),
+							React.createElement(
+								"option",
+								{ value: this.props.returnurl + "?id=" + this.props.id + "&type=gender&skipby=0&limit=" + this.props.limit + "&q=Female" },
+								"Comments on Female population"
+							),
+							React.createElement(
+								"option",
+								{ value: this.props.returnurl + "?id=" + this.props.id + "&type=neutral&skipby=0&limit=" + this.props.limit + "&q=" },
+								"Comments - neutral"
+							)
+						)
+					)
+				)
+			),
+			React.createElement(
+				"div",
+				{ className: "grid", ref: "grid" },
+				React.createElement("div", { className: "grid-sizer" }),
+				React.createElement("div", { className: "divider" }),
+				React.createElement(
+					"div",
+					{ id: "card-reveal", className: "row" },
+					commentNodes
+				)
+			)
+		);
+	}
+});
+
+
+
+
+
+
+module.exports = CommentListMaterial;
+
+},{"jquery":470,"react":805,"react-mini-router":625}],264:[function(require,module,exports){
+"use strict";
+
+var Radium = require("radium");
+var React = require("react");
+
+
+var NameAndComment = require("../../flowly/NameAndComment.js");
+var PhotoDynamic = require("../../flowly/PhotoDynamic.js");
+
+var LargePicture = React.createClass({
+    displayName: "LargePicture",
+
+
+
+    render: function () {
+        console.log("LargePicture :" + this.props.returnurl);
+
+        return React.createElement(
+            "div",
+            { className: "card-panel", style: this.props.styles.panelStyle },
+            React.createElement(
+                "a",
+                { href: this.props.returnurl },
+                React.createElement(
+                    "div",
+                    { className: "card-image" },
+                    React.createElement(PhotoDynamic, { url: this.props.data.Photo, pictureStyle: this.props.styles.pictureStyle })
+                ),
+                React.createElement(
+                    "span",
+                    { className: "card-title social-main-title", style: this.props.styles.titleStyle },
+                    this.props.data.Description
+                ),
+                React.createElement("br", null),
+                React.createElement(
+                    "span",
+                    { className: "card-title social-sub-title", style: this.props.styles.subTitleStyle },
+                    this.props.data.Name
+                )
+            )
+        );
+    }
+
+});
+
 module.exports = LargePicture;
 
-},{"../../flowly/NameAndComment.js":447,"../../flowly/PhotoLarge.js":452,"radium":502,"react":827}],265:[function(require,module,exports){
+},{"../../flowly/NameAndComment.js":449,"../../flowly/PhotoDynamic.js":451,"radium":472,"react":805}],265:[function(require,module,exports){
 "use strict";
 
 var Radium = require("radium");
@@ -27108,51 +26710,82 @@ var React = require("react");
 
 var NameAndComment = require("../../flowly/NameAndComment.js");
 var VideoLarge = require("../../flowly/VideoLarge.js");
-var PhotoThumb = require("../../flowly/PhotoThumb.js");
+var VideoCover = require("../../flowly/VideoCover.js");
+var player;
+var $ = function (id) {
+    return document.getElementById(id);
+};
+var $$ = function (tagname) {
+    return document.getElementsByTagName(tagname);
+};
 
 var LargeVideo = React.createClass({
     displayName: "LargeVideo",
 
 
 
+    onYouTubeIframeAPIReady: function () {
+        var videos = $$("iframe"),
+            // the iframes elements
+        players = [],
+            // an array where we stock each videos youtube instances class
+        playingID = null; // stock the current playing video
+        for (var i = 0; i < videos.length; i++) // for each iframes
+        {
+            var currentIframeID = videos[i].id; // we get the iframe ID
+            players[currentIframeID] = new YT.Player(currentIframeID); // we stock in the array the instance
+            // note, the key of each array element will be the iframe ID
+
+            videos[i].onmouseover = function (e) {
+                // assigning a callback for this event
+                var currentHoveredElement = e.target;
+                if (playingID) // if a video is currently played
+                    {
+                        players[playingID].pauseVideo();
+                    }
+                players[currentHoveredElement.id].playVideo();
+                //players[currentHoveredElement.id].mute();
+                //players[currentHoveredElement.id].controls = 1;
+                //players[currentHoveredElement.id].showinfo = 1;
+                playingID = currentHoveredElement.id;
+            };
+        }
+    },
+    componentDidMount: function () {
+        this.onYouTubeIframeAPIReady();
+    },
     render: function () {
         var imageURL = getYouTubeVideoImage(this.props.data.Video, "big");
-        var videoURL = "http://youtu.be/" + this.props.data.Video;
+        var videoURL = "http://www.youtube.com/embed/" + this.props.data.Video + "?rel=0&wmode=Opaque&enablejsapi=1;showinfo=0;controls=0";
         console.log(videoURL);
         console.log(this.props.returnurl);
+
+
         return React.createElement(
             "div",
             { className: "card-panel", style: this.props.styles.panelStyle },
             React.createElement(
                 "div",
                 { className: "card-image" },
+                React.createElement("iframe", { id: "player1", style: this.props.styles.pictureStyle, src: videoURL, frameborder: "none", allowfullscreen: true }),
                 React.createElement(
-                    "div",
-                    { id: "viewer" },
+                    "span",
+                    { className: "card-title social-main-title", style: this.props.styles.titleStyle },
                     React.createElement(
                         "a",
-                        { className: "item", href: videoURL },
-                        React.createElement(
-                            "i",
-                            { className: "large material-icons dp48", style: { position: "absolute;", "z-index": "200;", left: "42%;" } },
-                            "play_circle_outline"
-                        )
-                    ),
-                    React.createElement(PhotoThumb, { url: imageURL }),
-                    React.createElement(
-                        "span",
-                        { className: "card-title social-main-title", style: this.props.styles.titleStyle },
+                        { href: this.props.returnurl },
                         this.props.data.Description
-                    ),
-                    React.createElement("br", null),
+                    )
+                ),
+                React.createElement("br", null),
+                React.createElement(
+                    "span",
+                    { className: "card-title social-sub-title", style: this.props.styles.subTitleStyle },
                     React.createElement(
-                        "span",
-                        { className: "card-title  social-sub-title", style: this.props.styles.subTitleStyle },
-                        React.createElement(
-                            "a",
-                            { href: this.props.returnurl },
-                            this.props.data.Name
-                        )
+                        "a",
+                        { href: this.props.returnurl },
+                        this.props.data.Name,
+                        " "
                     )
                 )
             )
@@ -27160,6 +26793,8 @@ var LargeVideo = React.createClass({
     }
 
 });
+
+
 
 function getYouTubeVideoImage(vid, size) {
     console.log("vidoeurl " + vid);
@@ -27179,7 +26814,146 @@ function getYouTubeVideoImage(vid, size) {
 
 module.exports = LargeVideo;
 
-},{"../../flowly/NameAndComment.js":447,"../../flowly/PhotoThumb.js":454,"../../flowly/VideoLarge.js":461,"radium":502,"react":827}],266:[function(require,module,exports){
+},{"../../flowly/NameAndComment.js":449,"../../flowly/VideoCover.js":464,"../../flowly/VideoLarge.js":465,"radium":472,"react":805}],266:[function(require,module,exports){
+"use strict";
+
+var Radium = require("radium");
+var React = require("react");
+
+
+var NameAndComment = require("../../flowly/NameAndComment.js");
+var VideoLarge = require("../../flowly/VideoLarge.js");
+var VideoCover = require("../../flowly/VideoCover.js");
+
+var LargeVideo = React.createClass({
+    displayName: "LargeVideo",
+
+
+    onbuttonclick: function () {
+        $("#imageCover").hide();
+        $("#CoverLink").hide();
+        var src = "//www.youtube.com/embed/" + this.props.data.Video + "?autoplay=1";
+        $("#youtube").attr("src", src);
+        return false;
+    },
+
+
+    render: function () {
+        var imageURL = getYouTubeVideoImage(this.props.data.Video, "big");
+        var videoURL = "http://youtu.be/" + this.props.data.Video;
+        var imgStyle = { width: "100%", height: this.props.styles.pictureStyle.height };
+        console.log(videoURL);
+        console.log(this.props.returnurl);
+
+        return React.createElement(
+            "div",
+            { className: "card-panel", style: this.props.styles.panelStyle },
+            React.createElement(
+                "div",
+                { className: "card" },
+                React.createElement(
+                    "div",
+                    { className: "card-image" },
+                    React.createElement(VideoCover, { url: imageURL, pictureStyle: this.props.styles.pictureStyle }),
+                    React.createElement(
+                        "span",
+                        { id: "CoverLink", className: "card-title social-icon-play-center" },
+                        React.createElement(
+                            "a",
+                            { style: this.props.styles.iconStyle, onClick: this.onbuttonclick.bind(this) },
+                            React.createElement(
+                                "i",
+                                { className: "medium material-icons dp48" },
+                                "play_circle_filled"
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        "span",
+                        { className: "card-title social-sub-title", style: this.props.styles.subTitleStyle },
+                        React.createElement(
+                            "a",
+                            { href: this.props.returnurl, style: { color: "inherit", "text-decoration": "inherit" } },
+                            this.props.data.Name,
+                            " "
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+
+
+});
+
+/*<div className="card-panel" style={this.props.styles.panelStyle}>
+                        <div className="card-image">
+                               
+                                        <PhotoThumb url= {imageURL}/>
+                                    
+                                       
+                                 <div className="caption" style={{'position':'relative'}}> 
+                                        <a href={videoURL}>
+                                        <i className="material-icons medium dp48" style={this.props.styles.iconStyle}>play_circle_filled</i> 
+                                        </a>
+                                        <span className="card-title social-main-title" style={this.props.styles.titleStyle}>
+                                            {this.props.data.Description}
+                                        </span>
+                                        <br></br>
+                                          <span className="card-title  social-sub-title" style={this.props.styles.subTitleStyle}>
+                                          <a  href={this.props.returnurl}>{this.props.data.Name}</a>
+                                        </span>
+                                   </div> 
+                                        
+                                
+                                     
+                                
+                        </div>
+                        
+            </div>*/
+
+/*<div className="card-panel" style={this.props.styles.panelStyle}>
+                        <div className="card-image">
+                                   <img src= {imageURL} style={{'height':'295px'}}/>
+
+                                 
+                                  <span className="card-title social-icon-play">
+                                  <i className="small material-icons dp48">play_circle_filled</i>
+                                  </span>
+
+                                  <span className="card-title social-main-title1">{this.props.data.Description}</span>
+                                  <span className="card-title social-main-title2"><a  href={this.props.returnurl}>{this.props.data.Name}</a></span>
+                                    
+                                       
+                                 
+                                
+                                     
+                                
+                        </div>
+                        
+            </div>
+            */
+
+function getYouTubeVideoImage(vid, size) {
+    console.log("vidoeurl " + vid);
+    if (vid === null) {
+        return "";
+    }
+
+    size = size === null ? "big" : size;
+
+
+    if (size == "small") {
+        return "http://img.youtube.com/vi/" + vid + "/0.jpg";
+    } else {
+        return "http://img.youtube.com/vi/" + vid + "/0.jpg";
+    }
+}
+
+module.exports = LargeVideo;
+
+},{"../../flowly/NameAndComment.js":449,"../../flowly/VideoCover.js":464,"../../flowly/VideoLarge.js":465,"radium":472,"react":805}],267:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -27189,12 +26963,25 @@ var CardPanel = React.createClass({
 
 	render: function render() {
 		return React.createElement(
-			"div",
-			{ className: "card-panel", style: this.props.styles.cardStyle },
+			"a",
+			{ href: this.props.returnurl },
 			React.createElement(
-				"span",
-				{ style: this.props.styles.textcolor },
-				this.props.data.Description
+				"div",
+				{ className: "card-panel", style: this.props.styles.cardStyle },
+				React.createElement(
+					"span",
+					{ style: this.props.styles.cardTitleStyle },
+					this.props.data.Name
+				),
+				React.createElement(
+					"span",
+					{ className: "card-content white-text", style: this.props.styles.cardDiscriptionStyle },
+					React.createElement(
+						"p",
+						null,
+						this.props.data.Description
+					)
+				)
 			)
 		);
 	}
@@ -27202,9 +26989,23 @@ var CardPanel = React.createClass({
 });
 
 
+/*<div class="row">
+      <div class="col s12 m3">
+        <div class="card-panel teal" style="text-align:center;padding:30px;color:#ffffff;line-height:20px;">
+        <span class="card-title" style="text-align:center;font-size:18px;font-weight:bold">Card Title</span>
+          <div class=""
+          <div class="card-content white-text">
+              <p>I am a very simple card. I am good at containing small bits of information.
+              I am convenient because I require little markup to use effectively.</p>
+           </div>
+        </div>
+      </div>
+    </div>
+    */
+
 module.exports = CardPanel;
 
-},{"react":827}],267:[function(require,module,exports){
+},{"react":805}],268:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -27270,7 +27071,7 @@ var CardReveal = React.createClass({
 
 module.exports = CardReveal;
 
-},{"../../flowly/Photo.js":448,"react":827}],268:[function(require,module,exports){
+},{"../../flowly/Photo.js":450,"react":805}],269:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -27321,8 +27122,8 @@ var LargeCard = React.createClass({
 			React.createElement(
 				"div",
 				{ className: "card-action" },
-				React.createElement(StatisticsTable, { id: this.props.id, returnurl: this.props.returnurl, videoCount: this.props.data.VideosCount, photoCount: this.props.data.PhotosCount }),
-				React.createElement(Tags, { tags: this.props.data.Tags })
+				React.createElement(StatisticsTable, { id: this.props.id, returnurl: this.props.returnurl3, videoCount: this.props.data.VideosCount, photoCount: this.props.data.PhotosCount }),
+				React.createElement(Tags, { tags: this.props.data.Tags, returnurl: this.props.returnurl3 })
 			)
 		);
 	}
@@ -27331,7 +27132,7 @@ var LargeCard = React.createClass({
 
 module.exports = LargeCard;
 
-},{"../../flowly/Emotions.js":443,"../../flowly/NameAndComment.js":447,"../../flowly/Photo.js":448,"../../flowly/PhotoLarge.js":452,"../../flowly/StatisticsTable.js":457,"../../flowly/Tags.js":459,"react":827}],269:[function(require,module,exports){
+},{"../../flowly/Emotions.js":445,"../../flowly/NameAndComment.js":449,"../../flowly/Photo.js":450,"../../flowly/PhotoLarge.js":455,"../../flowly/StatisticsTable.js":460,"../../flowly/Tags.js":462,"react":805}],270:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -27360,11 +27161,11 @@ var MediumCard = React.createClass({
 				{ className: "card-image" },
 				React.createElement(Photo, { url: this.props.data.Photo }),
 				React.createElement(
-					"span",
-					{ className: "card-title" },
+					"a",
+					{ href: this.props.returnurl },
 					React.createElement(
-						"a",
-						{ className: "socialTitleColor", href: this.props.returnurl },
+						"span",
+						{ className: "card-title social-main-title", style: { bottom: "5px !important" } },
 						this.props.data.Name
 					)
 				)
@@ -27381,7 +27182,7 @@ var MediumCard = React.createClass({
 			React.createElement(
 				"div",
 				{ className: "card-action" },
-				React.createElement(StatisticsTable, { id: this.props.id, returnurl: this.props.returnurl, videoCount: this.props.data.VideosCount, photoCount: this.props.data.PhotosCount })
+				React.createElement(StatisticsTable, { id: this.props.id, returnurl: this.props.returnurl3, videoCount: this.props.data.VideosCount, photoCount: this.props.data.PhotosCount })
 			)
 		);
 	}
@@ -27390,7 +27191,7 @@ var MediumCard = React.createClass({
 
 module.exports = MediumCard;
 
-},{"../../flowly/Emotions.js":443,"../../flowly/NameAndComment.js":447,"../../flowly/Photo.js":448,"../../flowly/PhotoLarge.js":452,"../../flowly/StatisticsTable.js":457,"../../flowly/Tags.js":459,"react":827}],270:[function(require,module,exports){
+},{"../../flowly/Emotions.js":445,"../../flowly/NameAndComment.js":449,"../../flowly/Photo.js":450,"../../flowly/PhotoLarge.js":455,"../../flowly/StatisticsTable.js":460,"../../flowly/Tags.js":462,"react":805}],271:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -27414,21 +27215,21 @@ var SmallCardVertical = React.createClass({
 			{ className: "card small z-depth-3" },
 			React.createElement(
 				"div",
-				{ className: "card-image" },
-				React.createElement("img", { className: "imageSize", src: this.props.data.Photos[0].Url }),
+				{ className: "card-image", style: { height: "200px" } },
+				React.createElement("img", { className: "imageSize", src: this.props.data.PictureUrl }),
 				React.createElement(
-					"span",
-					{ className: "card-title " },
+					"a",
+					{ href: this.props.returnurl },
 					React.createElement(
-						"a",
-						{ className: "socialTitleColor", href: this.props.returnUrl },
+						"span",
+						{ className: "card-title social-main-title", style: { bottom: "5px !important" } },
 						this.props.data.Name
 					)
 				)
 			),
 			React.createElement(
 				"div",
-				{ className: "card-content" },
+				{ className: "card-content", style: { height: "100px" } },
 				React.createElement(
 					"p",
 					null,
@@ -27442,7 +27243,7 @@ var SmallCardVertical = React.createClass({
 
 module.exports = SmallCardVertical;
 
-},{"../../flowly/Emotions.js":443,"../../flowly/NameAndComment.js":447,"../../flowly/Photo.js":448,"../../flowly/StatisticsTable.js":457,"../../flowly/Tags.js":459,"react":827}],271:[function(require,module,exports){
+},{"../../flowly/Emotions.js":445,"../../flowly/NameAndComment.js":449,"../../flowly/Photo.js":450,"../../flowly/StatisticsTable.js":460,"../../flowly/Tags.js":462,"react":805}],272:[function(require,module,exports){
 "use strict";
 
 var Radium = require("radium");
@@ -27548,7 +27349,7 @@ var BubblyPC = React.createClass({
 
 module.exports = BubblyPC;
 
-},{"../../flowly/PhotoLarge.js":452,"radium":502,"react":827}],272:[function(require,module,exports){
+},{"../../flowly/PhotoLarge.js":455,"radium":472,"react":805}],273:[function(require,module,exports){
 "use strict";
 
 var Radium = require("radium");
@@ -27660,7 +27461,7 @@ var BubblyPCMixIt = React.createClass({
 
 module.exports = BubblyPCMixIt;
 
-},{"../../flowly/PhotoLarge.js":452,"radium":502,"react":827}],273:[function(require,module,exports){
+},{"../../flowly/PhotoLarge.js":455,"radium":472,"react":805}],274:[function(require,module,exports){
 "use strict";
 
 var Radium = require("radium");
@@ -28137,7 +27938,7 @@ var RSSListDesc = React.createClass({
 
 module.exports = RSSListDesc;
 
-},{"jquery":500,"jquery-ui":499,"radium":502,"react":827}],274:[function(require,module,exports){
+},{"jquery":470,"jquery-ui":469,"radium":472,"react":805}],275:[function(require,module,exports){
 "use strict";
 
 var Radium = require("radium");
@@ -28165,20 +27966,25 @@ var ImageGallery = React.createClass({
 
     },
     render: function () {
+        var url = this.props.returnurl + "?id=" + this.props.id + "&q=&page=1&type=";
         var styles = {
 
             s2: { maxWidth: "100%", height: "100%" }
 
         };
+
         //console.log("rss : "+ JSON.stringify(this.props.data));
-        console.log(this.props.data.Photos.length);
+        console.log("length " + this.props.data.Photos.length);
         var reminder = this.props.data.Photos.length % 4;
         var k = 0;
         var j = 0;
         console.log(this.props.data.Photos.length % 4);
         var indents = [];
-        for (var i = 0; i < this.props.data.Photos.length - 1; i = i + 9) {
+        for (var i = 0; i < this.props.data.Photos.length - 1; i = i + 6) {
+            k = k + 1;
+            console.log(k);
 
+            if (k == this.props.data.Photos.length - 1) break;
 
             if (typeof this.props.data.Photos[i] == "undefined") {
                 indents.push(React.createElement(
@@ -28194,10 +28000,21 @@ var ImageGallery = React.createClass({
                     React.createElement(
                         "div",
                         { className: "social-leftright-1" },
-                        React.createElement(PhotoFull, { className: "responsive-img", url: this.props.data.Photos[i].Url })
+                        React.createElement(
+                            "a",
+                            { href: url },
+                            React.createElement(PhotoFull, { className: "responsive-img", url: this.props.data.Photos[i].Url })
+                        )
                     )
                 ));
             }
+
+
+
+            k = k + 2;
+            console.log(k);
+
+            if (k == this.props.data.Photos.length - 1) break;
 
             if (typeof this.props.data.Photos[i + 1] == "undefined" || typeof this.props.data.Photos[i + 2] == "undefined") {
                 indents.push(React.createElement(
@@ -28214,15 +28031,28 @@ var ImageGallery = React.createClass({
                     React.createElement(
                         "div",
                         { className: "social-left" },
-                        React.createElement(PhotoFull, { className: "responsive-img", url: this.props.data.Photos[i + 1].Url })
+                        React.createElement(
+                            "a",
+                            { href: url },
+                            React.createElement(PhotoFull, { className: "responsive-img", url: this.props.data.Photos[i + 1].Url })
+                        )
                     ),
                     React.createElement(
                         "div",
                         { className: "social-right" },
-                        React.createElement(PhotoFull, { className: "responsive-img", url: this.props.data.Photos[i + 2].Url })
+                        React.createElement(
+                            "a",
+                            { href: url },
+                            React.createElement(PhotoFull, { className: "responsive-img", url: this.props.data.Photos[i + 2].Url })
+                        )
                     )
                 ));
             }
+
+            k = k + 3;
+            console.log(k);
+
+            if (k == this.props.data.Photos.length - 1) break;
 
             if (typeof this.props.data.Photos[i + 3] == "undefined" || typeof this.props.data.Photos[i + 4] == "undefined" || typeof this.props.data.Photos[i + 5] == "undefined") {
                 indents.push(React.createElement(
@@ -28244,7 +28074,11 @@ var ImageGallery = React.createClass({
                     React.createElement(
                         "div",
                         { className: "social-left" },
-                        React.createElement(PhotoFull, { className: "responsive-img", url: this.props.data.Photos[i + 3].Url })
+                        React.createElement(
+                            "a",
+                            { href: url },
+                            React.createElement(PhotoFull, { className: "responsive-img", url: this.props.data.Photos[i + 3].Url })
+                        )
                     ),
                     React.createElement(
                         "div",
@@ -28252,56 +28086,59 @@ var ImageGallery = React.createClass({
                         React.createElement(
                             "div",
                             { className: "social-right-top" },
-                            React.createElement(PhotoFull, { className: "responsive-img", url: this.props.data.Photos[i + 4].Url })
+                            React.createElement(
+                                "a",
+                                { href: url },
+                                React.createElement(PhotoFull, { className: "responsive-img", url: this.props.data.Photos[i + 4].Url })
+                            )
                         ),
                         React.createElement(
                             "div",
                             { className: "social-right-bottom", style: { height: "240px !important" } },
-                            React.createElement(PhotoFull, { className: "responsive-img", url: this.props.data.Photos[i + 5].Url })
+                            React.createElement(
+                                "a",
+                                { href: url },
+                                React.createElement(PhotoFull, { className: "responsive-img", url: this.props.data.Photos[i + 5].Url })
+                            )
                         )
                     )
                 ));
             }
 
-            if (typeof this.props.data.Photos[i + 6] == "undefined" || typeof this.props.data.Photos[i + 7] == "undefined" || typeof this.props.data.Photos[i + 8] == "undefined") {
-                indents.push(React.createElement(
-                    "li",
-                    null,
-                    React.createElement(
-                        "div",
-                        { className: "social-left-center-rigth" },
-                        React.createElement("div", { className: "social-left-center-rigth-1" }),
-                        React.createElement("div", { className: "social-left-center-rigth-1" }),
-                        React.createElement("div", { className: "social-left-center-rigth-1" })
-                    )
-                ));
-            } else {
-                console.log("ITEM  4 " + (i + 8) + " " + JSON.stringify(this.props.data.Photos[i + 8].Url));
 
-                indents.push(React.createElement(
-                    "li",
-                    null,
-                    React.createElement(
-                        "div",
-                        { className: "social-left-center-rigth" },
-                        React.createElement(
-                            "div",
-                            { className: "social-left-center-rigth-1" },
-                            React.createElement(PhotoFull, { className: "responsive-img", url: this.props.data.Photos[i + 6].Url })
-                        ),
-                        React.createElement(
-                            "div",
-                            { className: "social-left-center-rigth-1" },
-                            React.createElement(PhotoFull, { className: "responsive-img", url: this.props.data.Photos[i + 7].Url })
-                        ),
-                        React.createElement(
-                            "div",
-                            { className: "social-left-center-rigth-1" },
-                            React.createElement(PhotoFull, { className: "responsive-img", url: this.props.data.Photos[i + 8].Url })
-                        )
-                    )
-                ));
+
+            /*if (typeof this.props.data.Photos[i+6] == 'undefined' || typeof this.props.data.Photos[i+7] == 'undefined' || typeof this.props.data.Photos[i+8] == 'undefined' ) {
+                      indents.push(<li><div className="social-left-center-rigth">
+                                           <div className="social-left-center-rigth-1"></div>
+                                           <div className="social-left-center-rigth-1"></div>
+                                           <div className="social-left-center-rigth-1"></div>
+                                   </div></li>);
             }
+            else{
+                console.log("ITEM  4 " + (i  + 8 )  + " " + JSON.stringify(this.props.data.Photos[i+8].Url));  
+            
+                indents.push(
+                <li>
+                        <div className="social-left-center-rigth">
+                            <div className="social-left-center-rigth-1">
+                                <a href={url}>
+                               
+                               <PhotoFull className="responsive-img" url= {this.props.data.Photos[i+6].Url} />
+                                </a>
+                            </div>  
+                            <div className="social-left-center-rigth-1">
+                                <a href={url}>
+                                    <PhotoFull className="responsive-img" url= {this.props.data.Photos[i+7].Url} />
+                                </a>             
+                            </div> 
+                            <div className="social-left-center-rigth-1">
+                                <a href={url}>
+                                  <PhotoFull className="responsive-img" url= {this.props.data.Photos[i+8].Url} />
+                                </a>
+                            </div>   
+                        </div>
+                </li> ); 
+            }*/
 
         }
 
@@ -28309,15 +28146,38 @@ var ImageGallery = React.createClass({
            console.log(  i + " " + currentvalue );
         });*/
         return React.createElement(
-            "div",
-            { className: "card" },
+            "a",
+            { href: url },
             React.createElement(
                 "div",
-                { className: "slider", style: { height: "475px !important" } },
+                { className: "card-panel", style: this.props.styles.cardStyle },
                 React.createElement(
-                    "ul",
-                    { className: "slides", style: { height: "475px !important" } },
-                    indents
+                    "div",
+                    { className: "slider", style: this.props.styles.sliderStyle },
+                    React.createElement(
+                        "ul",
+                        { className: "slides", style: this.props.styles.slidesStyle },
+                        indents
+                    )
+                ),
+                React.createElement(
+                    "span",
+                    { className: "card-title social-main-title", style: this.props.styles.cardTitleStyle },
+                    React.createElement(
+                        "a",
+                        { href: url },
+                        this.props.data.Name
+                    )
+                ),
+                React.createElement("br", null),
+                React.createElement(
+                    "span",
+                    { className: "card-title social-sub-title", style: this.props.styles.cardSubTitleStyle },
+                    React.createElement(
+                        "a",
+                        { href: url },
+                        this.props.data.Description
+                    )
                 )
             )
         );
@@ -28328,11 +28188,25 @@ var ImageGallery = React.createClass({
 
 module.exports = ImageGallery;
 
+/* <div className="card-panel" style={this.props.styles.cardStyle}>
+                               <div className="slider" style={{'height':'475px !important'}}>
+                                    <ul className="slides" style={{'height':'475px !important'}}>
+                                     
+                                      {indents}
+                                         
+                                    </ul>
+                              </div>
+                              <span className="card-title social-main-title" style={{'z-index':'10 !important'}} ><a href={url} >{this.props.data.Name}</a></span>
+                              <br></br>
+                              <span className="card-title social-sub-title" style={{'z-index':'10 !important'}} ><a href={url} >{this.props.data.Description}</a></span>
+                              
+                          </div>*/
+
 
 
 //http://s24x7.azurewebsites.net/api/summary/min?id=bolly_data235
 
-},{"../../flowly/PhotoFull.js":449,"jquery":500,"radium":502,"react":827}],275:[function(require,module,exports){
+},{"../../flowly/PhotoFull.js":452,"jquery":470,"radium":472,"react":805}],276:[function(require,module,exports){
 "use strict";
 
 var Radium = require("radium");
@@ -28657,61 +28531,61 @@ module.exports = RSSListImg;
 
 //http://s24x7.azurewebsites.net/api/summary/min?id=bolly_data235
 
-},{"../../flowly/PhotoFull.js":449,"jquery":500,"radium":502,"react":827}],276:[function(require,module,exports){
+},{"../../flowly/PhotoFull.js":452,"jquery":470,"radium":472,"react":805}],277:[function(require,module,exports){
 arguments[4][88][0].apply(exports,arguments)
-},{"./focusNode":394,"dup":88}],277:[function(require,module,exports){
+},{"./focusNode":395,"dup":88}],278:[function(require,module,exports){
 arguments[4][89][0].apply(exports,arguments)
-},{"./EventConstants":289,"./EventPropagators":294,"./ExecutionEnvironment":295,"./FallbackCompositionState":296,"./SyntheticCompositionEvent":368,"./SyntheticInputEvent":372,"./keyOf":416,"dup":89}],278:[function(require,module,exports){
+},{"./EventConstants":290,"./EventPropagators":295,"./ExecutionEnvironment":296,"./FallbackCompositionState":297,"./SyntheticCompositionEvent":369,"./SyntheticInputEvent":373,"./keyOf":417,"dup":89}],279:[function(require,module,exports){
 arguments[4][91][0].apply(exports,arguments)
-},{"dup":91}],279:[function(require,module,exports){
+},{"dup":91}],280:[function(require,module,exports){
 arguments[4][92][0].apply(exports,arguments)
-},{"./CSSProperty":278,"./ExecutionEnvironment":295,"./camelizeStyleName":383,"./dangerousStyleValue":388,"./hyphenateStyleName":408,"./memoizeStringOnly":418,"./warning":429,"_process":463,"dup":92}],280:[function(require,module,exports){
+},{"./CSSProperty":279,"./ExecutionEnvironment":296,"./camelizeStyleName":384,"./dangerousStyleValue":389,"./hyphenateStyleName":409,"./memoizeStringOnly":419,"./warning":430,"_process":467,"dup":92}],281:[function(require,module,exports){
 arguments[4][93][0].apply(exports,arguments)
-},{"./Object.assign":301,"./PooledClass":302,"./invariant":410,"_process":463,"dup":93}],281:[function(require,module,exports){
+},{"./Object.assign":302,"./PooledClass":303,"./invariant":411,"_process":467,"dup":93}],282:[function(require,module,exports){
 arguments[4][94][0].apply(exports,arguments)
-},{"./EventConstants":289,"./EventPluginHub":291,"./EventPropagators":294,"./ExecutionEnvironment":295,"./ReactUpdates":362,"./SyntheticEvent":370,"./isEventSupported":411,"./isTextInputElement":413,"./keyOf":416,"dup":94}],282:[function(require,module,exports){
+},{"./EventConstants":290,"./EventPluginHub":292,"./EventPropagators":295,"./ExecutionEnvironment":296,"./ReactUpdates":363,"./SyntheticEvent":371,"./isEventSupported":412,"./isTextInputElement":414,"./keyOf":417,"dup":94}],283:[function(require,module,exports){
 arguments[4][95][0].apply(exports,arguments)
-},{"dup":95}],283:[function(require,module,exports){
+},{"dup":95}],284:[function(require,module,exports){
 arguments[4][96][0].apply(exports,arguments)
-},{"./Danger":286,"./ReactMultiChildUpdateTypes":347,"./invariant":410,"./setTextContent":424,"_process":463,"dup":96}],284:[function(require,module,exports){
+},{"./Danger":287,"./ReactMultiChildUpdateTypes":348,"./invariant":411,"./setTextContent":425,"_process":467,"dup":96}],285:[function(require,module,exports){
 arguments[4][97][0].apply(exports,arguments)
-},{"./invariant":410,"_process":463,"dup":97}],285:[function(require,module,exports){
+},{"./invariant":411,"_process":467,"dup":97}],286:[function(require,module,exports){
 arguments[4][98][0].apply(exports,arguments)
-},{"./DOMProperty":284,"./quoteAttributeValueForBrowser":422,"./warning":429,"_process":463,"dup":98}],286:[function(require,module,exports){
+},{"./DOMProperty":285,"./quoteAttributeValueForBrowser":423,"./warning":430,"_process":467,"dup":98}],287:[function(require,module,exports){
 arguments[4][99][0].apply(exports,arguments)
-},{"./ExecutionEnvironment":295,"./createNodesFromMarkup":387,"./emptyFunction":389,"./getMarkupWrap":402,"./invariant":410,"_process":463,"dup":99}],287:[function(require,module,exports){
+},{"./ExecutionEnvironment":296,"./createNodesFromMarkup":388,"./emptyFunction":390,"./getMarkupWrap":403,"./invariant":411,"_process":467,"dup":99}],288:[function(require,module,exports){
 arguments[4][100][0].apply(exports,arguments)
-},{"./keyOf":416,"dup":100}],288:[function(require,module,exports){
+},{"./keyOf":417,"dup":100}],289:[function(require,module,exports){
 arguments[4][101][0].apply(exports,arguments)
-},{"./EventConstants":289,"./EventPropagators":294,"./ReactMount":345,"./SyntheticMouseEvent":374,"./keyOf":416,"dup":101}],289:[function(require,module,exports){
+},{"./EventConstants":290,"./EventPropagators":295,"./ReactMount":346,"./SyntheticMouseEvent":375,"./keyOf":417,"dup":101}],290:[function(require,module,exports){
 arguments[4][102][0].apply(exports,arguments)
-},{"./keyMirror":415,"dup":102}],290:[function(require,module,exports){
+},{"./keyMirror":416,"dup":102}],291:[function(require,module,exports){
 arguments[4][103][0].apply(exports,arguments)
-},{"./emptyFunction":389,"_process":463,"dup":103}],291:[function(require,module,exports){
+},{"./emptyFunction":390,"_process":467,"dup":103}],292:[function(require,module,exports){
 arguments[4][104][0].apply(exports,arguments)
-},{"./EventPluginRegistry":292,"./EventPluginUtils":293,"./accumulateInto":380,"./forEachAccumulated":395,"./invariant":410,"_process":463,"dup":104}],292:[function(require,module,exports){
+},{"./EventPluginRegistry":293,"./EventPluginUtils":294,"./accumulateInto":381,"./forEachAccumulated":396,"./invariant":411,"_process":467,"dup":104}],293:[function(require,module,exports){
 arguments[4][105][0].apply(exports,arguments)
-},{"./invariant":410,"_process":463,"dup":105}],293:[function(require,module,exports){
+},{"./invariant":411,"_process":467,"dup":105}],294:[function(require,module,exports){
 arguments[4][106][0].apply(exports,arguments)
-},{"./EventConstants":289,"./invariant":410,"_process":463,"dup":106}],294:[function(require,module,exports){
+},{"./EventConstants":290,"./invariant":411,"_process":467,"dup":106}],295:[function(require,module,exports){
 arguments[4][107][0].apply(exports,arguments)
-},{"./EventConstants":289,"./EventPluginHub":291,"./accumulateInto":380,"./forEachAccumulated":395,"_process":463,"dup":107}],295:[function(require,module,exports){
+},{"./EventConstants":290,"./EventPluginHub":292,"./accumulateInto":381,"./forEachAccumulated":396,"_process":467,"dup":107}],296:[function(require,module,exports){
 arguments[4][108][0].apply(exports,arguments)
-},{"dup":108}],296:[function(require,module,exports){
+},{"dup":108}],297:[function(require,module,exports){
 arguments[4][109][0].apply(exports,arguments)
-},{"./Object.assign":301,"./PooledClass":302,"./getTextContentAccessor":405,"dup":109}],297:[function(require,module,exports){
+},{"./Object.assign":302,"./PooledClass":303,"./getTextContentAccessor":406,"dup":109}],298:[function(require,module,exports){
 arguments[4][110][0].apply(exports,arguments)
-},{"./DOMProperty":284,"./ExecutionEnvironment":295,"dup":110}],298:[function(require,module,exports){
+},{"./DOMProperty":285,"./ExecutionEnvironment":296,"dup":110}],299:[function(require,module,exports){
 arguments[4][112][0].apply(exports,arguments)
-},{"./ReactPropTypes":353,"./invariant":410,"_process":463,"dup":112}],299:[function(require,module,exports){
+},{"./ReactPropTypes":354,"./invariant":411,"_process":467,"dup":112}],300:[function(require,module,exports){
 arguments[4][113][0].apply(exports,arguments)
-},{"./ReactBrowserEventEmitter":305,"./accumulateInto":380,"./forEachAccumulated":395,"./invariant":410,"_process":463,"dup":113}],300:[function(require,module,exports){
+},{"./ReactBrowserEventEmitter":306,"./accumulateInto":381,"./forEachAccumulated":396,"./invariant":411,"_process":467,"dup":113}],301:[function(require,module,exports){
 arguments[4][114][0].apply(exports,arguments)
-},{"./EventConstants":289,"./emptyFunction":389,"dup":114}],301:[function(require,module,exports){
+},{"./EventConstants":290,"./emptyFunction":390,"dup":114}],302:[function(require,module,exports){
 arguments[4][115][0].apply(exports,arguments)
-},{"dup":115}],302:[function(require,module,exports){
+},{"dup":115}],303:[function(require,module,exports){
 arguments[4][116][0].apply(exports,arguments)
-},{"./invariant":410,"_process":463,"dup":116}],303:[function(require,module,exports){
+},{"./invariant":411,"_process":467,"dup":116}],304:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -28863,15 +28737,15 @@ React.version = '0.13.2';
 module.exports = React;
 
 }).call(this,require('_process'))
-},{"./EventPluginUtils":293,"./ExecutionEnvironment":295,"./Object.assign":301,"./ReactChildren":307,"./ReactClass":308,"./ReactComponent":309,"./ReactContext":313,"./ReactCurrentOwner":314,"./ReactDOM":315,"./ReactDOMTextComponent":326,"./ReactDefaultInjection":329,"./ReactElement":332,"./ReactElementValidator":333,"./ReactInstanceHandles":341,"./ReactMount":345,"./ReactPerf":350,"./ReactPropTypes":353,"./ReactReconciler":356,"./ReactServerRendering":359,"./findDOMNode":392,"./onlyChild":419,"_process":463}],304:[function(require,module,exports){
+},{"./EventPluginUtils":294,"./ExecutionEnvironment":296,"./Object.assign":302,"./ReactChildren":308,"./ReactClass":309,"./ReactComponent":310,"./ReactContext":314,"./ReactCurrentOwner":315,"./ReactDOM":316,"./ReactDOMTextComponent":327,"./ReactDefaultInjection":330,"./ReactElement":333,"./ReactElementValidator":334,"./ReactInstanceHandles":342,"./ReactMount":346,"./ReactPerf":351,"./ReactPropTypes":354,"./ReactReconciler":357,"./ReactServerRendering":360,"./findDOMNode":393,"./onlyChild":420,"_process":467}],305:[function(require,module,exports){
 arguments[4][118][0].apply(exports,arguments)
-},{"./findDOMNode":392,"dup":118}],305:[function(require,module,exports){
+},{"./findDOMNode":393,"dup":118}],306:[function(require,module,exports){
 arguments[4][119][0].apply(exports,arguments)
-},{"./EventConstants":289,"./EventPluginHub":291,"./EventPluginRegistry":292,"./Object.assign":301,"./ReactEventEmitterMixin":336,"./ViewportMetrics":379,"./isEventSupported":411,"dup":119}],306:[function(require,module,exports){
+},{"./EventConstants":290,"./EventPluginHub":292,"./EventPluginRegistry":293,"./Object.assign":302,"./ReactEventEmitterMixin":337,"./ViewportMetrics":380,"./isEventSupported":412,"dup":119}],307:[function(require,module,exports){
 arguments[4][122][0].apply(exports,arguments)
-},{"./ReactReconciler":356,"./flattenChildren":393,"./instantiateReactComponent":409,"./shouldUpdateReactComponent":426,"dup":122}],307:[function(require,module,exports){
+},{"./ReactReconciler":357,"./flattenChildren":394,"./instantiateReactComponent":410,"./shouldUpdateReactComponent":427,"dup":122}],308:[function(require,module,exports){
 arguments[4][123][0].apply(exports,arguments)
-},{"./PooledClass":302,"./ReactFragment":338,"./traverseAllChildren":428,"./warning":429,"_process":463,"dup":123}],308:[function(require,module,exports){
+},{"./PooledClass":303,"./ReactFragment":339,"./traverseAllChildren":429,"./warning":430,"_process":467,"dup":123}],309:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -29817,7 +29691,7 @@ var ReactClass = {
 module.exports = ReactClass;
 
 }).call(this,require('_process'))
-},{"./Object.assign":301,"./ReactComponent":309,"./ReactCurrentOwner":314,"./ReactElement":332,"./ReactErrorUtils":335,"./ReactInstanceMap":342,"./ReactLifeCycle":343,"./ReactPropTypeLocationNames":351,"./ReactPropTypeLocations":352,"./ReactUpdateQueue":361,"./invariant":410,"./keyMirror":415,"./keyOf":416,"./warning":429,"_process":463}],309:[function(require,module,exports){
+},{"./Object.assign":302,"./ReactComponent":310,"./ReactCurrentOwner":315,"./ReactElement":333,"./ReactErrorUtils":336,"./ReactInstanceMap":343,"./ReactLifeCycle":344,"./ReactPropTypeLocationNames":352,"./ReactPropTypeLocations":353,"./ReactUpdateQueue":362,"./invariant":411,"./keyMirror":416,"./keyOf":417,"./warning":430,"_process":467}],310:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -29953,11 +29827,11 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = ReactComponent;
 
 }).call(this,require('_process'))
-},{"./ReactUpdateQueue":361,"./invariant":410,"./warning":429,"_process":463}],310:[function(require,module,exports){
+},{"./ReactUpdateQueue":362,"./invariant":411,"./warning":430,"_process":467}],311:[function(require,module,exports){
 arguments[4][126][0].apply(exports,arguments)
-},{"./ReactDOMIDOperations":319,"./ReactMount":345,"dup":126}],311:[function(require,module,exports){
+},{"./ReactDOMIDOperations":320,"./ReactMount":346,"dup":126}],312:[function(require,module,exports){
 arguments[4][127][0].apply(exports,arguments)
-},{"./invariant":410,"_process":463,"dup":127}],312:[function(require,module,exports){
+},{"./invariant":411,"_process":467,"dup":127}],313:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -30855,11 +30729,11 @@ var ReactCompositeComponent = {
 module.exports = ReactCompositeComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":301,"./ReactComponentEnvironment":311,"./ReactContext":313,"./ReactCurrentOwner":314,"./ReactElement":332,"./ReactElementValidator":333,"./ReactInstanceMap":342,"./ReactLifeCycle":343,"./ReactNativeComponent":348,"./ReactPerf":350,"./ReactPropTypeLocationNames":351,"./ReactPropTypeLocations":352,"./ReactReconciler":356,"./ReactUpdates":362,"./emptyObject":390,"./invariant":410,"./shouldUpdateReactComponent":426,"./warning":429,"_process":463}],313:[function(require,module,exports){
+},{"./Object.assign":302,"./ReactComponentEnvironment":312,"./ReactContext":314,"./ReactCurrentOwner":315,"./ReactElement":333,"./ReactElementValidator":334,"./ReactInstanceMap":343,"./ReactLifeCycle":344,"./ReactNativeComponent":349,"./ReactPerf":351,"./ReactPropTypeLocationNames":352,"./ReactPropTypeLocations":353,"./ReactReconciler":357,"./ReactUpdates":363,"./emptyObject":391,"./invariant":411,"./shouldUpdateReactComponent":427,"./warning":430,"_process":467}],314:[function(require,module,exports){
 arguments[4][130][0].apply(exports,arguments)
-},{"./Object.assign":301,"./emptyObject":390,"./warning":429,"_process":463,"dup":130}],314:[function(require,module,exports){
+},{"./Object.assign":302,"./emptyObject":391,"./warning":430,"_process":467,"dup":130}],315:[function(require,module,exports){
 arguments[4][131][0].apply(exports,arguments)
-},{"dup":131}],315:[function(require,module,exports){
+},{"dup":131}],316:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -31037,9 +30911,9 @@ var ReactDOM = mapObject({
 module.exports = ReactDOM;
 
 }).call(this,require('_process'))
-},{"./ReactElement":332,"./ReactElementValidator":333,"./mapObject":417,"_process":463}],316:[function(require,module,exports){
+},{"./ReactElement":333,"./ReactElementValidator":334,"./mapObject":418,"_process":467}],317:[function(require,module,exports){
 arguments[4][133][0].apply(exports,arguments)
-},{"./AutoFocusMixin":276,"./ReactBrowserComponentMixin":304,"./ReactClass":308,"./ReactElement":332,"./keyMirror":415,"dup":133}],317:[function(require,module,exports){
+},{"./AutoFocusMixin":277,"./ReactBrowserComponentMixin":305,"./ReactClass":309,"./ReactElement":333,"./keyMirror":416,"dup":133}],318:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -31547,37 +31421,37 @@ ReactDOMComponent.injection = {
 module.exports = ReactDOMComponent;
 
 }).call(this,require('_process'))
-},{"./CSSPropertyOperations":279,"./DOMProperty":284,"./DOMPropertyOperations":285,"./Object.assign":301,"./ReactBrowserEventEmitter":305,"./ReactComponentBrowserEnvironment":310,"./ReactMount":345,"./ReactMultiChild":346,"./ReactPerf":350,"./escapeTextContentForBrowser":391,"./invariant":410,"./isEventSupported":411,"./keyOf":416,"./warning":429,"_process":463}],318:[function(require,module,exports){
+},{"./CSSPropertyOperations":280,"./DOMProperty":285,"./DOMPropertyOperations":286,"./Object.assign":302,"./ReactBrowserEventEmitter":306,"./ReactComponentBrowserEnvironment":311,"./ReactMount":346,"./ReactMultiChild":347,"./ReactPerf":351,"./escapeTextContentForBrowser":392,"./invariant":411,"./isEventSupported":412,"./keyOf":417,"./warning":430,"_process":467}],319:[function(require,module,exports){
 arguments[4][135][0].apply(exports,arguments)
-},{"./EventConstants":289,"./LocalEventTrapMixin":299,"./ReactBrowserComponentMixin":304,"./ReactClass":308,"./ReactElement":332,"dup":135}],319:[function(require,module,exports){
+},{"./EventConstants":290,"./LocalEventTrapMixin":300,"./ReactBrowserComponentMixin":305,"./ReactClass":309,"./ReactElement":333,"dup":135}],320:[function(require,module,exports){
 arguments[4][136][0].apply(exports,arguments)
-},{"./CSSPropertyOperations":279,"./DOMChildrenOperations":283,"./DOMPropertyOperations":285,"./ReactMount":345,"./ReactPerf":350,"./invariant":410,"./setInnerHTML":423,"_process":463,"dup":136}],320:[function(require,module,exports){
+},{"./CSSPropertyOperations":280,"./DOMChildrenOperations":284,"./DOMPropertyOperations":286,"./ReactMount":346,"./ReactPerf":351,"./invariant":411,"./setInnerHTML":424,"_process":467,"dup":136}],321:[function(require,module,exports){
 arguments[4][137][0].apply(exports,arguments)
-},{"./EventConstants":289,"./LocalEventTrapMixin":299,"./ReactBrowserComponentMixin":304,"./ReactClass":308,"./ReactElement":332,"dup":137}],321:[function(require,module,exports){
+},{"./EventConstants":290,"./LocalEventTrapMixin":300,"./ReactBrowserComponentMixin":305,"./ReactClass":309,"./ReactElement":333,"dup":137}],322:[function(require,module,exports){
 arguments[4][138][0].apply(exports,arguments)
-},{"./EventConstants":289,"./LocalEventTrapMixin":299,"./ReactBrowserComponentMixin":304,"./ReactClass":308,"./ReactElement":332,"dup":138}],322:[function(require,module,exports){
+},{"./EventConstants":290,"./LocalEventTrapMixin":300,"./ReactBrowserComponentMixin":305,"./ReactClass":309,"./ReactElement":333,"dup":138}],323:[function(require,module,exports){
 arguments[4][139][0].apply(exports,arguments)
-},{"./AutoFocusMixin":276,"./DOMPropertyOperations":285,"./LinkedValueUtils":298,"./Object.assign":301,"./ReactBrowserComponentMixin":304,"./ReactClass":308,"./ReactElement":332,"./ReactMount":345,"./ReactUpdates":362,"./invariant":410,"_process":463,"dup":139}],323:[function(require,module,exports){
+},{"./AutoFocusMixin":277,"./DOMPropertyOperations":286,"./LinkedValueUtils":299,"./Object.assign":302,"./ReactBrowserComponentMixin":305,"./ReactClass":309,"./ReactElement":333,"./ReactMount":346,"./ReactUpdates":363,"./invariant":411,"_process":467,"dup":139}],324:[function(require,module,exports){
 arguments[4][140][0].apply(exports,arguments)
-},{"./ReactBrowserComponentMixin":304,"./ReactClass":308,"./ReactElement":332,"./warning":429,"_process":463,"dup":140}],324:[function(require,module,exports){
+},{"./ReactBrowserComponentMixin":305,"./ReactClass":309,"./ReactElement":333,"./warning":430,"_process":467,"dup":140}],325:[function(require,module,exports){
 arguments[4][141][0].apply(exports,arguments)
-},{"./AutoFocusMixin":276,"./LinkedValueUtils":298,"./Object.assign":301,"./ReactBrowserComponentMixin":304,"./ReactClass":308,"./ReactElement":332,"./ReactUpdates":362,"dup":141}],325:[function(require,module,exports){
+},{"./AutoFocusMixin":277,"./LinkedValueUtils":299,"./Object.assign":302,"./ReactBrowserComponentMixin":305,"./ReactClass":309,"./ReactElement":333,"./ReactUpdates":363,"dup":141}],326:[function(require,module,exports){
 arguments[4][142][0].apply(exports,arguments)
-},{"./ExecutionEnvironment":295,"./getNodeForCharacterOffset":403,"./getTextContentAccessor":405,"dup":142}],326:[function(require,module,exports){
+},{"./ExecutionEnvironment":296,"./getNodeForCharacterOffset":404,"./getTextContentAccessor":406,"dup":142}],327:[function(require,module,exports){
 arguments[4][143][0].apply(exports,arguments)
-},{"./DOMPropertyOperations":285,"./Object.assign":301,"./ReactComponentBrowserEnvironment":310,"./ReactDOMComponent":317,"./escapeTextContentForBrowser":391,"dup":143}],327:[function(require,module,exports){
+},{"./DOMPropertyOperations":286,"./Object.assign":302,"./ReactComponentBrowserEnvironment":311,"./ReactDOMComponent":318,"./escapeTextContentForBrowser":392,"dup":143}],328:[function(require,module,exports){
 arguments[4][144][0].apply(exports,arguments)
-},{"./AutoFocusMixin":276,"./DOMPropertyOperations":285,"./LinkedValueUtils":298,"./Object.assign":301,"./ReactBrowserComponentMixin":304,"./ReactClass":308,"./ReactElement":332,"./ReactUpdates":362,"./invariant":410,"./warning":429,"_process":463,"dup":144}],328:[function(require,module,exports){
+},{"./AutoFocusMixin":277,"./DOMPropertyOperations":286,"./LinkedValueUtils":299,"./Object.assign":302,"./ReactBrowserComponentMixin":305,"./ReactClass":309,"./ReactElement":333,"./ReactUpdates":363,"./invariant":411,"./warning":430,"_process":467,"dup":144}],329:[function(require,module,exports){
 arguments[4][145][0].apply(exports,arguments)
-},{"./Object.assign":301,"./ReactUpdates":362,"./Transaction":378,"./emptyFunction":389,"dup":145}],329:[function(require,module,exports){
+},{"./Object.assign":302,"./ReactUpdates":363,"./Transaction":379,"./emptyFunction":390,"dup":145}],330:[function(require,module,exports){
 arguments[4][146][0].apply(exports,arguments)
-},{"./BeforeInputEventPlugin":277,"./ChangeEventPlugin":281,"./ClientReactRootIndex":282,"./DefaultEventPluginOrder":287,"./EnterLeaveEventPlugin":288,"./ExecutionEnvironment":295,"./HTMLDOMPropertyConfig":297,"./MobileSafariClickEventPlugin":300,"./ReactBrowserComponentMixin":304,"./ReactClass":308,"./ReactComponentBrowserEnvironment":310,"./ReactDOMButton":316,"./ReactDOMComponent":317,"./ReactDOMForm":318,"./ReactDOMIDOperations":319,"./ReactDOMIframe":320,"./ReactDOMImg":321,"./ReactDOMInput":322,"./ReactDOMOption":323,"./ReactDOMSelect":324,"./ReactDOMTextComponent":326,"./ReactDOMTextarea":327,"./ReactDefaultBatchingStrategy":328,"./ReactDefaultPerf":330,"./ReactElement":332,"./ReactEventListener":337,"./ReactInjection":339,"./ReactInstanceHandles":341,"./ReactMount":345,"./ReactReconcileTransaction":355,"./SVGDOMPropertyConfig":363,"./SelectEventPlugin":364,"./ServerReactRootIndex":365,"./SimpleEventPlugin":366,"./createFullPageComponent":386,"_process":463,"dup":146}],330:[function(require,module,exports){
+},{"./BeforeInputEventPlugin":278,"./ChangeEventPlugin":282,"./ClientReactRootIndex":283,"./DefaultEventPluginOrder":288,"./EnterLeaveEventPlugin":289,"./ExecutionEnvironment":296,"./HTMLDOMPropertyConfig":298,"./MobileSafariClickEventPlugin":301,"./ReactBrowserComponentMixin":305,"./ReactClass":309,"./ReactComponentBrowserEnvironment":311,"./ReactDOMButton":317,"./ReactDOMComponent":318,"./ReactDOMForm":319,"./ReactDOMIDOperations":320,"./ReactDOMIframe":321,"./ReactDOMImg":322,"./ReactDOMInput":323,"./ReactDOMOption":324,"./ReactDOMSelect":325,"./ReactDOMTextComponent":327,"./ReactDOMTextarea":328,"./ReactDefaultBatchingStrategy":329,"./ReactDefaultPerf":331,"./ReactElement":333,"./ReactEventListener":338,"./ReactInjection":340,"./ReactInstanceHandles":342,"./ReactMount":346,"./ReactReconcileTransaction":356,"./SVGDOMPropertyConfig":364,"./SelectEventPlugin":365,"./ServerReactRootIndex":366,"./SimpleEventPlugin":367,"./createFullPageComponent":387,"_process":467,"dup":146}],331:[function(require,module,exports){
 arguments[4][147][0].apply(exports,arguments)
-},{"./DOMProperty":284,"./ReactDefaultPerfAnalysis":331,"./ReactMount":345,"./ReactPerf":350,"./performanceNow":421,"dup":147}],331:[function(require,module,exports){
+},{"./DOMProperty":285,"./ReactDefaultPerfAnalysis":332,"./ReactMount":346,"./ReactPerf":351,"./performanceNow":422,"dup":147}],332:[function(require,module,exports){
 arguments[4][148][0].apply(exports,arguments)
-},{"./Object.assign":301,"dup":148}],332:[function(require,module,exports){
+},{"./Object.assign":302,"dup":148}],333:[function(require,module,exports){
 arguments[4][149][0].apply(exports,arguments)
-},{"./Object.assign":301,"./ReactContext":313,"./ReactCurrentOwner":314,"./warning":429,"_process":463,"dup":149}],333:[function(require,module,exports){
+},{"./Object.assign":302,"./ReactContext":314,"./ReactCurrentOwner":315,"./warning":430,"_process":467,"dup":149}],334:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -32042,65 +31916,65 @@ var ReactElementValidator = {
 module.exports = ReactElementValidator;
 
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":314,"./ReactElement":332,"./ReactFragment":338,"./ReactNativeComponent":348,"./ReactPropTypeLocationNames":351,"./ReactPropTypeLocations":352,"./getIteratorFn":401,"./invariant":410,"./warning":429,"_process":463}],334:[function(require,module,exports){
+},{"./ReactCurrentOwner":315,"./ReactElement":333,"./ReactFragment":339,"./ReactNativeComponent":349,"./ReactPropTypeLocationNames":352,"./ReactPropTypeLocations":353,"./getIteratorFn":402,"./invariant":411,"./warning":430,"_process":467}],335:[function(require,module,exports){
 arguments[4][151][0].apply(exports,arguments)
-},{"./ReactElement":332,"./ReactInstanceMap":342,"./invariant":410,"_process":463,"dup":151}],335:[function(require,module,exports){
+},{"./ReactElement":333,"./ReactInstanceMap":343,"./invariant":411,"_process":467,"dup":151}],336:[function(require,module,exports){
 arguments[4][152][0].apply(exports,arguments)
-},{"dup":152}],336:[function(require,module,exports){
+},{"dup":152}],337:[function(require,module,exports){
 arguments[4][153][0].apply(exports,arguments)
-},{"./EventPluginHub":291,"dup":153}],337:[function(require,module,exports){
+},{"./EventPluginHub":292,"dup":153}],338:[function(require,module,exports){
 arguments[4][154][0].apply(exports,arguments)
-},{"./EventListener":290,"./ExecutionEnvironment":295,"./Object.assign":301,"./PooledClass":302,"./ReactInstanceHandles":341,"./ReactMount":345,"./ReactUpdates":362,"./getEventTarget":400,"./getUnboundedScrollPosition":406,"dup":154}],338:[function(require,module,exports){
+},{"./EventListener":291,"./ExecutionEnvironment":296,"./Object.assign":302,"./PooledClass":303,"./ReactInstanceHandles":342,"./ReactMount":346,"./ReactUpdates":363,"./getEventTarget":401,"./getUnboundedScrollPosition":407,"dup":154}],339:[function(require,module,exports){
 arguments[4][155][0].apply(exports,arguments)
-},{"./ReactElement":332,"./warning":429,"_process":463,"dup":155}],339:[function(require,module,exports){
+},{"./ReactElement":333,"./warning":430,"_process":467,"dup":155}],340:[function(require,module,exports){
 arguments[4][156][0].apply(exports,arguments)
-},{"./DOMProperty":284,"./EventPluginHub":291,"./ReactBrowserEventEmitter":305,"./ReactClass":308,"./ReactComponentEnvironment":311,"./ReactDOMComponent":317,"./ReactEmptyComponent":334,"./ReactNativeComponent":348,"./ReactPerf":350,"./ReactRootIndex":358,"./ReactUpdates":362,"dup":156}],340:[function(require,module,exports){
+},{"./DOMProperty":285,"./EventPluginHub":292,"./ReactBrowserEventEmitter":306,"./ReactClass":309,"./ReactComponentEnvironment":312,"./ReactDOMComponent":318,"./ReactEmptyComponent":335,"./ReactNativeComponent":349,"./ReactPerf":351,"./ReactRootIndex":359,"./ReactUpdates":363,"dup":156}],341:[function(require,module,exports){
 arguments[4][157][0].apply(exports,arguments)
-},{"./ReactDOMSelection":325,"./containsNode":384,"./focusNode":394,"./getActiveElement":396,"dup":157}],341:[function(require,module,exports){
+},{"./ReactDOMSelection":326,"./containsNode":385,"./focusNode":395,"./getActiveElement":397,"dup":157}],342:[function(require,module,exports){
 arguments[4][158][0].apply(exports,arguments)
-},{"./ReactRootIndex":358,"./invariant":410,"_process":463,"dup":158}],342:[function(require,module,exports){
+},{"./ReactRootIndex":359,"./invariant":411,"_process":467,"dup":158}],343:[function(require,module,exports){
 arguments[4][159][0].apply(exports,arguments)
-},{"dup":159}],343:[function(require,module,exports){
+},{"dup":159}],344:[function(require,module,exports){
 arguments[4][160][0].apply(exports,arguments)
-},{"dup":160}],344:[function(require,module,exports){
+},{"dup":160}],345:[function(require,module,exports){
 arguments[4][162][0].apply(exports,arguments)
-},{"./adler32":381,"dup":162}],345:[function(require,module,exports){
+},{"./adler32":382,"dup":162}],346:[function(require,module,exports){
 arguments[4][163][0].apply(exports,arguments)
-},{"./DOMProperty":284,"./ReactBrowserEventEmitter":305,"./ReactCurrentOwner":314,"./ReactElement":332,"./ReactElementValidator":333,"./ReactEmptyComponent":334,"./ReactInstanceHandles":341,"./ReactInstanceMap":342,"./ReactMarkupChecksum":344,"./ReactPerf":350,"./ReactReconciler":356,"./ReactUpdateQueue":361,"./ReactUpdates":362,"./containsNode":384,"./emptyObject":390,"./getReactRootElementInContainer":404,"./instantiateReactComponent":409,"./invariant":410,"./setInnerHTML":423,"./shouldUpdateReactComponent":426,"./warning":429,"_process":463,"dup":163}],346:[function(require,module,exports){
+},{"./DOMProperty":285,"./ReactBrowserEventEmitter":306,"./ReactCurrentOwner":315,"./ReactElement":333,"./ReactElementValidator":334,"./ReactEmptyComponent":335,"./ReactInstanceHandles":342,"./ReactInstanceMap":343,"./ReactMarkupChecksum":345,"./ReactPerf":351,"./ReactReconciler":357,"./ReactUpdateQueue":362,"./ReactUpdates":363,"./containsNode":385,"./emptyObject":391,"./getReactRootElementInContainer":405,"./instantiateReactComponent":410,"./invariant":411,"./setInnerHTML":424,"./shouldUpdateReactComponent":427,"./warning":430,"_process":467,"dup":163}],347:[function(require,module,exports){
 arguments[4][164][0].apply(exports,arguments)
-},{"./ReactChildReconciler":306,"./ReactComponentEnvironment":311,"./ReactMultiChildUpdateTypes":347,"./ReactReconciler":356,"dup":164}],347:[function(require,module,exports){
+},{"./ReactChildReconciler":307,"./ReactComponentEnvironment":312,"./ReactMultiChildUpdateTypes":348,"./ReactReconciler":357,"dup":164}],348:[function(require,module,exports){
 arguments[4][165][0].apply(exports,arguments)
-},{"./keyMirror":415,"dup":165}],348:[function(require,module,exports){
+},{"./keyMirror":416,"dup":165}],349:[function(require,module,exports){
 arguments[4][166][0].apply(exports,arguments)
-},{"./Object.assign":301,"./invariant":410,"_process":463,"dup":166}],349:[function(require,module,exports){
+},{"./Object.assign":302,"./invariant":411,"_process":467,"dup":166}],350:[function(require,module,exports){
 arguments[4][167][0].apply(exports,arguments)
-},{"./invariant":410,"_process":463,"dup":167}],350:[function(require,module,exports){
+},{"./invariant":411,"_process":467,"dup":167}],351:[function(require,module,exports){
 arguments[4][168][0].apply(exports,arguments)
-},{"_process":463,"dup":168}],351:[function(require,module,exports){
+},{"_process":467,"dup":168}],352:[function(require,module,exports){
 arguments[4][170][0].apply(exports,arguments)
-},{"_process":463,"dup":170}],352:[function(require,module,exports){
+},{"_process":467,"dup":170}],353:[function(require,module,exports){
 arguments[4][171][0].apply(exports,arguments)
-},{"./keyMirror":415,"dup":171}],353:[function(require,module,exports){
+},{"./keyMirror":416,"dup":171}],354:[function(require,module,exports){
 arguments[4][172][0].apply(exports,arguments)
-},{"./ReactElement":332,"./ReactFragment":338,"./ReactPropTypeLocationNames":351,"./emptyFunction":389,"dup":172}],354:[function(require,module,exports){
+},{"./ReactElement":333,"./ReactFragment":339,"./ReactPropTypeLocationNames":352,"./emptyFunction":390,"dup":172}],355:[function(require,module,exports){
 arguments[4][173][0].apply(exports,arguments)
-},{"./Object.assign":301,"./PooledClass":302,"./ReactBrowserEventEmitter":305,"dup":173}],355:[function(require,module,exports){
+},{"./Object.assign":302,"./PooledClass":303,"./ReactBrowserEventEmitter":306,"dup":173}],356:[function(require,module,exports){
 arguments[4][174][0].apply(exports,arguments)
-},{"./CallbackQueue":280,"./Object.assign":301,"./PooledClass":302,"./ReactBrowserEventEmitter":305,"./ReactInputSelection":340,"./ReactPutListenerQueue":354,"./Transaction":378,"dup":174}],356:[function(require,module,exports){
+},{"./CallbackQueue":281,"./Object.assign":302,"./PooledClass":303,"./ReactBrowserEventEmitter":306,"./ReactInputSelection":341,"./ReactPutListenerQueue":355,"./Transaction":379,"dup":174}],357:[function(require,module,exports){
 arguments[4][175][0].apply(exports,arguments)
-},{"./ReactElementValidator":333,"./ReactRef":357,"_process":463,"dup":175}],357:[function(require,module,exports){
+},{"./ReactElementValidator":334,"./ReactRef":358,"_process":467,"dup":175}],358:[function(require,module,exports){
 arguments[4][176][0].apply(exports,arguments)
-},{"./ReactOwner":349,"dup":176}],358:[function(require,module,exports){
+},{"./ReactOwner":350,"dup":176}],359:[function(require,module,exports){
 arguments[4][177][0].apply(exports,arguments)
-},{"dup":177}],359:[function(require,module,exports){
+},{"dup":177}],360:[function(require,module,exports){
 arguments[4][178][0].apply(exports,arguments)
-},{"./ReactElement":332,"./ReactInstanceHandles":341,"./ReactMarkupChecksum":344,"./ReactServerRenderingTransaction":360,"./emptyObject":390,"./instantiateReactComponent":409,"./invariant":410,"_process":463,"dup":178}],360:[function(require,module,exports){
+},{"./ReactElement":333,"./ReactInstanceHandles":342,"./ReactMarkupChecksum":345,"./ReactServerRenderingTransaction":361,"./emptyObject":391,"./instantiateReactComponent":410,"./invariant":411,"_process":467,"dup":178}],361:[function(require,module,exports){
 arguments[4][179][0].apply(exports,arguments)
-},{"./CallbackQueue":280,"./Object.assign":301,"./PooledClass":302,"./ReactPutListenerQueue":354,"./Transaction":378,"./emptyFunction":389,"dup":179}],361:[function(require,module,exports){
+},{"./CallbackQueue":281,"./Object.assign":302,"./PooledClass":303,"./ReactPutListenerQueue":355,"./Transaction":379,"./emptyFunction":390,"dup":179}],362:[function(require,module,exports){
 arguments[4][185][0].apply(exports,arguments)
-},{"./Object.assign":301,"./ReactCurrentOwner":314,"./ReactElement":332,"./ReactInstanceMap":342,"./ReactLifeCycle":343,"./ReactUpdates":362,"./invariant":410,"./warning":429,"_process":463,"dup":185}],362:[function(require,module,exports){
+},{"./Object.assign":302,"./ReactCurrentOwner":315,"./ReactElement":333,"./ReactInstanceMap":343,"./ReactLifeCycle":344,"./ReactUpdates":363,"./invariant":411,"./warning":430,"_process":467,"dup":185}],363:[function(require,module,exports){
 arguments[4][186][0].apply(exports,arguments)
-},{"./CallbackQueue":280,"./Object.assign":301,"./PooledClass":302,"./ReactCurrentOwner":314,"./ReactPerf":350,"./ReactReconciler":356,"./Transaction":378,"./invariant":410,"./warning":429,"_process":463,"dup":186}],363:[function(require,module,exports){
+},{"./CallbackQueue":281,"./Object.assign":302,"./PooledClass":303,"./ReactCurrentOwner":315,"./ReactPerf":351,"./ReactReconciler":357,"./Transaction":379,"./invariant":411,"./warning":430,"_process":467,"dup":186}],364:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -32192,83 +32066,83 @@ var SVGDOMPropertyConfig = {
 
 module.exports = SVGDOMPropertyConfig;
 
-},{"./DOMProperty":284}],364:[function(require,module,exports){
+},{"./DOMProperty":285}],365:[function(require,module,exports){
 arguments[4][189][0].apply(exports,arguments)
-},{"./EventConstants":289,"./EventPropagators":294,"./ReactInputSelection":340,"./SyntheticEvent":370,"./getActiveElement":396,"./isTextInputElement":413,"./keyOf":416,"./shallowEqual":425,"dup":189}],365:[function(require,module,exports){
+},{"./EventConstants":290,"./EventPropagators":295,"./ReactInputSelection":341,"./SyntheticEvent":371,"./getActiveElement":397,"./isTextInputElement":414,"./keyOf":417,"./shallowEqual":426,"dup":189}],366:[function(require,module,exports){
 arguments[4][190][0].apply(exports,arguments)
-},{"dup":190}],366:[function(require,module,exports){
+},{"dup":190}],367:[function(require,module,exports){
 arguments[4][191][0].apply(exports,arguments)
-},{"./EventConstants":289,"./EventPluginUtils":293,"./EventPropagators":294,"./SyntheticClipboardEvent":367,"./SyntheticDragEvent":369,"./SyntheticEvent":370,"./SyntheticFocusEvent":371,"./SyntheticKeyboardEvent":373,"./SyntheticMouseEvent":374,"./SyntheticTouchEvent":375,"./SyntheticUIEvent":376,"./SyntheticWheelEvent":377,"./getEventCharCode":397,"./invariant":410,"./keyOf":416,"./warning":429,"_process":463,"dup":191}],367:[function(require,module,exports){
+},{"./EventConstants":290,"./EventPluginUtils":294,"./EventPropagators":295,"./SyntheticClipboardEvent":368,"./SyntheticDragEvent":370,"./SyntheticEvent":371,"./SyntheticFocusEvent":372,"./SyntheticKeyboardEvent":374,"./SyntheticMouseEvent":375,"./SyntheticTouchEvent":376,"./SyntheticUIEvent":377,"./SyntheticWheelEvent":378,"./getEventCharCode":398,"./invariant":411,"./keyOf":417,"./warning":430,"_process":467,"dup":191}],368:[function(require,module,exports){
 arguments[4][192][0].apply(exports,arguments)
-},{"./SyntheticEvent":370,"dup":192}],368:[function(require,module,exports){
+},{"./SyntheticEvent":371,"dup":192}],369:[function(require,module,exports){
 arguments[4][193][0].apply(exports,arguments)
-},{"./SyntheticEvent":370,"dup":193}],369:[function(require,module,exports){
+},{"./SyntheticEvent":371,"dup":193}],370:[function(require,module,exports){
 arguments[4][194][0].apply(exports,arguments)
-},{"./SyntheticMouseEvent":374,"dup":194}],370:[function(require,module,exports){
+},{"./SyntheticMouseEvent":375,"dup":194}],371:[function(require,module,exports){
 arguments[4][195][0].apply(exports,arguments)
-},{"./Object.assign":301,"./PooledClass":302,"./emptyFunction":389,"./getEventTarget":400,"dup":195}],371:[function(require,module,exports){
+},{"./Object.assign":302,"./PooledClass":303,"./emptyFunction":390,"./getEventTarget":401,"dup":195}],372:[function(require,module,exports){
 arguments[4][196][0].apply(exports,arguments)
-},{"./SyntheticUIEvent":376,"dup":196}],372:[function(require,module,exports){
+},{"./SyntheticUIEvent":377,"dup":196}],373:[function(require,module,exports){
 arguments[4][197][0].apply(exports,arguments)
-},{"./SyntheticEvent":370,"dup":197}],373:[function(require,module,exports){
+},{"./SyntheticEvent":371,"dup":197}],374:[function(require,module,exports){
 arguments[4][198][0].apply(exports,arguments)
-},{"./SyntheticUIEvent":376,"./getEventCharCode":397,"./getEventKey":398,"./getEventModifierState":399,"dup":198}],374:[function(require,module,exports){
+},{"./SyntheticUIEvent":377,"./getEventCharCode":398,"./getEventKey":399,"./getEventModifierState":400,"dup":198}],375:[function(require,module,exports){
 arguments[4][199][0].apply(exports,arguments)
-},{"./SyntheticUIEvent":376,"./ViewportMetrics":379,"./getEventModifierState":399,"dup":199}],375:[function(require,module,exports){
+},{"./SyntheticUIEvent":377,"./ViewportMetrics":380,"./getEventModifierState":400,"dup":199}],376:[function(require,module,exports){
 arguments[4][200][0].apply(exports,arguments)
-},{"./SyntheticUIEvent":376,"./getEventModifierState":399,"dup":200}],376:[function(require,module,exports){
+},{"./SyntheticUIEvent":377,"./getEventModifierState":400,"dup":200}],377:[function(require,module,exports){
 arguments[4][201][0].apply(exports,arguments)
-},{"./SyntheticEvent":370,"./getEventTarget":400,"dup":201}],377:[function(require,module,exports){
+},{"./SyntheticEvent":371,"./getEventTarget":401,"dup":201}],378:[function(require,module,exports){
 arguments[4][202][0].apply(exports,arguments)
-},{"./SyntheticMouseEvent":374,"dup":202}],378:[function(require,module,exports){
+},{"./SyntheticMouseEvent":375,"dup":202}],379:[function(require,module,exports){
 arguments[4][203][0].apply(exports,arguments)
-},{"./invariant":410,"_process":463,"dup":203}],379:[function(require,module,exports){
+},{"./invariant":411,"_process":467,"dup":203}],380:[function(require,module,exports){
 arguments[4][204][0].apply(exports,arguments)
-},{"dup":204}],380:[function(require,module,exports){
+},{"dup":204}],381:[function(require,module,exports){
 arguments[4][205][0].apply(exports,arguments)
-},{"./invariant":410,"_process":463,"dup":205}],381:[function(require,module,exports){
+},{"./invariant":411,"_process":467,"dup":205}],382:[function(require,module,exports){
 arguments[4][206][0].apply(exports,arguments)
-},{"dup":206}],382:[function(require,module,exports){
+},{"dup":206}],383:[function(require,module,exports){
 arguments[4][207][0].apply(exports,arguments)
-},{"dup":207}],383:[function(require,module,exports){
+},{"dup":207}],384:[function(require,module,exports){
 arguments[4][208][0].apply(exports,arguments)
-},{"./camelize":382,"dup":208}],384:[function(require,module,exports){
+},{"./camelize":383,"dup":208}],385:[function(require,module,exports){
 arguments[4][210][0].apply(exports,arguments)
-},{"./isTextNode":414,"dup":210}],385:[function(require,module,exports){
+},{"./isTextNode":415,"dup":210}],386:[function(require,module,exports){
 arguments[4][211][0].apply(exports,arguments)
-},{"./toArray":427,"dup":211}],386:[function(require,module,exports){
+},{"./toArray":428,"dup":211}],387:[function(require,module,exports){
 arguments[4][212][0].apply(exports,arguments)
-},{"./ReactClass":308,"./ReactElement":332,"./invariant":410,"_process":463,"dup":212}],387:[function(require,module,exports){
+},{"./ReactClass":309,"./ReactElement":333,"./invariant":411,"_process":467,"dup":212}],388:[function(require,module,exports){
 arguments[4][213][0].apply(exports,arguments)
-},{"./ExecutionEnvironment":295,"./createArrayFromMixed":385,"./getMarkupWrap":402,"./invariant":410,"_process":463,"dup":213}],388:[function(require,module,exports){
+},{"./ExecutionEnvironment":296,"./createArrayFromMixed":386,"./getMarkupWrap":403,"./invariant":411,"_process":467,"dup":213}],389:[function(require,module,exports){
 arguments[4][215][0].apply(exports,arguments)
-},{"./CSSProperty":278,"dup":215}],389:[function(require,module,exports){
+},{"./CSSProperty":279,"dup":215}],390:[function(require,module,exports){
 arguments[4][216][0].apply(exports,arguments)
-},{"dup":216}],390:[function(require,module,exports){
+},{"dup":216}],391:[function(require,module,exports){
 arguments[4][217][0].apply(exports,arguments)
-},{"_process":463,"dup":217}],391:[function(require,module,exports){
+},{"_process":467,"dup":217}],392:[function(require,module,exports){
 arguments[4][218][0].apply(exports,arguments)
-},{"dup":218}],392:[function(require,module,exports){
+},{"dup":218}],393:[function(require,module,exports){
 arguments[4][219][0].apply(exports,arguments)
-},{"./ReactCurrentOwner":314,"./ReactInstanceMap":342,"./ReactMount":345,"./invariant":410,"./isNode":412,"./warning":429,"_process":463,"dup":219}],393:[function(require,module,exports){
+},{"./ReactCurrentOwner":315,"./ReactInstanceMap":343,"./ReactMount":346,"./invariant":411,"./isNode":413,"./warning":430,"_process":467,"dup":219}],394:[function(require,module,exports){
 arguments[4][220][0].apply(exports,arguments)
-},{"./traverseAllChildren":428,"./warning":429,"_process":463,"dup":220}],394:[function(require,module,exports){
+},{"./traverseAllChildren":429,"./warning":430,"_process":467,"dup":220}],395:[function(require,module,exports){
 arguments[4][221][0].apply(exports,arguments)
-},{"dup":221}],395:[function(require,module,exports){
+},{"dup":221}],396:[function(require,module,exports){
 arguments[4][222][0].apply(exports,arguments)
-},{"dup":222}],396:[function(require,module,exports){
+},{"dup":222}],397:[function(require,module,exports){
 arguments[4][223][0].apply(exports,arguments)
-},{"dup":223}],397:[function(require,module,exports){
+},{"dup":223}],398:[function(require,module,exports){
 arguments[4][224][0].apply(exports,arguments)
-},{"dup":224}],398:[function(require,module,exports){
+},{"dup":224}],399:[function(require,module,exports){
 arguments[4][225][0].apply(exports,arguments)
-},{"./getEventCharCode":397,"dup":225}],399:[function(require,module,exports){
+},{"./getEventCharCode":398,"dup":225}],400:[function(require,module,exports){
 arguments[4][226][0].apply(exports,arguments)
-},{"dup":226}],400:[function(require,module,exports){
+},{"dup":226}],401:[function(require,module,exports){
 arguments[4][227][0].apply(exports,arguments)
-},{"dup":227}],401:[function(require,module,exports){
+},{"dup":227}],402:[function(require,module,exports){
 arguments[4][228][0].apply(exports,arguments)
-},{"dup":228}],402:[function(require,module,exports){
+},{"dup":228}],403:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -32385,63 +32259,63 @@ function getMarkupWrap(nodeName) {
 module.exports = getMarkupWrap;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":295,"./invariant":410,"_process":463}],403:[function(require,module,exports){
+},{"./ExecutionEnvironment":296,"./invariant":411,"_process":467}],404:[function(require,module,exports){
 arguments[4][230][0].apply(exports,arguments)
-},{"dup":230}],404:[function(require,module,exports){
+},{"dup":230}],405:[function(require,module,exports){
 arguments[4][231][0].apply(exports,arguments)
-},{"dup":231}],405:[function(require,module,exports){
+},{"dup":231}],406:[function(require,module,exports){
 arguments[4][232][0].apply(exports,arguments)
-},{"./ExecutionEnvironment":295,"dup":232}],406:[function(require,module,exports){
+},{"./ExecutionEnvironment":296,"dup":232}],407:[function(require,module,exports){
 arguments[4][233][0].apply(exports,arguments)
-},{"dup":233}],407:[function(require,module,exports){
+},{"dup":233}],408:[function(require,module,exports){
 arguments[4][234][0].apply(exports,arguments)
-},{"dup":234}],408:[function(require,module,exports){
+},{"dup":234}],409:[function(require,module,exports){
 arguments[4][235][0].apply(exports,arguments)
-},{"./hyphenate":407,"dup":235}],409:[function(require,module,exports){
+},{"./hyphenate":408,"dup":235}],410:[function(require,module,exports){
 arguments[4][236][0].apply(exports,arguments)
-},{"./Object.assign":301,"./ReactCompositeComponent":312,"./ReactEmptyComponent":334,"./ReactNativeComponent":348,"./invariant":410,"./warning":429,"_process":463,"dup":236}],410:[function(require,module,exports){
+},{"./Object.assign":302,"./ReactCompositeComponent":313,"./ReactEmptyComponent":335,"./ReactNativeComponent":349,"./invariant":411,"./warning":430,"_process":467,"dup":236}],411:[function(require,module,exports){
 arguments[4][237][0].apply(exports,arguments)
-},{"_process":463,"dup":237}],411:[function(require,module,exports){
+},{"_process":467,"dup":237}],412:[function(require,module,exports){
 arguments[4][238][0].apply(exports,arguments)
-},{"./ExecutionEnvironment":295,"dup":238}],412:[function(require,module,exports){
+},{"./ExecutionEnvironment":296,"dup":238}],413:[function(require,module,exports){
 arguments[4][239][0].apply(exports,arguments)
-},{"dup":239}],413:[function(require,module,exports){
+},{"dup":239}],414:[function(require,module,exports){
 arguments[4][240][0].apply(exports,arguments)
-},{"dup":240}],414:[function(require,module,exports){
+},{"dup":240}],415:[function(require,module,exports){
 arguments[4][241][0].apply(exports,arguments)
-},{"./isNode":412,"dup":241}],415:[function(require,module,exports){
+},{"./isNode":413,"dup":241}],416:[function(require,module,exports){
 arguments[4][243][0].apply(exports,arguments)
-},{"./invariant":410,"_process":463,"dup":243}],416:[function(require,module,exports){
+},{"./invariant":411,"_process":467,"dup":243}],417:[function(require,module,exports){
 arguments[4][244][0].apply(exports,arguments)
-},{"dup":244}],417:[function(require,module,exports){
+},{"dup":244}],418:[function(require,module,exports){
 arguments[4][245][0].apply(exports,arguments)
-},{"dup":245}],418:[function(require,module,exports){
+},{"dup":245}],419:[function(require,module,exports){
 arguments[4][246][0].apply(exports,arguments)
-},{"dup":246}],419:[function(require,module,exports){
+},{"dup":246}],420:[function(require,module,exports){
 arguments[4][247][0].apply(exports,arguments)
-},{"./ReactElement":332,"./invariant":410,"_process":463,"dup":247}],420:[function(require,module,exports){
+},{"./ReactElement":333,"./invariant":411,"_process":467,"dup":247}],421:[function(require,module,exports){
 arguments[4][248][0].apply(exports,arguments)
-},{"./ExecutionEnvironment":295,"dup":248}],421:[function(require,module,exports){
+},{"./ExecutionEnvironment":296,"dup":248}],422:[function(require,module,exports){
 arguments[4][249][0].apply(exports,arguments)
-},{"./performance":420,"dup":249}],422:[function(require,module,exports){
+},{"./performance":421,"dup":249}],423:[function(require,module,exports){
 arguments[4][250][0].apply(exports,arguments)
-},{"./escapeTextContentForBrowser":391,"dup":250}],423:[function(require,module,exports){
+},{"./escapeTextContentForBrowser":392,"dup":250}],424:[function(require,module,exports){
 arguments[4][251][0].apply(exports,arguments)
-},{"./ExecutionEnvironment":295,"dup":251}],424:[function(require,module,exports){
+},{"./ExecutionEnvironment":296,"dup":251}],425:[function(require,module,exports){
 arguments[4][252][0].apply(exports,arguments)
-},{"./ExecutionEnvironment":295,"./escapeTextContentForBrowser":391,"./setInnerHTML":423,"dup":252}],425:[function(require,module,exports){
+},{"./ExecutionEnvironment":296,"./escapeTextContentForBrowser":392,"./setInnerHTML":424,"dup":252}],426:[function(require,module,exports){
 arguments[4][253][0].apply(exports,arguments)
-},{"dup":253}],426:[function(require,module,exports){
+},{"dup":253}],427:[function(require,module,exports){
 arguments[4][254][0].apply(exports,arguments)
-},{"./warning":429,"_process":463,"dup":254}],427:[function(require,module,exports){
+},{"./warning":430,"_process":467,"dup":254}],428:[function(require,module,exports){
 arguments[4][255][0].apply(exports,arguments)
-},{"./invariant":410,"_process":463,"dup":255}],428:[function(require,module,exports){
+},{"./invariant":411,"_process":467,"dup":255}],429:[function(require,module,exports){
 arguments[4][256][0].apply(exports,arguments)
-},{"./ReactElement":332,"./ReactFragment":338,"./ReactInstanceHandles":341,"./getIteratorFn":401,"./invariant":410,"./warning":429,"_process":463,"dup":256}],429:[function(require,module,exports){
+},{"./ReactElement":333,"./ReactFragment":339,"./ReactInstanceHandles":342,"./getIteratorFn":402,"./invariant":411,"./warning":430,"_process":467,"dup":256}],430:[function(require,module,exports){
 arguments[4][258][0].apply(exports,arguments)
-},{"./emptyFunction":389,"_process":463,"dup":258}],430:[function(require,module,exports){
+},{"./emptyFunction":390,"_process":467,"dup":258}],431:[function(require,module,exports){
 arguments[4][259][0].apply(exports,arguments)
-},{"./lib/React":303,"dup":259}],431:[function(require,module,exports){
+},{"./lib/React":304,"dup":259}],432:[function(require,module,exports){
 "use strict";
 
 var Radium = require("radium");
@@ -32523,7 +32397,7 @@ var BubblySmall = React.createClass({
 
 module.exports = BubblySmall;
 
-},{"../../flowly/NameAndComment.js":447,"../../flowly/PhotoSmall.js":453,"radium":502,"react":430}],432:[function(require,module,exports){
+},{"../../flowly/NameAndComment.js":449,"../../flowly/PhotoSmall.js":456,"radium":472,"react":431}],433:[function(require,module,exports){
 "use strict";
 
 var Radium = require("radium");
@@ -32539,11 +32413,19 @@ var SmallMSN = React.createClass({
 	render: function render() {
 		return React.createElement(
 			"div",
-			{ className: "social-card z-depth-3" },
+			{ className: "card z-depth-1" },
 			React.createElement(
 				"div",
 				{ className: "main-box-social-smallmsn" },
-				React.createElement(PhotoSmall, { url: this.props.data.PictureUrl }),
+				React.createElement(
+					"a",
+					{ href: this.props.returnurl },
+					React.createElement(
+						"span",
+						null,
+						React.createElement(PhotoSmall, { url: this.props.data.PictureUrl })
+					)
+				),
 				React.createElement(
 					"div",
 					{ className: "side-contain-social-smallmsn" },
@@ -32571,7 +32453,7 @@ var SmallMSN = React.createClass({
 
 module.exports = SmallMSN;
 
-},{"../../flowly/NameAndComment.js":447,"../../flowly/PhotoSmall.js":453,"radium":502,"react":827}],433:[function(require,module,exports){
+},{"../../flowly/NameAndComment.js":449,"../../flowly/PhotoSmall.js":456,"radium":472,"react":805}],434:[function(require,module,exports){
 "use strict";
 
 var Radium = require("radium");
@@ -32618,7 +32500,7 @@ var SmallText = React.createClass({
 
 module.exports = SmallText;
 
-},{"../../flowly/NameAndComment.js":447,"../../flowly/PhotoSmall.js":453,"radium":502,"react":827}],434:[function(require,module,exports){
+},{"../../flowly/NameAndComment.js":449,"../../flowly/PhotoSmall.js":456,"radium":472,"react":805}],435:[function(require,module,exports){
 "use strict";
 
 var Radium = require("radium");
@@ -32743,10 +32625,11 @@ var SocialInfluance = React.createClass({
 
 module.exports = SocialInfluance;
 
-},{"../../flowly/DonutChart.js":440,"../../flowly/EmotionList.js":442,"../../flowly/GenderList.js":445,"../../flowly/SocialList.js":456,"../../flowly/StatisticsTable.js":457,"../../flowly/TagList.js":458,"radium":502,"react":827}],435:[function(require,module,exports){
+},{"../../flowly/DonutChart.js":442,"../../flowly/EmotionList.js":444,"../../flowly/GenderList.js":447,"../../flowly/SocialList.js":459,"../../flowly/StatisticsTable.js":460,"../../flowly/TagList.js":461,"radium":472,"react":805}],436:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
+var Radium = require("radium");
 var jQuery = require("jquery");
 //var DoughnutChart = require("react-d3-components").DoughnutChart;;
 var TagList = require("../../flowly/TagList.js");
@@ -32759,22 +32642,21 @@ var SIM = React.createClass({
     render: function () {
         //debugger;
         //
-        var styles = {
-            s1: { padding: "0px" } };
-        var fbUrl = this.props.returnurl + "/Comments?id=" + this.props.id + "&type=source&page=1&q=Facebook";
-        var twitUrl = this.props.returnurl + "/Comments?id=" + this.props.id + "&type=source&page=1&q=Twitter";
-        var tumbUrl = this.props.returnurl + "/Comments?id=" + this.props.id + "&type=source&page=1&q=Tumblr";
-        var maleUrl = this.props.returnurl + "/Comments?id=" + this.props.id + "&type=gender&page=1&q=Male";
-        var femaleUrl = this.props.returnurl + "/Comments?id=" + this.props.id + "&type=gender&page=1&q=Female";
-        var otherGenderUrl = this.props.returnurl + "/Comments?id=" + this.props.id + "&type=gender&page=1&q=Others";
+
+        var fbUrl = this.props.returnurl + "?id=" + this.props.id + "&type=source&page=1&q=Facebook";
+        var twitUrl = this.props.returnurl + "?id=" + this.props.id + "&type=source&page=1&q=Twitter";
+        var tumbUrl = this.props.returnurl + "?id=" + this.props.id + "&type=source&page=1&q=Tumblr";
+        var maleUrl = this.props.returnurl + "?id=" + this.props.id + "&type=gender&page=1&q=Male";
+        var femaleUrl = this.props.returnurl + "?id=" + this.props.id + "&type=gender&page=1&q=Female";
+        var otherGenderUrl = this.props.returnurl + "?id=" + this.props.id + "&type=gender&page=1&q=Others";
         var total = this.props.data.Stat.PosCount + this.props.data.Stat.NegCount + this.props.data.Stat.NeuCount;
 
         return React.createElement(
             "div",
-            { className: "social-card z-depth-3" },
+            { className: "card z-depth-3" },
             React.createElement(
                 "div",
-                { className: "row", style: { "margin-bottom": "0px" } },
+                { className: "row", style: { "margin-bottom": "0px;" } },
                 React.createElement(
                     "div",
                     { className: "col s12", style: { padding: "1px" } },
@@ -32831,7 +32713,7 @@ var SIM = React.createClass({
                                         ),
                                         React.createElement(
                                             "li",
-                                            { className: "mobile ultra-small", style: { "padding-left": "20px", "padding-right": "20px" } },
+                                            { className: "mobile ultra-small", style: { "padding-left": "20px;", "padding-right": "20px;" } },
                                             React.createElement("span", { className: "legend-color" }),
                                             " Negative"
                                         ),
@@ -32848,7 +32730,11 @@ var SIM = React.createClass({
                         React.createElement(
                             "li",
                             { className: "collection-item avatar", style: { border: "none" } },
-                            React.createElement("i", { className: "mdi-social-pages circle red darken-2" }),
+                            React.createElement(
+                                "i",
+                                { className: "material-icons circle red darken-2" },
+                                "tv"
+                            ),
                             React.createElement(
                                 "span",
                                 { className: "social-collection-header" },
@@ -32993,7 +32879,11 @@ var SIM = React.createClass({
                         React.createElement(
                             "li",
                             { className: "collection-item avatar", style: { border: "none" } },
-                            React.createElement("i", { className: "mdi-social-people circle red darken-2" }),
+                            React.createElement(
+                                "i",
+                                { className: "material-icons circle red darken-2" },
+                                "people"
+                            ),
                             React.createElement(
                                 "span",
                                 { className: "social-collection-header" },
@@ -33151,7 +33041,11 @@ var SIM = React.createClass({
                         React.createElement(
                             "li",
                             { className: "collection-item avatar", style: { border: "none" } },
-                            React.createElement("i", { className: "mdi-action-picture-in-picture circle red darken-2" }),
+                            React.createElement(
+                                "i",
+                                { className: "material-icons circle red darken-2 icon-demo" },
+                                "perm_media"
+                            ),
                             React.createElement(
                                 "span",
                                 { className: "social-collection-header" },
@@ -33215,7 +33109,11 @@ var SIM = React.createClass({
                                             React.createElement(
                                                 "a",
                                                 { className: "white-text red darken-1 waves-effect waves-light active", href: "#tags1" },
-                                                React.createElement("i", { className: "mdi-action-perm-identity" }),
+                                                React.createElement(
+                                                    "i",
+                                                    { className: "material-icons tiny" },
+                                                    "perm_identity"
+                                                ),
                                                 " Tags"
                                             )
                                         ),
@@ -33225,7 +33123,11 @@ var SIM = React.createClass({
                                             React.createElement(
                                                 "a",
                                                 { className: "white-text light-blue darken-1 waves-effect waves-light", href: "#emotions2" },
-                                                React.createElement("i", { className: "mdi-action-speaker-notes" }),
+                                                React.createElement(
+                                                    "i",
+                                                    { className: "material-icons tiny" },
+                                                    "speaker_notes"
+                                                ),
                                                 " Emotions"
                                             )
                                         ),
@@ -33447,7 +33349,282 @@ module.exports = SIM;
 //console.log('region-out', code);
 //console.log('region-click', code);
 
-},{"../../flowly/EmotionList.js":442,"../../flowly/StatisticsTable.js":457,"../../flowly/TagList.js":458,"jquery":500,"react":827}],436:[function(require,module,exports){
+},{"../../flowly/EmotionList.js":444,"../../flowly/StatisticsTable.js":460,"../../flowly/TagList.js":461,"jquery":470,"radium":472,"react":805}],437:[function(require,module,exports){
+"use strict";
+
+var React = require("react");
+var jQuery = require("jquery");
+
+var FluidVid = React.createClass({
+    displayName: "FluidVid",
+    getDefaultProps: function () {
+        return {
+            src: "",
+            width: 1600,
+            height: 900
+        };
+    },
+    getRatio: function (width, height) {
+        return parseInt(height, 10) / parseInt(width, 10) * 100 + "%";
+    },
+    render: function () {
+        var ratio = {
+            paddingTop: this.getRatio(this.props.width, this.props.height)
+        };
+        return React.createElement(
+            "div",
+            { className: "fluidvids", style: ratio },
+            React.createElement("iframe", { src: this.props.src, width: this.props.width, height: this.props.height, frameBorder: 0 })
+        );
+    }
+});
+
+var Story = React.createClass({
+    displayName: "Story",
+
+
+
+    render: function () {
+        var s1 = { "font-family": "georgia", "font-size": "16px", "line-height": "26px", "margin-bottom": "4%", "margin-left": "10%", "margin-right": "9%" };
+        var s2 = { width: "100%", height: "40px" };
+        var s3 = { width: "100%" };
+        var s4 = { "padding-top": "20px", width: "100%" };
+        var s5 = { height: "48px", width: "48px", padding: "4px", "border-bottom": "none", "margin-right": "5px" };
+        var s8 = { "padding-right": "5px", color: "darkgray" };
+
+        var urlTitle = this.props.returnurl;
+        // http://, https://, ftp://
+        var urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
+        var date = Date.parse(Date().toString());
+
+        var commentNodes = this.props.data.map(function (item, i) {
+            return React.createElement(
+                "div",
+                null,
+                item.VideoID ? React.createElement(
+                    "div",
+                    { className: "fluidvids-youtube" },
+                    React.createElement(FluidVid, { src: "http://www.youtube.com/embed/" + item.VideoID + "?rel=0" })
+                ) : item.PhotoUrl && item.Datasource == "Instagram" ? React.createElement(
+                    "div",
+                    null,
+                    React.createElement("img", { style: s3, src: item.PhotoUrl })
+                ) : item.PhotoUrl && item.Datasource == "GooglePlus" ? React.createElement(
+                    "div",
+                    null,
+                    React.createElement("img", { style: s3, src: item.PhotoUrl })
+                ) : item.PhotoUrl && item.Datasource == "Tumblr" ? React.createElement(
+                    "div",
+                    null,
+                    React.createElement("img", { style: s3, src: item.PhotoUrl })
+                ) : item.PhotoUrl && item.Datasource == "Twitter" ? React.createElement(
+                    "div",
+                    null,
+                    React.createElement("img", { style: s3, src: item.PhotoUrl })
+                ) : item.PhotoUrl && item.Datasource == "Facebook" ? React.createElement(
+                    "div",
+                    null,
+                    React.createElement("img", { style: s3, src: item.PhotoUrl })
+                ) : false,
+                item.Datasource == "Twitter" ? React.createElement(
+                    "div",
+                    null,
+                    React.createElement(
+                        "a",
+                        { href: "https://twitter.com/" + item.ProfileID.substr(1), target: "_blank", className: "pull-left" },
+                        React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 })
+                    ),
+                    React.createElement(
+                        "div",
+                        { style: s2 },
+                        React.createElement(
+                            "div",
+                            null,
+                            React.createElement(
+                                "a",
+                                { href: "https://twitter.com/" + item.ProfileID.substr(1), target: "_blank" },
+                                item.ProfileName ? item.ProfileName.substr(1) : "No Name"
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "pull-right" },
+                                React.createElement("span", { style: s8, className: "fa fa-twitter-square" })
+                            )
+                        ),
+                        React.createElement(
+                            "p",
+                            null,
+                            item.ProfileID,
+                            " (",
+                            item.ProfileFollower,
+                            ")"
+                        )
+                    )
+                ) : item.Datasource == "Instagram" ? React.createElement(
+                    "div",
+                    null,
+                    React.createElement(
+                        "a",
+                        { href: "https://instagram.com/" + item.ProfileID, target: "_blank", className: "pull-left" },
+                        React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 })
+                    ),
+                    React.createElement(
+                        "div",
+                        { style: s2 },
+                        React.createElement(
+                            "a",
+                            { href: "https://instagram.com/" + item.ProfileID, target: "_blank" },
+                            item.ProfileName ? item.ProfileName : "No Name"
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "pull-right" },
+                            React.createElement("span", { style: s8, className: "fa fa-instagram" })
+                        )
+                    )
+                ) : item.Datasource == "GooglePlus" ? React.createElement(
+                    "div",
+                    null,
+                    React.createElement(
+                        "a",
+                        { href: "https://plus.google.com/" + item.ProfileID, target: "_blank", className: "pull-left" },
+                        React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 })
+                    ),
+                    React.createElement(
+                        "div",
+                        { style: s2 },
+                        React.createElement(
+                            "a",
+                            { href: "https://plus.google.com/" + item.ProfileID, target: "_blank" },
+                            item.ProfileName ? item.ProfileName : "No Name"
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "pull-right" },
+                            React.createElement("span", { style: s8, className: "fa fa-google-plus-square" })
+                        )
+                    )
+                ) : item.Datasource == "Tumblr" ? React.createElement(
+                    "div",
+                    null,
+                    React.createElement(
+                        "a",
+                        { href: "http://" + item.ProfileID + ".tumblr.com", target: "_blank", className: "pull-left" },
+                        React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 })
+                    ),
+                    React.createElement(
+                        "div",
+                        { style: s2 },
+                        React.createElement(
+                            "a",
+                            { href: "http://" + item.ProfileID + ".tumblr.com", target: "_blank" },
+                            item.ProfileName ? item.ProfileName : "No Name"
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "pull-right" },
+                            React.createElement("span", { style: s8, className: "fa fa-tumblr-square" })
+                        )
+                    )
+                ) : item.Datasource == "Facebook" ? React.createElement(
+                    "div",
+                    null,
+                    React.createElement(
+                        "a",
+                        { href: "https://www.facebook.com/profile.php?id =" + item.ProfileID, target: " _blank", className: "pull-left" },
+                        React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 })
+                    ),
+                    React.createElement(
+                        "div",
+                        { style: s2 },
+                        React.createElement(
+                            "a",
+                            { href: "https://www.facebook.com/profile.php?id =" + item.ProfileID, target: " _blank" },
+                            item.ProfileName ? item.ProfileName : "No Name"
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "pull-right" },
+                            React.createElement("span", { style: s8, className: "fa fa-facebook-square" })
+                        )
+                    )
+                ) : false,
+                React.createElement(
+                    "div",
+                    { className: "card-content" },
+                    React.createElement("div", { dangerouslySetInnerHTML: { __html: item.Text != null ? item.Text.replace(urlPattern, "<a style=\"word-break:break-word;\" href=\"$&\" target=\"_blank\">$&</a>") : false } }),
+                    React.createElement(
+                        "p",
+                        { className: "pull-left", style: s4 },
+                        item.Datasource == "Instagram" ? Math.round((date / 1000 - parseInt(item.DocDate)) * 1.1574074074074e-8) >= 1 ? React.createElement(
+                            "span",
+                            null,
+                            Math.round((date / 1000 - parseInt(item.DocDate)) * 1.1574074074074e-8),
+                            "d"
+                        ) : Math.round((date / 1000 - parseInt(item.DocDate)) * 1.1574074074074e-8) < 1 && Math.round((date / 1000 - parseInt(item.DocDate)) * 2.7777777777778e-7) > 1 ? React.createElement(
+                            "span",
+                            null,
+                            Math.round((date / 1000 - parseInt(item.DocDate)) * 2.7777777777778e-7),
+                            "h"
+                        ) : Math.round((date / 1000 - item.DocDate) * 2.7777777777778e-7) < 1 ? React.createElement(
+                            "span",
+                            null,
+                            Math.round((date / 1000 - parseInt(item.DocDate)) / 60000),
+                            "m"
+                        ) : false : Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074e-8) >= 1 ? React.createElement(
+                            "span",
+                            null,
+                            Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074e-8),
+                            "d"
+                        ) : Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074e-8) < 1 && Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778e-7) > 1 ? React.createElement(
+                            "span",
+                            null,
+                            Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778e-7),
+                            "h"
+                        ) : Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778e-7) < 1 ? React.createElement(
+                            "span",
+                            null,
+                            Math.round((date - Date.parse(item.DocDate)) / 60000),
+                            "m"
+                        ) : false
+                    )
+                ),
+                React.createElement(
+                    "p",
+                    { style: s1 },
+                    item.Comments
+                )
+            );
+        });
+        return React.createElement(
+            "div",
+            { className: "card" },
+            React.createElement(
+                "div",
+                { style: { "padding-left": "5px" } },
+                React.createElement(
+                    "h3",
+                    null,
+                    this.props.title
+                ),
+                React.createElement(
+                    "h5",
+                    null,
+                    this.props.discription
+                )
+            ),
+            React.createElement(
+                "div",
+                null,
+                commentNodes
+            )
+        );
+    }
+});
+
+module.exports = Story;
+
+},{"jquery":470,"react":805}],438:[function(require,module,exports){
 "use strict";
 
 var Radium = require("radium");
@@ -33572,7 +33749,7 @@ function getYouTubeVideoImage(vid, size) {
 
 module.exports = BubblyVC;
 
-},{"../../flowly/PhotoThumb.js":454,"../../flowly/VideoCollage.js":460,"radium":502,"react":827}],437:[function(require,module,exports){
+},{"../../flowly/PhotoThumb.js":457,"../../flowly/VideoCollage.js":463,"radium":472,"react":805}],439:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33616,7 +33793,7 @@ var ItemYoutube = React.createClass({
 		var s3 = { position: "absolute", "background-color": "whitesmoke", bottom: "10px", height: "40px", padding: "9px 5px 0px  10px" };
 		return React.createElement(
 			"div",
-			{ className: "grid-item grid-item--YouTube-width grid-item--YouTube-height card", style: { margin: "5px 5px 5px 5px" } },
+			{ className: "gridWall-item gridWall-item--YouTube-width gridWall-item--YouTube-height card", style: { margin: "5px 5px 5px 5px" } },
 			React.createElement(
 				"div",
 				{ className: "card-image", style: s4 },
@@ -33649,7 +33826,7 @@ var ItemVimeo = React.createClass({
 		var s4 = { opacity: "1", float: "left", height: "520px", width: "100%", overflow: "hidden", display: "block", "background-image": "url(//img.youtube.com/vi/" + this.props.data + "/0.jpg)", "background-size": "cover", "background-position": "25% 0%", "background-repeat": "no-repeat" };
 		return React.createElement(
 			"div",
-			{ className: "grid-item grid-item--Vimeo-width grid-item--Vimeo-height", style: { margin: "5px 5px 5px 5px" } },
+			{ className: "gridWall-item gridWall-item--Vimeo-width gridWall-item--Vimeo-height", style: { margin: "5px 5px 5px 5px" } },
 			React.createElement("div", { style: s4 })
 		);
 	}
@@ -33670,7 +33847,7 @@ var ItemFbTextPhoto = React.createClass({
 			{ href: this.props.href, target: "_blank" },
 			React.createElement(
 				"div",
-				{ className: "grid-item grid-item--fbTextPhoto-width grid-item--fbTextPhoto-height card", style: { margin: "5px 5px 5px 5px", "background-color": "#3a5795" } },
+				{ className: "gridWall-item gridWall-item--fbTextPhoto-width gridWall-item--fbTextPhoto-height card", style: { margin: "5px 5px 5px 5px", "background-color": "#3a5795" } },
 				React.createElement(
 					"div",
 					{ className: "row" },
@@ -33718,7 +33895,7 @@ var ItemFbPhoto = React.createClass({
 			{ href: this.props.href, target: "_blank" },
 			React.createElement(
 				"div",
-				{ className: "grid-item grid-item--fbPhoto-width grid-item--fbPhoto-height card", style: { margin: "5px 5px 5px 5px" } },
+				{ className: "gridWall-item gridWall-item--fbPhoto-width gridWall-item--fbPhoto-height card", style: { margin: "5px 5px 5px 5px" } },
 				React.createElement("div", { className: "card-image", style: s4 })
 			)
 		);
@@ -33737,7 +33914,7 @@ var ItemfbText = React.createClass({
 			{ href: this.props.href, target: "_blank" },
 			React.createElement(
 				"div",
-				{ className: "grid-item grid-item--text-width grid-item--text-height card-panel", style: { margin: "5px 5px 5px 5px", "background-color": "#3a5795" } },
+				{ className: "gridWall-item gridWall-item--text-width gridWall-item--text-height card-panel", style: { margin: "5px 5px 5px 5px", "background-color": "#3a5795" } },
 				React.createElement(
 					"div",
 					{ className: "white-text" },
@@ -33774,7 +33951,7 @@ var ItemtwTextPhoto = React.createClass({
 			{ href: this.props.href, target: "_blank" },
 			React.createElement(
 				"div",
-				{ className: "grid-item grid-item--fbPhoto-width grid-item--fbPhoto-height card", style: { margin: "5px 5px 5px 5px" } },
+				{ className: "gridWall-item gridWall-item--fbPhoto-width gridWall-item--fbPhoto-height card", style: { margin: "5px 5px 5px 5px" } },
 				React.createElement(
 					"div",
 					{ style: s4 },
@@ -33815,7 +33992,7 @@ var ItemtwText = React.createClass({
 			{ href: this.props.href, target: "_blank" },
 			React.createElement(
 				"div",
-				{ className: "grid-item grid-item--text-width grid-item--text-height card-panel card-content", style: s4 },
+				{ className: "gridWall-item gridWall-item--text-width gridWall-item--text-height card-panel card-content", style: s4 },
 				React.createElement(
 					"div",
 					{ className: "white-text" },
@@ -33852,7 +34029,7 @@ var ItemTmbTextPhoto = React.createClass({
 			{ href: this.props.href, target: "_blank" },
 			React.createElement(
 				"div",
-				{ className: "grid-item grid-item--fbTextPhoto-width grid-item--fbTextPhoto-height card", style: { margin: "5px 5px 5px 5px" } },
+				{ className: "gridWall-item gridWall-item--fbTextPhoto-width gridWall-item--fbTextPhoto-height card", style: { margin: "5px 5px 5px 5px" } },
 				React.createElement(
 					"div",
 					{ style: s4 },
@@ -33891,7 +34068,7 @@ var ItemTmbPhoto = React.createClass({
 			{ href: this.props.href, target: "_blank" },
 			React.createElement(
 				"div",
-				{ className: "grid-item grid-item--fbPhoto-width grid-item--fbPhoto-height card", style: { margin: "5px 5px 5px 5px" } },
+				{ className: "gridWall-item gridWall-item--fbPhoto-width gridWall-item--fbPhoto-height card", style: { margin: "5px 5px 5px 5px" } },
 				React.createElement("div", { className: "card-image", style: s4 })
 			)
 		);
@@ -33910,7 +34087,7 @@ var ItemTmbText = React.createClass({
 			{ href: this.props.href, target: "_blank" },
 			React.createElement(
 				"div",
-				{ className: "grid-item grid-item--text-width grid-item--text-height card-panel", style: { margin: "5px 5px 5px 5px", "background-color": " #36465d" } },
+				{ className: "gridWall-item gridWall-item--text-width gridWall-item--text-height card-panel", style: { margin: "5px 5px 5px 5px", "background-color": " #36465d" } },
 				React.createElement(
 					"div",
 					{ className: "white-text" },
@@ -33944,7 +34121,7 @@ var ItemInstagramPhoto = React.createClass({
 			{ href: this.props.href, target: "_blank" },
 			React.createElement(
 				"div",
-				{ className: "grid-item grid-item--text-width grid-item--text-height card", style: { margin: "5px 5px 5px 5px" } },
+				{ className: "gridWall-item gridWall-item--text-width gridWall-item--text-height card", style: { margin: "5px 5px 5px 5px" } },
 				React.createElement(
 					"div",
 					{ style: s4 },
@@ -33971,7 +34148,7 @@ var ItemgpTextPhoto = React.createClass({
 			{ href: this.props.href, target: "_blank" },
 			React.createElement(
 				"div",
-				{ className: "grid-item grid-item--fbPhoto-width grid-item--fbPhoto-height card", style: { margin: "5px 5px 5px 5px" } },
+				{ className: "gridWall-item gridWall-item--fbPhoto-width gridWall-item--fbPhoto-height card", style: { margin: "5px 5px 5px 5px" } },
 				React.createElement(
 					"div",
 					{ style: s4 },
@@ -34010,7 +34187,7 @@ var ItemgpPhoto = React.createClass({
 			{ href: this.props.href, target: "_blank" },
 			React.createElement(
 				"div",
-				{ className: "grid-item grid-item--fbPhoto-width grid-item--fbPhoto-height card", style: { margin: "5px 5px 5px 5px" } },
+				{ className: "gridWall-item gridWall-item--fbPhoto-width gridWall-item--fbPhoto-height card", style: { margin: "5px 5px 5px 5px" } },
 				React.createElement("div", { className: "card-image", style: s4 })
 			)
 		);
@@ -34029,7 +34206,7 @@ var ItemgpText = React.createClass({
 			{ href: this.props.href, target: "_blank" },
 			React.createElement(
 				"div",
-				{ className: "grid-item grid-item--text-width grid-item--text-height card-panel", style: { margin: "5px 5px 5px 5px", "background-color": "#3a5795" } },
+				{ className: "gridWall-item gridWall-item--text-width grid-item--text-height card-panel", style: { margin: "5px 5px 5px 5px", "background-color": "#3a5795" } },
 				React.createElement(
 					"div",
 					{ className: "white-text" },
@@ -34059,10 +34236,10 @@ var Wall = React.createClass({
 
 
 	componentDidMount: function () {
-		jQuery(document).ready(function () {
-			jQuery(this.refs.grids.getDOMNode()).masonry({
+		$(document).ready(function () {
+			$(".gridWall").masonry({
 				itemSelector: ".grid-item",
-				columnWidth: 240
+				columnWidth: "240"
 			});
 		});
 	},
@@ -34078,32 +34255,24 @@ var Wall = React.createClass({
 		});
 
 		return React.createElement(
-			"section",
-			{ className: "content-module" },
+			"div",
+			null,
 			React.createElement(
-				"header",
-				{ className: "content-module-header" },
+				"div",
+				{ className: "row" },
 				React.createElement(
 					"div",
-					{ className: "row" },
+					{ className: "col s12 m9" },
 					React.createElement(
-						"div",
-						{ className: "col s12 m9" },
-						React.createElement(
-							"h3",
-							null,
-							React.createElement(
-								"a",
-								{ href: urlTitle },
-								this.props.title
-							)
-						)
+						"h3",
+						null,
+						this.props.title
 					)
 				)
 			),
 			React.createElement(
 				"div",
-				{ className: "grid", ref: "grids" },
+				{ className: "gridWall" },
 				commentNodes
 			)
 		);
@@ -34125,7 +34294,7 @@ module.exports = Wall;
 // : (item.PhotoUrl == null || item.PhotoUrl == 'null') && item.Text != "" && item.Datasource=="Tumblr" ? 
 //   <ItemTmbText data={item.Text } id={item.ProfileName} />
 
-},{"jquery":500,"react":827}],438:[function(require,module,exports){
+},{"jquery":470,"react":805}],440:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34147,7 +34316,7 @@ var BulletChart = React.createClass({
 
 module.exports = BulletChart;
 
-},{"react":827}],439:[function(require,module,exports){
+},{"react":805}],441:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34178,7 +34347,7 @@ var BulletGenderChart = React.createClass({
 });
 module.exports = BulletGenderChart;
 
-},{"react":827}],440:[function(require,module,exports){
+},{"react":805}],442:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34210,7 +34379,7 @@ var DonutChart = React.createClass({
 
 module.exports = DonutChart;
 
-},{"react":827}],441:[function(require,module,exports){
+},{"react":805}],443:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34227,20 +34396,19 @@ var DonutChartMaterial = React.createClass({
             animationSteps: 100,
             segmentStrokeWidth: 4,
             animateScale: true,
-            percentageInnerCutout: 60,
             responsive: true
 
         });
     },
     render: function () {
-        return React.createElement("canvas", { id: "doughnut-chart-socialinfluance-bm", height: "200" });
+        return React.createElement("canvas", { id: "doughnut-chart-socialinfluance-bm" });
     }
 
 });
 
 module.exports = DonutChartMaterial;
 
-},{"react":827}],442:[function(require,module,exports){
+},{"react":805}],444:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34278,7 +34446,7 @@ var EmotionList = React.createClass({
 
 module.exports = EmotionList;
 
-},{"react":827}],443:[function(require,module,exports){
+},{"react":805}],445:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34319,7 +34487,7 @@ var Emotions = React.createClass({
 
 module.exports = Emotions;
 
-},{"react":827}],444:[function(require,module,exports){
+},{"react":805}],446:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34375,7 +34543,7 @@ var GenderHorizontalList = React.createClass({
 
 module.exports = GenderHorizontalList;
 
-},{"./BulletGenderChart.js":439,"react":827}],445:[function(require,module,exports){
+},{"./BulletGenderChart.js":441,"react":805}],447:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34435,7 +34603,7 @@ var GenderList = React.createClass({
 });
 module.exports = GenderList;
 
-},{"./BulletGenderChart.js":439,"react":827}],446:[function(require,module,exports){
+},{"./BulletGenderChart.js":441,"react":805}],448:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34524,7 +34692,7 @@ module.exports = ImageGalleryCMP;
   React.render(<App data={dataFromPageG.Photos}/>, document.getElementById('container'));
 })();*/
 
-},{"react":827,"react-image-gallery":653}],447:[function(require,module,exports){
+},{"react":805,"react-image-gallery":623}],449:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34562,7 +34730,7 @@ var NameAndComment = React.createClass({
 
 module.exports = NameAndComment;
 
-},{"react":827}],448:[function(require,module,exports){
+},{"react":805}],450:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34583,7 +34751,31 @@ var Photo = React.createClass({
 
 module.exports = Photo;
 
-},{"react":827}],449:[function(require,module,exports){
+},{"react":805}],451:[function(require,module,exports){
+"use strict";
+
+var React = require("react");
+
+var PhotoDynamic = React.createClass({
+    displayName: "PhotoDynamic",
+    render: function () {
+        var imageContainerStyle = { width: "100%", height: "400", overflow: "hidden" };
+
+        var imgStyle = { width: "100%" };
+        var s4 = { opacity: "1", float: "left", height: this.props.pictureStyle.height, overflow: "hidden", width: "100%", display: "block", "background-image": "url(" + this.props.url + ")", "background-size": "cover", "background-position": "25% 0%", "background-repeat": "no-repeat" };
+
+        return React.createElement("div", { style: s4 });
+    }
+
+});
+
+
+
+
+
+module.exports = PhotoDynamic;
+
+},{"react":805}],452:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34595,7 +34787,7 @@ var PhotoFull = React.createClass({
         var imageContainerStyle = { width: "100%", height: "100%", overflow: "hidden" };
         var imgStyle = { width: "100%" };
         var s4 = { opacity: "1", float: "left", height: "100%", overflow: "hidden", width: "100%", display: "block",
-            backgroundImage: "url(" + this.props.url + ")", backgroundSize: "cover", backgroundPosition: "25% 0%",
+            backgroundImage: "url(" + this.props.url + ")", backgroundSize: "cover", backgroundPosition: "center center",
             backgroundRepeat: "no-repeat",
             "-webkit-box-shadow": "inset 0px -79px 49px -20px rgba(0,0,0,0.59)",
             "-moz-box-shadow": "inset 0px -79px 49px -20px rgba(0,0,0,0.59)",
@@ -34609,7 +34801,7 @@ var PhotoFull = React.createClass({
 
 module.exports = PhotoFull;
 
-},{"react":827}],450:[function(require,module,exports){
+},{"react":805}],453:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34640,7 +34832,7 @@ var PhotoFullImage = React.createClass({
 
 module.exports = PhotoFullImage;
 
-},{"react":827}],451:[function(require,module,exports){
+},{"react":805}],454:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34726,7 +34918,7 @@ var PhotoGallery = React.createClass({
 
 module.exports = PhotoGallery;
 
-},{"react":827,"react-bootstrap":640}],452:[function(require,module,exports){
+},{"react":805,"react-bootstrap":610}],455:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34739,7 +34931,7 @@ var PhotoLarge = React.createClass({
         var imgStyle = { width: "100%" };
         var s4 = { opacity: "1", float: "left", height: "400px", overflow: "hidden", width: "100%", display: "block", "background-image": "url(" + this.props.url + ")", "background-size": "cover", "background-position": "25% 0%", "background-repeat": "no-repeat" };
 
-        return React.createElement("img", { className: "materialboxed", style: s4 });
+        return React.createElement("img", { style: s4 });
     }
 
 });
@@ -34747,7 +34939,7 @@ var PhotoLarge = React.createClass({
 
 module.exports = PhotoLarge;
 
-},{"react":827}],453:[function(require,module,exports){
+},{"react":805}],456:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34778,7 +34970,7 @@ var PhotoSmall = React.createClass({
 
 module.exports = PhotoSmall;
 
-},{"react":827}],454:[function(require,module,exports){
+},{"react":805}],457:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34802,7 +34994,7 @@ var PhotoThumb = React.createClass({
 
 module.exports = PhotoThumb;
 
-},{"react":827}],455:[function(require,module,exports){
+},{"react":805}],458:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34823,7 +35015,7 @@ var PieChartSentiment = React.createClass({
 
 module.exports = PieChartSentiment;
 
-},{"react":827}],456:[function(require,module,exports){
+},{"react":805}],459:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34936,7 +35128,7 @@ var SocialList = React.createClass({
 
 module.exports = SocialList;
 
-},{"./BulletChart.js":438,"./PieChartSentiment.js":455,"react":827}],457:[function(require,module,exports){
+},{"./BulletChart.js":440,"./PieChartSentiment.js":458,"react":805}],460:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34946,7 +35138,8 @@ var StatisticsTable = React.createClass({
 
 
     render: function () {
-        var url = this.props.returnurl + "/Comments?id=" + this.props.id + "&q=&page=1&type=";
+        var url = this.props.returnurl + "?id=" + this.props.id + "&q=&page=1&type=";
+        console.log(url);
         return React.createElement(
             "table",
             { className: "table table-hover" },
@@ -34962,7 +35155,7 @@ var StatisticsTable = React.createClass({
                         React.createElement(
                             "a",
                             { href: url + "video" },
-                            React.createElement("i", { className: "mdi-av-videocam" })
+                            React.createElement("i", { className: "fa fa-video-camera" })
                         )
                     ),
                     React.createElement(
@@ -34980,7 +35173,7 @@ var StatisticsTable = React.createClass({
                         React.createElement(
                             "a",
                             { href: url + "photo" },
-                            React.createElement("i", { className: "mdi-action-picture-in-picture" })
+                            React.createElement("i", { className: "fa fa-picture-o" })
                         )
                     ),
                     React.createElement(
@@ -35001,7 +35194,7 @@ var StatisticsTable = React.createClass({
 
 module.exports = StatisticsTable;
 
-},{"react":827}],458:[function(require,module,exports){
+},{"react":805}],461:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -35041,7 +35234,7 @@ var TagList = React.createClass({
 
 module.exports = TagList;
 
-},{"react":827}],459:[function(require,module,exports){
+},{"react":805}],462:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -35052,6 +35245,7 @@ var Tags = React.createClass({
 
 
     render: function () {
+        var url = this.props.returnurl + "?id=" + this.props.id + "&page=1&type=Hashtag&q=";
         var styles = {
             s1: { marginRight: "5px", fontSize: "10px" },
             s2: { marginTop: "5px", marginBottom: "5px", overflow: "hidden", fontSize: "8px" },
@@ -35084,7 +35278,7 @@ var Tags = React.createClass({
                         { style: styles.s3 },
                         React.createElement(
                             "a",
-                            { style: styles.s1, href: "#" },
+                            { style: styles.s1, href: url + tag1 },
                             "#",
                             tag1
                         )
@@ -35094,7 +35288,7 @@ var Tags = React.createClass({
                         { style: styles.s3 },
                         React.createElement(
                             "a",
-                            { style: styles.s1, href: "#" },
+                            { style: styles.s1, href: url + tag2 },
                             "#",
                             tag2
                         )
@@ -35104,7 +35298,7 @@ var Tags = React.createClass({
                         { style: styles.s3 },
                         React.createElement(
                             "a",
-                            { style: styles.s1, href: "#" },
+                            { style: styles.s1, href: url + tag3 },
                             "#",
                             tag3
                         )
@@ -35133,7 +35327,7 @@ module.exports = Tags;
       </div>
  */
 
-},{"react":827}],460:[function(require,module,exports){
+},{"react":805}],463:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -35178,7 +35372,32 @@ var VideoCollage = React.createClass({
 module.exports = VideoCollage;
 //React.render(<PhotoCollage/>,document.getElementById('pc'));
 
-},{"jquery":500,"react":827}],461:[function(require,module,exports){
+},{"jquery":470,"react":805}],464:[function(require,module,exports){
+"use strict";
+
+var React = require("react");
+
+var VideoCover = React.createClass({
+    displayName: "VideoCover",
+    render: function () {
+        var thumbnailStyle = { width: "100%" };
+        var imageContainerStyle = { width: "100%", height: this.props.pictureStyle.height, overflow: "hidden", padding: "0px", position: "relative" };
+        var imgStyle = { width: "100%", height: this.props.pictureStyle.height };
+
+        return React.createElement(
+            "div",
+            { style: imageContainerStyle },
+            React.createElement("img", { id: "imageCover", src: this.props.url, style: imgStyle }),
+            React.createElement("iframe", { id: "youtube", style: imgStyle, frameborder: "0", allowfullscreen: true })
+        );
+    }
+
+});
+
+
+module.exports = VideoCover;
+
+},{"react":805}],465:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -35204,17 +35423,17 @@ var VideoLarge = React.createClass({
 
 module.exports = VideoLarge;
 
-},{"radium":502,"react":827}],462:[function(require,module,exports){
+},{"radium":472,"react":805}],466:[function(require,module,exports){
 "use strict";
 
 var Radium = require("radium");
 var React = require("react");
-var jQuery = require("jquery");
+
 var PhotoFull = require("./PhotoFull.js");
 var Photo = require("./Photo.js");
 var PhotoFullImage = require("./PhotoFullImage.js");
 // load everything
-require("jquery-ui");
+
 
 
 
@@ -35231,7 +35450,7 @@ var ImageGalleryYahoo = React.createClass({
 
             width: "100%",
 
-            height: 385,
+            height: 185,
 
             skinsfoldername: "http://social24x7.azurewebsites.net/cdn/images",
 
@@ -35630,38 +35849,34 @@ var ImageGalleryYahoo = React.createClass({
         console.log("rss : " + JSON.stringify(this.props.data));
         return React.createElement(
             "div",
-            { className: "social-card" },
+            { id: "amazingslider-wrapper-1", style: styles.s4 },
             React.createElement(
                 "div",
-                { id: "amazingslider-wrapper-1", style: styles.s4 },
+                { id: "amazingslider-1", ref: "amazingsliderbm", style: { display: "block !important;",
+                        position: "relative !important;",
+                        width: "100% !important;",
+                        height: "200px;" } },
                 React.createElement(
-                    "div",
-                    { id: "amazingslider-1", ref: "amazingsliderbm", style: { display: "block !important;",
-                            position: "relative !important;",
-                            width: "100% !important;",
-                            height: "400px;" } },
-                    React.createElement(
-                        "ul",
-                        { className: "amazingslider-slides", style: styles.s5 },
-                        this.props.data.map(function (item, i) {
-                            return React.createElement(
-                                "li",
-                                null,
-                                React.createElement("img", { src: item.Url, style: { "object-fit": "cover !important;" } })
-                            );
-                        }, this)
-                    ),
-                    React.createElement(
-                        "ul",
-                        { className: "amazingslider-thumbnails", style: styles.s5 },
-                        this.props.data.map(function (item, i) {
-                            return React.createElement(
-                                "li",
-                                null,
-                                React.createElement("img", { src: item.Url, style: { "margin-top": "5px !important;" } })
-                            );
-                        }, this)
-                    )
+                    "ul",
+                    { className: "amazingslider-slides", style: styles.s5 },
+                    this.props.data.map(function (item, i) {
+                        return React.createElement(
+                            "li",
+                            null,
+                            React.createElement("img", { src: item.Url, style: { "object-fit": "cover !important;" } })
+                        );
+                    }, this)
+                ),
+                React.createElement(
+                    "ul",
+                    { className: "amazingslider-thumbnails", style: styles.s5 },
+                    this.props.data.map(function (item, i) {
+                        return React.createElement(
+                            "li",
+                            null,
+                            React.createElement("img", { src: item.Url, style: { "margin-top": "5px !important;" } })
+                        );
+                    }, this)
                 )
             )
         );
@@ -35672,7 +35887,7 @@ var ImageGalleryYahoo = React.createClass({
 
 module.exports = ImageGalleryYahoo;
 
-},{"./Photo.js":448,"./PhotoFull.js":449,"./PhotoFullImage.js":450,"jquery":500,"jquery-ui":499,"radium":502,"react":827}],463:[function(require,module,exports){
+},{"./Photo.js":450,"./PhotoFull.js":452,"./PhotoFullImage.js":453,"radium":472,"react":805}],467:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -35764,5358 +35979,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],464:[function(require,module,exports){
-/*!
- * Isotope v2.2.0
- *
- * Licensed GPLv3 for open source use
- * or Isotope Commercial License for commercial use
- *
- * http://isotope.metafizzy.co
- * Copyright 2015 Metafizzy
- */
-
-( function( window, factory ) {
-  'use strict';
-  // universal module definition
-
-  if ( typeof define == 'function' && define.amd ) {
-    // AMD
-    define( [
-        'outlayer/outlayer',
-        'get-size/get-size',
-        'matches-selector/matches-selector',
-        'fizzy-ui-utils/utils',
-        './item',
-        './layout-mode',
-        // include default layout modes
-        './layout-modes/masonry',
-        './layout-modes/fit-rows',
-        './layout-modes/vertical'
-      ],
-      function( Outlayer, getSize, matchesSelector, utils, Item, LayoutMode ) {
-        return factory( window, Outlayer, getSize, matchesSelector, utils, Item, LayoutMode );
-      });
-  } else if ( typeof exports == 'object' ) {
-    // CommonJS
-    module.exports = factory(
-      window,
-      require('outlayer'),
-      require('get-size'),
-      require('desandro-matches-selector'),
-      require('fizzy-ui-utils'),
-      require('./item'),
-      require('./layout-mode'),
-      // include default layout modes
-      require('./layout-modes/masonry'),
-      require('./layout-modes/fit-rows'),
-      require('./layout-modes/vertical')
-    );
-  } else {
-    // browser global
-    window.Isotope = factory(
-      window,
-      window.Outlayer,
-      window.getSize,
-      window.matchesSelector,
-      window.fizzyUIUtils,
-      window.Isotope.Item,
-      window.Isotope.LayoutMode
-    );
-  }
-
-}( window, function factory( window, Outlayer, getSize, matchesSelector, utils,
-  Item, LayoutMode ) {
-
-'use strict';
-
-// -------------------------- vars -------------------------- //
-
-var jQuery = window.jQuery;
-
-// -------------------------- helpers -------------------------- //
-
-var trim = String.prototype.trim ?
-  function( str ) {
-    return str.trim();
-  } :
-  function( str ) {
-    return str.replace( /^\s+|\s+$/g, '' );
-  };
-
-var docElem = document.documentElement;
-
-var getText = docElem.textContent ?
-  function( elem ) {
-    return elem.textContent;
-  } :
-  function( elem ) {
-    return elem.innerText;
-  };
-
-// -------------------------- isotopeDefinition -------------------------- //
-
-  // create an Outlayer layout class
-  var Isotope = Outlayer.create( 'isotope', {
-    layoutMode: "masonry",
-    isJQueryFiltering: true,
-    sortAscending: true
-  });
-
-  Isotope.Item = Item;
-  Isotope.LayoutMode = LayoutMode;
-
-  Isotope.prototype._create = function() {
-    this.itemGUID = 0;
-    // functions that sort items
-    this._sorters = {};
-    this._getSorters();
-    // call super
-    Outlayer.prototype._create.call( this );
-
-    // create layout modes
-    this.modes = {};
-    // start filteredItems with all items
-    this.filteredItems = this.items;
-    // keep of track of sortBys
-    this.sortHistory = [ 'original-order' ];
-    // create from registered layout modes
-    for ( var name in LayoutMode.modes ) {
-      this._initLayoutMode( name );
-    }
-  };
-
-  Isotope.prototype.reloadItems = function() {
-    // reset item ID counter
-    this.itemGUID = 0;
-    // call super
-    Outlayer.prototype.reloadItems.call( this );
-  };
-
-  Isotope.prototype._itemize = function() {
-    var items = Outlayer.prototype._itemize.apply( this, arguments );
-    // assign ID for original-order
-    for ( var i=0, len = items.length; i < len; i++ ) {
-      var item = items[i];
-      item.id = this.itemGUID++;
-    }
-    this._updateItemsSortData( items );
-    return items;
-  };
-
-
-  // -------------------------- layout -------------------------- //
-
-  Isotope.prototype._initLayoutMode = function( name ) {
-    var Mode = LayoutMode.modes[ name ];
-    // set mode options
-    // HACK extend initial options, back-fill in default options
-    var initialOpts = this.options[ name ] || {};
-    this.options[ name ] = Mode.options ?
-      utils.extend( Mode.options, initialOpts ) : initialOpts;
-    // init layout mode instance
-    this.modes[ name ] = new Mode( this );
-  };
-
-
-  Isotope.prototype.layout = function() {
-    // if first time doing layout, do all magic
-    if ( !this._isLayoutInited && this.options.isInitLayout ) {
-      this.arrange();
-      return;
-    }
-    this._layout();
-  };
-
-  // private method to be used in layout() & magic()
-  Isotope.prototype._layout = function() {
-    // don't animate first layout
-    var isInstant = this._getIsInstant();
-    // layout flow
-    this._resetLayout();
-    this._manageStamps();
-    this.layoutItems( this.filteredItems, isInstant );
-
-    // flag for initalized
-    this._isLayoutInited = true;
-  };
-
-  // filter + sort + layout
-  Isotope.prototype.arrange = function( opts ) {
-    // set any options pass
-    this.option( opts );
-    this._getIsInstant();
-    // filter, sort, and layout
-
-    // filter
-    var filtered = this._filter( this.items );
-    this.filteredItems = filtered.matches;
-
-    var _this = this;
-    function hideReveal() {
-      _this.reveal( filtered.needReveal );
-      _this.hide( filtered.needHide );
-    }
-
-    this._bindArrangeComplete();
-
-    if ( this._isInstant ) {
-      this._noTransition( hideReveal );
-    } else {
-      hideReveal();
-    }
-
-    this._sort();
-    this._layout();
-  };
-  // alias to _init for main plugin method
-  Isotope.prototype._init = Isotope.prototype.arrange;
-
-  // HACK
-  // Don't animate/transition first layout
-  // Or don't animate/transition other layouts
-  Isotope.prototype._getIsInstant = function() {
-    var isInstant = this.options.isLayoutInstant !== undefined ?
-      this.options.isLayoutInstant : !this._isLayoutInited;
-    this._isInstant = isInstant;
-    return isInstant;
-  };
-
-  // listen for layoutComplete, hideComplete and revealComplete
-  // to trigger arrangeComplete
-  Isotope.prototype._bindArrangeComplete = function() {
-    // listen for 3 events to trigger arrangeComplete
-    var isLayoutComplete, isHideComplete, isRevealComplete;
-    var _this = this;
-    function arrangeParallelCallback() {
-      if ( isLayoutComplete && isHideComplete && isRevealComplete ) {
-        _this.dispatchEvent( 'arrangeComplete', null, [ _this.filteredItems ] );
-      }
-    }
-    this.once( 'layoutComplete', function() {
-      isLayoutComplete = true;
-      arrangeParallelCallback();
-    });
-    this.once( 'hideComplete', function() {
-      isHideComplete = true;
-      arrangeParallelCallback();
-    });
-    this.once( 'revealComplete', function() {
-      isRevealComplete = true;
-      arrangeParallelCallback();
-    });
-  };
-
-  // -------------------------- filter -------------------------- //
-
-  Isotope.prototype._filter = function( items ) {
-    var filter = this.options.filter;
-    filter = filter || '*';
-    var matches = [];
-    var hiddenMatched = [];
-    var visibleUnmatched = [];
-
-    var test = this._getFilterTest( filter );
-
-    // test each item
-    for ( var i=0, len = items.length; i < len; i++ ) {
-      var item = items[i];
-      if ( item.isIgnored ) {
-        continue;
-      }
-      // add item to either matched or unmatched group
-      var isMatched = test( item );
-      // item.isFilterMatched = isMatched;
-      // add to matches if its a match
-      if ( isMatched ) {
-        matches.push( item );
-      }
-      // add to additional group if item needs to be hidden or revealed
-      if ( isMatched && item.isHidden ) {
-        hiddenMatched.push( item );
-      } else if ( !isMatched && !item.isHidden ) {
-        visibleUnmatched.push( item );
-      }
-    }
-
-    // return collections of items to be manipulated
-    return {
-      matches: matches,
-      needReveal: hiddenMatched,
-      needHide: visibleUnmatched
-    };
-  };
-
-  // get a jQuery, function, or a matchesSelector test given the filter
-  Isotope.prototype._getFilterTest = function( filter ) {
-    if ( jQuery && this.options.isJQueryFiltering ) {
-      // use jQuery
-      return function( item ) {
-        return jQuery( item.element ).is( filter );
-      };
-    }
-    if ( typeof filter == 'function' ) {
-      // use filter as function
-      return function( item ) {
-        return filter( item.element );
-      };
-    }
-    // default, use filter as selector string
-    return function( item ) {
-      return matchesSelector( item.element, filter );
-    };
-  };
-
-  // -------------------------- sorting -------------------------- //
-
-  /**
-   * @params {Array} elems
-   * @public
-   */
-  Isotope.prototype.updateSortData = function( elems ) {
-    // get items
-    var items;
-    if ( elems ) {
-      elems = utils.makeArray( elems );
-      items = this.getItems( elems );
-    } else {
-      // update all items if no elems provided
-      items = this.items;
-    }
-
-    this._getSorters();
-    this._updateItemsSortData( items );
-  };
-
-  Isotope.prototype._getSorters = function() {
-    var getSortData = this.options.getSortData;
-    for ( var key in getSortData ) {
-      var sorter = getSortData[ key ];
-      this._sorters[ key ] = mungeSorter( sorter );
-    }
-  };
-
-  /**
-   * @params {Array} items - of Isotope.Items
-   * @private
-   */
-  Isotope.prototype._updateItemsSortData = function( items ) {
-    // do not update if no items
-    var len = items && items.length;
-
-    for ( var i=0; len && i < len; i++ ) {
-      var item = items[i];
-      item.updateSortData();
-    }
-  };
-
-  // ----- munge sorter ----- //
-
-  // encapsulate this, as we just need mungeSorter
-  // other functions in here are just for munging
-  var mungeSorter = ( function() {
-    // add a magic layer to sorters for convienent shorthands
-    // `.foo-bar` will use the text of .foo-bar querySelector
-    // `[foo-bar]` will use attribute
-    // you can also add parser
-    // `.foo-bar parseInt` will parse that as a number
-    function mungeSorter( sorter ) {
-      // if not a string, return function or whatever it is
-      if ( typeof sorter != 'string' ) {
-        return sorter;
-      }
-      // parse the sorter string
-      var args = trim( sorter ).split(' ');
-      var query = args[0];
-      // check if query looks like [an-attribute]
-      var attrMatch = query.match( /^\[(.+)\]$/ );
-      var attr = attrMatch && attrMatch[1];
-      var getValue = getValueGetter( attr, query );
-      // use second argument as a parser
-      var parser = Isotope.sortDataParsers[ args[1] ];
-      // parse the value, if there was a parser
-      sorter = parser ? function( elem ) {
-        return elem && parser( getValue( elem ) );
-      } :
-      // otherwise just return value
-      function( elem ) {
-        return elem && getValue( elem );
-      };
-
-      return sorter;
-    }
-
-    // get an attribute getter, or get text of the querySelector
-    function getValueGetter( attr, query ) {
-      var getValue;
-      // if query looks like [foo-bar], get attribute
-      if ( attr ) {
-        getValue = function( elem ) {
-          return elem.getAttribute( attr );
-        };
-      } else {
-        // otherwise, assume its a querySelector, and get its text
-        getValue = function( elem ) {
-          var child = elem.querySelector( query );
-          return child && getText( child );
-        };
-      }
-      return getValue;
-    }
-
-    return mungeSorter;
-  })();
-
-  // parsers used in getSortData shortcut strings
-  Isotope.sortDataParsers = {
-    'parseInt': function( val ) {
-      return parseInt( val, 10 );
-    },
-    'parseFloat': function( val ) {
-      return parseFloat( val );
-    }
-  };
-
-  // ----- sort method ----- //
-
-  // sort filteredItem order
-  Isotope.prototype._sort = function() {
-    var sortByOpt = this.options.sortBy;
-    if ( !sortByOpt ) {
-      return;
-    }
-    // concat all sortBy and sortHistory
-    var sortBys = [].concat.apply( sortByOpt, this.sortHistory );
-    // sort magic
-    var itemSorter = getItemSorter( sortBys, this.options.sortAscending );
-    this.filteredItems.sort( itemSorter );
-    // keep track of sortBy History
-    if ( sortByOpt != this.sortHistory[0] ) {
-      // add to front, oldest goes in last
-      this.sortHistory.unshift( sortByOpt );
-    }
-  };
-
-  // returns a function used for sorting
-  function getItemSorter( sortBys, sortAsc ) {
-    return function sorter( itemA, itemB ) {
-      // cycle through all sortKeys
-      for ( var i = 0, len = sortBys.length; i < len; i++ ) {
-        var sortBy = sortBys[i];
-        var a = itemA.sortData[ sortBy ];
-        var b = itemB.sortData[ sortBy ];
-        if ( a > b || a < b ) {
-          // if sortAsc is an object, use the value given the sortBy key
-          var isAscending = sortAsc[ sortBy ] !== undefined ? sortAsc[ sortBy ] : sortAsc;
-          var direction = isAscending ? 1 : -1;
-          return ( a > b ? 1 : -1 ) * direction;
-        }
-      }
-      return 0;
-    };
-  }
-
-  // -------------------------- methods -------------------------- //
-
-  // get layout mode
-  Isotope.prototype._mode = function() {
-    var layoutMode = this.options.layoutMode;
-    var mode = this.modes[ layoutMode ];
-    if ( !mode ) {
-      // TODO console.error
-      throw new Error( 'No layout mode: ' + layoutMode );
-    }
-    // HACK sync mode's options
-    // any options set after init for layout mode need to be synced
-    mode.options = this.options[ layoutMode ];
-    return mode;
-  };
-
-  Isotope.prototype._resetLayout = function() {
-    // trigger original reset layout
-    Outlayer.prototype._resetLayout.call( this );
-    this._mode()._resetLayout();
-  };
-
-  Isotope.prototype._getItemLayoutPosition = function( item  ) {
-    return this._mode()._getItemLayoutPosition( item );
-  };
-
-  Isotope.prototype._manageStamp = function( stamp ) {
-    this._mode()._manageStamp( stamp );
-  };
-
-  Isotope.prototype._getContainerSize = function() {
-    return this._mode()._getContainerSize();
-  };
-
-  Isotope.prototype.needsResizeLayout = function() {
-    return this._mode().needsResizeLayout();
-  };
-
-  // -------------------------- adding & removing -------------------------- //
-
-  // HEADS UP overwrites default Outlayer appended
-  Isotope.prototype.appended = function( elems ) {
-    var items = this.addItems( elems );
-    if ( !items.length ) {
-      return;
-    }
-    // filter, layout, reveal new items
-    var filteredItems = this._filterRevealAdded( items );
-    // add to filteredItems
-    this.filteredItems = this.filteredItems.concat( filteredItems );
-  };
-
-  // HEADS UP overwrites default Outlayer prepended
-  Isotope.prototype.prepended = function( elems ) {
-    var items = this._itemize( elems );
-    if ( !items.length ) {
-      return;
-    }
-    // start new layout
-    this._resetLayout();
-    this._manageStamps();
-    // filter, layout, reveal new items
-    var filteredItems = this._filterRevealAdded( items );
-    // layout previous items
-    this.layoutItems( this.filteredItems );
-    // add to items and filteredItems
-    this.filteredItems = filteredItems.concat( this.filteredItems );
-    this.items = items.concat( this.items );
-  };
-
-  Isotope.prototype._filterRevealAdded = function( items ) {
-    var filtered = this._filter( items );
-    this.hide( filtered.needHide );
-    // reveal all new items
-    this.reveal( filtered.matches );
-    // layout new items, no transition
-    this.layoutItems( filtered.matches, true );
-    return filtered.matches;
-  };
-
-  /**
-   * Filter, sort, and layout newly-appended item elements
-   * @param {Array or NodeList or Element} elems
-   */
-  Isotope.prototype.insert = function( elems ) {
-    var items = this.addItems( elems );
-    if ( !items.length ) {
-      return;
-    }
-    // append item elements
-    var i, item;
-    var len = items.length;
-    for ( i=0; i < len; i++ ) {
-      item = items[i];
-      this.element.appendChild( item.element );
-    }
-    // filter new stuff
-    var filteredInsertItems = this._filter( items ).matches;
-    // set flag
-    for ( i=0; i < len; i++ ) {
-      items[i].isLayoutInstant = true;
-    }
-    this.arrange();
-    // reset flag
-    for ( i=0; i < len; i++ ) {
-      delete items[i].isLayoutInstant;
-    }
-    this.reveal( filteredInsertItems );
-  };
-
-  var _remove = Isotope.prototype.remove;
-  Isotope.prototype.remove = function( elems ) {
-    elems = utils.makeArray( elems );
-    var removeItems = this.getItems( elems );
-    // do regular thing
-    _remove.call( this, elems );
-    // bail if no items to remove
-    var len = removeItems && removeItems.length;
-    if ( !len ) {
-      return;
-    }
-    // remove elems from filteredItems
-    for ( var i=0; i < len; i++ ) {
-      var item = removeItems[i];
-      // remove item from collection
-      utils.removeFrom( this.filteredItems, item );
-    }
-  };
-
-  Isotope.prototype.shuffle = function() {
-    // update random sortData
-    for ( var i=0, len = this.items.length; i < len; i++ ) {
-      var item = this.items[i];
-      item.sortData.random = Math.random();
-    }
-    this.options.sortBy = 'random';
-    this._sort();
-    this._layout();
-  };
-
-  /**
-   * trigger fn without transition
-   * kind of hacky to have this in the first place
-   * @param {Function} fn
-   * @returns ret
-   * @private
-   */
-  Isotope.prototype._noTransition = function( fn ) {
-    // save transitionDuration before disabling
-    var transitionDuration = this.options.transitionDuration;
-    // disable transition
-    this.options.transitionDuration = 0;
-    // do it
-    var returnValue = fn.call( this );
-    // re-enable transition for reveal
-    this.options.transitionDuration = transitionDuration;
-    return returnValue;
-  };
-
-  // ----- helper methods ----- //
-
-  /**
-   * getter method for getting filtered item elements
-   * @returns {Array} elems - collection of item elements
-   */
-  Isotope.prototype.getFilteredItemElements = function() {
-    var elems = [];
-    for ( var i=0, len = this.filteredItems.length; i < len; i++ ) {
-      elems.push( this.filteredItems[i].element );
-    }
-    return elems;
-  };
-
-  // -----  ----- //
-
-  return Isotope;
-
-}));
-
-},{"./item":465,"./layout-mode":466,"./layout-modes/fit-rows":467,"./layout-modes/masonry":468,"./layout-modes/vertical":469,"desandro-matches-selector":470,"fizzy-ui-utils":473,"get-size":474,"outlayer":481}],465:[function(require,module,exports){
-/**
- * Isotope Item
-**/
-
-( function( window, factory ) {
-'use strict';
-  // universal module definition
-  if ( typeof define == 'function' && define.amd ) {
-    // AMD
-    define( [
-        'outlayer/outlayer'
-      ],
-      factory );
-  } else if ( typeof exports == 'object' ) {
-    // CommonJS
-    module.exports = factory(
-      require('outlayer')
-    );
-  } else {
-    // browser global
-    window.Isotope = window.Isotope || {};
-    window.Isotope.Item = factory(
-      window.Outlayer
-    );
-  }
-
-}( window, function factory( Outlayer ) {
-'use strict';
-
-// -------------------------- Item -------------------------- //
-
-// sub-class Outlayer Item
-function Item() {
-  Outlayer.Item.apply( this, arguments );
-}
-
-Item.prototype = new Outlayer.Item();
-
-Item.prototype._create = function() {
-  // assign id, used for original-order sorting
-  this.id = this.layout.itemGUID++;
-  Outlayer.Item.prototype._create.call( this );
-  this.sortData = {};
-};
-
-Item.prototype.updateSortData = function() {
-  if ( this.isIgnored ) {
-    return;
-  }
-  // default sorters
-  this.sortData.id = this.id;
-  // for backward compatibility
-  this.sortData['original-order'] = this.id;
-  this.sortData.random = Math.random();
-  // go thru getSortData obj and apply the sorters
-  var getSortData = this.layout.options.getSortData;
-  var sorters = this.layout._sorters;
-  for ( var key in getSortData ) {
-    var sorter = sorters[ key ];
-    this.sortData[ key ] = sorter( this.element, this );
-  }
-};
-
-var _destroy = Item.prototype.destroy;
-Item.prototype.destroy = function() {
-  // call super
-  _destroy.apply( this, arguments );
-  // reset display, #741
-  this.css({
-    display: ''
-  });
-};
-
-return Item;
-
-}));
-
-},{"outlayer":481}],466:[function(require,module,exports){
-/**
- * Isotope LayoutMode
- */
-
-( function( window, factory ) {
-  'use strict';
-  // universal module definition
-
-  if ( typeof define == 'function' && define.amd ) {
-    // AMD
-    define( [
-        'get-size/get-size',
-        'outlayer/outlayer'
-      ],
-      factory );
-  } else if ( typeof exports == 'object' ) {
-    // CommonJS
-    module.exports = factory(
-      require('get-size'),
-      require('outlayer')
-    );
-  } else {
-    // browser global
-    window.Isotope = window.Isotope || {};
-    window.Isotope.LayoutMode = factory(
-      window.getSize,
-      window.Outlayer
-    );
-  }
-
-}( window, function factory( getSize, Outlayer ) {
-  'use strict';
-
-  // layout mode class
-  function LayoutMode( isotope ) {
-    this.isotope = isotope;
-    // link properties
-    if ( isotope ) {
-      this.options = isotope.options[ this.namespace ];
-      this.element = isotope.element;
-      this.items = isotope.filteredItems;
-      this.size = isotope.size;
-    }
-  }
-
-  /**
-   * some methods should just defer to default Outlayer method
-   * and reference the Isotope instance as `this`
-  **/
-  ( function() {
-    var facadeMethods = [
-      '_resetLayout',
-      '_getItemLayoutPosition',
-      '_manageStamp',
-      '_getContainerSize',
-      '_getElementOffset',
-      'needsResizeLayout'
-    ];
-
-    for ( var i=0, len = facadeMethods.length; i < len; i++ ) {
-      var methodName = facadeMethods[i];
-      LayoutMode.prototype[ methodName ] = getOutlayerMethod( methodName );
-    }
-
-    function getOutlayerMethod( methodName ) {
-      return function() {
-        return Outlayer.prototype[ methodName ].apply( this.isotope, arguments );
-      };
-    }
-  })();
-
-  // -----  ----- //
-
-  // for horizontal layout modes, check vertical size
-  LayoutMode.prototype.needsVerticalResizeLayout = function() {
-    // don't trigger if size did not change
-    var size = getSize( this.isotope.element );
-    // check that this.size and size are there
-    // IE8 triggers resize on body size change, so they might not be
-    var hasSizes = this.isotope.size && size;
-    return hasSizes && size.innerHeight != this.isotope.size.innerHeight;
-  };
-
-  // ----- measurements ----- //
-
-  LayoutMode.prototype._getMeasurement = function() {
-    this.isotope._getMeasurement.apply( this, arguments );
-  };
-
-  LayoutMode.prototype.getColumnWidth = function() {
-    this.getSegmentSize( 'column', 'Width' );
-  };
-
-  LayoutMode.prototype.getRowHeight = function() {
-    this.getSegmentSize( 'row', 'Height' );
-  };
-
-  /**
-   * get columnWidth or rowHeight
-   * segment: 'column' or 'row'
-   * size 'Width' or 'Height'
-  **/
-  LayoutMode.prototype.getSegmentSize = function( segment, size ) {
-    var segmentName = segment + size;
-    var outerSize = 'outer' + size;
-    // columnWidth / outerWidth // rowHeight / outerHeight
-    this._getMeasurement( segmentName, outerSize );
-    // got rowHeight or columnWidth, we can chill
-    if ( this[ segmentName ] ) {
-      return;
-    }
-    // fall back to item of first element
-    var firstItemSize = this.getFirstItemSize();
-    this[ segmentName ] = firstItemSize && firstItemSize[ outerSize ] ||
-      // or size of container
-      this.isotope.size[ 'inner' + size ];
-  };
-
-  LayoutMode.prototype.getFirstItemSize = function() {
-    var firstItem = this.isotope.filteredItems[0];
-    return firstItem && firstItem.element && getSize( firstItem.element );
-  };
-
-  // ----- methods that should reference isotope ----- //
-
-  LayoutMode.prototype.layout = function() {
-    this.isotope.layout.apply( this.isotope, arguments );
-  };
-
-  LayoutMode.prototype.getSize = function() {
-    this.isotope.getSize();
-    this.size = this.isotope.size;
-  };
-
-  // -------------------------- create -------------------------- //
-
-  LayoutMode.modes = {};
-
-  LayoutMode.create = function( namespace, options ) {
-
-    function Mode() {
-      LayoutMode.apply( this, arguments );
-    }
-
-    Mode.prototype = new LayoutMode();
-
-    // default options
-    if ( options ) {
-      Mode.options = options;
-    }
-
-    Mode.prototype.namespace = namespace;
-    // register in Isotope
-    LayoutMode.modes[ namespace ] = Mode;
-
-    return Mode;
-  };
-
-  return LayoutMode;
-
-}));
-
-},{"get-size":474,"outlayer":481}],467:[function(require,module,exports){
-/**
- * fitRows layout mode
- */
-
-( function( window, factory ) {
-  'use strict';
-  // universal module definition
-  if ( typeof define == 'function' && define.amd ) {
-    // AMD
-    define( [
-        '../layout-mode'
-      ],
-      factory );
-  } else if ( typeof exports == 'object' ) {
-    // CommonJS
-    module.exports = factory(
-      require('../layout-mode')
-    );
-  } else {
-    // browser global
-    factory(
-      window.Isotope.LayoutMode
-    );
-  }
-
-}( window, function factory( LayoutMode ) {
-'use strict';
-
-var FitRows = LayoutMode.create('fitRows');
-
-FitRows.prototype._resetLayout = function() {
-  this.x = 0;
-  this.y = 0;
-  this.maxY = 0;
-  this._getMeasurement( 'gutter', 'outerWidth' );
-};
-
-FitRows.prototype._getItemLayoutPosition = function( item ) {
-  item.getSize();
-
-  var itemWidth = item.size.outerWidth + this.gutter;
-  // if this element cannot fit in the current row
-  var containerWidth = this.isotope.size.innerWidth + this.gutter;
-  if ( this.x !== 0 && itemWidth + this.x > containerWidth ) {
-    this.x = 0;
-    this.y = this.maxY;
-  }
-
-  var position = {
-    x: this.x,
-    y: this.y
-  };
-
-  this.maxY = Math.max( this.maxY, this.y + item.size.outerHeight );
-  this.x += itemWidth;
-
-  return position;
-};
-
-FitRows.prototype._getContainerSize = function() {
-  return { height: this.maxY };
-};
-
-return FitRows;
-
-}));
-
-},{"../layout-mode":466}],468:[function(require,module,exports){
-/*!
- * Masonry layout mode
- * sub-classes Masonry
- * http://masonry.desandro.com
- */
-
-( function( window, factory ) {
-  'use strict';
-  // universal module definition
-  if ( typeof define == 'function' && define.amd ) {
-    // AMD
-    define( [
-        '../layout-mode',
-        'masonry/masonry'
-      ],
-      factory );
-  } else if ( typeof exports == 'object' ) {
-    // CommonJS
-    module.exports = factory(
-      require('../layout-mode'),
-      require('masonry-layout')
-    );
-  } else {
-    // browser global
-    factory(
-      window.Isotope.LayoutMode,
-      window.Masonry
-    );
-  }
-
-}( window, function factory( LayoutMode, Masonry ) {
-'use strict';
-
-// -------------------------- helpers -------------------------- //
-
-// extend objects
-function extend( a, b ) {
-  for ( var prop in b ) {
-    a[ prop ] = b[ prop ];
-  }
-  return a;
-}
-
-// -------------------------- masonryDefinition -------------------------- //
-
-  // create an Outlayer layout class
-  var MasonryMode = LayoutMode.create('masonry');
-
-  // save on to these methods
-  var _getElementOffset = MasonryMode.prototype._getElementOffset;
-  var layout = MasonryMode.prototype.layout;
-  var _getMeasurement = MasonryMode.prototype._getMeasurement;
-
-  // sub-class Masonry
-  extend( MasonryMode.prototype, Masonry.prototype );
-
-  // set back, as it was overwritten by Masonry
-  MasonryMode.prototype._getElementOffset = _getElementOffset;
-  MasonryMode.prototype.layout = layout;
-  MasonryMode.prototype._getMeasurement = _getMeasurement;
-
-  var measureColumns = MasonryMode.prototype.measureColumns;
-  MasonryMode.prototype.measureColumns = function() {
-    // set items, used if measuring first item
-    this.items = this.isotope.filteredItems;
-    measureColumns.call( this );
-  };
-
-  // HACK copy over isOriginLeft/Top options
-  var _manageStamp = MasonryMode.prototype._manageStamp;
-  MasonryMode.prototype._manageStamp = function() {
-    this.options.isOriginLeft = this.isotope.options.isOriginLeft;
-    this.options.isOriginTop = this.isotope.options.isOriginTop;
-    _manageStamp.apply( this, arguments );
-  };
-
-  return MasonryMode;
-
-}));
-
-},{"../layout-mode":466,"masonry-layout":476}],469:[function(require,module,exports){
-/**
- * vertical layout mode
- */
-
-( function( window, factory ) {
-  'use strict';
-  // universal module definition
-  if ( typeof define == 'function' && define.amd ) {
-    // AMD
-    define( [
-        '../layout-mode'
-      ],
-      factory );
-  } else if ( typeof exports == 'object' ) {
-    // CommonJS
-    module.exports = factory(
-      require('../layout-mode')
-    );
-  } else {
-    // browser global
-    factory(
-      window.Isotope.LayoutMode
-    );
-  }
-
-}( window, function factory( LayoutMode ) {
-'use strict';
-
-var Vertical = LayoutMode.create( 'vertical', {
-  horizontalAlignment: 0
-});
-
-Vertical.prototype._resetLayout = function() {
-  this.y = 0;
-};
-
-Vertical.prototype._getItemLayoutPosition = function( item ) {
-  item.getSize();
-  var x = ( this.isotope.size.innerWidth - item.size.outerWidth ) *
-    this.options.horizontalAlignment;
-  var y = this.y;
-  this.y += item.size.outerHeight;
-  return { x: x, y: y };
-};
-
-Vertical.prototype._getContainerSize = function() {
-  return { height: this.y };
-};
-
-return Vertical;
-
-}));
-
-},{"../layout-mode":466}],470:[function(require,module,exports){
-/**
- * matchesSelector v1.0.3
- * matchesSelector( element, '.selector' )
- * MIT license
- */
-
-/*jshint browser: true, strict: true, undef: true, unused: true */
-/*global define: false, module: false */
-
-( function( ElemProto ) {
-
-  'use strict';
-
-  var matchesMethod = ( function() {
-    // check for the standard method name first
-    if ( ElemProto.matches ) {
-      return 'matches';
-    }
-    // check un-prefixed
-    if ( ElemProto.matchesSelector ) {
-      return 'matchesSelector';
-    }
-    // check vendor prefixes
-    var prefixes = [ 'webkit', 'moz', 'ms', 'o' ];
-
-    for ( var i=0, len = prefixes.length; i < len; i++ ) {
-      var prefix = prefixes[i];
-      var method = prefix + 'MatchesSelector';
-      if ( ElemProto[ method ] ) {
-        return method;
-      }
-    }
-  })();
-
-  // ----- match ----- //
-
-  function match( elem, selector ) {
-    return elem[ matchesMethod ]( selector );
-  }
-
-  // ----- appendToFragment ----- //
-
-  function checkParent( elem ) {
-    // not needed if already has parent
-    if ( elem.parentNode ) {
-      return;
-    }
-    var fragment = document.createDocumentFragment();
-    fragment.appendChild( elem );
-  }
-
-  // ----- query ----- //
-
-  // fall back to using QSA
-  // thx @jonathantneal https://gist.github.com/3062955
-  function query( elem, selector ) {
-    // append to fragment if no parent
-    checkParent( elem );
-
-    // match elem with all selected elems of parent
-    var elems = elem.parentNode.querySelectorAll( selector );
-    for ( var i=0, len = elems.length; i < len; i++ ) {
-      // return true if match
-      if ( elems[i] === elem ) {
-        return true;
-      }
-    }
-    // otherwise return false
-    return false;
-  }
-
-  // ----- matchChild ----- //
-
-  function matchChild( elem, selector ) {
-    checkParent( elem );
-    return match( elem, selector );
-  }
-
-  // ----- matchesSelector ----- //
-
-  var matchesSelector;
-
-  if ( matchesMethod ) {
-    // IE9 supports matchesSelector, but doesn't work on orphaned elems
-    // check for that
-    var div = document.createElement('div');
-    var supportsOrphans = match( div, 'div' );
-    matchesSelector = supportsOrphans ? match : matchChild;
-  } else {
-    matchesSelector = query;
-  }
-
-  // transport
-  if ( typeof define === 'function' && define.amd ) {
-    // AMD
-    define( function() {
-      return matchesSelector;
-    });
-  } else if ( typeof exports === 'object' ) {
-    module.exports = matchesSelector;
-  }
-  else {
-    // browser global
-    window.matchesSelector = matchesSelector;
-  }
-
-})( Element.prototype );
-
-},{}],471:[function(require,module,exports){
-/*!
- * docReady v1.0.3
- * Cross browser DOMContentLoaded event emitter
- * MIT license
- */
-
-/*jshint browser: true, strict: true, undef: true, unused: true*/
-/*global define: false, require: false, module: false */
-
-( function( window ) {
-
-'use strict';
-
-var document = window.document;
-// collection of functions to be triggered on ready
-var queue = [];
-
-function docReady( fn ) {
-  // throw out non-functions
-  if ( typeof fn !== 'function' ) {
-    return;
-  }
-
-  if ( docReady.isReady ) {
-    // ready now, hit it
-    fn();
-  } else {
-    // queue function when ready
-    queue.push( fn );
-  }
-}
-
-docReady.isReady = false;
-
-// triggered on various doc ready events
-function init( event ) {
-  // bail if IE8 document is not ready just yet
-  var isIE8NotReady = event.type === 'readystatechange' && document.readyState !== 'complete';
-  if ( docReady.isReady || isIE8NotReady ) {
-    return;
-  }
-  docReady.isReady = true;
-
-  // process queue
-  for ( var i=0, len = queue.length; i < len; i++ ) {
-    var fn = queue[i];
-    fn();
-  }
-}
-
-function defineDocReady( eventie ) {
-  eventie.bind( document, 'DOMContentLoaded', init );
-  eventie.bind( document, 'readystatechange', init );
-  eventie.bind( window, 'load', init );
-
-  return docReady;
-}
-
-// transport
-if ( typeof define === 'function' && define.amd ) {
-  // AMD
-  // if RequireJS, then doc is already ready
-  docReady.isReady = typeof requirejs === 'function';
-  define( [ 'eventie/eventie' ], defineDocReady );
-} else if ( typeof exports === 'object' ) {
-  module.exports = defineDocReady( require('eventie') );
-} else {
-  // browser global
-  window.docReady = defineDocReady( window.eventie );
-}
-
-})( window );
-
-},{"eventie":472}],472:[function(require,module,exports){
-/*!
- * eventie v1.0.6
- * event binding helper
- *   eventie.bind( elem, 'click', myFn )
- *   eventie.unbind( elem, 'click', myFn )
- * MIT license
- */
-
-/*jshint browser: true, undef: true, unused: true */
-/*global define: false, module: false */
-
-( function( window ) {
-
-'use strict';
-
-var docElem = document.documentElement;
-
-var bind = function() {};
-
-function getIEEvent( obj ) {
-  var event = window.event;
-  // add event.target
-  event.target = event.target || event.srcElement || obj;
-  return event;
-}
-
-if ( docElem.addEventListener ) {
-  bind = function( obj, type, fn ) {
-    obj.addEventListener( type, fn, false );
-  };
-} else if ( docElem.attachEvent ) {
-  bind = function( obj, type, fn ) {
-    obj[ type + fn ] = fn.handleEvent ?
-      function() {
-        var event = getIEEvent( obj );
-        fn.handleEvent.call( fn, event );
-      } :
-      function() {
-        var event = getIEEvent( obj );
-        fn.call( obj, event );
-      };
-    obj.attachEvent( "on" + type, obj[ type + fn ] );
-  };
-}
-
-var unbind = function() {};
-
-if ( docElem.removeEventListener ) {
-  unbind = function( obj, type, fn ) {
-    obj.removeEventListener( type, fn, false );
-  };
-} else if ( docElem.detachEvent ) {
-  unbind = function( obj, type, fn ) {
-    obj.detachEvent( "on" + type, obj[ type + fn ] );
-    try {
-      delete obj[ type + fn ];
-    } catch ( err ) {
-      // can't delete window object properties
-      obj[ type + fn ] = undefined;
-    }
-  };
-}
-
-var eventie = {
-  bind: bind,
-  unbind: unbind
-};
-
-// ----- module definition ----- //
-
-if ( typeof define === 'function' && define.amd ) {
-  // AMD
-  define( eventie );
-} else if ( typeof exports === 'object' ) {
-  // CommonJS
-  module.exports = eventie;
-} else {
-  // browser global
-  window.eventie = eventie;
-}
-
-})( window );
-
-},{}],473:[function(require,module,exports){
-/**
- * Fizzy UI utils v1.0.1
- * MIT license
- */
-
-/*jshint browser: true, undef: true, unused: true, strict: true */
-
-( function( window, factory ) {
-  /*global define: false, module: false, require: false */
-  'use strict';
-  // universal module definition
-
-  if ( typeof define == 'function' && define.amd ) {
-    // AMD
-    define( [
-      'doc-ready/doc-ready',
-      'matches-selector/matches-selector'
-    ], function( docReady, matchesSelector ) {
-      return factory( window, docReady, matchesSelector );
-    });
-  } else if ( typeof exports == 'object' ) {
-    // CommonJS
-    module.exports = factory(
-      window,
-      require('doc-ready'),
-      require('desandro-matches-selector')
-    );
-  } else {
-    // browser global
-    window.fizzyUIUtils = factory(
-      window,
-      window.docReady,
-      window.matchesSelector
-    );
-  }
-
-}( window, function factory( window, docReady, matchesSelector ) {
-
-'use strict';
-
-var utils = {};
-
-// ----- extend ----- //
-
-// extends objects
-utils.extend = function( a, b ) {
-  for ( var prop in b ) {
-    a[ prop ] = b[ prop ];
-  }
-  return a;
-};
-
-// ----- modulo ----- //
-
-utils.modulo = function( num, div ) {
-  return ( ( num % div ) + div ) % div;
-};
-
-// ----- isArray ----- //
-  
-var objToString = Object.prototype.toString;
-utils.isArray = function( obj ) {
-  return objToString.call( obj ) == '[object Array]';
-};
-
-// ----- makeArray ----- //
-
-// turn element or nodeList into an array
-utils.makeArray = function( obj ) {
-  var ary = [];
-  if ( utils.isArray( obj ) ) {
-    // use object if already an array
-    ary = obj;
-  } else if ( obj && typeof obj.length == 'number' ) {
-    // convert nodeList to array
-    for ( var i=0, len = obj.length; i < len; i++ ) {
-      ary.push( obj[i] );
-    }
-  } else {
-    // array of single index
-    ary.push( obj );
-  }
-  return ary;
-};
-
-// ----- indexOf ----- //
-
-// index of helper cause IE8
-utils.indexOf = Array.prototype.indexOf ? function( ary, obj ) {
-    return ary.indexOf( obj );
-  } : function( ary, obj ) {
-    for ( var i=0, len = ary.length; i < len; i++ ) {
-      if ( ary[i] === obj ) {
-        return i;
-      }
-    }
-    return -1;
-  };
-
-// ----- removeFrom ----- //
-
-utils.removeFrom = function( ary, obj ) {
-  var index = utils.indexOf( ary, obj );
-  if ( index != -1 ) {
-    ary.splice( index, 1 );
-  }
-};
-
-// ----- isElement ----- //
-
-// http://stackoverflow.com/a/384380/182183
-utils.isElement = ( typeof HTMLElement == 'function' || typeof HTMLElement == 'object' ) ?
-  function isElementDOM2( obj ) {
-    return obj instanceof HTMLElement;
-  } :
-  function isElementQuirky( obj ) {
-    return obj && typeof obj == 'object' &&
-      obj.nodeType == 1 && typeof obj.nodeName == 'string';
-  };
-
-// ----- setText ----- //
-
-utils.setText = ( function() {
-  var setTextProperty;
-  function setText( elem, text ) {
-    // only check setTextProperty once
-    setTextProperty = setTextProperty || ( document.documentElement.textContent !== undefined ? 'textContent' : 'innerText' );
-    elem[ setTextProperty ] = text;
-  }
-  return setText;
-})();
-
-// ----- getParent ----- //
-
-utils.getParent = function( elem, selector ) {
-  while ( elem != document.body ) {
-    elem = elem.parentNode;
-    if ( matchesSelector( elem, selector ) ) {
-      return elem;
-    }
-  }
-};
-
-// ----- getQueryElement ----- //
-
-// use element as selector string
-utils.getQueryElement = function( elem ) {
-  if ( typeof elem == 'string' ) {
-    return document.querySelector( elem );
-  }
-  return elem;
-};
-
-// ----- handleEvent ----- //
-
-// enable .ontype to trigger from .addEventListener( elem, 'type' )
-utils.handleEvent = function( event ) {
-  var method = 'on' + event.type;
-  if ( this[ method ] ) {
-    this[ method ]( event );
-  }
-};
-
-// ----- filterFindElements ----- //
-
-utils.filterFindElements = function( elems, selector ) {
-  // make array of elems
-  elems = utils.makeArray( elems );
-  var ffElems = [];
-
-  for ( var i=0, len = elems.length; i < len; i++ ) {
-    var elem = elems[i];
-    // check that elem is an actual element
-    if ( !utils.isElement( elem ) ) {
-      continue;
-    }
-    // filter & find items if we have a selector
-    if ( selector ) {
-      // filter siblings
-      if ( matchesSelector( elem, selector ) ) {
-        ffElems.push( elem );
-      }
-      // find children
-      var childElems = elem.querySelectorAll( selector );
-      // concat childElems to filterFound array
-      for ( var j=0, jLen = childElems.length; j < jLen; j++ ) {
-        ffElems.push( childElems[j] );
-      }
-    } else {
-      ffElems.push( elem );
-    }
-  }
-
-  return ffElems;
-};
-
-// ----- debounceMethod ----- //
-
-utils.debounceMethod = function( _class, methodName, threshold ) {
-  // original method
-  var method = _class.prototype[ methodName ];
-  var timeoutName = methodName + 'Timeout';
-
-  _class.prototype[ methodName ] = function() {
-    var timeout = this[ timeoutName ];
-    if ( timeout ) {
-      clearTimeout( timeout );
-    }
-    var args = arguments;
-
-    var _this = this;
-    this[ timeoutName ] = setTimeout( function() {
-      method.apply( _this, args );
-      delete _this[ timeoutName ];
-    }, threshold || 100 );
-  };
-};
-
-// ----- htmlInit ----- //
-
-// http://jamesroberts.name/blog/2010/02/22/string-functions-for-javascript-trim-to-camel-case-to-dashed-and-to-underscore/
-utils.toDashed = function( str ) {
-  return str.replace( /(.)([A-Z])/g, function( match, $1, $2 ) {
-    return $1 + '-' + $2;
-  }).toLowerCase();
-};
-
-var console = window.console;
-/**
- * allow user to initialize classes via .js-namespace class
- * htmlInit( Widget, 'widgetName' )
- * options are parsed from data-namespace-option attribute
- */
-utils.htmlInit = function( WidgetClass, namespace ) {
-  docReady( function() {
-    var dashedNamespace = utils.toDashed( namespace );
-    var elems = document.querySelectorAll( '.js-' + dashedNamespace );
-    var dataAttr = 'data-' + dashedNamespace + '-options';
-
-    for ( var i=0, len = elems.length; i < len; i++ ) {
-      var elem = elems[i];
-      var attr = elem.getAttribute( dataAttr );
-      var options;
-      try {
-        options = attr && JSON.parse( attr );
-      } catch ( error ) {
-        // log error, do not initialize
-        if ( console ) {
-          console.error( 'Error parsing ' + dataAttr + ' on ' +
-            elem.nodeName.toLowerCase() + ( elem.id ? '#' + elem.id : '' ) + ': ' +
-            error );
-        }
-        continue;
-      }
-      // initialize
-      var instance = new WidgetClass( elem, options );
-      // make available via $().data('layoutname')
-      var jQuery = window.jQuery;
-      if ( jQuery ) {
-        jQuery.data( elem, namespace, instance );
-      }
-    }
-  });
-};
-
-// -----  ----- //
-
-return utils;
-
-}));
-
-},{"desandro-matches-selector":470,"doc-ready":471}],474:[function(require,module,exports){
-/*!
- * getSize v1.2.2
- * measure size of elements
- * MIT license
- */
-
-/*jshint browser: true, strict: true, undef: true, unused: true */
-/*global define: false, exports: false, require: false, module: false, console: false */
-
-( function( window, undefined ) {
-
-'use strict';
-
-// -------------------------- helpers -------------------------- //
-
-// get a number from a string, not a percentage
-function getStyleSize( value ) {
-  var num = parseFloat( value );
-  // not a percent like '100%', and a number
-  var isValid = value.indexOf('%') === -1 && !isNaN( num );
-  return isValid && num;
-}
-
-function noop() {}
-
-var logError = typeof console === 'undefined' ? noop :
-  function( message ) {
-    console.error( message );
-  };
-
-// -------------------------- measurements -------------------------- //
-
-var measurements = [
-  'paddingLeft',
-  'paddingRight',
-  'paddingTop',
-  'paddingBottom',
-  'marginLeft',
-  'marginRight',
-  'marginTop',
-  'marginBottom',
-  'borderLeftWidth',
-  'borderRightWidth',
-  'borderTopWidth',
-  'borderBottomWidth'
-];
-
-function getZeroSize() {
-  var size = {
-    width: 0,
-    height: 0,
-    innerWidth: 0,
-    innerHeight: 0,
-    outerWidth: 0,
-    outerHeight: 0
-  };
-  for ( var i=0, len = measurements.length; i < len; i++ ) {
-    var measurement = measurements[i];
-    size[ measurement ] = 0;
-  }
-  return size;
-}
-
-
-
-function defineGetSize( getStyleProperty ) {
-
-// -------------------------- setup -------------------------- //
-
-var isSetup = false;
-
-var getStyle, boxSizingProp, isBoxSizeOuter;
-
-/**
- * setup vars and functions
- * do it on initial getSize(), rather than on script load
- * For Firefox bug https://bugzilla.mozilla.org/show_bug.cgi?id=548397
- */
-function setup() {
-  // setup once
-  if ( isSetup ) {
-    return;
-  }
-  isSetup = true;
-
-  var getComputedStyle = window.getComputedStyle;
-  getStyle = ( function() {
-    var getStyleFn = getComputedStyle ?
-      function( elem ) {
-        return getComputedStyle( elem, null );
-      } :
-      function( elem ) {
-        return elem.currentStyle;
-      };
-
-      return function getStyle( elem ) {
-        var style = getStyleFn( elem );
-        if ( !style ) {
-          logError( 'Style returned ' + style +
-            '. Are you running this code in a hidden iframe on Firefox? ' +
-            'See http://bit.ly/getsizebug1' );
-        }
-        return style;
-      };
-  })();
-
-  // -------------------------- box sizing -------------------------- //
-
-  boxSizingProp = getStyleProperty('boxSizing');
-
-  /**
-   * WebKit measures the outer-width on style.width on border-box elems
-   * IE & Firefox measures the inner-width
-   */
-  if ( boxSizingProp ) {
-    var div = document.createElement('div');
-    div.style.width = '200px';
-    div.style.padding = '1px 2px 3px 4px';
-    div.style.borderStyle = 'solid';
-    div.style.borderWidth = '1px 2px 3px 4px';
-    div.style[ boxSizingProp ] = 'border-box';
-
-    var body = document.body || document.documentElement;
-    body.appendChild( div );
-    var style = getStyle( div );
-
-    isBoxSizeOuter = getStyleSize( style.width ) === 200;
-    body.removeChild( div );
-  }
-
-}
-
-// -------------------------- getSize -------------------------- //
-
-function getSize( elem ) {
-  setup();
-
-  // use querySeletor if elem is string
-  if ( typeof elem === 'string' ) {
-    elem = document.querySelector( elem );
-  }
-
-  // do not proceed on non-objects
-  if ( !elem || typeof elem !== 'object' || !elem.nodeType ) {
-    return;
-  }
-
-  var style = getStyle( elem );
-
-  // if hidden, everything is 0
-  if ( style.display === 'none' ) {
-    return getZeroSize();
-  }
-
-  var size = {};
-  size.width = elem.offsetWidth;
-  size.height = elem.offsetHeight;
-
-  var isBorderBox = size.isBorderBox = !!( boxSizingProp &&
-    style[ boxSizingProp ] && style[ boxSizingProp ] === 'border-box' );
-
-  // get all measurements
-  for ( var i=0, len = measurements.length; i < len; i++ ) {
-    var measurement = measurements[i];
-    var value = style[ measurement ];
-    value = mungeNonPixel( elem, value );
-    var num = parseFloat( value );
-    // any 'auto', 'medium' value will be 0
-    size[ measurement ] = !isNaN( num ) ? num : 0;
-  }
-
-  var paddingWidth = size.paddingLeft + size.paddingRight;
-  var paddingHeight = size.paddingTop + size.paddingBottom;
-  var marginWidth = size.marginLeft + size.marginRight;
-  var marginHeight = size.marginTop + size.marginBottom;
-  var borderWidth = size.borderLeftWidth + size.borderRightWidth;
-  var borderHeight = size.borderTopWidth + size.borderBottomWidth;
-
-  var isBorderBoxSizeOuter = isBorderBox && isBoxSizeOuter;
-
-  // overwrite width and height if we can get it from style
-  var styleWidth = getStyleSize( style.width );
-  if ( styleWidth !== false ) {
-    size.width = styleWidth +
-      // add padding and border unless it's already including it
-      ( isBorderBoxSizeOuter ? 0 : paddingWidth + borderWidth );
-  }
-
-  var styleHeight = getStyleSize( style.height );
-  if ( styleHeight !== false ) {
-    size.height = styleHeight +
-      // add padding and border unless it's already including it
-      ( isBorderBoxSizeOuter ? 0 : paddingHeight + borderHeight );
-  }
-
-  size.innerWidth = size.width - ( paddingWidth + borderWidth );
-  size.innerHeight = size.height - ( paddingHeight + borderHeight );
-
-  size.outerWidth = size.width + marginWidth;
-  size.outerHeight = size.height + marginHeight;
-
-  return size;
-}
-
-// IE8 returns percent values, not pixels
-// taken from jQuery's curCSS
-function mungeNonPixel( elem, value ) {
-  // IE8 and has percent value
-  if ( window.getComputedStyle || value.indexOf('%') === -1 ) {
-    return value;
-  }
-  var style = elem.style;
-  // Remember the original values
-  var left = style.left;
-  var rs = elem.runtimeStyle;
-  var rsLeft = rs && rs.left;
-
-  // Put in the new values to get a computed value out
-  if ( rsLeft ) {
-    rs.left = elem.currentStyle.left;
-  }
-  style.left = value;
-  value = style.pixelLeft;
-
-  // Revert the changed values
-  style.left = left;
-  if ( rsLeft ) {
-    rs.left = rsLeft;
-  }
-
-  return value;
-}
-
-return getSize;
-
-}
-
-// transport
-if ( typeof define === 'function' && define.amd ) {
-  // AMD for RequireJS
-  define( [ 'get-style-property/get-style-property' ], defineGetSize );
-} else if ( typeof exports === 'object' ) {
-  // CommonJS for Component
-  module.exports = defineGetSize( require('desandro-get-style-property') );
-} else {
-  // browser global
-  window.getSize = defineGetSize( window.getStyleProperty );
-}
-
-})( window );
-
-},{"desandro-get-style-property":475}],475:[function(require,module,exports){
-/*!
- * getStyleProperty v1.0.4
- * original by kangax
- * http://perfectionkills.com/feature-testing-css-properties/
- * MIT license
- */
-
-/*jshint browser: true, strict: true, undef: true */
-/*global define: false, exports: false, module: false */
-
-( function( window ) {
-
-'use strict';
-
-var prefixes = 'Webkit Moz ms Ms O'.split(' ');
-var docElemStyle = document.documentElement.style;
-
-function getStyleProperty( propName ) {
-  if ( !propName ) {
-    return;
-  }
-
-  // test standard property first
-  if ( typeof docElemStyle[ propName ] === 'string' ) {
-    return propName;
-  }
-
-  // capitalize
-  propName = propName.charAt(0).toUpperCase() + propName.slice(1);
-
-  // test vendor specific properties
-  var prefixed;
-  for ( var i=0, len = prefixes.length; i < len; i++ ) {
-    prefixed = prefixes[i] + propName;
-    if ( typeof docElemStyle[ prefixed ] === 'string' ) {
-      return prefixed;
-    }
-  }
-}
-
-// transport
-if ( typeof define === 'function' && define.amd ) {
-  // AMD
-  define( function() {
-    return getStyleProperty;
-  });
-} else if ( typeof exports === 'object' ) {
-  // CommonJS for Component
-  module.exports = getStyleProperty;
-} else {
-  // browser global
-  window.getStyleProperty = getStyleProperty;
-}
-
-})( window );
-
-},{}],476:[function(require,module,exports){
-/*!
- * Masonry v3.3.1
- * Cascading grid layout library
- * http://masonry.desandro.com
- * MIT License
- * by David DeSandro
- */
-
-( function( window, factory ) {
-  'use strict';
-  // universal module definition
-  if ( typeof define === 'function' && define.amd ) {
-    // AMD
-    define( [
-        'outlayer/outlayer',
-        'get-size/get-size',
-        'fizzy-ui-utils/utils'
-      ],
-      factory );
-  } else if ( typeof exports === 'object' ) {
-    // CommonJS
-    module.exports = factory(
-      require('outlayer'),
-      require('get-size'),
-      require('fizzy-ui-utils')
-    );
-  } else {
-    // browser global
-    window.Masonry = factory(
-      window.Outlayer,
-      window.getSize,
-      window.fizzyUIUtils
-    );
-  }
-
-}( window, function factory( Outlayer, getSize, utils ) {
-
-'use strict';
-
-// -------------------------- masonryDefinition -------------------------- //
-
-  // create an Outlayer layout class
-  var Masonry = Outlayer.create('masonry');
-
-  Masonry.prototype._resetLayout = function() {
-    this.getSize();
-    this._getMeasurement( 'columnWidth', 'outerWidth' );
-    this._getMeasurement( 'gutter', 'outerWidth' );
-    this.measureColumns();
-
-    // reset column Y
-    var i = this.cols;
-    this.colYs = [];
-    while (i--) {
-      this.colYs.push( 0 );
-    }
-
-    this.maxY = 0;
-  };
-
-  Masonry.prototype.measureColumns = function() {
-    this.getContainerWidth();
-    // if columnWidth is 0, default to outerWidth of first item
-    if ( !this.columnWidth ) {
-      var firstItem = this.items[0];
-      var firstItemElem = firstItem && firstItem.element;
-      // columnWidth fall back to item of first element
-      this.columnWidth = firstItemElem && getSize( firstItemElem ).outerWidth ||
-        // if first elem has no width, default to size of container
-        this.containerWidth;
-    }
-
-    var columnWidth = this.columnWidth += this.gutter;
-
-    // calculate columns
-    var containerWidth = this.containerWidth + this.gutter;
-    var cols = containerWidth / columnWidth;
-    // fix rounding errors, typically with gutters
-    var excess = columnWidth - containerWidth % columnWidth;
-    // if overshoot is less than a pixel, round up, otherwise floor it
-    var mathMethod = excess && excess < 1 ? 'round' : 'floor';
-    cols = Math[ mathMethod ]( cols );
-    this.cols = Math.max( cols, 1 );
-  };
-
-  Masonry.prototype.getContainerWidth = function() {
-    // container is parent if fit width
-    var container = this.options.isFitWidth ? this.element.parentNode : this.element;
-    // check that this.size and size are there
-    // IE8 triggers resize on body size change, so they might not be
-    var size = getSize( container );
-    this.containerWidth = size && size.innerWidth;
-  };
-
-  Masonry.prototype._getItemLayoutPosition = function( item ) {
-    item.getSize();
-    // how many columns does this brick span
-    var remainder = item.size.outerWidth % this.columnWidth;
-    var mathMethod = remainder && remainder < 1 ? 'round' : 'ceil';
-    // round if off by 1 pixel, otherwise use ceil
-    var colSpan = Math[ mathMethod ]( item.size.outerWidth / this.columnWidth );
-    colSpan = Math.min( colSpan, this.cols );
-
-    var colGroup = this._getColGroup( colSpan );
-    // get the minimum Y value from the columns
-    var minimumY = Math.min.apply( Math, colGroup );
-    var shortColIndex = utils.indexOf( colGroup, minimumY );
-
-    // position the brick
-    var position = {
-      x: this.columnWidth * shortColIndex,
-      y: minimumY
-    };
-
-    // apply setHeight to necessary columns
-    var setHeight = minimumY + item.size.outerHeight;
-    var setSpan = this.cols + 1 - colGroup.length;
-    for ( var i = 0; i < setSpan; i++ ) {
-      this.colYs[ shortColIndex + i ] = setHeight;
-    }
-
-    return position;
-  };
-
-  /**
-   * @param {Number} colSpan - number of columns the element spans
-   * @returns {Array} colGroup
-   */
-  Masonry.prototype._getColGroup = function( colSpan ) {
-    if ( colSpan < 2 ) {
-      // if brick spans only one column, use all the column Ys
-      return this.colYs;
-    }
-
-    var colGroup = [];
-    // how many different places could this brick fit horizontally
-    var groupCount = this.cols + 1 - colSpan;
-    // for each group potential horizontal position
-    for ( var i = 0; i < groupCount; i++ ) {
-      // make an array of colY values for that one group
-      var groupColYs = this.colYs.slice( i, i + colSpan );
-      // and get the max value of the array
-      colGroup[i] = Math.max.apply( Math, groupColYs );
-    }
-    return colGroup;
-  };
-
-  Masonry.prototype._manageStamp = function( stamp ) {
-    var stampSize = getSize( stamp );
-    var offset = this._getElementOffset( stamp );
-    // get the columns that this stamp affects
-    var firstX = this.options.isOriginLeft ? offset.left : offset.right;
-    var lastX = firstX + stampSize.outerWidth;
-    var firstCol = Math.floor( firstX / this.columnWidth );
-    firstCol = Math.max( 0, firstCol );
-    var lastCol = Math.floor( lastX / this.columnWidth );
-    // lastCol should not go over if multiple of columnWidth #425
-    lastCol -= lastX % this.columnWidth ? 0 : 1;
-    lastCol = Math.min( this.cols - 1, lastCol );
-    // set colYs to bottom of the stamp
-    var stampMaxY = ( this.options.isOriginTop ? offset.top : offset.bottom ) +
-      stampSize.outerHeight;
-    for ( var i = firstCol; i <= lastCol; i++ ) {
-      this.colYs[i] = Math.max( stampMaxY, this.colYs[i] );
-    }
-  };
-
-  Masonry.prototype._getContainerSize = function() {
-    this.maxY = Math.max.apply( Math, this.colYs );
-    var size = {
-      height: this.maxY
-    };
-
-    if ( this.options.isFitWidth ) {
-      size.width = this._getContainerFitWidth();
-    }
-
-    return size;
-  };
-
-  Masonry.prototype._getContainerFitWidth = function() {
-    var unusedCols = 0;
-    // count unused columns
-    var i = this.cols;
-    while ( --i ) {
-      if ( this.colYs[i] !== 0 ) {
-        break;
-      }
-      unusedCols++;
-    }
-    // fit container to columns that have been used
-    return ( this.cols - unusedCols ) * this.columnWidth - this.gutter;
-  };
-
-  Masonry.prototype.needsResizeLayout = function() {
-    var previousWidth = this.containerWidth;
-    this.getContainerWidth();
-    return previousWidth !== this.containerWidth;
-  };
-
-  return Masonry;
-
-}));
-
-},{"fizzy-ui-utils":473,"get-size":474,"outlayer":481}],477:[function(require,module,exports){
-/**
- * Outlayer Item
- */
-
-( function( window, factory ) {
-  'use strict';
-  // universal module definition
-  if ( typeof define === 'function' && define.amd ) {
-    // AMD
-    define( [
-        'eventEmitter/EventEmitter',
-        'get-size/get-size',
-        'get-style-property/get-style-property',
-        'fizzy-ui-utils/utils'
-      ],
-      function( EventEmitter, getSize, getStyleProperty, utils ) {
-        return factory( window, EventEmitter, getSize, getStyleProperty, utils );
-      }
-    );
-  } else if (typeof exports === 'object') {
-    // CommonJS
-    module.exports = factory(
-      window,
-      require('wolfy87-eventemitter'),
-      require('get-size'),
-      require('desandro-get-style-property'),
-      require('fizzy-ui-utils')
-    );
-  } else {
-    // browser global
-    window.Outlayer = {};
-    window.Outlayer.Item = factory(
-      window,
-      window.EventEmitter,
-      window.getSize,
-      window.getStyleProperty,
-      window.fizzyUIUtils
-    );
-  }
-
-}( window, function factory( window, EventEmitter, getSize, getStyleProperty, utils ) {
-'use strict';
-
-// ----- helpers ----- //
-
-var getComputedStyle = window.getComputedStyle;
-var getStyle = getComputedStyle ?
-  function( elem ) {
-    return getComputedStyle( elem, null );
-  } :
-  function( elem ) {
-    return elem.currentStyle;
-  };
-
-
-function isEmptyObj( obj ) {
-  for ( var prop in obj ) {
-    return false;
-  }
-  prop = null;
-  return true;
-}
-
-// -------------------------- CSS3 support -------------------------- //
-
-var transitionProperty = getStyleProperty('transition');
-var transformProperty = getStyleProperty('transform');
-var supportsCSS3 = transitionProperty && transformProperty;
-var is3d = !!getStyleProperty('perspective');
-
-var transitionEndEvent = {
-  WebkitTransition: 'webkitTransitionEnd',
-  MozTransition: 'transitionend',
-  OTransition: 'otransitionend',
-  transition: 'transitionend'
-}[ transitionProperty ];
-
-// properties that could have vendor prefix
-var prefixableProperties = [
-  'transform',
-  'transition',
-  'transitionDuration',
-  'transitionProperty'
-];
-
-// cache all vendor properties
-var vendorProperties = ( function() {
-  var cache = {};
-  for ( var i=0, len = prefixableProperties.length; i < len; i++ ) {
-    var prop = prefixableProperties[i];
-    var supportedProp = getStyleProperty( prop );
-    if ( supportedProp && supportedProp !== prop ) {
-      cache[ prop ] = supportedProp;
-    }
-  }
-  return cache;
-})();
-
-// -------------------------- Item -------------------------- //
-
-function Item( element, layout ) {
-  if ( !element ) {
-    return;
-  }
-
-  this.element = element;
-  // parent layout class, i.e. Masonry, Isotope, or Packery
-  this.layout = layout;
-  this.position = {
-    x: 0,
-    y: 0
-  };
-
-  this._create();
-}
-
-// inherit EventEmitter
-utils.extend( Item.prototype, EventEmitter.prototype );
-
-Item.prototype._create = function() {
-  // transition objects
-  this._transn = {
-    ingProperties: {},
-    clean: {},
-    onEnd: {}
-  };
-
-  this.css({
-    position: 'absolute'
-  });
-};
-
-// trigger specified handler for event type
-Item.prototype.handleEvent = function( event ) {
-  var method = 'on' + event.type;
-  if ( this[ method ] ) {
-    this[ method ]( event );
-  }
-};
-
-Item.prototype.getSize = function() {
-  this.size = getSize( this.element );
-};
-
-/**
- * apply CSS styles to element
- * @param {Object} style
- */
-Item.prototype.css = function( style ) {
-  var elemStyle = this.element.style;
-
-  for ( var prop in style ) {
-    // use vendor property if available
-    var supportedProp = vendorProperties[ prop ] || prop;
-    elemStyle[ supportedProp ] = style[ prop ];
-  }
-};
-
- // measure position, and sets it
-Item.prototype.getPosition = function() {
-  var style = getStyle( this.element );
-  var layoutOptions = this.layout.options;
-  var isOriginLeft = layoutOptions.isOriginLeft;
-  var isOriginTop = layoutOptions.isOriginTop;
-  var xValue = style[ isOriginLeft ? 'left' : 'right' ];
-  var yValue = style[ isOriginTop ? 'top' : 'bottom' ];
-  var x = parseInt( xValue, 10 );
-  var y = parseInt( yValue, 10 );
-  // convert percent to pixels
-  var layoutSize = this.layout.size;
-  x = xValue.indexOf('%') != -1 ? ( x / 100 ) * layoutSize.width : x;
-  y = yValue.indexOf('%') != -1 ? ( y / 100 ) * layoutSize.height : y;
-
-  // clean up 'auto' or other non-integer values
-  x = isNaN( x ) ? 0 : x;
-  y = isNaN( y ) ? 0 : y;
-  // remove padding from measurement
-  x -= isOriginLeft ? layoutSize.paddingLeft : layoutSize.paddingRight;
-  y -= isOriginTop ? layoutSize.paddingTop : layoutSize.paddingBottom;
-
-  this.position.x = x;
-  this.position.y = y;
-};
-
-// set settled position, apply padding
-Item.prototype.layoutPosition = function() {
-  var layoutSize = this.layout.size;
-  var layoutOptions = this.layout.options;
-  var style = {};
-
-  // x
-  var xPadding = layoutOptions.isOriginLeft ? 'paddingLeft' : 'paddingRight';
-  var xProperty = layoutOptions.isOriginLeft ? 'left' : 'right';
-  var xResetProperty = layoutOptions.isOriginLeft ? 'right' : 'left';
-
-  var x = this.position.x + layoutSize[ xPadding ];
-  // set in percentage or pixels
-  style[ xProperty ] = this.getXValue( x );
-  // reset other property
-  style[ xResetProperty ] = '';
-
-  // y
-  var yPadding = layoutOptions.isOriginTop ? 'paddingTop' : 'paddingBottom';
-  var yProperty = layoutOptions.isOriginTop ? 'top' : 'bottom';
-  var yResetProperty = layoutOptions.isOriginTop ? 'bottom' : 'top';
-
-  var y = this.position.y + layoutSize[ yPadding ];
-  // set in percentage or pixels
-  style[ yProperty ] = this.getYValue( y );
-  // reset other property
-  style[ yResetProperty ] = '';
-
-  this.css( style );
-  this.emitEvent( 'layout', [ this ] );
-};
-
-Item.prototype.getXValue = function( x ) {
-  var layoutOptions = this.layout.options;
-  return layoutOptions.percentPosition && !layoutOptions.isHorizontal ?
-    ( ( x / this.layout.size.width ) * 100 ) + '%' : x + 'px';
-};
-
-Item.prototype.getYValue = function( y ) {
-  var layoutOptions = this.layout.options;
-  return layoutOptions.percentPosition && layoutOptions.isHorizontal ?
-    ( ( y / this.layout.size.height ) * 100 ) + '%' : y + 'px';
-};
-
-
-Item.prototype._transitionTo = function( x, y ) {
-  this.getPosition();
-  // get current x & y from top/left
-  var curX = this.position.x;
-  var curY = this.position.y;
-
-  var compareX = parseInt( x, 10 );
-  var compareY = parseInt( y, 10 );
-  var didNotMove = compareX === this.position.x && compareY === this.position.y;
-
-  // save end position
-  this.setPosition( x, y );
-
-  // if did not move and not transitioning, just go to layout
-  if ( didNotMove && !this.isTransitioning ) {
-    this.layoutPosition();
-    return;
-  }
-
-  var transX = x - curX;
-  var transY = y - curY;
-  var transitionStyle = {};
-  transitionStyle.transform = this.getTranslate( transX, transY );
-
-  this.transition({
-    to: transitionStyle,
-    onTransitionEnd: {
-      transform: this.layoutPosition
-    },
-    isCleaning: true
-  });
-};
-
-Item.prototype.getTranslate = function( x, y ) {
-  // flip cooridinates if origin on right or bottom
-  var layoutOptions = this.layout.options;
-  x = layoutOptions.isOriginLeft ? x : -x;
-  y = layoutOptions.isOriginTop ? y : -y;
-  x = this.getXValue( x );
-  y = this.getYValue( y );
-
-  if ( is3d ) {
-    return 'translate3d(' + x + ', ' + y + ', 0)';
-  }
-
-  return 'translate(' + x + ', ' + y + ')';
-};
-
-// non transition + transform support
-Item.prototype.goTo = function( x, y ) {
-  this.setPosition( x, y );
-  this.layoutPosition();
-};
-
-// use transition and transforms if supported
-Item.prototype.moveTo = supportsCSS3 ?
-  Item.prototype._transitionTo : Item.prototype.goTo;
-
-Item.prototype.setPosition = function( x, y ) {
-  this.position.x = parseInt( x, 10 );
-  this.position.y = parseInt( y, 10 );
-};
-
-// ----- transition ----- //
-
-/**
- * @param {Object} style - CSS
- * @param {Function} onTransitionEnd
- */
-
-// non transition, just trigger callback
-Item.prototype._nonTransition = function( args ) {
-  this.css( args.to );
-  if ( args.isCleaning ) {
-    this._removeStyles( args.to );
-  }
-  for ( var prop in args.onTransitionEnd ) {
-    args.onTransitionEnd[ prop ].call( this );
-  }
-};
-
-/**
- * proper transition
- * @param {Object} args - arguments
- *   @param {Object} to - style to transition to
- *   @param {Object} from - style to start transition from
- *   @param {Boolean} isCleaning - removes transition styles after transition
- *   @param {Function} onTransitionEnd - callback
- */
-Item.prototype._transition = function( args ) {
-  // redirect to nonTransition if no transition duration
-  if ( !parseFloat( this.layout.options.transitionDuration ) ) {
-    this._nonTransition( args );
-    return;
-  }
-
-  var _transition = this._transn;
-  // keep track of onTransitionEnd callback by css property
-  for ( var prop in args.onTransitionEnd ) {
-    _transition.onEnd[ prop ] = args.onTransitionEnd[ prop ];
-  }
-  // keep track of properties that are transitioning
-  for ( prop in args.to ) {
-    _transition.ingProperties[ prop ] = true;
-    // keep track of properties to clean up when transition is done
-    if ( args.isCleaning ) {
-      _transition.clean[ prop ] = true;
-    }
-  }
-
-  // set from styles
-  if ( args.from ) {
-    this.css( args.from );
-    // force redraw. http://blog.alexmaccaw.com/css-transitions
-    var h = this.element.offsetHeight;
-    // hack for JSHint to hush about unused var
-    h = null;
-  }
-  // enable transition
-  this.enableTransition( args.to );
-  // set styles that are transitioning
-  this.css( args.to );
-
-  this.isTransitioning = true;
-
-};
-
-// dash before all cap letters, including first for
-// WebkitTransform => -webkit-transform
-function toDashedAll( str ) {
-  return str.replace( /([A-Z])/g, function( $1 ) {
-    return '-' + $1.toLowerCase();
-  });
-}
-
-var transitionProps = 'opacity,' +
-  toDashedAll( vendorProperties.transform || 'transform' );
-
-Item.prototype.enableTransition = function(/* style */) {
-  // HACK changing transitionProperty during a transition
-  // will cause transition to jump
-  if ( this.isTransitioning ) {
-    return;
-  }
-
-  // make `transition: foo, bar, baz` from style object
-  // HACK un-comment this when enableTransition can work
-  // while a transition is happening
-  // var transitionValues = [];
-  // for ( var prop in style ) {
-  //   // dash-ify camelCased properties like WebkitTransition
-  //   prop = vendorProperties[ prop ] || prop;
-  //   transitionValues.push( toDashedAll( prop ) );
-  // }
-  // enable transition styles
-  this.css({
-    transitionProperty: transitionProps,
-    transitionDuration: this.layout.options.transitionDuration
-  });
-  // listen for transition end event
-  this.element.addEventListener( transitionEndEvent, this, false );
-};
-
-Item.prototype.transition = Item.prototype[ transitionProperty ? '_transition' : '_nonTransition' ];
-
-// ----- events ----- //
-
-Item.prototype.onwebkitTransitionEnd = function( event ) {
-  this.ontransitionend( event );
-};
-
-Item.prototype.onotransitionend = function( event ) {
-  this.ontransitionend( event );
-};
-
-// properties that I munge to make my life easier
-var dashedVendorProperties = {
-  '-webkit-transform': 'transform',
-  '-moz-transform': 'transform',
-  '-o-transform': 'transform'
-};
-
-Item.prototype.ontransitionend = function( event ) {
-  // disregard bubbled events from children
-  if ( event.target !== this.element ) {
-    return;
-  }
-  var _transition = this._transn;
-  // get property name of transitioned property, convert to prefix-free
-  var propertyName = dashedVendorProperties[ event.propertyName ] || event.propertyName;
-
-  // remove property that has completed transitioning
-  delete _transition.ingProperties[ propertyName ];
-  // check if any properties are still transitioning
-  if ( isEmptyObj( _transition.ingProperties ) ) {
-    // all properties have completed transitioning
-    this.disableTransition();
-  }
-  // clean style
-  if ( propertyName in _transition.clean ) {
-    // clean up style
-    this.element.style[ event.propertyName ] = '';
-    delete _transition.clean[ propertyName ];
-  }
-  // trigger onTransitionEnd callback
-  if ( propertyName in _transition.onEnd ) {
-    var onTransitionEnd = _transition.onEnd[ propertyName ];
-    onTransitionEnd.call( this );
-    delete _transition.onEnd[ propertyName ];
-  }
-
-  this.emitEvent( 'transitionEnd', [ this ] );
-};
-
-Item.prototype.disableTransition = function() {
-  this.removeTransitionStyles();
-  this.element.removeEventListener( transitionEndEvent, this, false );
-  this.isTransitioning = false;
-};
-
-/**
- * removes style property from element
- * @param {Object} style
-**/
-Item.prototype._removeStyles = function( style ) {
-  // clean up transition styles
-  var cleanStyle = {};
-  for ( var prop in style ) {
-    cleanStyle[ prop ] = '';
-  }
-  this.css( cleanStyle );
-};
-
-var cleanTransitionStyle = {
-  transitionProperty: '',
-  transitionDuration: ''
-};
-
-Item.prototype.removeTransitionStyles = function() {
-  // remove transition
-  this.css( cleanTransitionStyle );
-};
-
-// ----- show/hide/remove ----- //
-
-// remove element from DOM
-Item.prototype.removeElem = function() {
-  this.element.parentNode.removeChild( this.element );
-  // remove display: none
-  this.css({ display: '' });
-  this.emitEvent( 'remove', [ this ] );
-};
-
-Item.prototype.remove = function() {
-  // just remove element if no transition support or no transition
-  if ( !transitionProperty || !parseFloat( this.layout.options.transitionDuration ) ) {
-    this.removeElem();
-    return;
-  }
-
-  // start transition
-  var _this = this;
-  this.once( 'transitionEnd', function() {
-    _this.removeElem();
-  });
-  this.hide();
-};
-
-Item.prototype.reveal = function() {
-  delete this.isHidden;
-  // remove display: none
-  this.css({ display: '' });
-
-  var options = this.layout.options;
-
-  var onTransitionEnd = {};
-  var transitionEndProperty = this.getHideRevealTransitionEndProperty('visibleStyle');
-  onTransitionEnd[ transitionEndProperty ] = this.onRevealTransitionEnd;
-
-  this.transition({
-    from: options.hiddenStyle,
-    to: options.visibleStyle,
-    isCleaning: true,
-    onTransitionEnd: onTransitionEnd
-  });
-};
-
-Item.prototype.onRevealTransitionEnd = function() {
-  // check if still visible
-  // during transition, item may have been hidden
-  if ( !this.isHidden ) {
-    this.emitEvent('reveal');
-  }
-};
-
-/**
- * get style property use for hide/reveal transition end
- * @param {String} styleProperty - hiddenStyle/visibleStyle
- * @returns {String}
- */
-Item.prototype.getHideRevealTransitionEndProperty = function( styleProperty ) {
-  var optionStyle = this.layout.options[ styleProperty ];
-  // use opacity
-  if ( optionStyle.opacity ) {
-    return 'opacity';
-  }
-  // get first property
-  for ( var prop in optionStyle ) {
-    return prop;
-  }
-};
-
-Item.prototype.hide = function() {
-  // set flag
-  this.isHidden = true;
-  // remove display: none
-  this.css({ display: '' });
-
-  var options = this.layout.options;
-
-  var onTransitionEnd = {};
-  var transitionEndProperty = this.getHideRevealTransitionEndProperty('hiddenStyle');
-  onTransitionEnd[ transitionEndProperty ] = this.onHideTransitionEnd;
-
-  this.transition({
-    from: options.visibleStyle,
-    to: options.hiddenStyle,
-    // keep hidden stuff hidden
-    isCleaning: true,
-    onTransitionEnd: onTransitionEnd
-  });
-};
-
-Item.prototype.onHideTransitionEnd = function() {
-  // check if still hidden
-  // during transition, item may have been un-hidden
-  if ( this.isHidden ) {
-    this.css({ display: 'none' });
-    this.emitEvent('hide');
-  }
-};
-
-Item.prototype.destroy = function() {
-  this.css({
-    position: '',
-    left: '',
-    right: '',
-    top: '',
-    bottom: '',
-    transition: '',
-    transform: ''
-  });
-};
-
-return Item;
-
-}));
-
-},{"desandro-get-style-property":478,"fizzy-ui-utils":473,"get-size":474,"wolfy87-eventemitter":480}],478:[function(require,module,exports){
-arguments[4][475][0].apply(exports,arguments)
-},{"dup":475}],479:[function(require,module,exports){
-arguments[4][472][0].apply(exports,arguments)
-},{"dup":472}],480:[function(require,module,exports){
-/*!
- * EventEmitter v4.2.11 - git.io/ee
- * Unlicense - http://unlicense.org/
- * Oliver Caldwell - http://oli.me.uk/
- * @preserve
- */
-
-;(function () {
-    'use strict';
-
-    /**
-     * Class for managing events.
-     * Can be extended to provide event functionality in other classes.
-     *
-     * @class EventEmitter Manages event registering and emitting.
-     */
-    function EventEmitter() {}
-
-    // Shortcuts to improve speed and size
-    var proto = EventEmitter.prototype;
-    var exports = this;
-    var originalGlobalValue = exports.EventEmitter;
-
-    /**
-     * Finds the index of the listener for the event in its storage array.
-     *
-     * @param {Function[]} listeners Array of listeners to search through.
-     * @param {Function} listener Method to look for.
-     * @return {Number} Index of the specified listener, -1 if not found
-     * @api private
-     */
-    function indexOfListener(listeners, listener) {
-        var i = listeners.length;
-        while (i--) {
-            if (listeners[i].listener === listener) {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-    /**
-     * Alias a method while keeping the context correct, to allow for overwriting of target method.
-     *
-     * @param {String} name The name of the target method.
-     * @return {Function} The aliased method
-     * @api private
-     */
-    function alias(name) {
-        return function aliasClosure() {
-            return this[name].apply(this, arguments);
-        };
-    }
-
-    /**
-     * Returns the listener array for the specified event.
-     * Will initialise the event object and listener arrays if required.
-     * Will return an object if you use a regex search. The object contains keys for each matched event. So /ba[rz]/ might return an object containing bar and baz. But only if you have either defined them with defineEvent or added some listeners to them.
-     * Each property in the object response is an array of listener functions.
-     *
-     * @param {String|RegExp} evt Name of the event to return the listeners from.
-     * @return {Function[]|Object} All listener functions for the event.
-     */
-    proto.getListeners = function getListeners(evt) {
-        var events = this._getEvents();
-        var response;
-        var key;
-
-        // Return a concatenated array of all matching events if
-        // the selector is a regular expression.
-        if (evt instanceof RegExp) {
-            response = {};
-            for (key in events) {
-                if (events.hasOwnProperty(key) && evt.test(key)) {
-                    response[key] = events[key];
-                }
-            }
-        }
-        else {
-            response = events[evt] || (events[evt] = []);
-        }
-
-        return response;
-    };
-
-    /**
-     * Takes a list of listener objects and flattens it into a list of listener functions.
-     *
-     * @param {Object[]} listeners Raw listener objects.
-     * @return {Function[]} Just the listener functions.
-     */
-    proto.flattenListeners = function flattenListeners(listeners) {
-        var flatListeners = [];
-        var i;
-
-        for (i = 0; i < listeners.length; i += 1) {
-            flatListeners.push(listeners[i].listener);
-        }
-
-        return flatListeners;
-    };
-
-    /**
-     * Fetches the requested listeners via getListeners but will always return the results inside an object. This is mainly for internal use but others may find it useful.
-     *
-     * @param {String|RegExp} evt Name of the event to return the listeners from.
-     * @return {Object} All listener functions for an event in an object.
-     */
-    proto.getListenersAsObject = function getListenersAsObject(evt) {
-        var listeners = this.getListeners(evt);
-        var response;
-
-        if (listeners instanceof Array) {
-            response = {};
-            response[evt] = listeners;
-        }
-
-        return response || listeners;
-    };
-
-    /**
-     * Adds a listener function to the specified event.
-     * The listener will not be added if it is a duplicate.
-     * If the listener returns true then it will be removed after it is called.
-     * If you pass a regular expression as the event name then the listener will be added to all events that match it.
-     *
-     * @param {String|RegExp} evt Name of the event to attach the listener to.
-     * @param {Function} listener Method to be called when the event is emitted. If the function returns true then it will be removed after calling.
-     * @return {Object} Current instance of EventEmitter for chaining.
-     */
-    proto.addListener = function addListener(evt, listener) {
-        var listeners = this.getListenersAsObject(evt);
-        var listenerIsWrapped = typeof listener === 'object';
-        var key;
-
-        for (key in listeners) {
-            if (listeners.hasOwnProperty(key) && indexOfListener(listeners[key], listener) === -1) {
-                listeners[key].push(listenerIsWrapped ? listener : {
-                    listener: listener,
-                    once: false
-                });
-            }
-        }
-
-        return this;
-    };
-
-    /**
-     * Alias of addListener
-     */
-    proto.on = alias('addListener');
-
-    /**
-     * Semi-alias of addListener. It will add a listener that will be
-     * automatically removed after its first execution.
-     *
-     * @param {String|RegExp} evt Name of the event to attach the listener to.
-     * @param {Function} listener Method to be called when the event is emitted. If the function returns true then it will be removed after calling.
-     * @return {Object} Current instance of EventEmitter for chaining.
-     */
-    proto.addOnceListener = function addOnceListener(evt, listener) {
-        return this.addListener(evt, {
-            listener: listener,
-            once: true
-        });
-    };
-
-    /**
-     * Alias of addOnceListener.
-     */
-    proto.once = alias('addOnceListener');
-
-    /**
-     * Defines an event name. This is required if you want to use a regex to add a listener to multiple events at once. If you don't do this then how do you expect it to know what event to add to? Should it just add to every possible match for a regex? No. That is scary and bad.
-     * You need to tell it what event names should be matched by a regex.
-     *
-     * @param {String} evt Name of the event to create.
-     * @return {Object} Current instance of EventEmitter for chaining.
-     */
-    proto.defineEvent = function defineEvent(evt) {
-        this.getListeners(evt);
-        return this;
-    };
-
-    /**
-     * Uses defineEvent to define multiple events.
-     *
-     * @param {String[]} evts An array of event names to define.
-     * @return {Object} Current instance of EventEmitter for chaining.
-     */
-    proto.defineEvents = function defineEvents(evts) {
-        for (var i = 0; i < evts.length; i += 1) {
-            this.defineEvent(evts[i]);
-        }
-        return this;
-    };
-
-    /**
-     * Removes a listener function from the specified event.
-     * When passed a regular expression as the event name, it will remove the listener from all events that match it.
-     *
-     * @param {String|RegExp} evt Name of the event to remove the listener from.
-     * @param {Function} listener Method to remove from the event.
-     * @return {Object} Current instance of EventEmitter for chaining.
-     */
-    proto.removeListener = function removeListener(evt, listener) {
-        var listeners = this.getListenersAsObject(evt);
-        var index;
-        var key;
-
-        for (key in listeners) {
-            if (listeners.hasOwnProperty(key)) {
-                index = indexOfListener(listeners[key], listener);
-
-                if (index !== -1) {
-                    listeners[key].splice(index, 1);
-                }
-            }
-        }
-
-        return this;
-    };
-
-    /**
-     * Alias of removeListener
-     */
-    proto.off = alias('removeListener');
-
-    /**
-     * Adds listeners in bulk using the manipulateListeners method.
-     * If you pass an object as the second argument you can add to multiple events at once. The object should contain key value pairs of events and listeners or listener arrays. You can also pass it an event name and an array of listeners to be added.
-     * You can also pass it a regular expression to add the array of listeners to all events that match it.
-     * Yeah, this function does quite a bit. That's probably a bad thing.
-     *
-     * @param {String|Object|RegExp} evt An event name if you will pass an array of listeners next. An object if you wish to add to multiple events at once.
-     * @param {Function[]} [listeners] An optional array of listener functions to add.
-     * @return {Object} Current instance of EventEmitter for chaining.
-     */
-    proto.addListeners = function addListeners(evt, listeners) {
-        // Pass through to manipulateListeners
-        return this.manipulateListeners(false, evt, listeners);
-    };
-
-    /**
-     * Removes listeners in bulk using the manipulateListeners method.
-     * If you pass an object as the second argument you can remove from multiple events at once. The object should contain key value pairs of events and listeners or listener arrays.
-     * You can also pass it an event name and an array of listeners to be removed.
-     * You can also pass it a regular expression to remove the listeners from all events that match it.
-     *
-     * @param {String|Object|RegExp} evt An event name if you will pass an array of listeners next. An object if you wish to remove from multiple events at once.
-     * @param {Function[]} [listeners] An optional array of listener functions to remove.
-     * @return {Object} Current instance of EventEmitter for chaining.
-     */
-    proto.removeListeners = function removeListeners(evt, listeners) {
-        // Pass through to manipulateListeners
-        return this.manipulateListeners(true, evt, listeners);
-    };
-
-    /**
-     * Edits listeners in bulk. The addListeners and removeListeners methods both use this to do their job. You should really use those instead, this is a little lower level.
-     * The first argument will determine if the listeners are removed (true) or added (false).
-     * If you pass an object as the second argument you can add/remove from multiple events at once. The object should contain key value pairs of events and listeners or listener arrays.
-     * You can also pass it an event name and an array of listeners to be added/removed.
-     * You can also pass it a regular expression to manipulate the listeners of all events that match it.
-     *
-     * @param {Boolean} remove True if you want to remove listeners, false if you want to add.
-     * @param {String|Object|RegExp} evt An event name if you will pass an array of listeners next. An object if you wish to add/remove from multiple events at once.
-     * @param {Function[]} [listeners] An optional array of listener functions to add/remove.
-     * @return {Object} Current instance of EventEmitter for chaining.
-     */
-    proto.manipulateListeners = function manipulateListeners(remove, evt, listeners) {
-        var i;
-        var value;
-        var single = remove ? this.removeListener : this.addListener;
-        var multiple = remove ? this.removeListeners : this.addListeners;
-
-        // If evt is an object then pass each of its properties to this method
-        if (typeof evt === 'object' && !(evt instanceof RegExp)) {
-            for (i in evt) {
-                if (evt.hasOwnProperty(i) && (value = evt[i])) {
-                    // Pass the single listener straight through to the singular method
-                    if (typeof value === 'function') {
-                        single.call(this, i, value);
-                    }
-                    else {
-                        // Otherwise pass back to the multiple function
-                        multiple.call(this, i, value);
-                    }
-                }
-            }
-        }
-        else {
-            // So evt must be a string
-            // And listeners must be an array of listeners
-            // Loop over it and pass each one to the multiple method
-            i = listeners.length;
-            while (i--) {
-                single.call(this, evt, listeners[i]);
-            }
-        }
-
-        return this;
-    };
-
-    /**
-     * Removes all listeners from a specified event.
-     * If you do not specify an event then all listeners will be removed.
-     * That means every event will be emptied.
-     * You can also pass a regex to remove all events that match it.
-     *
-     * @param {String|RegExp} [evt] Optional name of the event to remove all listeners for. Will remove from every event if not passed.
-     * @return {Object} Current instance of EventEmitter for chaining.
-     */
-    proto.removeEvent = function removeEvent(evt) {
-        var type = typeof evt;
-        var events = this._getEvents();
-        var key;
-
-        // Remove different things depending on the state of evt
-        if (type === 'string') {
-            // Remove all listeners for the specified event
-            delete events[evt];
-        }
-        else if (evt instanceof RegExp) {
-            // Remove all events matching the regex.
-            for (key in events) {
-                if (events.hasOwnProperty(key) && evt.test(key)) {
-                    delete events[key];
-                }
-            }
-        }
-        else {
-            // Remove all listeners in all events
-            delete this._events;
-        }
-
-        return this;
-    };
-
-    /**
-     * Alias of removeEvent.
-     *
-     * Added to mirror the node API.
-     */
-    proto.removeAllListeners = alias('removeEvent');
-
-    /**
-     * Emits an event of your choice.
-     * When emitted, every listener attached to that event will be executed.
-     * If you pass the optional argument array then those arguments will be passed to every listener upon execution.
-     * Because it uses `apply`, your array of arguments will be passed as if you wrote them out separately.
-     * So they will not arrive within the array on the other side, they will be separate.
-     * You can also pass a regular expression to emit to all events that match it.
-     *
-     * @param {String|RegExp} evt Name of the event to emit and execute listeners for.
-     * @param {Array} [args] Optional array of arguments to be passed to each listener.
-     * @return {Object} Current instance of EventEmitter for chaining.
-     */
-    proto.emitEvent = function emitEvent(evt, args) {
-        var listeners = this.getListenersAsObject(evt);
-        var listener;
-        var i;
-        var key;
-        var response;
-
-        for (key in listeners) {
-            if (listeners.hasOwnProperty(key)) {
-                i = listeners[key].length;
-
-                while (i--) {
-                    // If the listener returns true then it shall be removed from the event
-                    // The function is executed either with a basic call or an apply if there is an args array
-                    listener = listeners[key][i];
-
-                    if (listener.once === true) {
-                        this.removeListener(evt, listener.listener);
-                    }
-
-                    response = listener.listener.apply(this, args || []);
-
-                    if (response === this._getOnceReturnValue()) {
-                        this.removeListener(evt, listener.listener);
-                    }
-                }
-            }
-        }
-
-        return this;
-    };
-
-    /**
-     * Alias of emitEvent
-     */
-    proto.trigger = alias('emitEvent');
-
-    /**
-     * Subtly different from emitEvent in that it will pass its arguments on to the listeners, as opposed to taking a single array of arguments to pass on.
-     * As with emitEvent, you can pass a regex in place of the event name to emit to all events that match it.
-     *
-     * @param {String|RegExp} evt Name of the event to emit and execute listeners for.
-     * @param {...*} Optional additional arguments to be passed to each listener.
-     * @return {Object} Current instance of EventEmitter for chaining.
-     */
-    proto.emit = function emit(evt) {
-        var args = Array.prototype.slice.call(arguments, 1);
-        return this.emitEvent(evt, args);
-    };
-
-    /**
-     * Sets the current value to check against when executing listeners. If a
-     * listeners return value matches the one set here then it will be removed
-     * after execution. This value defaults to true.
-     *
-     * @param {*} value The new value to check for when executing listeners.
-     * @return {Object} Current instance of EventEmitter for chaining.
-     */
-    proto.setOnceReturnValue = function setOnceReturnValue(value) {
-        this._onceReturnValue = value;
-        return this;
-    };
-
-    /**
-     * Fetches the current value to check against when executing listeners. If
-     * the listeners return value matches this one then it should be removed
-     * automatically. It will return true by default.
-     *
-     * @return {*|Boolean} The current value to check for or the default, true.
-     * @api private
-     */
-    proto._getOnceReturnValue = function _getOnceReturnValue() {
-        if (this.hasOwnProperty('_onceReturnValue')) {
-            return this._onceReturnValue;
-        }
-        else {
-            return true;
-        }
-    };
-
-    /**
-     * Fetches the events object and creates one if required.
-     *
-     * @return {Object} The events storage object.
-     * @api private
-     */
-    proto._getEvents = function _getEvents() {
-        return this._events || (this._events = {});
-    };
-
-    /**
-     * Reverts the global {@link EventEmitter} to its previous value and returns a reference to this version.
-     *
-     * @return {Function} Non conflicting EventEmitter class.
-     */
-    EventEmitter.noConflict = function noConflict() {
-        exports.EventEmitter = originalGlobalValue;
-        return EventEmitter;
-    };
-
-    // Expose the class either via AMD, CommonJS or the global object
-    if (typeof define === 'function' && define.amd) {
-        define(function () {
-            return EventEmitter;
-        });
-    }
-    else if (typeof module === 'object' && module.exports){
-        module.exports = EventEmitter;
-    }
-    else {
-        exports.EventEmitter = EventEmitter;
-    }
-}.call(this));
-
-},{}],481:[function(require,module,exports){
-/*!
- * Outlayer v1.4.1
- * the brains and guts of a layout library
- * MIT license
- */
-
-( function( window, factory ) {
-  'use strict';
-  // universal module definition
-
-  if ( typeof define == 'function' && define.amd ) {
-    // AMD
-    define( [
-        'eventie/eventie',
-        'eventEmitter/EventEmitter',
-        'get-size/get-size',
-        'fizzy-ui-utils/utils',
-        './item'
-      ],
-      function( eventie, EventEmitter, getSize, utils, Item ) {
-        return factory( window, eventie, EventEmitter, getSize, utils, Item);
-      }
-    );
-  } else if ( typeof exports == 'object' ) {
-    // CommonJS
-    module.exports = factory(
-      window,
-      require('eventie'),
-      require('wolfy87-eventemitter'),
-      require('get-size'),
-      require('fizzy-ui-utils'),
-      require('./item')
-    );
-  } else {
-    // browser global
-    window.Outlayer = factory(
-      window,
-      window.eventie,
-      window.EventEmitter,
-      window.getSize,
-      window.fizzyUIUtils,
-      window.Outlayer.Item
-    );
-  }
-
-}( window, function factory( window, eventie, EventEmitter, getSize, utils, Item ) {
-'use strict';
-
-// ----- vars ----- //
-
-var console = window.console;
-var jQuery = window.jQuery;
-var noop = function() {};
-
-// -------------------------- Outlayer -------------------------- //
-
-// globally unique identifiers
-var GUID = 0;
-// internal store of all Outlayer intances
-var instances = {};
-
-
-/**
- * @param {Element, String} element
- * @param {Object} options
- * @constructor
- */
-function Outlayer( element, options ) {
-  var queryElement = utils.getQueryElement( element );
-  if ( !queryElement ) {
-    if ( console ) {
-      console.error( 'Bad element for ' + this.constructor.namespace +
-        ': ' + ( queryElement || element ) );
-    }
-    return;
-  }
-  this.element = queryElement;
-  // add jQuery
-  if ( jQuery ) {
-    this.$element = jQuery( this.element );
-  }
-
-  // options
-  this.options = utils.extend( {}, this.constructor.defaults );
-  this.option( options );
-
-  // add id for Outlayer.getFromElement
-  var id = ++GUID;
-  this.element.outlayerGUID = id; // expando
-  instances[ id ] = this; // associate via id
-
-  // kick it off
-  this._create();
-
-  if ( this.options.isInitLayout ) {
-    this.layout();
-  }
-}
-
-// settings are for internal use only
-Outlayer.namespace = 'outlayer';
-Outlayer.Item = Item;
-
-// default options
-Outlayer.defaults = {
-  containerStyle: {
-    position: 'relative'
-  },
-  isInitLayout: true,
-  isOriginLeft: true,
-  isOriginTop: true,
-  isResizeBound: true,
-  isResizingContainer: true,
-  // item options
-  transitionDuration: '0.4s',
-  hiddenStyle: {
-    opacity: 0,
-    transform: 'scale(0.001)'
-  },
-  visibleStyle: {
-    opacity: 1,
-    transform: 'scale(1)'
-  }
-};
-
-// inherit EventEmitter
-utils.extend( Outlayer.prototype, EventEmitter.prototype );
-
-/**
- * set options
- * @param {Object} opts
- */
-Outlayer.prototype.option = function( opts ) {
-  utils.extend( this.options, opts );
-};
-
-Outlayer.prototype._create = function() {
-  // get items from children
-  this.reloadItems();
-  // elements that affect layout, but are not laid out
-  this.stamps = [];
-  this.stamp( this.options.stamp );
-  // set container style
-  utils.extend( this.element.style, this.options.containerStyle );
-
-  // bind resize method
-  if ( this.options.isResizeBound ) {
-    this.bindResize();
-  }
-};
-
-// goes through all children again and gets bricks in proper order
-Outlayer.prototype.reloadItems = function() {
-  // collection of item elements
-  this.items = this._itemize( this.element.children );
-};
-
-
-/**
- * turn elements into Outlayer.Items to be used in layout
- * @param {Array or NodeList or HTMLElement} elems
- * @returns {Array} items - collection of new Outlayer Items
- */
-Outlayer.prototype._itemize = function( elems ) {
-
-  var itemElems = this._filterFindItemElements( elems );
-  var Item = this.constructor.Item;
-
-  // create new Outlayer Items for collection
-  var items = [];
-  for ( var i=0, len = itemElems.length; i < len; i++ ) {
-    var elem = itemElems[i];
-    var item = new Item( elem, this );
-    items.push( item );
-  }
-
-  return items;
-};
-
-/**
- * get item elements to be used in layout
- * @param {Array or NodeList or HTMLElement} elems
- * @returns {Array} items - item elements
- */
-Outlayer.prototype._filterFindItemElements = function( elems ) {
-  return utils.filterFindElements( elems, this.options.itemSelector );
-};
-
-/**
- * getter method for getting item elements
- * @returns {Array} elems - collection of item elements
- */
-Outlayer.prototype.getItemElements = function() {
-  var elems = [];
-  for ( var i=0, len = this.items.length; i < len; i++ ) {
-    elems.push( this.items[i].element );
-  }
-  return elems;
-};
-
-// ----- init & layout ----- //
-
-/**
- * lays out all items
- */
-Outlayer.prototype.layout = function() {
-  this._resetLayout();
-  this._manageStamps();
-
-  // don't animate first layout
-  var isInstant = this.options.isLayoutInstant !== undefined ?
-    this.options.isLayoutInstant : !this._isLayoutInited;
-  this.layoutItems( this.items, isInstant );
-
-  // flag for initalized
-  this._isLayoutInited = true;
-};
-
-// _init is alias for layout
-Outlayer.prototype._init = Outlayer.prototype.layout;
-
-/**
- * logic before any new layout
- */
-Outlayer.prototype._resetLayout = function() {
-  this.getSize();
-};
-
-
-Outlayer.prototype.getSize = function() {
-  this.size = getSize( this.element );
-};
-
-/**
- * get measurement from option, for columnWidth, rowHeight, gutter
- * if option is String -> get element from selector string, & get size of element
- * if option is Element -> get size of element
- * else use option as a number
- *
- * @param {String} measurement
- * @param {String} size - width or height
- * @private
- */
-Outlayer.prototype._getMeasurement = function( measurement, size ) {
-  var option = this.options[ measurement ];
-  var elem;
-  if ( !option ) {
-    // default to 0
-    this[ measurement ] = 0;
-  } else {
-    // use option as an element
-    if ( typeof option === 'string' ) {
-      elem = this.element.querySelector( option );
-    } else if ( utils.isElement( option ) ) {
-      elem = option;
-    }
-    // use size of element, if element
-    this[ measurement ] = elem ? getSize( elem )[ size ] : option;
-  }
-};
-
-/**
- * layout a collection of item elements
- * @api public
- */
-Outlayer.prototype.layoutItems = function( items, isInstant ) {
-  items = this._getItemsForLayout( items );
-
-  this._layoutItems( items, isInstant );
-
-  this._postLayout();
-};
-
-/**
- * get the items to be laid out
- * you may want to skip over some items
- * @param {Array} items
- * @returns {Array} items
- */
-Outlayer.prototype._getItemsForLayout = function( items ) {
-  var layoutItems = [];
-  for ( var i=0, len = items.length; i < len; i++ ) {
-    var item = items[i];
-    if ( !item.isIgnored ) {
-      layoutItems.push( item );
-    }
-  }
-  return layoutItems;
-};
-
-/**
- * layout items
- * @param {Array} items
- * @param {Boolean} isInstant
- */
-Outlayer.prototype._layoutItems = function( items, isInstant ) {
-  this._emitCompleteOnItems( 'layout', items );
-
-  if ( !items || !items.length ) {
-    // no items, emit event with empty array
-    return;
-  }
-
-  var queue = [];
-
-  for ( var i=0, len = items.length; i < len; i++ ) {
-    var item = items[i];
-    // get x/y object from method
-    var position = this._getItemLayoutPosition( item );
-    // enqueue
-    position.item = item;
-    position.isInstant = isInstant || item.isLayoutInstant;
-    queue.push( position );
-  }
-
-  this._processLayoutQueue( queue );
-};
-
-/**
- * get item layout position
- * @param {Outlayer.Item} item
- * @returns {Object} x and y position
- */
-Outlayer.prototype._getItemLayoutPosition = function( /* item */ ) {
-  return {
-    x: 0,
-    y: 0
-  };
-};
-
-/**
- * iterate over array and position each item
- * Reason being - separating this logic prevents 'layout invalidation'
- * thx @paul_irish
- * @param {Array} queue
- */
-Outlayer.prototype._processLayoutQueue = function( queue ) {
-  for ( var i=0, len = queue.length; i < len; i++ ) {
-    var obj = queue[i];
-    this._positionItem( obj.item, obj.x, obj.y, obj.isInstant );
-  }
-};
-
-/**
- * Sets position of item in DOM
- * @param {Outlayer.Item} item
- * @param {Number} x - horizontal position
- * @param {Number} y - vertical position
- * @param {Boolean} isInstant - disables transitions
- */
-Outlayer.prototype._positionItem = function( item, x, y, isInstant ) {
-  if ( isInstant ) {
-    // if not transition, just set CSS
-    item.goTo( x, y );
-  } else {
-    item.moveTo( x, y );
-  }
-};
-
-/**
- * Any logic you want to do after each layout,
- * i.e. size the container
- */
-Outlayer.prototype._postLayout = function() {
-  this.resizeContainer();
-};
-
-Outlayer.prototype.resizeContainer = function() {
-  if ( !this.options.isResizingContainer ) {
-    return;
-  }
-  var size = this._getContainerSize();
-  if ( size ) {
-    this._setContainerMeasure( size.width, true );
-    this._setContainerMeasure( size.height, false );
-  }
-};
-
-/**
- * Sets width or height of container if returned
- * @returns {Object} size
- *   @param {Number} width
- *   @param {Number} height
- */
-Outlayer.prototype._getContainerSize = noop;
-
-/**
- * @param {Number} measure - size of width or height
- * @param {Boolean} isWidth
- */
-Outlayer.prototype._setContainerMeasure = function( measure, isWidth ) {
-  if ( measure === undefined ) {
-    return;
-  }
-
-  var elemSize = this.size;
-  // add padding and border width if border box
-  if ( elemSize.isBorderBox ) {
-    measure += isWidth ? elemSize.paddingLeft + elemSize.paddingRight +
-      elemSize.borderLeftWidth + elemSize.borderRightWidth :
-      elemSize.paddingBottom + elemSize.paddingTop +
-      elemSize.borderTopWidth + elemSize.borderBottomWidth;
-  }
-
-  measure = Math.max( measure, 0 );
-  this.element.style[ isWidth ? 'width' : 'height' ] = measure + 'px';
-};
-
-/**
- * emit eventComplete on a collection of items events
- * @param {String} eventName
- * @param {Array} items - Outlayer.Items
- */
-Outlayer.prototype._emitCompleteOnItems = function( eventName, items ) {
-  var _this = this;
-  function onComplete() {
-    _this.dispatchEvent( eventName + 'Complete', null, [ items ] );
-  }
-
-  var count = items.length;
-  if ( !items || !count ) {
-    onComplete();
-    return;
-  }
-
-  var doneCount = 0;
-  function tick() {
-    doneCount++;
-    if ( doneCount === count ) {
-      onComplete();
-    }
-  }
-
-  // bind callback
-  for ( var i=0, len = items.length; i < len; i++ ) {
-    var item = items[i];
-    item.once( eventName, tick );
-  }
-};
-
-/**
- * emits events via eventEmitter and jQuery events
- * @param {String} type - name of event
- * @param {Event} event - original event
- * @param {Array} args - extra arguments
- */
-Outlayer.prototype.dispatchEvent = function( type, event, args ) {
-  // add original event to arguments
-  var emitArgs = event ? [ event ].concat( args ) : args;
-  this.emitEvent( type, emitArgs );
-
-  if ( jQuery ) {
-    // set this.$element
-    this.$element = this.$element || jQuery( this.element );
-    if ( event ) {
-      // create jQuery event
-      var $event = jQuery.Event( event );
-      $event.type = type;
-      this.$element.trigger( $event, args );
-    } else {
-      // just trigger with type if no event available
-      this.$element.trigger( type, args );
-    }
-  }
-};
-
-// -------------------------- ignore & stamps -------------------------- //
-
-
-/**
- * keep item in collection, but do not lay it out
- * ignored items do not get skipped in layout
- * @param {Element} elem
- */
-Outlayer.prototype.ignore = function( elem ) {
-  var item = this.getItem( elem );
-  if ( item ) {
-    item.isIgnored = true;
-  }
-};
-
-/**
- * return item to layout collection
- * @param {Element} elem
- */
-Outlayer.prototype.unignore = function( elem ) {
-  var item = this.getItem( elem );
-  if ( item ) {
-    delete item.isIgnored;
-  }
-};
-
-/**
- * adds elements to stamps
- * @param {NodeList, Array, Element, or String} elems
- */
-Outlayer.prototype.stamp = function( elems ) {
-  elems = this._find( elems );
-  if ( !elems ) {
-    return;
-  }
-
-  this.stamps = this.stamps.concat( elems );
-  // ignore
-  for ( var i=0, len = elems.length; i < len; i++ ) {
-    var elem = elems[i];
-    this.ignore( elem );
-  }
-};
-
-/**
- * removes elements to stamps
- * @param {NodeList, Array, or Element} elems
- */
-Outlayer.prototype.unstamp = function( elems ) {
-  elems = this._find( elems );
-  if ( !elems ){
-    return;
-  }
-
-  for ( var i=0, len = elems.length; i < len; i++ ) {
-    var elem = elems[i];
-    // filter out removed stamp elements
-    utils.removeFrom( this.stamps, elem );
-    this.unignore( elem );
-  }
-
-};
-
-/**
- * finds child elements
- * @param {NodeList, Array, Element, or String} elems
- * @returns {Array} elems
- */
-Outlayer.prototype._find = function( elems ) {
-  if ( !elems ) {
-    return;
-  }
-  // if string, use argument as selector string
-  if ( typeof elems === 'string' ) {
-    elems = this.element.querySelectorAll( elems );
-  }
-  elems = utils.makeArray( elems );
-  return elems;
-};
-
-Outlayer.prototype._manageStamps = function() {
-  if ( !this.stamps || !this.stamps.length ) {
-    return;
-  }
-
-  this._getBoundingRect();
-
-  for ( var i=0, len = this.stamps.length; i < len; i++ ) {
-    var stamp = this.stamps[i];
-    this._manageStamp( stamp );
-  }
-};
-
-// update boundingLeft / Top
-Outlayer.prototype._getBoundingRect = function() {
-  // get bounding rect for container element
-  var boundingRect = this.element.getBoundingClientRect();
-  var size = this.size;
-  this._boundingRect = {
-    left: boundingRect.left + size.paddingLeft + size.borderLeftWidth,
-    top: boundingRect.top + size.paddingTop + size.borderTopWidth,
-    right: boundingRect.right - ( size.paddingRight + size.borderRightWidth ),
-    bottom: boundingRect.bottom - ( size.paddingBottom + size.borderBottomWidth )
-  };
-};
-
-/**
- * @param {Element} stamp
-**/
-Outlayer.prototype._manageStamp = noop;
-
-/**
- * get x/y position of element relative to container element
- * @param {Element} elem
- * @returns {Object} offset - has left, top, right, bottom
- */
-Outlayer.prototype._getElementOffset = function( elem ) {
-  var boundingRect = elem.getBoundingClientRect();
-  var thisRect = this._boundingRect;
-  var size = getSize( elem );
-  var offset = {
-    left: boundingRect.left - thisRect.left - size.marginLeft,
-    top: boundingRect.top - thisRect.top - size.marginTop,
-    right: thisRect.right - boundingRect.right - size.marginRight,
-    bottom: thisRect.bottom - boundingRect.bottom - size.marginBottom
-  };
-  return offset;
-};
-
-// -------------------------- resize -------------------------- //
-
-// enable event handlers for listeners
-// i.e. resize -> onresize
-Outlayer.prototype.handleEvent = function( event ) {
-  var method = 'on' + event.type;
-  if ( this[ method ] ) {
-    this[ method ]( event );
-  }
-};
-
-/**
- * Bind layout to window resizing
- */
-Outlayer.prototype.bindResize = function() {
-  // bind just one listener
-  if ( this.isResizeBound ) {
-    return;
-  }
-  eventie.bind( window, 'resize', this );
-  this.isResizeBound = true;
-};
-
-/**
- * Unbind layout to window resizing
- */
-Outlayer.prototype.unbindResize = function() {
-  if ( this.isResizeBound ) {
-    eventie.unbind( window, 'resize', this );
-  }
-  this.isResizeBound = false;
-};
-
-// original debounce by John Hann
-// http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
-
-// this fires every resize
-Outlayer.prototype.onresize = function() {
-  if ( this.resizeTimeout ) {
-    clearTimeout( this.resizeTimeout );
-  }
-
-  var _this = this;
-  function delayed() {
-    _this.resize();
-    delete _this.resizeTimeout;
-  }
-
-  this.resizeTimeout = setTimeout( delayed, 100 );
-};
-
-// debounced, layout on resize
-Outlayer.prototype.resize = function() {
-  // don't trigger if size did not change
-  // or if resize was unbound. See #9
-  if ( !this.isResizeBound || !this.needsResizeLayout() ) {
-    return;
-  }
-
-  this.layout();
-};
-
-/**
- * check if layout is needed post layout
- * @returns Boolean
- */
-Outlayer.prototype.needsResizeLayout = function() {
-  var size = getSize( this.element );
-  // check that this.size and size are there
-  // IE8 triggers resize on body size change, so they might not be
-  var hasSizes = this.size && size;
-  return hasSizes && size.innerWidth !== this.size.innerWidth;
-};
-
-// -------------------------- methods -------------------------- //
-
-/**
- * add items to Outlayer instance
- * @param {Array or NodeList or Element} elems
- * @returns {Array} items - Outlayer.Items
-**/
-Outlayer.prototype.addItems = function( elems ) {
-  var items = this._itemize( elems );
-  // add items to collection
-  if ( items.length ) {
-    this.items = this.items.concat( items );
-  }
-  return items;
-};
-
-/**
- * Layout newly-appended item elements
- * @param {Array or NodeList or Element} elems
- */
-Outlayer.prototype.appended = function( elems ) {
-  var items = this.addItems( elems );
-  if ( !items.length ) {
-    return;
-  }
-  // layout and reveal just the new items
-  this.layoutItems( items, true );
-  this.reveal( items );
-};
-
-/**
- * Layout prepended elements
- * @param {Array or NodeList or Element} elems
- */
-Outlayer.prototype.prepended = function( elems ) {
-  var items = this._itemize( elems );
-  if ( !items.length ) {
-    return;
-  }
-  // add items to beginning of collection
-  var previousItems = this.items.slice(0);
-  this.items = items.concat( previousItems );
-  // start new layout
-  this._resetLayout();
-  this._manageStamps();
-  // layout new stuff without transition
-  this.layoutItems( items, true );
-  this.reveal( items );
-  // layout previous items
-  this.layoutItems( previousItems );
-};
-
-/**
- * reveal a collection of items
- * @param {Array of Outlayer.Items} items
- */
-Outlayer.prototype.reveal = function( items ) {
-  this._emitCompleteOnItems( 'reveal', items );
-
-  var len = items && items.length;
-  for ( var i=0; len && i < len; i++ ) {
-    var item = items[i];
-    item.reveal();
-  }
-};
-
-/**
- * hide a collection of items
- * @param {Array of Outlayer.Items} items
- */
-Outlayer.prototype.hide = function( items ) {
-  this._emitCompleteOnItems( 'hide', items );
-
-  var len = items && items.length;
-  for ( var i=0; len && i < len; i++ ) {
-    var item = items[i];
-    item.hide();
-  }
-};
-
-/**
- * reveal item elements
- * @param {Array}, {Element}, {NodeList} items
- */
-Outlayer.prototype.revealItemElements = function( elems ) {
-  var items = this.getItems( elems );
-  this.reveal( items );
-};
-
-/**
- * hide item elements
- * @param {Array}, {Element}, {NodeList} items
- */
-Outlayer.prototype.hideItemElements = function( elems ) {
-  var items = this.getItems( elems );
-  this.hide( items );
-};
-
-/**
- * get Outlayer.Item, given an Element
- * @param {Element} elem
- * @param {Function} callback
- * @returns {Outlayer.Item} item
- */
-Outlayer.prototype.getItem = function( elem ) {
-  // loop through items to get the one that matches
-  for ( var i=0, len = this.items.length; i < len; i++ ) {
-    var item = this.items[i];
-    if ( item.element === elem ) {
-      // return item
-      return item;
-    }
-  }
-};
-
-/**
- * get collection of Outlayer.Items, given Elements
- * @param {Array} elems
- * @returns {Array} items - Outlayer.Items
- */
-Outlayer.prototype.getItems = function( elems ) {
-  elems = utils.makeArray( elems );
-  var items = [];
-  for ( var i=0, len = elems.length; i < len; i++ ) {
-    var elem = elems[i];
-    var item = this.getItem( elem );
-    if ( item ) {
-      items.push( item );
-    }
-  }
-
-  return items;
-};
-
-/**
- * remove element(s) from instance and DOM
- * @param {Array or NodeList or Element} elems
- */
-Outlayer.prototype.remove = function( elems ) {
-  var removeItems = this.getItems( elems );
-
-  this._emitCompleteOnItems( 'remove', removeItems );
-
-  // bail if no items to remove
-  if ( !removeItems || !removeItems.length ) {
-    return;
-  }
-
-  for ( var i=0, len = removeItems.length; i < len; i++ ) {
-    var item = removeItems[i];
-    item.remove();
-    // remove item from collection
-    utils.removeFrom( this.items, item );
-  }
-};
-
-// ----- destroy ----- //
-
-// remove and disable Outlayer instance
-Outlayer.prototype.destroy = function() {
-  // clean up dynamic styles
-  var style = this.element.style;
-  style.height = '';
-  style.position = '';
-  style.width = '';
-  // destroy items
-  for ( var i=0, len = this.items.length; i < len; i++ ) {
-    var item = this.items[i];
-    item.destroy();
-  }
-
-  this.unbindResize();
-
-  var id = this.element.outlayerGUID;
-  delete instances[ id ]; // remove reference to instance by id
-  delete this.element.outlayerGUID;
-  // remove data for jQuery
-  if ( jQuery ) {
-    jQuery.removeData( this.element, this.constructor.namespace );
-  }
-
-};
-
-// -------------------------- data -------------------------- //
-
-/**
- * get Outlayer instance from element
- * @param {Element} elem
- * @returns {Outlayer}
- */
-Outlayer.data = function( elem ) {
-  elem = utils.getQueryElement( elem );
-  var id = elem && elem.outlayerGUID;
-  return id && instances[ id ];
-};
-
-
-// -------------------------- create Outlayer class -------------------------- //
-
-/**
- * create a layout class
- * @param {String} namespace
- */
-Outlayer.create = function( namespace, options ) {
-  // sub-class Outlayer
-  function Layout() {
-    Outlayer.apply( this, arguments );
-  }
-  // inherit Outlayer prototype, use Object.create if there
-  if ( Object.create ) {
-    Layout.prototype = Object.create( Outlayer.prototype );
-  } else {
-    utils.extend( Layout.prototype, Outlayer.prototype );
-  }
-  // set contructor, used for namespace and Item
-  Layout.prototype.constructor = Layout;
-
-  Layout.defaults = utils.extend( {}, Outlayer.defaults );
-  // apply new options
-  utils.extend( Layout.defaults, options );
-  // keep prototype.settings for backwards compatibility (Packery v1.2.0)
-  Layout.prototype.settings = {};
-
-  Layout.namespace = namespace;
-
-  Layout.data = Outlayer.data;
-
-  // sub-class Item
-  Layout.Item = function LayoutItem() {
-    Item.apply( this, arguments );
-  };
-
-  Layout.Item.prototype = new Item();
-
-  // -------------------------- declarative -------------------------- //
-
-  utils.htmlInit( Layout, namespace );
-
-  // -------------------------- jQuery bridge -------------------------- //
-
-  // make into jQuery plugin
-  if ( jQuery && jQuery.bridget ) {
-    jQuery.bridget( namespace, Layout );
-  }
-
-  return Layout;
-};
-
-// ----- fin ----- //
-
-// back in global
-Outlayer.Item = Item;
-
-return Outlayer;
-
-}));
-
-
-},{"./item":477,"eventie":479,"fizzy-ui-utils":473,"get-size":474,"wolfy87-eventemitter":480}],482:[function(require,module,exports){
-arguments[4][474][0].apply(exports,arguments)
-},{"desandro-get-style-property":483,"dup":474}],483:[function(require,module,exports){
-arguments[4][475][0].apply(exports,arguments)
-},{"dup":475}],484:[function(require,module,exports){
-/**
- * Packery Item Element
-**/
-
-( function( window, factory ) {
-  'use strict';
-  // universal module definition
-
-  if ( typeof define == 'function' && define.amd ) {
-    // AMD
-    define( [
-        'get-style-property/get-style-property',
-        'outlayer/outlayer',
-        './rect'
-      ],
-      factory );
-  } else if ( typeof exports == 'object' ) {
-    // CommonJS
-    module.exports = factory(
-      require('desandro-get-style-property'),
-      require('outlayer'),
-      require('./rect')
-    );
-  } else {
-    // browser global
-    window.Packery.Item = factory(
-      window.getStyleProperty,
-      window.Outlayer,
-      window.Packery.Rect
-    );
-  }
-
-}( window, function factory( getStyleProperty, Outlayer, Rect ) {
-'use strict';
-
-// -------------------------- Item -------------------------- //
-
-var transformProperty = getStyleProperty('transform');
-
-// sub-class Item
-var Item = function PackeryItem() {
-  Outlayer.Item.apply( this, arguments );
-};
-
-Item.prototype = new Outlayer.Item();
-
-var protoCreate = Item.prototype._create;
-Item.prototype._create = function() {
-  // call default _create logic
-  protoCreate.call( this );
-  this.rect = new Rect();
-  // rect used for placing, in drag or Packery.fit()
-  this.placeRect = new Rect();
-};
-
-// -------------------------- drag -------------------------- //
-
-Item.prototype.dragStart = function() {
-  this.getPosition();
-  this.removeTransitionStyles();
-  // remove transform property from transition
-  if ( this.isTransitioning && transformProperty ) {
-    this.element.style[ transformProperty ] = 'none';
-  }
-  this.getSize();
-  // create place rect, used for position when dragged then dropped
-  // or when positioning
-  this.isPlacing = true;
-  this.needsPositioning = false;
-  this.positionPlaceRect( this.position.x, this.position.y );
-  this.isTransitioning = false;
-  this.didDrag = false;
-};
-
-/**
- * handle item when it is dragged
- * @param {Number} x - horizontal position of dragged item
- * @param {Number} y - vertical position of dragged item
- */
-Item.prototype.dragMove = function( x, y ) {
-  this.didDrag = true;
-  var packerySize = this.layout.size;
-  x -= packerySize.paddingLeft;
-  y -= packerySize.paddingTop;
-  this.positionPlaceRect( x, y );
-};
-
-Item.prototype.dragStop = function() {
-  this.getPosition();
-  var isDiffX = this.position.x != this.placeRect.x;
-  var isDiffY = this.position.y != this.placeRect.y;
-  // set post-drag positioning flag
-  this.needsPositioning = isDiffX || isDiffY;
-  // reset flag
-  this.didDrag = false;
-};
-
-// -------------------------- placing -------------------------- //
-
-/**
- * position a rect that will occupy space in the packer
- * @param {Number} x
- * @param {Number} y
- * @param {Boolean} isMaxYContained
- */
-Item.prototype.positionPlaceRect = function( x, y, isMaxYOpen ) {
-  this.placeRect.x = this.getPlaceRectCoord( x, true );
-  this.placeRect.y = this.getPlaceRectCoord( y, false, isMaxYOpen );
-};
-
-/**
- * get x/y coordinate for place rect
- * @param {Number} coord - x or y
- * @param {Boolean} isX
- * @param {Boolean} isMaxOpen - does not limit value to outer bound
- * @returns {Number} coord - processed x or y
- */
-Item.prototype.getPlaceRectCoord = function( coord, isX, isMaxOpen ) {
-  var measure = isX ? 'Width' : 'Height';
-  var size = this.size[ 'outer' + measure ];
-  var segment = this.layout[ isX ? 'columnWidth' : 'rowHeight' ];
-  var parentSize = this.layout.size[ 'inner' + measure ];
-
-  // additional parentSize calculations for Y
-  if ( !isX ) {
-    parentSize = Math.max( parentSize, this.layout.maxY );
-    // prevent gutter from bumping up height when non-vertical grid
-    if ( !this.layout.rowHeight ) {
-      parentSize -= this.layout.gutter;
-    }
-  }
-
-  var max;
-
-  if ( segment ) {
-    segment += this.layout.gutter;
-    // allow for last column to reach the edge
-    parentSize += isX ? this.layout.gutter : 0;
-    // snap to closest segment
-    coord = Math.round( coord / segment );
-    // contain to outer bound
-    // contain non-growing bound, allow growing bound to grow
-    var mathMethod;
-    if ( this.layout.options.isHorizontal ) {
-      mathMethod = !isX ? 'floor' : 'ceil';
-    } else {
-      mathMethod = isX ? 'floor' : 'ceil';
-    }
-    var maxSegments = Math[ mathMethod ]( parentSize / segment );
-    maxSegments -= Math.ceil( size / segment );
-    max = maxSegments;
-  } else {
-    max = parentSize - size;
-  }
-
-  coord = isMaxOpen ? coord : Math.min( coord, max );
-  coord *= segment || 1;
-
-  return Math.max( 0, coord );
-};
-
-Item.prototype.copyPlaceRectPosition = function() {
-  this.rect.x = this.placeRect.x;
-  this.rect.y = this.placeRect.y;
-};
-
-// -----  ----- //
-
-// remove element from DOM
-Item.prototype.removeElem = function() {
-  this.element.parentNode.removeChild( this.element );
-  // add space back to packer
-  this.layout.packer.addSpace( this.rect );
-  this.emitEvent( 'remove', [ this ] );
-};
-
-// -----  ----- //
-
-return Item;
-
-}));
-
-},{"./rect":487,"desandro-get-style-property":489,"outlayer":496}],485:[function(require,module,exports){
-/**
- * Packer
- * bin-packing algorithm
- */
-
-( function( window, factory ) {
-  'use strict';
-  // universal module definition
-  if ( typeof define == 'function' && define.amd ) {
-    // AMD
-    define( [ './rect' ], factory );
-  } else if ( typeof exports == 'object' ) {
-    // CommonJS
-    module.exports = factory(
-      require('./rect')
-    );
-  } else {
-    // browser global
-    var Packery = window.Packery = window.Packery || {};
-    Packery.Packer = factory( Packery.Rect );
-  }
-
-}( window, function factory( Rect ) {
-'use strict';
-
-// -------------------------- Packer -------------------------- //
-
-/**
- * @param {Number} width
- * @param {Number} height
- * @param {String} sortDirection
- *   topLeft for vertical, leftTop for horizontal
- */
-function Packer( width, height, sortDirection ) {
-  this.width = width || 0;
-  this.height = height || 0;
-  this.sortDirection = sortDirection || 'downwardLeftToRight';
-
-  this.reset();
-}
-
-Packer.prototype.reset = function() {
-  this.spaces = [];
-  this.newSpaces = [];
-
-  var initialSpace = new Rect({
-    x: 0,
-    y: 0,
-    width: this.width,
-    height: this.height
-  });
-
-  this.spaces.push( initialSpace );
-  // set sorter
-  this.sorter = sorters[ this.sortDirection ] || sorters.downwardLeftToRight;
-};
-
-// change x and y of rect to fit with in Packer's available spaces
-Packer.prototype.pack = function( rect ) {
-  for ( var i=0, len = this.spaces.length; i < len; i++ ) {
-    var space = this.spaces[i];
-    if ( space.canFit( rect ) ) {
-      this.placeInSpace( rect, space );
-      break;
-    }
-  }
-};
-
-Packer.prototype.placeInSpace = function( rect, space ) {
-  // place rect in space
-  rect.x = space.x;
-  rect.y = space.y;
-
-  this.placed( rect );
-};
-
-// update spaces with placed rect
-Packer.prototype.placed = function( rect ) {
-  // update spaces
-  var revisedSpaces = [];
-  for ( var i=0, len = this.spaces.length; i < len; i++ ) {
-    var space = this.spaces[i];
-    var newSpaces = space.getMaximalFreeRects( rect );
-    // add either the original space or the new spaces to the revised spaces
-    if ( newSpaces ) {
-      revisedSpaces.push.apply( revisedSpaces, newSpaces );
-    } else {
-      revisedSpaces.push( space );
-    }
-  }
-
-  this.spaces = revisedSpaces;
-
-  this.mergeSortSpaces();
-};
-
-Packer.prototype.mergeSortSpaces = function() {
-  // remove redundant spaces
-  Packer.mergeRects( this.spaces );
-  this.spaces.sort( this.sorter );
-};
-
-// add a space back
-Packer.prototype.addSpace = function( rect ) {
-  this.spaces.push( rect );
-  this.mergeSortSpaces();
-};
-
-// -------------------------- utility functions -------------------------- //
-
-/**
- * Remove redundant rectangle from array of rectangles
- * @param {Array} rects: an array of Rects
- * @returns {Array} rects: an array of Rects
-**/
-Packer.mergeRects = function( rects ) {
-  for ( var i=0, len = rects.length; i < len; i++ ) {
-    var rect = rects[i];
-    // skip over this rect if it was already removed
-    if ( !rect ) {
-      continue;
-    }
-    // clone rects we're testing, remove this rect
-    var compareRects = rects.slice(0);
-    // do not compare with self
-    compareRects.splice( i, 1 );
-    // compare this rect with others
-    var removedCount = 0;
-    for ( var j=0, jLen = compareRects.length; j < jLen; j++ ) {
-      var compareRect = compareRects[j];
-      // if this rect contains another,
-      // remove that rect from test collection
-      var indexAdjust = i > j ? 0 : 1;
-      if ( rect.contains( compareRect ) ) {
-        // console.log( 'current test rects:' + testRects.length, testRects );
-        // console.log( i, j, indexAdjust, rect, compareRect );
-        rects.splice( j + indexAdjust - removedCount, 1 );
-        removedCount++;
-      }
-    }
-  }
-
-  return rects;
-};
-
-
-// -------------------------- sorters -------------------------- //
-
-// functions for sorting rects in order
-var sorters = {
-  // top down, then left to right
-  downwardLeftToRight: function( a, b ) {
-    return a.y - b.y || a.x - b.x;
-  },
-  // left to right, then top down
-  rightwardTopToBottom: function( a, b ) {
-    return a.x - b.x || a.y - b.y;
-  }
-};
-
-
-// --------------------------  -------------------------- //
-
-return Packer;
-
-}));
-},{"./rect":487}],486:[function(require,module,exports){
-/*!
- * Packery v1.4.2
- * bin-packing layout library
- *
- * Licensed GPLv3 for open source use
- * or Flickity Commercial License for commercial use
- *
- * http://packery.metafizzy.co
- * Copyright 2015 Metafizzy
- */
-
-( function( window, factory ) {
-  'use strict';
-  // universal module definition
-  if ( typeof define == 'function' && define.amd ) {
-    // AMD
-    define( [
-        'classie/classie',
-        'get-size/get-size',
-        'outlayer/outlayer',
-        './rect',
-        './packer',
-        './item'
-      ],
-      factory );
-  } else if ( typeof exports == 'object' ) {
-    // CommonJS
-    module.exports = factory(
-      require('desandro-classie'),
-      require('get-size'),
-      require('outlayer'),
-      require('./rect'),
-      require('./packer'),
-      require('./item')
-    );
-  } else {
-    // browser global
-    window.Packery = factory(
-      window.classie,
-      window.getSize,
-      window.Outlayer,
-      window.Packery.Rect,
-      window.Packery.Packer,
-      window.Packery.Item
-    );
-  }
-
-}( window, function factory( classie, getSize, Outlayer, Rect, Packer, Item ) {
-'use strict';
-
-// ----- Rect ----- //
-
-// allow for pixel rounding errors IE8-IE11 & Firefox; #227
-Rect.prototype.canFit = function( rect ) {
-  return this.width >= rect.width - 1 && this.height >= rect.height - 1;
-};
-
-// -------------------------- Packery -------------------------- //
-
-// create an Outlayer layout class
-var Packery = Outlayer.create('packery');
-Packery.Item = Item;
-
-Packery.prototype._create = function() {
-  // call super
-  Outlayer.prototype._create.call( this );
-
-  // initial properties
-  this.packer = new Packer();
-
-  // Left over from v1.0
-  this.stamp( this.options.stamped );
-
-  // create drag handlers
-  var _this = this;
-  this.handleDraggabilly = {
-    dragStart: function() {
-      _this.itemDragStart( this.element );
-    },
-    dragMove: function() {
-      _this.itemDragMove( this.element, this.position.x, this.position.y );
-    },
-    dragEnd: function() {
-      _this.itemDragEnd( this.element );
-    }
-  };
-
-  this.handleUIDraggable = {
-    start: function handleUIDraggableStart( event, ui ) {
-      // HTML5 may trigger dragstart, dismiss HTML5 dragging
-      if ( !ui ) {
-        return;
-      }
-      _this.itemDragStart( event.currentTarget );
-    },
-    drag: function handleUIDraggableDrag( event, ui ) {
-      if ( !ui ) {
-        return;
-      }
-      _this.itemDragMove( event.currentTarget, ui.position.left, ui.position.top );
-    },
-    stop: function handleUIDraggableStop( event, ui ) {
-      if ( !ui ) {
-        return;
-      }
-      _this.itemDragEnd( event.currentTarget );
-    }
-  };
-
-};
-
-
-// ----- init & layout ----- //
-
-/**
- * logic before any new layout
- */
-Packery.prototype._resetLayout = function() {
-  this.getSize();
-
-  this._getMeasurements();
-
-  // reset packer
-  var packer = this.packer;
-  // packer settings, if horizontal or vertical
-  if ( this.options.isHorizontal ) {
-    packer.width = Number.POSITIVE_INFINITY;
-    packer.height = this.size.innerHeight + this.gutter;
-    packer.sortDirection = 'rightwardTopToBottom';
-  } else {
-    packer.width = this.size.innerWidth + this.gutter;
-    packer.height = Number.POSITIVE_INFINITY;
-    packer.sortDirection = 'downwardLeftToRight';
-  }
-
-  packer.reset();
-
-  // layout
-  this.maxY = 0;
-  this.maxX = 0;
-};
-
-/**
- * update columnWidth, rowHeight, & gutter
- * @private
- */
-Packery.prototype._getMeasurements = function() {
-  this._getMeasurement( 'columnWidth', 'width' );
-  this._getMeasurement( 'rowHeight', 'height' );
-  this._getMeasurement( 'gutter', 'width' );
-};
-
-Packery.prototype._getItemLayoutPosition = function( item ) {
-  this._packItem( item );
-  return item.rect;
-};
-
-
-/**
- * layout item in packer
- * @param {Packery.Item} item
- */
-Packery.prototype._packItem = function( item ) {
-  this._setRectSize( item.element, item.rect );
-  // pack the rect in the packer
-  this.packer.pack( item.rect );
-  this._setMaxXY( item.rect );
-};
-
-/**
- * set max X and Y value, for size of container
- * @param {Packery.Rect} rect
- * @private
- */
-Packery.prototype._setMaxXY = function( rect ) {
-  this.maxX = Math.max( rect.x + rect.width, this.maxX );
-  this.maxY = Math.max( rect.y + rect.height, this.maxY );
-};
-
-/**
- * set the width and height of a rect, applying columnWidth and rowHeight
- * @param {Element} elem
- * @param {Packery.Rect} rect
- */
-Packery.prototype._setRectSize = function( elem, rect ) {
-  var size = getSize( elem );
-  var w = size.outerWidth;
-  var h = size.outerHeight;
-  // size for columnWidth and rowHeight, if available
-  // only check if size is non-zero, #177
-  if ( w || h ) {
-    w = this._applyGridGutter( w, this.columnWidth );
-    h = this._applyGridGutter( h, this.rowHeight );
-  }
-  // rect must fit in packer
-  rect.width = Math.min( w, this.packer.width );
-  rect.height = Math.min( h, this.packer.height );
-};
-
-/**
- * fits item to columnWidth/rowHeight and adds gutter
- * @param {Number} measurement - item width or height
- * @param {Number} gridSize - columnWidth or rowHeight
- * @returns measurement
- */
-Packery.prototype._applyGridGutter = function( measurement, gridSize ) {
-  // just add gutter if no gridSize
-  if ( !gridSize ) {
-    return measurement + this.gutter;
-  }
-  gridSize += this.gutter;
-  // fit item to columnWidth/rowHeight
-  var remainder = measurement % gridSize;
-  var mathMethod = remainder && remainder < 1 ? 'round' : 'ceil';
-  measurement = Math[ mathMethod ]( measurement / gridSize ) * gridSize;
-  return measurement;
-};
-
-Packery.prototype._getContainerSize = function() {
-  if ( this.options.isHorizontal ) {
-    return {
-      width: this.maxX - this.gutter
-    };
-  } else {
-    return {
-      height: this.maxY - this.gutter
-    };
-  }
-};
-
-
-// -------------------------- stamp -------------------------- //
-
-/**
- * makes space for element
- * @param {Element} elem
- */
-Packery.prototype._manageStamp = function( elem ) {
-
-  var item = this.getItem( elem );
-  var rect;
-  if ( item && item.isPlacing ) {
-    rect = item.placeRect;
-  } else {
-    var offset = this._getElementOffset( elem );
-    rect = new Rect({
-      x: this.options.isOriginLeft ? offset.left : offset.right,
-      y: this.options.isOriginTop ? offset.top : offset.bottom
-    });
-  }
-
-  this._setRectSize( elem, rect );
-  // save its space in the packer
-  this.packer.placed( rect );
-  this._setMaxXY( rect );
-};
-
-// -------------------------- methods -------------------------- //
-
-function verticalSorter( a, b ) {
-  return a.position.y - b.position.y || a.position.x - b.position.x;
-}
-
-function horizontalSorter( a, b ) {
-  return a.position.x - b.position.x || a.position.y - b.position.y;
-}
-
-Packery.prototype.sortItemsByPosition = function() {
-  var sorter = this.options.isHorizontal ? horizontalSorter : verticalSorter;
-  this.items.sort( sorter );
-};
-
-/**
- * Fit item element in its current position
- * Packery will position elements around it
- * useful for expanding elements
- *
- * @param {Element} elem
- * @param {Number} x - horizontal destination position, optional
- * @param {Number} y - vertical destination position, optional
- */
-Packery.prototype.fit = function( elem, x, y ) {
-  var item = this.getItem( elem );
-  if ( !item ) {
-    return;
-  }
-
-  // prepare internal properties
-  this._getMeasurements();
-
-  // stamp item to get it out of layout
-  this.stamp( item.element );
-  // required for positionPlaceRect
-  item.getSize();
-  // set placing flag
-  item.isPlacing = true;
-  // fall back to current position for fitting
-  x = x === undefined ? item.rect.x: x;
-  y = y === undefined ? item.rect.y: y;
-
-  // position it best at its destination
-  item.positionPlaceRect( x, y, true );
-
-  this._bindFitEvents( item );
-  item.moveTo( item.placeRect.x, item.placeRect.y );
-  // layout everything else
-  this.layout();
-
-  // return back to regularly scheduled programming
-  this.unstamp( item.element );
-  this.sortItemsByPosition();
-  // un set placing flag, back to normal
-  item.isPlacing = false;
-  // copy place rect position
-  item.copyPlaceRectPosition();
-};
-
-/**
- * emit event when item is fit and other items are laid out
- * @param {Packery.Item} item
- * @private
- */
-Packery.prototype._bindFitEvents = function( item ) {
-  var _this = this;
-  var ticks = 0;
-  function tick() {
-    ticks++;
-    if ( ticks != 2 ) {
-      return;
-    }
-    _this.dispatchEvent( 'fitComplete', null, [ item ] );
-  }
-  // when item is laid out
-  item.on( 'layout', function() {
-    tick();
-    return true;
-  });
-  // when all items are laid out
-  this.on( 'layoutComplete', function() {
-    tick();
-    return true;
-  });
-};
-
-// -------------------------- resize -------------------------- //
-
-// debounced, layout on resize
-Packery.prototype.resize = function() {
-  // don't trigger if size did not change
-  var size = getSize( this.element );
-  // check that this.size and size are there
-  // IE8 triggers resize on body size change, so they might not be
-  var hasSizes = this.size && size;
-  var innerSize = this.options.isHorizontal ? 'innerHeight' : 'innerWidth';
-  if ( hasSizes && size[ innerSize ] == this.size[ innerSize ] ) {
-    return;
-  }
-
-  this.layout();
-};
-
-// -------------------------- drag -------------------------- //
-
-/**
- * handle an item drag start event
- * @param {Element} elem
- */
-Packery.prototype.itemDragStart = function( elem ) {
-  this.stamp( elem );
-  var item = this.getItem( elem );
-  if ( item ) {
-    item.dragStart();
-  }
-};
-
-/**
- * handle an item drag move event
- * @param {Element} elem
- * @param {Number} x - horizontal change in position
- * @param {Number} y - vertical change in position
- */
-Packery.prototype.itemDragMove = function( elem, x, y ) {
-  var item = this.getItem( elem );
-  if ( item ) {
-    item.dragMove( x, y );
-  }
-
-  // debounce
-  var _this = this;
-  // debounce triggering layout
-  function delayed() {
-    _this.layout();
-    delete _this.dragTimeout;
-  }
-
-  this.clearDragTimeout();
-
-  this.dragTimeout = setTimeout( delayed, 40 );
-};
-
-Packery.prototype.clearDragTimeout = function() {
-  if ( this.dragTimeout ) {
-    clearTimeout( this.dragTimeout );
-  }
-};
-
-/**
- * handle an item drag end event
- * @param {Element} elem
- */
-Packery.prototype.itemDragEnd = function( elem ) {
-  var item = this.getItem( elem );
-  var itemDidDrag;
-  if ( item ) {
-    itemDidDrag = item.didDrag;
-    item.dragStop();
-  }
-  // if elem didn't move, or if it doesn't need positioning
-  // unignore and unstamp and call it a day
-  if ( !item || ( !itemDidDrag && !item.needsPositioning ) ) {
-    this.unstamp( elem );
-    return;
-  }
-  // procced with dragged item
-
-  classie.add( item.element, 'is-positioning-post-drag' );
-
-  // save this var, as it could get reset in dragStart
-  var onLayoutComplete = this._getDragEndLayoutComplete( elem, item );
-
-  if ( item.needsPositioning ) {
-    item.on( 'layout', onLayoutComplete );
-    item.moveTo( item.placeRect.x, item.placeRect.y );
-  } else if ( item ) {
-    // item didn't need placement
-    item.copyPlaceRectPosition();
-  }
-
-  this.clearDragTimeout();
-  this.on( 'layoutComplete', onLayoutComplete );
-  this.layout();
-
-};
-
-/**
- * get drag end callback
- * @param {Element} elem
- * @param {Packery.Item} item
- * @returns {Function} onLayoutComplete
- */
-Packery.prototype._getDragEndLayoutComplete = function( elem, item ) {
-  var itemNeedsPositioning = item && item.needsPositioning;
-  var completeCount = 0;
-  var asyncCount = itemNeedsPositioning ? 2 : 1;
-  var _this = this;
-
-  return function onLayoutComplete() {
-    completeCount++;
-    // don't proceed if not complete
-    if ( completeCount != asyncCount ) {
-      return true;
-    }
-    // reset item
-    if ( item ) {
-      classie.remove( item.element, 'is-positioning-post-drag' );
-      item.isPlacing = false;
-      item.copyPlaceRectPosition();
-    }
-
-    _this.unstamp( elem );
-    // only sort when item moved
-    _this.sortItemsByPosition();
-
-    // emit item drag event now that everything is done
-    if ( itemNeedsPositioning ) {
-      _this.dispatchEvent( 'dragItemPositioned', null, [ item ] );
-    }
-    // listen once
-    return true;
-  };
-};
-
-/**
- * binds Draggabilly events
- * @param {Draggabilly} draggie
- */
-Packery.prototype.bindDraggabillyEvents = function( draggie ) {
-  draggie.on( 'dragStart', this.handleDraggabilly.dragStart );
-  draggie.on( 'dragMove', this.handleDraggabilly.dragMove );
-  draggie.on( 'dragEnd', this.handleDraggabilly.dragEnd );
-};
-
-/**
- * binds jQuery UI Draggable events
- * @param {jQuery} $elems
- */
-Packery.prototype.bindUIDraggableEvents = function( $elems ) {
-  $elems
-    .on( 'dragstart', this.handleUIDraggable.start )
-    .on( 'drag', this.handleUIDraggable.drag )
-    .on( 'dragstop', this.handleUIDraggable.stop );
-};
-
-Packery.Rect = Rect;
-Packery.Packer = Packer;
-
-return Packery;
-
-}));
-
-},{"./item":484,"./packer":485,"./rect":487,"desandro-classie":488,"get-size":482,"outlayer":496}],487:[function(require,module,exports){
-/**
- * Rect
- * low-level utility class for basic geometry
- */
-
-( function( window, factory ) {
-  'use strict';
-  // universal module definition
-  if ( typeof define == 'function' && define.amd ) {
-    // AMD
-    define( factory );
-  } else if ( typeof exports == 'object' ) {
-    // CommonJS
-    module.exports = factory();
-  } else {
-    // browser global
-    window.Packery = window.Packery || {};
-    window.Packery.Rect = factory();
-  }
-
-}( window, function factory() {
-'use strict';
-
-// -------------------------- Packery -------------------------- //
-
-// global namespace
-var Packery = window.Packery = function() {};
-
-// -------------------------- Rect -------------------------- //
-
-function Rect( props ) {
-  // extend properties from defaults
-  for ( var prop in Rect.defaults ) {
-    this[ prop ] = Rect.defaults[ prop ];
-  }
-
-  for ( prop in props ) {
-    this[ prop ] = props[ prop ];
-  }
-
-}
-
-// make available
-Packery.Rect = Rect;
-
-Rect.defaults = {
-  x: 0,
-  y: 0,
-  width: 0,
-  height: 0
-};
-
-/**
- * Determines whether or not this rectangle wholly encloses another rectangle or point.
- * @param {Rect} rect
- * @returns {Boolean}
-**/
-Rect.prototype.contains = function( rect ) {
-  // points don't have width or height
-  var otherWidth = rect.width || 0;
-  var otherHeight = rect.height || 0;
-  return this.x <= rect.x &&
-    this.y <= rect.y &&
-    this.x + this.width >= rect.x + otherWidth &&
-    this.y + this.height >= rect.y + otherHeight;
-};
-
-/**
- * Determines whether or not the rectangle intersects with another.
- * @param {Rect} rect
- * @returns {Boolean}
-**/
-Rect.prototype.overlaps = function( rect ) {
-  var thisRight = this.x + this.width;
-  var thisBottom = this.y + this.height;
-  var rectRight = rect.x + rect.width;
-  var rectBottom = rect.y + rect.height;
-
-  // http://stackoverflow.com/a/306332
-  return this.x < rectRight &&
-    thisRight > rect.x &&
-    this.y < rectBottom &&
-    thisBottom > rect.y;
-};
-
-/**
- * @param {Rect} rect - the overlapping rect
- * @returns {Array} freeRects - rects representing the area around the rect
-**/
-Rect.prototype.getMaximalFreeRects = function( rect ) {
-
-  // if no intersection, return false
-  if ( !this.overlaps( rect ) ) {
-    return false;
-  }
-
-  var freeRects = [];
-  var freeRect;
-
-  var thisRight = this.x + this.width;
-  var thisBottom = this.y + this.height;
-  var rectRight = rect.x + rect.width;
-  var rectBottom = rect.y + rect.height;
-
-  // top
-  if ( this.y < rect.y ) {
-    freeRect = new Rect({
-      x: this.x,
-      y: this.y,
-      width: this.width,
-      height: rect.y - this.y
-    });
-    freeRects.push( freeRect );
-  }
-
-  // right
-  if ( thisRight > rectRight ) {
-    freeRect = new Rect({
-      x: rectRight,
-      y: this.y,
-      width: thisRight - rectRight,
-      height: this.height
-    });
-    freeRects.push( freeRect );
-  }
-
-  // bottom
-  if ( thisBottom > rectBottom ) {
-    freeRect = new Rect({
-      x: this.x,
-      y: rectBottom,
-      width: this.width,
-      height: thisBottom - rectBottom
-    });
-    freeRects.push( freeRect );
-  }
-
-  // left
-  if ( this.x < rect.x ) {
-    freeRect = new Rect({
-      x: this.x,
-      y: this.y,
-      width: rect.x - this.x,
-      height: this.height
-    });
-    freeRects.push( freeRect );
-  }
-
-  return freeRects;
-};
-
-Rect.prototype.canFit = function( rect ) {
-  return this.width >= rect.width && this.height >= rect.height;
-};
-
-return Rect;
-
-}));
-
-},{}],488:[function(require,module,exports){
-/*!
- * classie v1.0.1
- * class helper functions
- * from bonzo https://github.com/ded/bonzo
- * MIT license
- * 
- * classie.has( elem, 'my-class' ) -> true/false
- * classie.add( elem, 'my-new-class' )
- * classie.remove( elem, 'my-unwanted-class' )
- * classie.toggle( elem, 'my-class' )
- */
-
-/*jshint browser: true, strict: true, undef: true, unused: true */
-/*global define: false, module: false */
-
-( function( window ) {
-
-'use strict';
-
-// class helper functions from bonzo https://github.com/ded/bonzo
-
-function classReg( className ) {
-  return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
-}
-
-// classList support for class management
-// altho to be fair, the api sucks because it won't accept multiple classes at once
-var hasClass, addClass, removeClass;
-
-if ( 'classList' in document.documentElement ) {
-  hasClass = function( elem, c ) {
-    return elem.classList.contains( c );
-  };
-  addClass = function( elem, c ) {
-    elem.classList.add( c );
-  };
-  removeClass = function( elem, c ) {
-    elem.classList.remove( c );
-  };
-}
-else {
-  hasClass = function( elem, c ) {
-    return classReg( c ).test( elem.className );
-  };
-  addClass = function( elem, c ) {
-    if ( !hasClass( elem, c ) ) {
-      elem.className = elem.className + ' ' + c;
-    }
-  };
-  removeClass = function( elem, c ) {
-    elem.className = elem.className.replace( classReg( c ), ' ' );
-  };
-}
-
-function toggleClass( elem, c ) {
-  var fn = hasClass( elem, c ) ? removeClass : addClass;
-  fn( elem, c );
-}
-
-var classie = {
-  // full names
-  hasClass: hasClass,
-  addClass: addClass,
-  removeClass: removeClass,
-  toggleClass: toggleClass,
-  // short names
-  has: hasClass,
-  add: addClass,
-  remove: removeClass,
-  toggle: toggleClass
-};
-
-// transport
-if ( typeof define === 'function' && define.amd ) {
-  // AMD
-  define( classie );
-} else if ( typeof exports === 'object' ) {
-  // CommonJS
-  module.exports = classie;
-} else {
-  // browser global
-  window.classie = classie;
-}
-
-})( window );
-
-},{}],489:[function(require,module,exports){
-arguments[4][475][0].apply(exports,arguments)
-},{"dup":475}],490:[function(require,module,exports){
-arguments[4][477][0].apply(exports,arguments)
-},{"desandro-get-style-property":489,"dup":477,"fizzy-ui-utils":494,"get-size":482,"wolfy87-eventemitter":495}],491:[function(require,module,exports){
-arguments[4][470][0].apply(exports,arguments)
-},{"dup":470}],492:[function(require,module,exports){
-arguments[4][471][0].apply(exports,arguments)
-},{"dup":471,"eventie":493}],493:[function(require,module,exports){
-arguments[4][472][0].apply(exports,arguments)
-},{"dup":472}],494:[function(require,module,exports){
-arguments[4][473][0].apply(exports,arguments)
-},{"desandro-matches-selector":491,"doc-ready":492,"dup":473}],495:[function(require,module,exports){
-arguments[4][480][0].apply(exports,arguments)
-},{"dup":480}],496:[function(require,module,exports){
-arguments[4][481][0].apply(exports,arguments)
-},{"./item":490,"dup":481,"eventie":493,"fizzy-ui-utils":494,"get-size":482,"wolfy87-eventemitter":495}],497:[function(require,module,exports){
-/*!
- * Packery layout mode v1.1.3
- * sub-classes Packery
- * http://packery.metafizzy.co
- */
-
-/*jshint browser: true, strict: true, undef: true, unused: true */
-
-( function( window, factory ) {
-  'use strict';
-  // universal module definition
-  if ( typeof define == 'function' && define.amd ) {
-    // AMD
-    define( [
-        'isotope/js/layout-mode',
-        'packery/js/packery',
-        'get-size/get-size'
-      ],
-      factory );
-  } else if ( typeof exports == 'object' ) {
-    // CommonJS
-    module.exports = factory(
-      require('isotope-layout/js/layout-mode'),
-      require('packery'),
-      require('get-size')
-    );
-  } else {
-    // browser global
-    factory(
-      window.Isotope.LayoutMode,
-      window.Packery,
-      window.getSize
-    );
-  }
-
-}( window, function factor( LayoutMode, Packery, getSize ) {
-'use strict';
-
-// -------------------------- helpers -------------------------- //
-
-// extend objects
-function extend( a, b ) {
-  for ( var prop in b ) {
-    a[ prop ] = b[ prop ];
-  }
-  return a;
-}
-
-// -------------------------- masonryDefinition -------------------------- //
-
-  // create an Outlayer layout class
-  var PackeryMode = LayoutMode.create('packery');
-
-  // save on to these methods
-  var _getElementOffset = PackeryMode.prototype._getElementOffset;
-  // var layout = PackeryMode.prototype.layout;
-  var _getMeasurement = PackeryMode.prototype._getMeasurement;
-
-  // sub-class Masonry
-  extend( PackeryMode.prototype, Packery.prototype );
-
-  // set back, as it was overwritten by Packery
-  PackeryMode.prototype._getElementOffset = _getElementOffset;
-  // PackeryMode.prototype.layout = layout;
-  PackeryMode.prototype._getMeasurement = _getMeasurement;
-
-  // set packery in _resetLayout
-  var _resetLayout = PackeryMode.prototype._resetLayout;
-  PackeryMode.prototype._resetLayout = function() {
-    this.packer = this.packer || new Packery.Packer();
-    _resetLayout.apply( this, arguments );
-  };
-
-  var _getItemLayoutPosition = PackeryMode.prototype._getItemLayoutPosition;
-  PackeryMode.prototype._getItemLayoutPosition = function( item ) {
-    // set packery rect
-    item.rect = item.rect || new Packery.Rect();
-    return _getItemLayoutPosition.call( this, item );
-  };
-
-  // HACK copy over isOriginLeft/Top options
-  var _manageStamp = PackeryMode.prototype._manageStamp;
-  PackeryMode.prototype._manageStamp = function() {
-    this.options.isOriginLeft = this.isotope.options.isOriginLeft;
-    this.options.isOriginTop = this.isotope.options.isOriginTop;
-    _manageStamp.apply( this, arguments );
-  };
-
-  PackeryMode.prototype.needsResizeLayout = function() {
-    // don't trigger if size did not change
-    var size = getSize( this.element );
-    // check that this.size and size are there
-    // IE8 triggers resize on body size change, so they might not be
-    var hasSizes = this.size && size;
-    var innerSize = this.options.isHorizontal ? 'innerHeight' : 'innerWidth';
-    return hasSizes && size[ innerSize ] != this.size[ innerSize ];
-  };
-
-  return PackeryMode;
-}));
-
-},{"get-size":482,"isotope-layout/js/layout-mode":466,"packery":486}],498:[function(require,module,exports){
+},{}],468:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -50327,7 +45191,7 @@ return jQuery;
 
 }));
 
-},{}],499:[function(require,module,exports){
+},{}],469:[function(require,module,exports){
 var jQuery = require('jquery');
 
 /*! jQuery UI - v1.10.3 - 2013-05-03
@@ -65334,179 +60198,179 @@ $.widget( "ui.tooltip", {
 
 }( jQuery ) );
 
-},{"jquery":500}],500:[function(require,module,exports){
-arguments[4][498][0].apply(exports,arguments)
-},{"dup":498}],501:[function(require,module,exports){
+},{"jquery":470}],470:[function(require,module,exports){
+arguments[4][468][0].apply(exports,arguments)
+},{"dup":468}],471:[function(require,module,exports){
 arguments[4][2][0].apply(exports,arguments)
-},{"dup":2,"lodash/collection/reduce":507,"react":827,"react/lib/CSSPropertyOperations":660}],502:[function(require,module,exports){
+},{"dup":2,"lodash/collection/reduce":477,"react":805,"react/lib/CSSPropertyOperations":638}],472:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)
-},{"./components/style":501,"./wrap":505,"dup":3}],503:[function(require,module,exports){
+},{"./components/style":471,"./wrap":475,"dup":3}],473:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],504:[function(require,module,exports){
+},{"dup":4}],474:[function(require,module,exports){
 arguments[4][5][0].apply(exports,arguments)
-},{"./mouse-up-listener":503,"dup":5,"lodash/lang/clone":569,"lodash/lang/isArray":571,"lodash/object/merge":579,"lodash/object/omit":580,"react/addons":655}],505:[function(require,module,exports){
+},{"./mouse-up-listener":473,"dup":5,"lodash/lang/clone":539,"lodash/lang/isArray":541,"lodash/object/merge":549,"lodash/object/omit":550,"react/addons":633}],475:[function(require,module,exports){
 arguments[4][6][0].apply(exports,arguments)
-},{"./resolve-styles.js":504,"dup":6,"lodash/object/merge":579}],506:[function(require,module,exports){
+},{"./resolve-styles.js":474,"dup":6,"lodash/object/merge":549}],476:[function(require,module,exports){
 arguments[4][7][0].apply(exports,arguments)
-},{"dup":7}],507:[function(require,module,exports){
+},{"dup":7}],477:[function(require,module,exports){
 arguments[4][8][0].apply(exports,arguments)
-},{"../internal/arrayReduce":513,"../internal/baseEach":519,"../internal/createReduce":546,"dup":8}],508:[function(require,module,exports){
+},{"../internal/arrayReduce":483,"../internal/baseEach":489,"../internal/createReduce":516,"dup":8}],478:[function(require,module,exports){
 arguments[4][9][0].apply(exports,arguments)
-},{"dup":9}],509:[function(require,module,exports){
+},{"dup":9}],479:[function(require,module,exports){
 arguments[4][10][0].apply(exports,arguments)
-},{"../lang/isNative":572,"./cachePush":541,"dup":10}],510:[function(require,module,exports){
+},{"../lang/isNative":542,"./cachePush":511,"dup":10}],480:[function(require,module,exports){
 arguments[4][11][0].apply(exports,arguments)
-},{"dup":11}],511:[function(require,module,exports){
+},{"dup":11}],481:[function(require,module,exports){
 arguments[4][12][0].apply(exports,arguments)
-},{"dup":12}],512:[function(require,module,exports){
+},{"dup":12}],482:[function(require,module,exports){
 arguments[4][13][0].apply(exports,arguments)
-},{"dup":13}],513:[function(require,module,exports){
+},{"dup":13}],483:[function(require,module,exports){
 arguments[4][14][0].apply(exports,arguments)
-},{"dup":14}],514:[function(require,module,exports){
+},{"dup":14}],484:[function(require,module,exports){
 arguments[4][15][0].apply(exports,arguments)
-},{"../lang/isNative":572,"../object/keys":577,"./baseCopy":517,"./getSymbols":551,"dup":15}],515:[function(require,module,exports){
+},{"../lang/isNative":542,"../object/keys":547,"./baseCopy":487,"./getSymbols":521,"dup":15}],485:[function(require,module,exports){
 arguments[4][16][0].apply(exports,arguments)
-},{"../utility/identity":584,"../utility/property":585,"./baseMatches":529,"./baseMatchesProperty":530,"./bindCallback":538,"dup":16}],516:[function(require,module,exports){
+},{"../utility/identity":554,"../utility/property":555,"./baseMatches":499,"./baseMatchesProperty":500,"./bindCallback":508,"dup":16}],486:[function(require,module,exports){
 arguments[4][17][0].apply(exports,arguments)
-},{"../lang/isArray":571,"../lang/isObject":573,"./arrayCopy":510,"./arrayEach":511,"./baseAssign":514,"./baseForOwn":523,"./initCloneArray":553,"./initCloneByTag":554,"./initCloneObject":555,"dup":17}],517:[function(require,module,exports){
+},{"../lang/isArray":541,"../lang/isObject":543,"./arrayCopy":480,"./arrayEach":481,"./baseAssign":484,"./baseForOwn":493,"./initCloneArray":523,"./initCloneByTag":524,"./initCloneObject":525,"dup":17}],487:[function(require,module,exports){
 arguments[4][18][0].apply(exports,arguments)
-},{"dup":18}],518:[function(require,module,exports){
+},{"dup":18}],488:[function(require,module,exports){
 arguments[4][19][0].apply(exports,arguments)
-},{"./baseIndexOf":525,"./cacheIndexOf":540,"./createCache":545,"dup":19}],519:[function(require,module,exports){
+},{"./baseIndexOf":495,"./cacheIndexOf":510,"./createCache":515,"dup":19}],489:[function(require,module,exports){
 arguments[4][20][0].apply(exports,arguments)
-},{"./baseForOwn":523,"./createBaseEach":543,"dup":20}],520:[function(require,module,exports){
+},{"./baseForOwn":493,"./createBaseEach":513,"dup":20}],490:[function(require,module,exports){
 arguments[4][21][0].apply(exports,arguments)
-},{"../lang/isArguments":570,"../lang/isArray":571,"./isArrayLike":556,"./isObjectLike":561,"dup":21}],521:[function(require,module,exports){
+},{"../lang/isArguments":540,"../lang/isArray":541,"./isArrayLike":526,"./isObjectLike":531,"dup":21}],491:[function(require,module,exports){
 arguments[4][22][0].apply(exports,arguments)
-},{"./createBaseFor":544,"dup":22}],522:[function(require,module,exports){
+},{"./createBaseFor":514,"dup":22}],492:[function(require,module,exports){
 arguments[4][23][0].apply(exports,arguments)
-},{"../object/keysIn":578,"./baseFor":521,"dup":23}],523:[function(require,module,exports){
+},{"../object/keysIn":548,"./baseFor":491,"dup":23}],493:[function(require,module,exports){
 arguments[4][24][0].apply(exports,arguments)
-},{"../object/keys":577,"./baseFor":521,"dup":24}],524:[function(require,module,exports){
+},{"../object/keys":547,"./baseFor":491,"dup":24}],494:[function(require,module,exports){
 arguments[4][25][0].apply(exports,arguments)
-},{"./toObject":567,"dup":25}],525:[function(require,module,exports){
+},{"./toObject":537,"dup":25}],495:[function(require,module,exports){
 arguments[4][26][0].apply(exports,arguments)
-},{"./indexOfNaN":552,"dup":26}],526:[function(require,module,exports){
+},{"./indexOfNaN":522,"dup":26}],496:[function(require,module,exports){
 arguments[4][27][0].apply(exports,arguments)
-},{"./baseIsEqualDeep":527,"dup":27}],527:[function(require,module,exports){
+},{"./baseIsEqualDeep":497,"dup":27}],497:[function(require,module,exports){
 arguments[4][28][0].apply(exports,arguments)
-},{"../lang/isArray":571,"../lang/isTypedArray":575,"./equalArrays":547,"./equalByTag":548,"./equalObjects":549,"dup":28}],528:[function(require,module,exports){
+},{"../lang/isArray":541,"../lang/isTypedArray":545,"./equalArrays":517,"./equalByTag":518,"./equalObjects":519,"dup":28}],498:[function(require,module,exports){
 arguments[4][29][0].apply(exports,arguments)
-},{"./baseIsEqual":526,"dup":29}],529:[function(require,module,exports){
+},{"./baseIsEqual":496,"dup":29}],499:[function(require,module,exports){
 arguments[4][30][0].apply(exports,arguments)
-},{"../object/keys":577,"../utility/constant":583,"./baseIsMatch":528,"./isStrictComparable":562,"./toObject":567,"dup":30}],530:[function(require,module,exports){
+},{"../object/keys":547,"../utility/constant":553,"./baseIsMatch":498,"./isStrictComparable":532,"./toObject":537,"dup":30}],500:[function(require,module,exports){
 arguments[4][31][0].apply(exports,arguments)
-},{"../array/last":506,"../lang/isArray":571,"./baseGet":524,"./baseIsEqual":526,"./baseSlice":536,"./isKey":559,"./isStrictComparable":562,"./toObject":567,"./toPath":568,"dup":31}],531:[function(require,module,exports){
+},{"../array/last":476,"../lang/isArray":541,"./baseGet":494,"./baseIsEqual":496,"./baseSlice":506,"./isKey":529,"./isStrictComparable":532,"./toObject":537,"./toPath":538,"dup":31}],501:[function(require,module,exports){
 arguments[4][32][0].apply(exports,arguments)
-},{"../lang/isArray":571,"../lang/isObject":573,"../lang/isTypedArray":575,"../object/keys":577,"./arrayEach":511,"./baseMergeDeep":532,"./getSymbols":551,"./isArrayLike":556,"./isObjectLike":561,"dup":32}],532:[function(require,module,exports){
+},{"../lang/isArray":541,"../lang/isObject":543,"../lang/isTypedArray":545,"../object/keys":547,"./arrayEach":481,"./baseMergeDeep":502,"./getSymbols":521,"./isArrayLike":526,"./isObjectLike":531,"dup":32}],502:[function(require,module,exports){
 arguments[4][33][0].apply(exports,arguments)
-},{"../lang/isArguments":570,"../lang/isArray":571,"../lang/isPlainObject":574,"../lang/isTypedArray":575,"../lang/toPlainObject":576,"./arrayCopy":510,"./isArrayLike":556,"dup":33}],533:[function(require,module,exports){
+},{"../lang/isArguments":540,"../lang/isArray":541,"../lang/isPlainObject":544,"../lang/isTypedArray":545,"../lang/toPlainObject":546,"./arrayCopy":480,"./isArrayLike":526,"dup":33}],503:[function(require,module,exports){
 arguments[4][34][0].apply(exports,arguments)
-},{"dup":34}],534:[function(require,module,exports){
+},{"dup":34}],504:[function(require,module,exports){
 arguments[4][35][0].apply(exports,arguments)
-},{"./baseGet":524,"./toPath":568,"dup":35}],535:[function(require,module,exports){
+},{"./baseGet":494,"./toPath":538,"dup":35}],505:[function(require,module,exports){
 arguments[4][36][0].apply(exports,arguments)
-},{"dup":36}],536:[function(require,module,exports){
+},{"dup":36}],506:[function(require,module,exports){
 arguments[4][37][0].apply(exports,arguments)
-},{"dup":37}],537:[function(require,module,exports){
+},{"dup":37}],507:[function(require,module,exports){
 arguments[4][38][0].apply(exports,arguments)
-},{"dup":38}],538:[function(require,module,exports){
+},{"dup":38}],508:[function(require,module,exports){
 arguments[4][39][0].apply(exports,arguments)
-},{"../utility/identity":584,"dup":39}],539:[function(require,module,exports){
+},{"../utility/identity":554,"dup":39}],509:[function(require,module,exports){
 arguments[4][40][0].apply(exports,arguments)
-},{"../lang/isNative":572,"../utility/constant":583,"dup":40}],540:[function(require,module,exports){
+},{"../lang/isNative":542,"../utility/constant":553,"dup":40}],510:[function(require,module,exports){
 arguments[4][41][0].apply(exports,arguments)
-},{"../lang/isObject":573,"dup":41}],541:[function(require,module,exports){
+},{"../lang/isObject":543,"dup":41}],511:[function(require,module,exports){
 arguments[4][42][0].apply(exports,arguments)
-},{"../lang/isObject":573,"dup":42}],542:[function(require,module,exports){
+},{"../lang/isObject":543,"dup":42}],512:[function(require,module,exports){
 arguments[4][43][0].apply(exports,arguments)
-},{"../function/restParam":508,"./bindCallback":538,"./isIterateeCall":558,"dup":43}],543:[function(require,module,exports){
+},{"../function/restParam":478,"./bindCallback":508,"./isIterateeCall":528,"dup":43}],513:[function(require,module,exports){
 arguments[4][44][0].apply(exports,arguments)
-},{"./getLength":550,"./isLength":560,"./toObject":567,"dup":44}],544:[function(require,module,exports){
+},{"./getLength":520,"./isLength":530,"./toObject":537,"dup":44}],514:[function(require,module,exports){
 arguments[4][45][0].apply(exports,arguments)
-},{"./toObject":567,"dup":45}],545:[function(require,module,exports){
+},{"./toObject":537,"dup":45}],515:[function(require,module,exports){
 arguments[4][46][0].apply(exports,arguments)
-},{"../lang/isNative":572,"../utility/constant":583,"./SetCache":509,"dup":46}],546:[function(require,module,exports){
+},{"../lang/isNative":542,"../utility/constant":553,"./SetCache":479,"dup":46}],516:[function(require,module,exports){
 arguments[4][47][0].apply(exports,arguments)
-},{"../lang/isArray":571,"./baseCallback":515,"./baseReduce":535,"dup":47}],547:[function(require,module,exports){
+},{"../lang/isArray":541,"./baseCallback":485,"./baseReduce":505,"dup":47}],517:[function(require,module,exports){
 arguments[4][48][0].apply(exports,arguments)
-},{"dup":48}],548:[function(require,module,exports){
+},{"dup":48}],518:[function(require,module,exports){
 arguments[4][49][0].apply(exports,arguments)
-},{"dup":49}],549:[function(require,module,exports){
+},{"dup":49}],519:[function(require,module,exports){
 arguments[4][50][0].apply(exports,arguments)
-},{"../object/keys":577,"dup":50}],550:[function(require,module,exports){
+},{"../object/keys":547,"dup":50}],520:[function(require,module,exports){
 arguments[4][51][0].apply(exports,arguments)
-},{"./baseProperty":533,"dup":51}],551:[function(require,module,exports){
+},{"./baseProperty":503,"dup":51}],521:[function(require,module,exports){
 arguments[4][52][0].apply(exports,arguments)
-},{"../lang/isNative":572,"../utility/constant":583,"./toObject":567,"dup":52}],552:[function(require,module,exports){
+},{"../lang/isNative":542,"../utility/constant":553,"./toObject":537,"dup":52}],522:[function(require,module,exports){
 arguments[4][53][0].apply(exports,arguments)
-},{"dup":53}],553:[function(require,module,exports){
+},{"dup":53}],523:[function(require,module,exports){
 arguments[4][54][0].apply(exports,arguments)
-},{"dup":54}],554:[function(require,module,exports){
+},{"dup":54}],524:[function(require,module,exports){
 arguments[4][55][0].apply(exports,arguments)
-},{"./bufferClone":539,"dup":55}],555:[function(require,module,exports){
+},{"./bufferClone":509,"dup":55}],525:[function(require,module,exports){
 arguments[4][56][0].apply(exports,arguments)
-},{"dup":56}],556:[function(require,module,exports){
+},{"dup":56}],526:[function(require,module,exports){
 arguments[4][57][0].apply(exports,arguments)
-},{"./getLength":550,"./isLength":560,"dup":57}],557:[function(require,module,exports){
+},{"./getLength":520,"./isLength":530,"dup":57}],527:[function(require,module,exports){
 arguments[4][58][0].apply(exports,arguments)
-},{"dup":58}],558:[function(require,module,exports){
+},{"dup":58}],528:[function(require,module,exports){
 arguments[4][59][0].apply(exports,arguments)
-},{"../lang/isObject":573,"./isArrayLike":556,"./isIndex":557,"dup":59}],559:[function(require,module,exports){
+},{"../lang/isObject":543,"./isArrayLike":526,"./isIndex":527,"dup":59}],529:[function(require,module,exports){
 arguments[4][60][0].apply(exports,arguments)
-},{"../lang/isArray":571,"./toObject":567,"dup":60}],560:[function(require,module,exports){
+},{"../lang/isArray":541,"./toObject":537,"dup":60}],530:[function(require,module,exports){
 arguments[4][61][0].apply(exports,arguments)
-},{"dup":61}],561:[function(require,module,exports){
+},{"dup":61}],531:[function(require,module,exports){
 arguments[4][62][0].apply(exports,arguments)
-},{"dup":62}],562:[function(require,module,exports){
+},{"dup":62}],532:[function(require,module,exports){
 arguments[4][63][0].apply(exports,arguments)
-},{"../lang/isObject":573,"dup":63}],563:[function(require,module,exports){
+},{"../lang/isObject":543,"dup":63}],533:[function(require,module,exports){
 arguments[4][64][0].apply(exports,arguments)
-},{"./toObject":567,"dup":64}],564:[function(require,module,exports){
+},{"./toObject":537,"dup":64}],534:[function(require,module,exports){
 arguments[4][65][0].apply(exports,arguments)
-},{"./baseForIn":522,"dup":65}],565:[function(require,module,exports){
+},{"./baseForIn":492,"dup":65}],535:[function(require,module,exports){
 arguments[4][66][0].apply(exports,arguments)
-},{"./baseForIn":522,"./isObjectLike":561,"dup":66}],566:[function(require,module,exports){
+},{"./baseForIn":492,"./isObjectLike":531,"dup":66}],536:[function(require,module,exports){
 arguments[4][67][0].apply(exports,arguments)
-},{"../lang/isArguments":570,"../lang/isArray":571,"../object/keysIn":578,"../support":582,"./isIndex":557,"./isLength":560,"dup":67}],567:[function(require,module,exports){
+},{"../lang/isArguments":540,"../lang/isArray":541,"../object/keysIn":548,"../support":552,"./isIndex":527,"./isLength":530,"dup":67}],537:[function(require,module,exports){
 arguments[4][68][0].apply(exports,arguments)
-},{"../lang/isObject":573,"dup":68}],568:[function(require,module,exports){
+},{"../lang/isObject":543,"dup":68}],538:[function(require,module,exports){
 arguments[4][69][0].apply(exports,arguments)
-},{"../lang/isArray":571,"./baseToString":537,"dup":69}],569:[function(require,module,exports){
+},{"../lang/isArray":541,"./baseToString":507,"dup":69}],539:[function(require,module,exports){
 arguments[4][70][0].apply(exports,arguments)
-},{"../internal/baseClone":516,"../internal/bindCallback":538,"../internal/isIterateeCall":558,"dup":70}],570:[function(require,module,exports){
+},{"../internal/baseClone":486,"../internal/bindCallback":508,"../internal/isIterateeCall":528,"dup":70}],540:[function(require,module,exports){
 arguments[4][71][0].apply(exports,arguments)
-},{"../internal/isArrayLike":556,"../internal/isObjectLike":561,"dup":71}],571:[function(require,module,exports){
+},{"../internal/isArrayLike":526,"../internal/isObjectLike":531,"dup":71}],541:[function(require,module,exports){
 arguments[4][72][0].apply(exports,arguments)
-},{"../internal/isLength":560,"../internal/isObjectLike":561,"./isNative":572,"dup":72}],572:[function(require,module,exports){
+},{"../internal/isLength":530,"../internal/isObjectLike":531,"./isNative":542,"dup":72}],542:[function(require,module,exports){
 arguments[4][73][0].apply(exports,arguments)
-},{"../internal/isObjectLike":561,"../string/escapeRegExp":581,"dup":73}],573:[function(require,module,exports){
+},{"../internal/isObjectLike":531,"../string/escapeRegExp":551,"dup":73}],543:[function(require,module,exports){
 arguments[4][74][0].apply(exports,arguments)
-},{"dup":74}],574:[function(require,module,exports){
+},{"dup":74}],544:[function(require,module,exports){
 arguments[4][75][0].apply(exports,arguments)
-},{"../internal/shimIsPlainObject":565,"./isNative":572,"dup":75}],575:[function(require,module,exports){
+},{"../internal/shimIsPlainObject":535,"./isNative":542,"dup":75}],545:[function(require,module,exports){
 arguments[4][76][0].apply(exports,arguments)
-},{"../internal/isLength":560,"../internal/isObjectLike":561,"dup":76}],576:[function(require,module,exports){
+},{"../internal/isLength":530,"../internal/isObjectLike":531,"dup":76}],546:[function(require,module,exports){
 arguments[4][77][0].apply(exports,arguments)
-},{"../internal/baseCopy":517,"../object/keysIn":578,"dup":77}],577:[function(require,module,exports){
+},{"../internal/baseCopy":487,"../object/keysIn":548,"dup":77}],547:[function(require,module,exports){
 arguments[4][78][0].apply(exports,arguments)
-},{"../internal/isArrayLike":556,"../internal/shimKeys":566,"../lang/isNative":572,"../lang/isObject":573,"dup":78}],578:[function(require,module,exports){
+},{"../internal/isArrayLike":526,"../internal/shimKeys":536,"../lang/isNative":542,"../lang/isObject":543,"dup":78}],548:[function(require,module,exports){
 arguments[4][79][0].apply(exports,arguments)
-},{"../internal/isIndex":557,"../internal/isLength":560,"../lang/isArguments":570,"../lang/isArray":571,"../lang/isObject":573,"../support":582,"dup":79}],579:[function(require,module,exports){
+},{"../internal/isIndex":527,"../internal/isLength":530,"../lang/isArguments":540,"../lang/isArray":541,"../lang/isObject":543,"../support":552,"dup":79}],549:[function(require,module,exports){
 arguments[4][80][0].apply(exports,arguments)
-},{"../internal/baseMerge":531,"../internal/createAssigner":542,"dup":80}],580:[function(require,module,exports){
+},{"../internal/baseMerge":501,"../internal/createAssigner":512,"dup":80}],550:[function(require,module,exports){
 arguments[4][81][0].apply(exports,arguments)
-},{"../function/restParam":508,"../internal/arrayMap":512,"../internal/baseDifference":518,"../internal/baseFlatten":520,"../internal/bindCallback":538,"../internal/pickByArray":563,"../internal/pickByCallback":564,"./keysIn":578,"dup":81}],581:[function(require,module,exports){
+},{"../function/restParam":478,"../internal/arrayMap":482,"../internal/baseDifference":488,"../internal/baseFlatten":490,"../internal/bindCallback":508,"../internal/pickByArray":533,"../internal/pickByCallback":534,"./keysIn":548,"dup":81}],551:[function(require,module,exports){
 arguments[4][82][0].apply(exports,arguments)
-},{"../internal/baseToString":537,"dup":82}],582:[function(require,module,exports){
+},{"../internal/baseToString":507,"dup":82}],552:[function(require,module,exports){
 arguments[4][83][0].apply(exports,arguments)
-},{"dup":83}],583:[function(require,module,exports){
+},{"dup":83}],553:[function(require,module,exports){
 arguments[4][84][0].apply(exports,arguments)
-},{"dup":84}],584:[function(require,module,exports){
+},{"dup":84}],554:[function(require,module,exports){
 arguments[4][85][0].apply(exports,arguments)
-},{"dup":85}],585:[function(require,module,exports){
+},{"dup":85}],555:[function(require,module,exports){
 arguments[4][86][0].apply(exports,arguments)
-},{"../internal/baseProperty":533,"../internal/basePropertyDeep":534,"../internal/isKey":559,"dup":86}],586:[function(require,module,exports){
+},{"../internal/baseProperty":503,"../internal/basePropertyDeep":504,"../internal/isKey":529,"dup":86}],556:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -65539,7 +60403,7 @@ var Accordion = _react2['default'].createClass({
 
 exports['default'] = Accordion;
 module.exports = exports['default'];
-},{"./PanelGroup":629,"react":827}],587:[function(require,module,exports){
+},{"./PanelGroup":599,"react":805}],557:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -65590,7 +60454,7 @@ var Affix = _react2['default'].createClass({
 
 exports['default'] = Affix;
 module.exports = exports['default'];
-},{"./AffixMixin":588,"./utils/domUtils":651,"classnames":652,"react":827}],588:[function(require,module,exports){
+},{"./AffixMixin":558,"./utils/domUtils":621,"classnames":622,"react":805}],558:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -65737,7 +60601,7 @@ var AffixMixin = {
 
 exports['default'] = AffixMixin;
 module.exports = exports['default'];
-},{"./utils/EventListener":643,"./utils/domUtils":651,"react":827}],589:[function(require,module,exports){
+},{"./utils/EventListener":613,"./utils/domUtils":621,"react":805}],559:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -65816,7 +60680,7 @@ var Alert = _react2['default'].createClass({
 
 exports['default'] = Alert;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"classnames":652,"react":827}],590:[function(require,module,exports){
+},{"./BootstrapMixin":561,"classnames":622,"react":805}],560:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -65866,7 +60730,7 @@ var Badge = _react2['default'].createClass({
 
 exports['default'] = Badge;
 module.exports = exports['default'];
-},{"./utils/ValidComponentChildren":646,"classnames":652,"react":827}],591:[function(require,module,exports){
+},{"./utils/ValidComponentChildren":616,"classnames":622,"react":805}],561:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -65920,7 +60784,7 @@ var BootstrapMixin = {
 
 exports['default'] = BootstrapMixin;
 module.exports = exports['default'];
-},{"./styleMaps":641,"./utils/CustomPropTypes":642}],592:[function(require,module,exports){
+},{"./styleMaps":611,"./utils/CustomPropTypes":612}],562:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -66027,7 +60891,7 @@ var Button = _react2['default'].createClass({
 exports['default'] = Button;
 module.exports = exports['default'];
 // eslint-disable-line object-shorthand
-},{"./BootstrapMixin":591,"classnames":652,"react":827}],593:[function(require,module,exports){
+},{"./BootstrapMixin":561,"classnames":622,"react":805}],563:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -66083,7 +60947,7 @@ var ButtonGroup = _react2['default'].createClass({
 
 exports['default'] = ButtonGroup;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"classnames":652,"react":827}],594:[function(require,module,exports){
+},{"./BootstrapMixin":561,"classnames":622,"react":805}],564:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -66188,7 +61052,7 @@ ButtonInput.propTypes = {
 
 exports['default'] = ButtonInput;
 module.exports = exports['default'];
-},{"./Button":592,"./FormGroup":607,"./InputBase":611,"react":827}],595:[function(require,module,exports){
+},{"./Button":562,"./FormGroup":577,"./InputBase":581,"react":805}],565:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -66237,7 +61101,7 @@ var ButtonToolbar = _react2['default'].createClass({
 
 exports['default'] = ButtonToolbar;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"classnames":652,"react":827}],596:[function(require,module,exports){
+},{"./BootstrapMixin":561,"classnames":622,"react":805}],566:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -66531,7 +61395,7 @@ var Carousel = _react2['default'].createClass({
 
 exports['default'] = Carousel;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"./utils/ValidComponentChildren":646,"classnames":652,"react":827}],597:[function(require,module,exports){
+},{"./BootstrapMixin":561,"./utils/ValidComponentChildren":616,"classnames":622,"react":805}],567:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -66644,7 +61508,7 @@ var CarouselItem = _react2['default'].createClass({
 
 exports['default'] = CarouselItem;
 module.exports = exports['default'];
-},{"./utils/TransitionEvents":645,"classnames":652,"react":827}],598:[function(require,module,exports){
+},{"./utils/TransitionEvents":615,"classnames":622,"react":805}],568:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -66738,7 +61602,7 @@ var Col = _react2['default'].createClass({
 
 exports['default'] = Col;
 module.exports = exports['default'];
-},{"./styleMaps":641,"classnames":652,"react":827}],599:[function(require,module,exports){
+},{"./styleMaps":611,"classnames":622,"react":805}],569:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -66784,7 +61648,7 @@ var CollapsableMixin = (0, _utilsObjectAssign2['default'])({}, _CollapsibleMixin
 
 exports['default'] = CollapsableMixin;
 module.exports = exports['default'];
-},{"./CollapsibleMixin":601,"./utils/Object.assign":644,"./utils/deprecationWarning":650}],600:[function(require,module,exports){
+},{"./CollapsibleMixin":571,"./utils/Object.assign":614,"./utils/deprecationWarning":620}],570:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -66817,7 +61681,7 @@ var CollapsableNav = _react2['default'].createClass(specCollapsableNav);
 
 exports['default'] = CollapsableNav;
 module.exports = exports['default'];
-},{"./CollapsibleNav":602,"./utils/Object.assign":644,"./utils/deprecationWarning":650,"react":827}],601:[function(require,module,exports){
+},{"./CollapsibleNav":572,"./utils/Object.assign":614,"./utils/deprecationWarning":620,"react":805}],571:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -67006,7 +61870,7 @@ var CollapsibleMixin = {
 
 exports['default'] = CollapsibleMixin;
 module.exports = exports['default'];
-},{"./utils/deprecationWarning":650,"react":827,"react/lib/ReactTransitionEvents":751}],602:[function(require,module,exports){
+},{"./utils/deprecationWarning":620,"react":805,"react/lib/ReactTransitionEvents":729}],572:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -67150,7 +62014,7 @@ var CollapsibleNav = _react2['default'].createClass(specCollapsibleNav);
 
 exports.specCollapsibleNav = specCollapsibleNav;
 exports['default'] = CollapsibleNav;
-},{"./BootstrapMixin":591,"./CollapsibleMixin":601,"./utils/ValidComponentChildren":646,"./utils/createChainedFunction":647,"./utils/deprecatedProperty":649,"./utils/domUtils":651,"classnames":652,"react":827}],603:[function(require,module,exports){
+},{"./BootstrapMixin":561,"./CollapsibleMixin":571,"./utils/ValidComponentChildren":616,"./utils/createChainedFunction":617,"./utils/deprecatedProperty":619,"./utils/domUtils":621,"classnames":622,"react":805}],573:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -67304,7 +62168,7 @@ var DropdownButton = _react2['default'].createClass({
 
 exports['default'] = DropdownButton;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"./Button":592,"./ButtonGroup":593,"./DropdownMenu":604,"./DropdownStateMixin":605,"./utils/ValidComponentChildren":646,"./utils/createChainedFunction":647,"classnames":652,"react":827}],604:[function(require,module,exports){
+},{"./BootstrapMixin":561,"./Button":562,"./ButtonGroup":563,"./DropdownMenu":574,"./DropdownStateMixin":575,"./utils/ValidComponentChildren":616,"./utils/createChainedFunction":617,"classnames":622,"react":805}],574:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -67367,7 +62231,7 @@ var DropdownMenu = _react2['default'].createClass({
 
 exports['default'] = DropdownMenu;
 module.exports = exports['default'];
-},{"./utils/ValidComponentChildren":646,"./utils/createChainedFunction":647,"classnames":652,"react":827}],605:[function(require,module,exports){
+},{"./utils/ValidComponentChildren":616,"./utils/createChainedFunction":617,"classnames":622,"react":805}],575:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -67466,7 +62330,7 @@ var DropdownStateMixin = {
 
 exports['default'] = DropdownStateMixin;
 module.exports = exports['default'];
-},{"./utils/EventListener":643,"./utils/domUtils":651,"react":827}],606:[function(require,module,exports){
+},{"./utils/EventListener":613,"./utils/domUtils":621,"react":805}],576:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -67554,7 +62418,7 @@ exports['default'] = {
   }
 };
 module.exports = exports['default'];
-},{"./utils/domUtils":651,"react":827}],607:[function(require,module,exports){
+},{"./utils/domUtils":621,"react":805}],577:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -67632,7 +62496,7 @@ FormGroup.propTypes = {
 
 exports['default'] = FormGroup;
 module.exports = exports['default'];
-},{"classnames":652,"react":827}],608:[function(require,module,exports){
+},{"classnames":622,"react":805}],578:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -67689,7 +62553,7 @@ var Glyphicon = _react2['default'].createClass({
 
 exports['default'] = Glyphicon;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"./styleMaps":641,"classnames":652,"react":827}],609:[function(require,module,exports){
+},{"./BootstrapMixin":561,"./styleMaps":611,"classnames":622,"react":805}],579:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -67737,7 +62601,7 @@ var Grid = _react2['default'].createClass({
 
 exports['default'] = Grid;
 module.exports = exports['default'];
-},{"classnames":652,"react":827}],610:[function(require,module,exports){
+},{"classnames":622,"react":805}],580:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -67800,7 +62664,7 @@ var Input = (function (_InputBase) {
 
 exports['default'] = Input;
 module.exports = exports['default'];
-},{"./ButtonInput":594,"./InputBase":611,"./utils/deprecationWarning":650,"react":827}],611:[function(require,module,exports){
+},{"./ButtonInput":564,"./InputBase":581,"./utils/deprecationWarning":620,"react":805}],581:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -68068,7 +62932,7 @@ InputBase.propTypes = {
 
 exports['default'] = InputBase;
 module.exports = exports['default'];
-},{"./FormGroup":607,"classnames":652,"react":827}],612:[function(require,module,exports){
+},{"./FormGroup":577,"classnames":622,"react":805}],582:[function(require,module,exports){
 // https://www.npmjs.org/package/react-interpolate-component
 // TODO: Drop this in favor of es6 string interpolation
 
@@ -68166,7 +63030,7 @@ var Interpolate = _react2['default'].createClass({
 
 exports['default'] = Interpolate;
 module.exports = exports['default'];
-},{"./utils/Object.assign":644,"./utils/ValidComponentChildren":646,"react":827}],613:[function(require,module,exports){
+},{"./utils/Object.assign":614,"./utils/ValidComponentChildren":616,"react":805}],583:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -68199,7 +63063,7 @@ var Jumbotron = _react2['default'].createClass({
 
 exports['default'] = Jumbotron;
 module.exports = exports['default'];
-},{"classnames":652,"react":827}],614:[function(require,module,exports){
+},{"classnames":622,"react":805}],584:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -68247,7 +63111,7 @@ var Label = _react2['default'].createClass({
 
 exports['default'] = Label;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"classnames":652,"react":827}],615:[function(require,module,exports){
+},{"./BootstrapMixin":561,"classnames":622,"react":805}],585:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -68360,7 +63224,7 @@ ListGroup.propTypes = {
 
 exports['default'] = ListGroup;
 module.exports = exports['default'];
-},{"./utils/ValidComponentChildren":646,"classnames":652,"react":827}],616:[function(require,module,exports){
+},{"./utils/ValidComponentChildren":616,"classnames":622,"react":805}],586:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -68475,7 +63339,7 @@ var ListGroupItem = _react2['default'].createClass({
 
 exports['default'] = ListGroupItem;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"classnames":652,"react":827}],617:[function(require,module,exports){
+},{"./BootstrapMixin":561,"classnames":622,"react":805}],587:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -68552,7 +63416,7 @@ var MenuItem = _react2['default'].createClass({
 
 exports['default'] = MenuItem;
 module.exports = exports['default'];
-},{"classnames":652,"react":827}],618:[function(require,module,exports){
+},{"classnames":622,"react":805}],588:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -68745,7 +63609,7 @@ var Modal = _react2['default'].createClass({
 
 exports['default'] = Modal;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"./FadeMixin":606,"./utils/EventListener":643,"./utils/domUtils":651,"classnames":652,"react":827}],619:[function(require,module,exports){
+},{"./BootstrapMixin":561,"./FadeMixin":576,"./utils/EventListener":613,"./utils/domUtils":621,"classnames":622,"react":805}],589:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -68845,7 +63709,7 @@ ModalTrigger.withContext = (0, _utilsCreateContextWrapper2['default'])(ModalTrig
 
 exports['default'] = ModalTrigger;
 module.exports = exports['default'];
-},{"./OverlayMixin":623,"./utils/createChainedFunction":647,"./utils/createContextWrapper":648,"react":827}],620:[function(require,module,exports){
+},{"./OverlayMixin":593,"./utils/createChainedFunction":617,"./utils/createContextWrapper":618,"react":805}],590:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -68992,7 +63856,7 @@ var Nav = _react2['default'].createClass({
 
 exports['default'] = Nav;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"./CollapsibleMixin":601,"./utils/ValidComponentChildren":646,"./utils/createChainedFunction":647,"./utils/deprecatedProperty":649,"./utils/domUtils":651,"classnames":652,"react":827}],621:[function(require,module,exports){
+},{"./BootstrapMixin":561,"./CollapsibleMixin":571,"./utils/ValidComponentChildren":616,"./utils/createChainedFunction":617,"./utils/deprecatedProperty":619,"./utils/domUtils":621,"classnames":622,"react":805}],591:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -69090,7 +63954,7 @@ var NavItem = _react2['default'].createClass({
 
 exports['default'] = NavItem;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"classnames":652,"react":827}],622:[function(require,module,exports){
+},{"./BootstrapMixin":561,"classnames":622,"react":805}],592:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -69260,7 +64124,7 @@ var Navbar = _react2['default'].createClass({
 
 exports['default'] = Navbar;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"./utils/ValidComponentChildren":646,"./utils/createChainedFunction":647,"classnames":652,"react":827}],623:[function(require,module,exports){
+},{"./BootstrapMixin":561,"./utils/ValidComponentChildren":616,"./utils/createChainedFunction":617,"classnames":622,"react":805}],593:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -69345,7 +64209,7 @@ exports['default'] = {
   }
 };
 module.exports = exports['default'];
-},{"./utils/CustomPropTypes":642,"./utils/domUtils":651,"react":827}],624:[function(require,module,exports){
+},{"./utils/CustomPropTypes":612,"./utils/domUtils":621,"react":805}],594:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -69677,7 +64541,7 @@ OverlayTrigger.withContext = (0, _utilsCreateContextWrapper2['default'])(Overlay
 
 exports['default'] = OverlayTrigger;
 module.exports = exports['default'];
-},{"./OverlayMixin":623,"./utils/Object.assign":644,"./utils/createChainedFunction":647,"./utils/createContextWrapper":648,"./utils/domUtils":651,"react":827}],625:[function(require,module,exports){
+},{"./OverlayMixin":593,"./utils/Object.assign":614,"./utils/createChainedFunction":617,"./utils/createContextWrapper":618,"./utils/domUtils":621,"react":805}],595:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -69714,7 +64578,7 @@ var PageHeader = _react2['default'].createClass({
 
 exports['default'] = PageHeader;
 module.exports = exports['default'];
-},{"classnames":652,"react":827}],626:[function(require,module,exports){
+},{"classnames":622,"react":805}],596:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -69790,7 +64654,7 @@ var PageItem = _react2['default'].createClass({
 
 exports['default'] = PageItem;
 module.exports = exports['default'];
-},{"classnames":652,"react":827}],627:[function(require,module,exports){
+},{"classnames":622,"react":805}],597:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -69843,7 +64707,7 @@ var Pager = _react2['default'].createClass({
 
 exports['default'] = Pager;
 module.exports = exports['default'];
-},{"./utils/ValidComponentChildren":646,"./utils/createChainedFunction":647,"classnames":652,"react":827}],628:[function(require,module,exports){
+},{"./utils/ValidComponentChildren":616,"./utils/createChainedFunction":617,"classnames":622,"react":805}],598:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -70081,7 +64945,7 @@ var Panel = _react2['default'].createClass({
 
 exports['default'] = Panel;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"./CollapsibleMixin":601,"./utils/deprecatedProperty":649,"classnames":652,"react":827}],629:[function(require,module,exports){
+},{"./BootstrapMixin":561,"./CollapsibleMixin":571,"./utils/deprecatedProperty":619,"classnames":622,"react":805}],599:[function(require,module,exports){
 /* eslint react/prop-types: [1, {ignore: ["children", "className", "bsStyle"]}]*/
 /* BootstrapMixin contains `bsStyle` type validation */
 'use strict';
@@ -70189,7 +65053,7 @@ var PanelGroup = _react2['default'].createClass({
 
 exports['default'] = PanelGroup;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"./utils/ValidComponentChildren":646,"classnames":652,"react":827}],630:[function(require,module,exports){
+},{"./BootstrapMixin":561,"./utils/ValidComponentChildren":616,"classnames":622,"react":805}],600:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -70275,7 +65139,7 @@ var Popover = _react2['default'].createClass({
 
 exports['default'] = Popover;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"classnames":652,"react":827}],631:[function(require,module,exports){
+},{"./BootstrapMixin":561,"classnames":622,"react":805}],601:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -70426,7 +65290,7 @@ var ProgressBar = _react2['default'].createClass({
 
 exports['default'] = ProgressBar;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"./Interpolate":612,"./utils/ValidComponentChildren":646,"classnames":652,"react":827}],632:[function(require,module,exports){
+},{"./BootstrapMixin":561,"./Interpolate":582,"./utils/ValidComponentChildren":616,"classnames":622,"react":805}],602:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -70471,7 +65335,7 @@ var Row = _react2['default'].createClass({
 
 exports['default'] = Row;
 module.exports = exports['default'];
-},{"classnames":652,"react":827}],633:[function(require,module,exports){
+},{"classnames":622,"react":805}],603:[function(require,module,exports){
 /* eslint react/prop-types: [1, {ignore: ["children", "className", "bsSize"]}]*/
 /* BootstrapMixin contains `bsSize` type validation */
 'use strict';
@@ -70622,7 +65486,7 @@ var SplitButton = _react2['default'].createClass({
 
 exports['default'] = SplitButton;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"./Button":592,"./ButtonGroup":593,"./DropdownMenu":604,"./DropdownStateMixin":605,"classnames":652,"react":827}],634:[function(require,module,exports){
+},{"./BootstrapMixin":561,"./Button":562,"./ButtonGroup":563,"./DropdownMenu":574,"./DropdownStateMixin":575,"classnames":622,"react":805}],604:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -70783,7 +65647,7 @@ var SubNav = _react2['default'].createClass({
 
 exports['default'] = SubNav;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"./utils/ValidComponentChildren":646,"./utils/createChainedFunction":647,"classnames":652,"react":827}],635:[function(require,module,exports){
+},{"./BootstrapMixin":561,"./utils/ValidComponentChildren":616,"./utils/createChainedFunction":617,"classnames":622,"react":805}],605:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -70890,7 +65754,7 @@ var TabPane = _react2['default'].createClass({
 
 exports['default'] = TabPane;
 module.exports = exports['default'];
-},{"./utils/TransitionEvents":645,"classnames":652,"react":827}],636:[function(require,module,exports){
+},{"./utils/TransitionEvents":615,"classnames":622,"react":805}],606:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -71056,7 +65920,7 @@ var TabbedArea = _react2['default'].createClass({
 
 exports['default'] = TabbedArea;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"./Nav":620,"./NavItem":621,"./utils/ValidComponentChildren":646,"react":827}],637:[function(require,module,exports){
+},{"./BootstrapMixin":561,"./Nav":590,"./NavItem":591,"./utils/ValidComponentChildren":616,"react":805}],607:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -71110,7 +65974,7 @@ var Table = _react2['default'].createClass({
 
 exports['default'] = Table;
 module.exports = exports['default'];
-},{"classnames":652,"react":827}],638:[function(require,module,exports){
+},{"classnames":622,"react":805}],608:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -71185,7 +66049,7 @@ var Tooltip = _react2['default'].createClass({
 
 exports['default'] = Tooltip;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"classnames":652,"react":827}],639:[function(require,module,exports){
+},{"./BootstrapMixin":561,"classnames":622,"react":805}],609:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -71232,7 +66096,7 @@ var Well = _react2['default'].createClass({
 
 exports['default'] = Well;
 module.exports = exports['default'];
-},{"./BootstrapMixin":591,"classnames":652,"react":827}],640:[function(require,module,exports){
+},{"./BootstrapMixin":561,"classnames":622,"react":805}],610:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -71509,7 +66373,7 @@ exports['default'] = {
   styleMaps: _styleMaps2['default']
 };
 module.exports = exports['default'];
-},{"./Accordion":586,"./Affix":587,"./AffixMixin":588,"./Alert":589,"./Badge":590,"./BootstrapMixin":591,"./Button":592,"./ButtonGroup":593,"./ButtonInput":594,"./ButtonToolbar":595,"./Carousel":596,"./CarouselItem":597,"./Col":598,"./CollapsableMixin":599,"./CollapsableNav":600,"./CollapsibleMixin":601,"./CollapsibleNav":602,"./DropdownButton":603,"./DropdownMenu":604,"./DropdownStateMixin":605,"./FadeMixin":606,"./Glyphicon":608,"./Grid":609,"./Input":610,"./Interpolate":612,"./Jumbotron":613,"./Label":614,"./ListGroup":615,"./ListGroupItem":616,"./MenuItem":617,"./Modal":618,"./ModalTrigger":619,"./Nav":620,"./NavItem":621,"./Navbar":622,"./OverlayMixin":623,"./OverlayTrigger":624,"./PageHeader":625,"./PageItem":626,"./Pager":627,"./Panel":628,"./PanelGroup":629,"./Popover":630,"./ProgressBar":631,"./Row":632,"./SplitButton":633,"./SubNav":634,"./TabPane":635,"./TabbedArea":636,"./Table":637,"./Tooltip":638,"./Well":639,"./styleMaps":641}],641:[function(require,module,exports){
+},{"./Accordion":556,"./Affix":557,"./AffixMixin":558,"./Alert":559,"./Badge":560,"./BootstrapMixin":561,"./Button":562,"./ButtonGroup":563,"./ButtonInput":564,"./ButtonToolbar":565,"./Carousel":566,"./CarouselItem":567,"./Col":568,"./CollapsableMixin":569,"./CollapsableNav":570,"./CollapsibleMixin":571,"./CollapsibleNav":572,"./DropdownButton":573,"./DropdownMenu":574,"./DropdownStateMixin":575,"./FadeMixin":576,"./Glyphicon":578,"./Grid":579,"./Input":580,"./Interpolate":582,"./Jumbotron":583,"./Label":584,"./ListGroup":585,"./ListGroupItem":586,"./MenuItem":587,"./Modal":588,"./ModalTrigger":589,"./Nav":590,"./NavItem":591,"./Navbar":592,"./OverlayMixin":593,"./OverlayTrigger":594,"./PageHeader":595,"./PageItem":596,"./Pager":597,"./Panel":598,"./PanelGroup":599,"./Popover":600,"./ProgressBar":601,"./Row":602,"./SplitButton":603,"./SubNav":604,"./TabPane":605,"./TabbedArea":606,"./Table":607,"./Tooltip":608,"./Well":609,"./styleMaps":611}],611:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -71562,7 +66426,7 @@ var styleMaps = {
 
 exports['default'] = styleMaps;
 module.exports = exports['default'];
-},{}],642:[function(require,module,exports){
+},{}],612:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -71642,7 +66506,7 @@ function createKeyOfChecker(obj) {
 
 exports['default'] = CustomPropTypes;
 module.exports = exports['default'];
-},{}],643:[function(require,module,exports){
+},{}],613:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -71703,7 +66567,7 @@ var EventListener = {
 
 exports['default'] = EventListener;
 module.exports = exports['default'];
-},{}],644:[function(require,module,exports){
+},{}],614:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -71757,7 +66621,7 @@ function assign(target, sources) {
 
 exports['default'] = assign;
 module.exports = exports['default'];
-},{}],645:[function(require,module,exports){
+},{}],615:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -71873,7 +66737,7 @@ var ReactTransitionEvents = {
 
 exports['default'] = ReactTransitionEvents;
 module.exports = exports['default'];
-},{}],646:[function(require,module,exports){
+},{}],616:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -71977,7 +66841,7 @@ exports['default'] = {
   hasValidComponent: hasValidComponent
 };
 module.exports = exports['default'];
-},{"react":827}],647:[function(require,module,exports){
+},{"react":805}],617:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -72015,7 +66879,7 @@ function createChainedFunction(one, two) {
 
 exports['default'] = createChainedFunction;
 module.exports = exports['default'];
-},{}],648:[function(require,module,exports){
+},{}],618:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -72119,7 +66983,7 @@ function createContextWrapper(Trigger, propName) {
 }
 
 module.exports = exports['default'];
-},{"react":827}],649:[function(require,module,exports){
+},{"react":805}],619:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -72145,7 +67009,7 @@ function collapsable(props, propName, componentName) {
 }
 
 module.exports = exports['default'];
-},{"./deprecationWarning":650,"react":827}],650:[function(require,module,exports){
+},{"./deprecationWarning":620,"react":805}],620:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -72171,7 +67035,7 @@ function deprecationWarning(oldname, newname, link) {
 
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"_process":463}],651:[function(require,module,exports){
+},{"_process":467}],621:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -72303,7 +67167,7 @@ exports['default'] = {
   offsetParent: offsetParentFunc
 };
 module.exports = exports['default'];
-},{"react":827}],652:[function(require,module,exports){
+},{"react":805}],622:[function(require,module,exports){
 /*!
   Copyright (c) 2015 Jed Watson.
   Licensed under the MIT License (MIT), see
@@ -72352,7 +67216,7 @@ if (typeof define !== 'undefined' && define.amd) {
 	});
 }
 
-},{}],653:[function(require,module,exports){
+},{}],623:[function(require,module,exports){
 (function (global){
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.ImageGallery = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
@@ -72674,7 +67538,7 @@ module.exports = ImageGallery;
 },{"react-swipeable":"react-swipeable","react/addons":"react/addons"}]},{},[1])(1)
 });
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"react-swipeable":654,"react/addons":655}],654:[function(require,module,exports){
+},{"react-swipeable":624,"react/addons":633}],624:[function(require,module,exports){
 var React = require('react')
 
 var Swipeable = React.createClass({displayName: "Swipeable",
@@ -72830,353 +67694,1115 @@ var Swipeable = React.createClass({displayName: "Swipeable",
 
 module.exports = Swipeable
 
-},{"react":827}],655:[function(require,module,exports){
+},{"react":805}],625:[function(require,module,exports){
+module.exports = {
+    RouterMixin: require('./lib/RouterMixin'),
+    navigate: require('./lib/navigate')
+};
+},{"./lib/RouterMixin":626,"./lib/navigate":629}],626:[function(require,module,exports){
+var React = require('react'),
+    EventListener = require('react/lib/EventListener'),
+    getEventTarget = require('react/lib/getEventTarget'),
+    pathToRegexp = require('path-to-regexp'),
+    urllite = require('urllite/lib/core'),
+    detect = require('./detect');
+
+var PropValidation = {
+    path: React.PropTypes.string,
+    root: React.PropTypes.string,
+    useHistory: React.PropTypes.bool
+};
+
+module.exports = {
+
+    propTypes: PropValidation,
+
+    contextTypes: PropValidation,
+
+    childContextTypes: PropValidation,
+
+    getChildContext: function() {
+        return {
+            path: this.state.path,
+            root: this.state.root,
+            useHistory: this.state.useHistory
+        }
+    },
+
+    getDefaultProps: function() {
+        return {
+            routes: {}
+        };
+    },
+
+    getInitialState: function() {
+        return {
+            path: getInitialPath(this),
+            root: this.props.root || this.context.path || '',
+            useHistory: (this.props.history || this.context.useHistory) && detect.hasPushState
+        };
+    },
+
+    componentWillMount: function() {
+        this.setState({ _routes: processRoutes(this.state.root, this.routes, this) });
+    },
+
+    componentDidMount: function() {
+        var _events = this._events = [];
+
+        _events.push(EventListener.listen(this.getDOMNode(), 'click', this.handleClick));
+
+        if (this.state.useHistory) {
+            _events.push(EventListener.listen(window, 'popstate', this.onPopState));
+        } else {
+            if (window.location.hash.indexOf('#!') === -1) {
+                window.location.hash = '#!/';
+            }
+
+            _events.push(EventListener.listen(window, 'hashchange', this.onPopState));
+        }
+    },
+
+    componentWillUnmount: function() {
+        this._events.forEach(function(listener) {
+           listener.remove();
+        });
+    },
+
+    onPopState: function() {
+        var url = urllite(window.location.href),
+            hash = url.hash || '',
+            path = this.state.useHistory ? url.pathname : hash.slice(2);
+
+        if (path.length === 0) path = '/';
+
+        this.setState({ path: path + url.search });
+    },
+
+    renderCurrentRoute: function() {
+        var path = this.state.path,
+            url = urllite(path),
+            queryParams = parseSearch(url.search);
+
+        var parsedPath = url.pathname;
+
+        if (!parsedPath || parsedPath.length === 0) parsedPath = '/';
+
+        var matchedRoute = this.matchRoute(parsedPath);
+
+        if (matchedRoute) {
+            return matchedRoute.handler.apply(this, matchedRoute.params.concat(queryParams));
+        } else if (this.notFound) {
+            return this.notFound(parsedPath, queryParams);
+        } else {
+            throw new Error('No route matched path: ' + parsedPath);
+        }
+    },
+
+    handleClick: function(evt) {
+        var self = this,
+            url = getHref(evt);
+
+        if (url && self.matchRoute(url.pathname)) {
+            evt.preventDefault();
+
+            // See: http://facebook.github.io/react/docs/interactivity-and-dynamic-uis.html
+            // Give any component event listeners a chance to fire in the current event loop,
+            // since they happen at the end of the bubbling phase. (Allows an onClick prop to
+            // work correctly on the event target <a/> component.)
+            setTimeout(function() {
+                var pathWithSearch = url.pathname + (url.search || '');
+                if (pathWithSearch.length === 0) pathWithSearch = '/';
+
+                if (self.state.useHistory) {
+                    window.history.pushState({}, '', pathWithSearch);
+                } else {
+                    window.location.hash = '!' + pathWithSearch;
+                }
+
+                self.setState({ path: pathWithSearch});
+            }, 0);
+        }
+    },
+
+    matchRoute: function(path) {
+        if (!path) {
+            return false;
+        }
+
+        var matchedRoute = {};
+
+        this.state._routes.some(function(route) {
+            var matches = route.pattern.exec(path);
+
+            if (matches) {
+                matchedRoute.handler = route.handler;
+                matchedRoute.params = matches.slice(1, route.params.length + 1);
+
+                return true;
+            }
+
+            return false;
+        });
+
+        return matchedRoute.handler ? matchedRoute : false;
+    }
+
+};
+
+function getInitialPath(component) {
+    var path = component.props.path || component.context.path,
+        hash,
+        url;
+
+    if (!path && detect.canUseDOM) {
+        url = urllite(window.location.href);
+
+        if (component.props.history) {
+            path = url.pathname + url.search;
+        } else if (url.hash) {
+            hash = urllite(url.hash.slice(2));
+            path = hash.pathname + hash.search;
+        }
+    }
+
+    return path || '/';
+}
+
+function getHref(evt) {
+    if (evt.defaultPrevented) {
+        return;
+    }
+
+    if (evt.metaKey || evt.ctrlKey || evt.shiftKey) {
+        return;
+    }
+
+    if (evt.button !== 0) {
+        return;
+    }
+
+    var elt = getEventTarget(evt);
+
+    // Since a click could originate from a child element of the <a> tag,
+    // walk back up the tree to find it.
+    while (elt && elt.nodeName !== 'A') {
+        elt = elt.parentNode;
+    }
+
+    if (!elt) {
+        return;
+    }
+
+    if (elt.target && elt.target !== '_self') {
+        return;
+    }
+
+    if (!!elt.attributes.download) {
+        return;
+    }
+
+    var linkURL = urllite(elt.href);
+    var windowURL = urllite(window.location.href);
+
+    if (linkURL.protocol !== windowURL.protocol || linkURL.host !== windowURL.host) {
+        return;
+    }
+
+    return linkURL;
+}
+
+function processRoutes(root, routes, component) {
+    var patterns = [],
+        path, pattern, keys, handler, handlerFn;
+
+    for (path in routes) {
+        if (routes.hasOwnProperty(path)) {
+            keys = [];
+            pattern = pathToRegexp(root + path, keys);
+            handler = routes[path];
+            handlerFn = component[handler];
+
+            patterns.push({ pattern: pattern, params: keys, handler: handlerFn });
+        }
+    }
+
+    return patterns;
+}
+
+function parseSearch(str) {
+    var parsed = {};
+
+    if (str.indexOf('?') === 0) str = str.slice(1);
+
+    var pairs = str.split('&');
+
+    pairs.forEach(function(pair) {
+        var keyVal = pair.split('=');
+
+        parsed[decodeURIComponent(keyVal[0])] = decodeURIComponent(keyVal[1]);
+    });
+
+    return parsed;
+}
+
+},{"./detect":627,"path-to-regexp":630,"react":805,"react/lib/EventListener":649,"react/lib/getEventTarget":773,"urllite/lib/core":632}],627:[function(require,module,exports){
+var canUseDOM = !!(
+    typeof window !== 'undefined' &&
+    window.document &&
+    window.document.createElement
+);
+
+module.exports = {
+    canUseDOM: canUseDOM,
+    hasPushState: canUseDOM && window.history && 'pushState' in window.history,
+    hasHashbang: function() {
+        return canUseDOM && window.location.hash.indexOf('#!') === 0;
+    },
+    hasEventConstructor: function() {
+        return typeof window.Event == "function";
+    }
+};
+
+},{}],628:[function(require,module,exports){
+var detect = require('./detect');
+
+module.exports = {
+    createEvent: function(name) {
+        if (detect.hasEventConstructor()) {
+            return new window.Event(name);
+        } else {
+            var event = document.createEvent('Event');
+            event.initEvent(name, true, false);
+            return event;
+        }
+    }
+};
+
+},{"./detect":627}],629:[function(require,module,exports){
+var detect = require('./detect');
+var event = require('./event');
+
+module.exports = function triggerUrl(url, silent) {
+    if (detect.hasHashbang()) {
+        window.location.hash = '#!' + url;
+    } else if (detect.hasPushState) {
+        window.history.pushState({}, '', url);
+        if (!silent) {
+            window.dispatchEvent(event.createEvent('popstate'));
+        }
+    } else {
+        console.error("Browser does not support pushState, and hash is missing a hashbang prefix!");
+    }
+};
+
+},{"./detect":627,"./event":628}],630:[function(require,module,exports){
+var isarray = require('isarray')
+
+/**
+ * Expose `pathToRegexp`.
+ */
+module.exports = pathToRegexp
+module.exports.parse = parse
+module.exports.compile = compile
+module.exports.tokensToFunction = tokensToFunction
+module.exports.tokensToRegExp = tokensToRegExp
+
+/**
+ * The main path matching regexp utility.
+ *
+ * @type {RegExp}
+ */
+var PATH_REGEXP = new RegExp([
+  // Match escaped characters that would otherwise appear in future matches.
+  // This allows the user to escape special characters that won't transform.
+  '(\\\\.)',
+  // Match Express-style parameters and un-named parameters with a prefix
+  // and optional suffixes. Matches appear as:
+  //
+  // "/:test(\\d+)?" => ["/", "test", "\d+", undefined, "?", undefined]
+  // "/route(\\d+)"  => [undefined, undefined, undefined, "\d+", undefined, undefined]
+  // "/*"            => ["/", undefined, undefined, undefined, undefined, "*"]
+  '([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^()])+)\\))?|\\(((?:\\\\.|[^()])+)\\))([+*?])?|(\\*))'
+].join('|'), 'g')
+
+/**
+ * Parse a string for the raw tokens.
+ *
+ * @param  {String} str
+ * @return {Array}
+ */
+function parse (str) {
+  var tokens = []
+  var key = 0
+  var index = 0
+  var path = ''
+  var res
+
+  while ((res = PATH_REGEXP.exec(str)) != null) {
+    var m = res[0]
+    var escaped = res[1]
+    var offset = res.index
+    path += str.slice(index, offset)
+    index = offset + m.length
+
+    // Ignore already escaped sequences.
+    if (escaped) {
+      path += escaped[1]
+      continue
+    }
+
+    // Push the current path onto the tokens.
+    if (path) {
+      tokens.push(path)
+      path = ''
+    }
+
+    var prefix = res[2]
+    var name = res[3]
+    var capture = res[4]
+    var group = res[5]
+    var suffix = res[6]
+    var asterisk = res[7]
+
+    var repeat = suffix === '+' || suffix === '*'
+    var optional = suffix === '?' || suffix === '*'
+    var delimiter = prefix || '/'
+    var pattern = capture || group || (asterisk ? '.*' : '[^' + delimiter + ']+?')
+
+    tokens.push({
+      name: name || key++,
+      prefix: prefix || '',
+      delimiter: delimiter,
+      optional: optional,
+      repeat: repeat,
+      pattern: escapeGroup(pattern)
+    })
+  }
+
+  // Match any characters still remaining.
+  if (index < str.length) {
+    path += str.substr(index)
+  }
+
+  // If the path exists, push it onto the end.
+  if (path) {
+    tokens.push(path)
+  }
+
+  return tokens
+}
+
+/**
+ * Compile a string to a template function for the path.
+ *
+ * @param  {String}   str
+ * @return {Function}
+ */
+function compile (str) {
+  return tokensToFunction(parse(str))
+}
+
+/**
+ * Expose a method for transforming tokens into the path function.
+ */
+function tokensToFunction (tokens) {
+  // Compile all the tokens into regexps.
+  var matches = new Array(tokens.length)
+
+  // Compile all the patterns before compilation.
+  for (var i = 0; i < tokens.length; i++) {
+    if (typeof tokens[i] === 'object') {
+      matches[i] = new RegExp('^' + tokens[i].pattern + '$')
+    }
+  }
+
+  return function (obj) {
+    var path = ''
+
+    obj = obj || {}
+
+    for (var i = 0; i < tokens.length; i++) {
+      var key = tokens[i]
+
+      if (typeof key === 'string') {
+        path += key
+
+        continue
+      }
+
+      var value = obj[key.name]
+
+      if (value == null) {
+        if (key.optional) {
+          continue
+        } else {
+          throw new TypeError('Expected "' + key.name + '" to be defined')
+        }
+      }
+
+      if (isarray(value)) {
+        if (!key.repeat) {
+          throw new TypeError('Expected "' + key.name + '" to not repeat')
+        }
+
+        if (value.length === 0) {
+          if (key.optional) {
+            continue
+          } else {
+            throw new TypeError('Expected "' + key.name + '" to not be empty')
+          }
+        }
+
+        for (var j = 0; j < value.length; j++) {
+          if (!matches[i].test(value[j])) {
+            throw new TypeError('Expected all "' + key.name + '" to match "' + key.pattern + '"')
+          }
+
+          path += (j === 0 ? key.prefix : key.delimiter) + encodeURIComponent(value[j])
+        }
+
+        continue
+      }
+
+      if (!matches[i].test(value)) {
+        throw new TypeError('Expected "' + key.name + '" to match "' + key.pattern + '"')
+      }
+
+      path += key.prefix + encodeURIComponent(value)
+    }
+
+    return path
+  }
+}
+
+/**
+ * Escape a regular expression string.
+ *
+ * @param  {String} str
+ * @return {String}
+ */
+function escapeString (str) {
+  return str.replace(/([.+*?=^!:${}()[\]|\/])/g, '\\$1')
+}
+
+/**
+ * Escape the capturing group by escaping special characters and meaning.
+ *
+ * @param  {String} group
+ * @return {String}
+ */
+function escapeGroup (group) {
+  return group.replace(/([=!:$\/()])/g, '\\$1')
+}
+
+/**
+ * Attach the keys as a property of the regexp.
+ *
+ * @param  {RegExp} re
+ * @param  {Array}  keys
+ * @return {RegExp}
+ */
+function attachKeys (re, keys) {
+  re.keys = keys
+  return re
+}
+
+/**
+ * Get the flags for a regexp from the options.
+ *
+ * @param  {Object} options
+ * @return {String}
+ */
+function flags (options) {
+  return options.sensitive ? '' : 'i'
+}
+
+/**
+ * Pull out keys from a regexp.
+ *
+ * @param  {RegExp} path
+ * @param  {Array}  keys
+ * @return {RegExp}
+ */
+function regexpToRegexp (path, keys) {
+  // Use a negative lookahead to match only capturing groups.
+  var groups = path.source.match(/\((?!\?)/g)
+
+  if (groups) {
+    for (var i = 0; i < groups.length; i++) {
+      keys.push({
+        name: i,
+        prefix: null,
+        delimiter: null,
+        optional: false,
+        repeat: false,
+        pattern: null
+      })
+    }
+  }
+
+  return attachKeys(path, keys)
+}
+
+/**
+ * Transform an array into a regexp.
+ *
+ * @param  {Array}  path
+ * @param  {Array}  keys
+ * @param  {Object} options
+ * @return {RegExp}
+ */
+function arrayToRegexp (path, keys, options) {
+  var parts = []
+
+  for (var i = 0; i < path.length; i++) {
+    parts.push(pathToRegexp(path[i], keys, options).source)
+  }
+
+  var regexp = new RegExp('(?:' + parts.join('|') + ')', flags(options))
+
+  return attachKeys(regexp, keys)
+}
+
+/**
+ * Create a path regexp from string input.
+ *
+ * @param  {String} path
+ * @param  {Array}  keys
+ * @param  {Object} options
+ * @return {RegExp}
+ */
+function stringToRegexp (path, keys, options) {
+  var tokens = parse(path)
+  var re = tokensToRegExp(tokens, options)
+
+  // Attach keys back to the regexp.
+  for (var i = 0; i < tokens.length; i++) {
+    if (typeof tokens[i] !== 'string') {
+      keys.push(tokens[i])
+    }
+  }
+
+  return attachKeys(re, keys)
+}
+
+/**
+ * Expose a function for taking tokens and returning a RegExp.
+ *
+ * @param  {Array}  tokens
+ * @param  {Array}  keys
+ * @param  {Object} options
+ * @return {RegExp}
+ */
+function tokensToRegExp (tokens, options) {
+  options = options || {}
+
+  var strict = options.strict
+  var end = options.end !== false
+  var route = ''
+  var lastToken = tokens[tokens.length - 1]
+  var endsWithSlash = typeof lastToken === 'string' && /\/$/.test(lastToken)
+
+  // Iterate over the tokens and create our regexp string.
+  for (var i = 0; i < tokens.length; i++) {
+    var token = tokens[i]
+
+    if (typeof token === 'string') {
+      route += escapeString(token)
+    } else {
+      var prefix = escapeString(token.prefix)
+      var capture = token.pattern
+
+      if (token.repeat) {
+        capture += '(?:' + prefix + capture + ')*'
+      }
+
+      if (token.optional) {
+        if (prefix) {
+          capture = '(?:' + prefix + '(' + capture + '))?'
+        } else {
+          capture = '(' + capture + ')?'
+        }
+      } else {
+        capture = prefix + '(' + capture + ')'
+      }
+
+      route += capture
+    }
+  }
+
+  // In non-strict mode we allow a slash at the end of match. If the path to
+  // match already ends with a slash, we remove it for consistency. The slash
+  // is valid at the end of a path match, not in the middle. This is important
+  // in non-ending mode, where "/test/" shouldn't match "/test//route".
+  if (!strict) {
+    route = (endsWithSlash ? route.slice(0, -2) : route) + '(?:\\/(?=$))?'
+  }
+
+  if (end) {
+    route += '$'
+  } else {
+    // In non-ending mode, we need the capturing groups to match as much as
+    // possible by using a positive lookahead to the end or next path segment.
+    route += strict && endsWithSlash ? '' : '(?=\\/|$)'
+  }
+
+  return new RegExp('^' + route, flags(options))
+}
+
+/**
+ * Normalize the given path string, returning a regular expression.
+ *
+ * An empty array can be passed in for the keys, which will hold the
+ * placeholder key descriptions. For example, using `/user/:id`, `keys` will
+ * contain `[{ name: 'id', delimiter: '/', optional: false, repeat: false }]`.
+ *
+ * @param  {(String|RegExp|Array)} path
+ * @param  {Array}                 [keys]
+ * @param  {Object}                [options]
+ * @return {RegExp}
+ */
+function pathToRegexp (path, keys, options) {
+  keys = keys || []
+
+  if (!isarray(keys)) {
+    options = keys
+    keys = []
+  } else if (!options) {
+    options = {}
+  }
+
+  if (path instanceof RegExp) {
+    return regexpToRegexp(path, keys, options)
+  }
+
+  if (isarray(path)) {
+    return arrayToRegexp(path, keys, options)
+  }
+
+  return stringToRegexp(path, keys, options)
+}
+
+},{"isarray":631}],631:[function(require,module,exports){
+module.exports = Array.isArray || function (arr) {
+  return Object.prototype.toString.call(arr) == '[object Array]';
+};
+
+},{}],632:[function(require,module,exports){
+(function() {
+  var URL, URL_PATTERN, defaults, urllite,
+    __hasProp = {}.hasOwnProperty;
+
+  URL_PATTERN = /^(?:(?:([^:\/?\#]+:)\/+|(\/\/))(?:([a-z0-9-\._~%]+)(?::([a-z0-9-\._~%]+))?@)?(([a-z0-9-\._~%!$&'()*+,;=]+)(?::([0-9]+))?)?)?([^?\#]*?)(\?[^\#]*)?(\#.*)?$/;
+
+  urllite = function(raw, opts) {
+    return urllite.URL.parse(raw, opts);
+  };
+
+  urllite.URL = URL = (function() {
+    function URL(props) {
+      var k, v, _ref;
+      for (k in defaults) {
+        if (!__hasProp.call(defaults, k)) continue;
+        v = defaults[k];
+        this[k] = (_ref = props[k]) != null ? _ref : v;
+      }
+      this.host || (this.host = this.hostname && this.port ? "" + this.hostname + ":" + this.port : this.hostname ? this.hostname : '');
+      this.origin || (this.origin = this.protocol ? "" + this.protocol + "//" + this.host : '');
+      this.isAbsolutePathRelative = !this.host && this.pathname.charAt(0) === '/';
+      this.isPathRelative = !this.host && this.pathname.charAt(0) !== '/';
+      this.isRelative = this.isSchemeRelative || this.isAbsolutePathRelative || this.isPathRelative;
+      this.isAbsolute = !this.isRelative;
+    }
+
+    URL.parse = function(raw) {
+      var m, pathname, protocol;
+      m = raw.toString().match(URL_PATTERN);
+      pathname = m[8] || '';
+      protocol = m[1];
+      return new urllite.URL({
+        protocol: protocol,
+        username: m[3],
+        password: m[4],
+        hostname: m[6],
+        port: m[7],
+        pathname: protocol && pathname.charAt(0) !== '/' ? "/" + pathname : pathname,
+        search: m[9],
+        hash: m[10],
+        isSchemeRelative: m[2] != null
+      });
+    };
+
+    return URL;
+
+  })();
+
+  defaults = {
+    protocol: '',
+    username: '',
+    password: '',
+    host: '',
+    hostname: '',
+    port: '',
+    pathname: '',
+    search: '',
+    hash: '',
+    origin: '',
+    isSchemeRelative: false
+  };
+
+  module.exports = urllite;
+
+}).call(this);
+
+},{}],633:[function(require,module,exports){
 arguments[4][87][0].apply(exports,arguments)
-},{"./lib/ReactWithAddons":755,"dup":87}],656:[function(require,module,exports){
+},{"./lib/ReactWithAddons":733,"dup":87}],634:[function(require,module,exports){
 arguments[4][88][0].apply(exports,arguments)
-},{"./focusNode":789,"dup":88}],657:[function(require,module,exports){
+},{"./focusNode":767,"dup":88}],635:[function(require,module,exports){
 arguments[4][89][0].apply(exports,arguments)
-},{"./EventConstants":670,"./EventPropagators":675,"./ExecutionEnvironment":676,"./FallbackCompositionState":677,"./SyntheticCompositionEvent":761,"./SyntheticInputEvent":765,"./keyOf":812,"dup":89}],658:[function(require,module,exports){
+},{"./EventConstants":648,"./EventPropagators":653,"./ExecutionEnvironment":654,"./FallbackCompositionState":655,"./SyntheticCompositionEvent":739,"./SyntheticInputEvent":743,"./keyOf":790,"dup":89}],636:[function(require,module,exports){
 arguments[4][90][0].apply(exports,arguments)
-},{"./invariant":805,"_process":463,"dup":90}],659:[function(require,module,exports){
+},{"./invariant":783,"_process":467,"dup":90}],637:[function(require,module,exports){
 arguments[4][91][0].apply(exports,arguments)
-},{"dup":91}],660:[function(require,module,exports){
+},{"dup":91}],638:[function(require,module,exports){
 arguments[4][92][0].apply(exports,arguments)
-},{"./CSSProperty":659,"./ExecutionEnvironment":676,"./camelizeStyleName":776,"./dangerousStyleValue":783,"./hyphenateStyleName":803,"./memoizeStringOnly":814,"./warning":826,"_process":463,"dup":92}],661:[function(require,module,exports){
+},{"./CSSProperty":637,"./ExecutionEnvironment":654,"./camelizeStyleName":754,"./dangerousStyleValue":761,"./hyphenateStyleName":781,"./memoizeStringOnly":792,"./warning":804,"_process":467,"dup":92}],639:[function(require,module,exports){
 arguments[4][93][0].apply(exports,arguments)
-},{"./Object.assign":683,"./PooledClass":684,"./invariant":805,"_process":463,"dup":93}],662:[function(require,module,exports){
+},{"./Object.assign":661,"./PooledClass":662,"./invariant":783,"_process":467,"dup":93}],640:[function(require,module,exports){
 arguments[4][94][0].apply(exports,arguments)
-},{"./EventConstants":670,"./EventPluginHub":672,"./EventPropagators":675,"./ExecutionEnvironment":676,"./ReactUpdates":754,"./SyntheticEvent":763,"./isEventSupported":806,"./isTextInputElement":808,"./keyOf":812,"dup":94}],663:[function(require,module,exports){
+},{"./EventConstants":648,"./EventPluginHub":650,"./EventPropagators":653,"./ExecutionEnvironment":654,"./ReactUpdates":732,"./SyntheticEvent":741,"./isEventSupported":784,"./isTextInputElement":786,"./keyOf":790,"dup":94}],641:[function(require,module,exports){
 arguments[4][95][0].apply(exports,arguments)
-},{"dup":95}],664:[function(require,module,exports){
+},{"dup":95}],642:[function(require,module,exports){
 arguments[4][96][0].apply(exports,arguments)
-},{"./Danger":667,"./ReactMultiChildUpdateTypes":733,"./invariant":805,"./setTextContent":820,"_process":463,"dup":96}],665:[function(require,module,exports){
+},{"./Danger":645,"./ReactMultiChildUpdateTypes":711,"./invariant":783,"./setTextContent":798,"_process":467,"dup":96}],643:[function(require,module,exports){
 arguments[4][97][0].apply(exports,arguments)
-},{"./invariant":805,"_process":463,"dup":97}],666:[function(require,module,exports){
+},{"./invariant":783,"_process":467,"dup":97}],644:[function(require,module,exports){
 arguments[4][98][0].apply(exports,arguments)
-},{"./DOMProperty":665,"./quoteAttributeValueForBrowser":818,"./warning":826,"_process":463,"dup":98}],667:[function(require,module,exports){
+},{"./DOMProperty":643,"./quoteAttributeValueForBrowser":796,"./warning":804,"_process":467,"dup":98}],645:[function(require,module,exports){
 arguments[4][99][0].apply(exports,arguments)
-},{"./ExecutionEnvironment":676,"./createNodesFromMarkup":781,"./emptyFunction":784,"./getMarkupWrap":797,"./invariant":805,"_process":463,"dup":99}],668:[function(require,module,exports){
+},{"./ExecutionEnvironment":654,"./createNodesFromMarkup":759,"./emptyFunction":762,"./getMarkupWrap":775,"./invariant":783,"_process":467,"dup":99}],646:[function(require,module,exports){
 arguments[4][100][0].apply(exports,arguments)
-},{"./keyOf":812,"dup":100}],669:[function(require,module,exports){
+},{"./keyOf":790,"dup":100}],647:[function(require,module,exports){
 arguments[4][101][0].apply(exports,arguments)
-},{"./EventConstants":670,"./EventPropagators":675,"./ReactMount":731,"./SyntheticMouseEvent":767,"./keyOf":812,"dup":101}],670:[function(require,module,exports){
+},{"./EventConstants":648,"./EventPropagators":653,"./ReactMount":709,"./SyntheticMouseEvent":745,"./keyOf":790,"dup":101}],648:[function(require,module,exports){
 arguments[4][102][0].apply(exports,arguments)
-},{"./keyMirror":811,"dup":102}],671:[function(require,module,exports){
+},{"./keyMirror":789,"dup":102}],649:[function(require,module,exports){
 arguments[4][103][0].apply(exports,arguments)
-},{"./emptyFunction":784,"_process":463,"dup":103}],672:[function(require,module,exports){
+},{"./emptyFunction":762,"_process":467,"dup":103}],650:[function(require,module,exports){
 arguments[4][104][0].apply(exports,arguments)
-},{"./EventPluginRegistry":673,"./EventPluginUtils":674,"./accumulateInto":773,"./forEachAccumulated":790,"./invariant":805,"_process":463,"dup":104}],673:[function(require,module,exports){
+},{"./EventPluginRegistry":651,"./EventPluginUtils":652,"./accumulateInto":751,"./forEachAccumulated":768,"./invariant":783,"_process":467,"dup":104}],651:[function(require,module,exports){
 arguments[4][105][0].apply(exports,arguments)
-},{"./invariant":805,"_process":463,"dup":105}],674:[function(require,module,exports){
+},{"./invariant":783,"_process":467,"dup":105}],652:[function(require,module,exports){
 arguments[4][106][0].apply(exports,arguments)
-},{"./EventConstants":670,"./invariant":805,"_process":463,"dup":106}],675:[function(require,module,exports){
+},{"./EventConstants":648,"./invariant":783,"_process":467,"dup":106}],653:[function(require,module,exports){
 arguments[4][107][0].apply(exports,arguments)
-},{"./EventConstants":670,"./EventPluginHub":672,"./accumulateInto":773,"./forEachAccumulated":790,"_process":463,"dup":107}],676:[function(require,module,exports){
+},{"./EventConstants":648,"./EventPluginHub":650,"./accumulateInto":751,"./forEachAccumulated":768,"_process":467,"dup":107}],654:[function(require,module,exports){
 arguments[4][108][0].apply(exports,arguments)
-},{"dup":108}],677:[function(require,module,exports){
+},{"dup":108}],655:[function(require,module,exports){
 arguments[4][109][0].apply(exports,arguments)
-},{"./Object.assign":683,"./PooledClass":684,"./getTextContentAccessor":800,"dup":109}],678:[function(require,module,exports){
+},{"./Object.assign":661,"./PooledClass":662,"./getTextContentAccessor":778,"dup":109}],656:[function(require,module,exports){
 arguments[4][110][0].apply(exports,arguments)
-},{"./DOMProperty":665,"./ExecutionEnvironment":676,"dup":110}],679:[function(require,module,exports){
+},{"./DOMProperty":643,"./ExecutionEnvironment":654,"dup":110}],657:[function(require,module,exports){
 arguments[4][111][0].apply(exports,arguments)
-},{"./ReactLink":729,"./ReactStateSetters":748,"dup":111}],680:[function(require,module,exports){
+},{"./ReactLink":707,"./ReactStateSetters":726,"dup":111}],658:[function(require,module,exports){
 arguments[4][112][0].apply(exports,arguments)
-},{"./ReactPropTypes":740,"./invariant":805,"_process":463,"dup":112}],681:[function(require,module,exports){
+},{"./ReactPropTypes":718,"./invariant":783,"_process":467,"dup":112}],659:[function(require,module,exports){
 arguments[4][113][0].apply(exports,arguments)
-},{"./ReactBrowserEventEmitter":687,"./accumulateInto":773,"./forEachAccumulated":790,"./invariant":805,"_process":463,"dup":113}],682:[function(require,module,exports){
+},{"./ReactBrowserEventEmitter":665,"./accumulateInto":751,"./forEachAccumulated":768,"./invariant":783,"_process":467,"dup":113}],660:[function(require,module,exports){
 arguments[4][114][0].apply(exports,arguments)
-},{"./EventConstants":670,"./emptyFunction":784,"dup":114}],683:[function(require,module,exports){
+},{"./EventConstants":648,"./emptyFunction":762,"dup":114}],661:[function(require,module,exports){
 arguments[4][115][0].apply(exports,arguments)
-},{"dup":115}],684:[function(require,module,exports){
+},{"dup":115}],662:[function(require,module,exports){
 arguments[4][116][0].apply(exports,arguments)
-},{"./invariant":805,"_process":463,"dup":116}],685:[function(require,module,exports){
+},{"./invariant":783,"_process":467,"dup":116}],663:[function(require,module,exports){
 arguments[4][117][0].apply(exports,arguments)
-},{"./EventPluginUtils":674,"./ExecutionEnvironment":676,"./Object.assign":683,"./ReactChildren":691,"./ReactClass":692,"./ReactComponent":693,"./ReactContext":698,"./ReactCurrentOwner":699,"./ReactDOM":700,"./ReactDOMTextComponent":711,"./ReactDefaultInjection":714,"./ReactElement":717,"./ReactElementValidator":718,"./ReactInstanceHandles":726,"./ReactMount":731,"./ReactPerf":736,"./ReactPropTypes":740,"./ReactReconciler":743,"./ReactServerRendering":746,"./findDOMNode":787,"./onlyChild":815,"_process":463,"dup":117}],686:[function(require,module,exports){
+},{"./EventPluginUtils":652,"./ExecutionEnvironment":654,"./Object.assign":661,"./ReactChildren":669,"./ReactClass":670,"./ReactComponent":671,"./ReactContext":676,"./ReactCurrentOwner":677,"./ReactDOM":678,"./ReactDOMTextComponent":689,"./ReactDefaultInjection":692,"./ReactElement":695,"./ReactElementValidator":696,"./ReactInstanceHandles":704,"./ReactMount":709,"./ReactPerf":714,"./ReactPropTypes":718,"./ReactReconciler":721,"./ReactServerRendering":724,"./findDOMNode":765,"./onlyChild":793,"_process":467,"dup":117}],664:[function(require,module,exports){
 arguments[4][118][0].apply(exports,arguments)
-},{"./findDOMNode":787,"dup":118}],687:[function(require,module,exports){
+},{"./findDOMNode":765,"dup":118}],665:[function(require,module,exports){
 arguments[4][119][0].apply(exports,arguments)
-},{"./EventConstants":670,"./EventPluginHub":672,"./EventPluginRegistry":673,"./Object.assign":683,"./ReactEventEmitterMixin":721,"./ViewportMetrics":772,"./isEventSupported":806,"dup":119}],688:[function(require,module,exports){
+},{"./EventConstants":648,"./EventPluginHub":650,"./EventPluginRegistry":651,"./Object.assign":661,"./ReactEventEmitterMixin":699,"./ViewportMetrics":750,"./isEventSupported":784,"dup":119}],666:[function(require,module,exports){
 arguments[4][120][0].apply(exports,arguments)
-},{"./Object.assign":683,"./React":685,"./ReactCSSTransitionGroupChild":689,"./ReactTransitionGroup":752,"dup":120}],689:[function(require,module,exports){
+},{"./Object.assign":661,"./React":663,"./ReactCSSTransitionGroupChild":667,"./ReactTransitionGroup":730,"dup":120}],667:[function(require,module,exports){
 arguments[4][121][0].apply(exports,arguments)
-},{"./CSSCore":658,"./React":685,"./ReactTransitionEvents":751,"./onlyChild":815,"./warning":826,"_process":463,"dup":121}],690:[function(require,module,exports){
+},{"./CSSCore":636,"./React":663,"./ReactTransitionEvents":729,"./onlyChild":793,"./warning":804,"_process":467,"dup":121}],668:[function(require,module,exports){
 arguments[4][122][0].apply(exports,arguments)
-},{"./ReactReconciler":743,"./flattenChildren":788,"./instantiateReactComponent":804,"./shouldUpdateReactComponent":822,"dup":122}],691:[function(require,module,exports){
+},{"./ReactReconciler":721,"./flattenChildren":766,"./instantiateReactComponent":782,"./shouldUpdateReactComponent":800,"dup":122}],669:[function(require,module,exports){
 arguments[4][123][0].apply(exports,arguments)
-},{"./PooledClass":684,"./ReactFragment":723,"./traverseAllChildren":824,"./warning":826,"_process":463,"dup":123}],692:[function(require,module,exports){
+},{"./PooledClass":662,"./ReactFragment":701,"./traverseAllChildren":802,"./warning":804,"_process":467,"dup":123}],670:[function(require,module,exports){
 arguments[4][124][0].apply(exports,arguments)
-},{"./Object.assign":683,"./ReactComponent":693,"./ReactCurrentOwner":699,"./ReactElement":717,"./ReactErrorUtils":720,"./ReactInstanceMap":727,"./ReactLifeCycle":728,"./ReactPropTypeLocationNames":738,"./ReactPropTypeLocations":739,"./ReactUpdateQueue":753,"./invariant":805,"./keyMirror":811,"./keyOf":812,"./warning":826,"_process":463,"dup":124}],693:[function(require,module,exports){
+},{"./Object.assign":661,"./ReactComponent":671,"./ReactCurrentOwner":677,"./ReactElement":695,"./ReactErrorUtils":698,"./ReactInstanceMap":705,"./ReactLifeCycle":706,"./ReactPropTypeLocationNames":716,"./ReactPropTypeLocations":717,"./ReactUpdateQueue":731,"./invariant":783,"./keyMirror":789,"./keyOf":790,"./warning":804,"_process":467,"dup":124}],671:[function(require,module,exports){
 arguments[4][125][0].apply(exports,arguments)
-},{"./ReactUpdateQueue":753,"./invariant":805,"./warning":826,"_process":463,"dup":125}],694:[function(require,module,exports){
+},{"./ReactUpdateQueue":731,"./invariant":783,"./warning":804,"_process":467,"dup":125}],672:[function(require,module,exports){
 arguments[4][126][0].apply(exports,arguments)
-},{"./ReactDOMIDOperations":704,"./ReactMount":731,"dup":126}],695:[function(require,module,exports){
+},{"./ReactDOMIDOperations":682,"./ReactMount":709,"dup":126}],673:[function(require,module,exports){
 arguments[4][127][0].apply(exports,arguments)
-},{"./invariant":805,"_process":463,"dup":127}],696:[function(require,module,exports){
+},{"./invariant":783,"_process":467,"dup":127}],674:[function(require,module,exports){
 arguments[4][128][0].apply(exports,arguments)
-},{"./shallowEqual":821,"dup":128}],697:[function(require,module,exports){
+},{"./shallowEqual":799,"dup":128}],675:[function(require,module,exports){
 arguments[4][129][0].apply(exports,arguments)
-},{"./Object.assign":683,"./ReactComponentEnvironment":695,"./ReactContext":698,"./ReactCurrentOwner":699,"./ReactElement":717,"./ReactElementValidator":718,"./ReactInstanceMap":727,"./ReactLifeCycle":728,"./ReactNativeComponent":734,"./ReactPerf":736,"./ReactPropTypeLocationNames":738,"./ReactPropTypeLocations":739,"./ReactReconciler":743,"./ReactUpdates":754,"./emptyObject":785,"./invariant":805,"./shouldUpdateReactComponent":822,"./warning":826,"_process":463,"dup":129}],698:[function(require,module,exports){
+},{"./Object.assign":661,"./ReactComponentEnvironment":673,"./ReactContext":676,"./ReactCurrentOwner":677,"./ReactElement":695,"./ReactElementValidator":696,"./ReactInstanceMap":705,"./ReactLifeCycle":706,"./ReactNativeComponent":712,"./ReactPerf":714,"./ReactPropTypeLocationNames":716,"./ReactPropTypeLocations":717,"./ReactReconciler":721,"./ReactUpdates":732,"./emptyObject":763,"./invariant":783,"./shouldUpdateReactComponent":800,"./warning":804,"_process":467,"dup":129}],676:[function(require,module,exports){
 arguments[4][130][0].apply(exports,arguments)
-},{"./Object.assign":683,"./emptyObject":785,"./warning":826,"_process":463,"dup":130}],699:[function(require,module,exports){
+},{"./Object.assign":661,"./emptyObject":763,"./warning":804,"_process":467,"dup":130}],677:[function(require,module,exports){
 arguments[4][131][0].apply(exports,arguments)
-},{"dup":131}],700:[function(require,module,exports){
+},{"dup":131}],678:[function(require,module,exports){
 arguments[4][132][0].apply(exports,arguments)
-},{"./ReactElement":717,"./ReactElementValidator":718,"./mapObject":813,"_process":463,"dup":132}],701:[function(require,module,exports){
+},{"./ReactElement":695,"./ReactElementValidator":696,"./mapObject":791,"_process":467,"dup":132}],679:[function(require,module,exports){
 arguments[4][133][0].apply(exports,arguments)
-},{"./AutoFocusMixin":656,"./ReactBrowserComponentMixin":686,"./ReactClass":692,"./ReactElement":717,"./keyMirror":811,"dup":133}],702:[function(require,module,exports){
+},{"./AutoFocusMixin":634,"./ReactBrowserComponentMixin":664,"./ReactClass":670,"./ReactElement":695,"./keyMirror":789,"dup":133}],680:[function(require,module,exports){
 arguments[4][134][0].apply(exports,arguments)
-},{"./CSSPropertyOperations":660,"./DOMProperty":665,"./DOMPropertyOperations":666,"./Object.assign":683,"./ReactBrowserEventEmitter":687,"./ReactComponentBrowserEnvironment":694,"./ReactMount":731,"./ReactMultiChild":732,"./ReactPerf":736,"./escapeTextContentForBrowser":786,"./invariant":805,"./isEventSupported":806,"./keyOf":812,"./warning":826,"_process":463,"dup":134}],703:[function(require,module,exports){
+},{"./CSSPropertyOperations":638,"./DOMProperty":643,"./DOMPropertyOperations":644,"./Object.assign":661,"./ReactBrowserEventEmitter":665,"./ReactComponentBrowserEnvironment":672,"./ReactMount":709,"./ReactMultiChild":710,"./ReactPerf":714,"./escapeTextContentForBrowser":764,"./invariant":783,"./isEventSupported":784,"./keyOf":790,"./warning":804,"_process":467,"dup":134}],681:[function(require,module,exports){
 arguments[4][135][0].apply(exports,arguments)
-},{"./EventConstants":670,"./LocalEventTrapMixin":681,"./ReactBrowserComponentMixin":686,"./ReactClass":692,"./ReactElement":717,"dup":135}],704:[function(require,module,exports){
+},{"./EventConstants":648,"./LocalEventTrapMixin":659,"./ReactBrowserComponentMixin":664,"./ReactClass":670,"./ReactElement":695,"dup":135}],682:[function(require,module,exports){
 arguments[4][136][0].apply(exports,arguments)
-},{"./CSSPropertyOperations":660,"./DOMChildrenOperations":664,"./DOMPropertyOperations":666,"./ReactMount":731,"./ReactPerf":736,"./invariant":805,"./setInnerHTML":819,"_process":463,"dup":136}],705:[function(require,module,exports){
+},{"./CSSPropertyOperations":638,"./DOMChildrenOperations":642,"./DOMPropertyOperations":644,"./ReactMount":709,"./ReactPerf":714,"./invariant":783,"./setInnerHTML":797,"_process":467,"dup":136}],683:[function(require,module,exports){
 arguments[4][137][0].apply(exports,arguments)
-},{"./EventConstants":670,"./LocalEventTrapMixin":681,"./ReactBrowserComponentMixin":686,"./ReactClass":692,"./ReactElement":717,"dup":137}],706:[function(require,module,exports){
+},{"./EventConstants":648,"./LocalEventTrapMixin":659,"./ReactBrowserComponentMixin":664,"./ReactClass":670,"./ReactElement":695,"dup":137}],684:[function(require,module,exports){
 arguments[4][138][0].apply(exports,arguments)
-},{"./EventConstants":670,"./LocalEventTrapMixin":681,"./ReactBrowserComponentMixin":686,"./ReactClass":692,"./ReactElement":717,"dup":138}],707:[function(require,module,exports){
+},{"./EventConstants":648,"./LocalEventTrapMixin":659,"./ReactBrowserComponentMixin":664,"./ReactClass":670,"./ReactElement":695,"dup":138}],685:[function(require,module,exports){
 arguments[4][139][0].apply(exports,arguments)
-},{"./AutoFocusMixin":656,"./DOMPropertyOperations":666,"./LinkedValueUtils":680,"./Object.assign":683,"./ReactBrowserComponentMixin":686,"./ReactClass":692,"./ReactElement":717,"./ReactMount":731,"./ReactUpdates":754,"./invariant":805,"_process":463,"dup":139}],708:[function(require,module,exports){
+},{"./AutoFocusMixin":634,"./DOMPropertyOperations":644,"./LinkedValueUtils":658,"./Object.assign":661,"./ReactBrowserComponentMixin":664,"./ReactClass":670,"./ReactElement":695,"./ReactMount":709,"./ReactUpdates":732,"./invariant":783,"_process":467,"dup":139}],686:[function(require,module,exports){
 arguments[4][140][0].apply(exports,arguments)
-},{"./ReactBrowserComponentMixin":686,"./ReactClass":692,"./ReactElement":717,"./warning":826,"_process":463,"dup":140}],709:[function(require,module,exports){
+},{"./ReactBrowserComponentMixin":664,"./ReactClass":670,"./ReactElement":695,"./warning":804,"_process":467,"dup":140}],687:[function(require,module,exports){
 arguments[4][141][0].apply(exports,arguments)
-},{"./AutoFocusMixin":656,"./LinkedValueUtils":680,"./Object.assign":683,"./ReactBrowserComponentMixin":686,"./ReactClass":692,"./ReactElement":717,"./ReactUpdates":754,"dup":141}],710:[function(require,module,exports){
+},{"./AutoFocusMixin":634,"./LinkedValueUtils":658,"./Object.assign":661,"./ReactBrowserComponentMixin":664,"./ReactClass":670,"./ReactElement":695,"./ReactUpdates":732,"dup":141}],688:[function(require,module,exports){
 arguments[4][142][0].apply(exports,arguments)
-},{"./ExecutionEnvironment":676,"./getNodeForCharacterOffset":798,"./getTextContentAccessor":800,"dup":142}],711:[function(require,module,exports){
+},{"./ExecutionEnvironment":654,"./getNodeForCharacterOffset":776,"./getTextContentAccessor":778,"dup":142}],689:[function(require,module,exports){
 arguments[4][143][0].apply(exports,arguments)
-},{"./DOMPropertyOperations":666,"./Object.assign":683,"./ReactComponentBrowserEnvironment":694,"./ReactDOMComponent":702,"./escapeTextContentForBrowser":786,"dup":143}],712:[function(require,module,exports){
+},{"./DOMPropertyOperations":644,"./Object.assign":661,"./ReactComponentBrowserEnvironment":672,"./ReactDOMComponent":680,"./escapeTextContentForBrowser":764,"dup":143}],690:[function(require,module,exports){
 arguments[4][144][0].apply(exports,arguments)
-},{"./AutoFocusMixin":656,"./DOMPropertyOperations":666,"./LinkedValueUtils":680,"./Object.assign":683,"./ReactBrowserComponentMixin":686,"./ReactClass":692,"./ReactElement":717,"./ReactUpdates":754,"./invariant":805,"./warning":826,"_process":463,"dup":144}],713:[function(require,module,exports){
+},{"./AutoFocusMixin":634,"./DOMPropertyOperations":644,"./LinkedValueUtils":658,"./Object.assign":661,"./ReactBrowserComponentMixin":664,"./ReactClass":670,"./ReactElement":695,"./ReactUpdates":732,"./invariant":783,"./warning":804,"_process":467,"dup":144}],691:[function(require,module,exports){
 arguments[4][145][0].apply(exports,arguments)
-},{"./Object.assign":683,"./ReactUpdates":754,"./Transaction":771,"./emptyFunction":784,"dup":145}],714:[function(require,module,exports){
+},{"./Object.assign":661,"./ReactUpdates":732,"./Transaction":749,"./emptyFunction":762,"dup":145}],692:[function(require,module,exports){
 arguments[4][146][0].apply(exports,arguments)
-},{"./BeforeInputEventPlugin":657,"./ChangeEventPlugin":662,"./ClientReactRootIndex":663,"./DefaultEventPluginOrder":668,"./EnterLeaveEventPlugin":669,"./ExecutionEnvironment":676,"./HTMLDOMPropertyConfig":678,"./MobileSafariClickEventPlugin":682,"./ReactBrowserComponentMixin":686,"./ReactClass":692,"./ReactComponentBrowserEnvironment":694,"./ReactDOMButton":701,"./ReactDOMComponent":702,"./ReactDOMForm":703,"./ReactDOMIDOperations":704,"./ReactDOMIframe":705,"./ReactDOMImg":706,"./ReactDOMInput":707,"./ReactDOMOption":708,"./ReactDOMSelect":709,"./ReactDOMTextComponent":711,"./ReactDOMTextarea":712,"./ReactDefaultBatchingStrategy":713,"./ReactDefaultPerf":715,"./ReactElement":717,"./ReactEventListener":722,"./ReactInjection":724,"./ReactInstanceHandles":726,"./ReactMount":731,"./ReactReconcileTransaction":742,"./SVGDOMPropertyConfig":756,"./SelectEventPlugin":757,"./ServerReactRootIndex":758,"./SimpleEventPlugin":759,"./createFullPageComponent":780,"_process":463,"dup":146}],715:[function(require,module,exports){
+},{"./BeforeInputEventPlugin":635,"./ChangeEventPlugin":640,"./ClientReactRootIndex":641,"./DefaultEventPluginOrder":646,"./EnterLeaveEventPlugin":647,"./ExecutionEnvironment":654,"./HTMLDOMPropertyConfig":656,"./MobileSafariClickEventPlugin":660,"./ReactBrowserComponentMixin":664,"./ReactClass":670,"./ReactComponentBrowserEnvironment":672,"./ReactDOMButton":679,"./ReactDOMComponent":680,"./ReactDOMForm":681,"./ReactDOMIDOperations":682,"./ReactDOMIframe":683,"./ReactDOMImg":684,"./ReactDOMInput":685,"./ReactDOMOption":686,"./ReactDOMSelect":687,"./ReactDOMTextComponent":689,"./ReactDOMTextarea":690,"./ReactDefaultBatchingStrategy":691,"./ReactDefaultPerf":693,"./ReactElement":695,"./ReactEventListener":700,"./ReactInjection":702,"./ReactInstanceHandles":704,"./ReactMount":709,"./ReactReconcileTransaction":720,"./SVGDOMPropertyConfig":734,"./SelectEventPlugin":735,"./ServerReactRootIndex":736,"./SimpleEventPlugin":737,"./createFullPageComponent":758,"_process":467,"dup":146}],693:[function(require,module,exports){
 arguments[4][147][0].apply(exports,arguments)
-},{"./DOMProperty":665,"./ReactDefaultPerfAnalysis":716,"./ReactMount":731,"./ReactPerf":736,"./performanceNow":817,"dup":147}],716:[function(require,module,exports){
+},{"./DOMProperty":643,"./ReactDefaultPerfAnalysis":694,"./ReactMount":709,"./ReactPerf":714,"./performanceNow":795,"dup":147}],694:[function(require,module,exports){
 arguments[4][148][0].apply(exports,arguments)
-},{"./Object.assign":683,"dup":148}],717:[function(require,module,exports){
+},{"./Object.assign":661,"dup":148}],695:[function(require,module,exports){
 arguments[4][149][0].apply(exports,arguments)
-},{"./Object.assign":683,"./ReactContext":698,"./ReactCurrentOwner":699,"./warning":826,"_process":463,"dup":149}],718:[function(require,module,exports){
+},{"./Object.assign":661,"./ReactContext":676,"./ReactCurrentOwner":677,"./warning":804,"_process":467,"dup":149}],696:[function(require,module,exports){
 arguments[4][150][0].apply(exports,arguments)
-},{"./ReactCurrentOwner":699,"./ReactElement":717,"./ReactFragment":723,"./ReactNativeComponent":734,"./ReactPropTypeLocationNames":738,"./ReactPropTypeLocations":739,"./getIteratorFn":796,"./invariant":805,"./warning":826,"_process":463,"dup":150}],719:[function(require,module,exports){
+},{"./ReactCurrentOwner":677,"./ReactElement":695,"./ReactFragment":701,"./ReactNativeComponent":712,"./ReactPropTypeLocationNames":716,"./ReactPropTypeLocations":717,"./getIteratorFn":774,"./invariant":783,"./warning":804,"_process":467,"dup":150}],697:[function(require,module,exports){
 arguments[4][151][0].apply(exports,arguments)
-},{"./ReactElement":717,"./ReactInstanceMap":727,"./invariant":805,"_process":463,"dup":151}],720:[function(require,module,exports){
+},{"./ReactElement":695,"./ReactInstanceMap":705,"./invariant":783,"_process":467,"dup":151}],698:[function(require,module,exports){
 arguments[4][152][0].apply(exports,arguments)
-},{"dup":152}],721:[function(require,module,exports){
+},{"dup":152}],699:[function(require,module,exports){
 arguments[4][153][0].apply(exports,arguments)
-},{"./EventPluginHub":672,"dup":153}],722:[function(require,module,exports){
+},{"./EventPluginHub":650,"dup":153}],700:[function(require,module,exports){
 arguments[4][154][0].apply(exports,arguments)
-},{"./EventListener":671,"./ExecutionEnvironment":676,"./Object.assign":683,"./PooledClass":684,"./ReactInstanceHandles":726,"./ReactMount":731,"./ReactUpdates":754,"./getEventTarget":795,"./getUnboundedScrollPosition":801,"dup":154}],723:[function(require,module,exports){
+},{"./EventListener":649,"./ExecutionEnvironment":654,"./Object.assign":661,"./PooledClass":662,"./ReactInstanceHandles":704,"./ReactMount":709,"./ReactUpdates":732,"./getEventTarget":773,"./getUnboundedScrollPosition":779,"dup":154}],701:[function(require,module,exports){
 arguments[4][155][0].apply(exports,arguments)
-},{"./ReactElement":717,"./warning":826,"_process":463,"dup":155}],724:[function(require,module,exports){
+},{"./ReactElement":695,"./warning":804,"_process":467,"dup":155}],702:[function(require,module,exports){
 arguments[4][156][0].apply(exports,arguments)
-},{"./DOMProperty":665,"./EventPluginHub":672,"./ReactBrowserEventEmitter":687,"./ReactClass":692,"./ReactComponentEnvironment":695,"./ReactDOMComponent":702,"./ReactEmptyComponent":719,"./ReactNativeComponent":734,"./ReactPerf":736,"./ReactRootIndex":745,"./ReactUpdates":754,"dup":156}],725:[function(require,module,exports){
+},{"./DOMProperty":643,"./EventPluginHub":650,"./ReactBrowserEventEmitter":665,"./ReactClass":670,"./ReactComponentEnvironment":673,"./ReactDOMComponent":680,"./ReactEmptyComponent":697,"./ReactNativeComponent":712,"./ReactPerf":714,"./ReactRootIndex":723,"./ReactUpdates":732,"dup":156}],703:[function(require,module,exports){
 arguments[4][157][0].apply(exports,arguments)
-},{"./ReactDOMSelection":710,"./containsNode":778,"./focusNode":789,"./getActiveElement":791,"dup":157}],726:[function(require,module,exports){
+},{"./ReactDOMSelection":688,"./containsNode":756,"./focusNode":767,"./getActiveElement":769,"dup":157}],704:[function(require,module,exports){
 arguments[4][158][0].apply(exports,arguments)
-},{"./ReactRootIndex":745,"./invariant":805,"_process":463,"dup":158}],727:[function(require,module,exports){
+},{"./ReactRootIndex":723,"./invariant":783,"_process":467,"dup":158}],705:[function(require,module,exports){
 arguments[4][159][0].apply(exports,arguments)
-},{"dup":159}],728:[function(require,module,exports){
+},{"dup":159}],706:[function(require,module,exports){
 arguments[4][160][0].apply(exports,arguments)
-},{"dup":160}],729:[function(require,module,exports){
+},{"dup":160}],707:[function(require,module,exports){
 arguments[4][161][0].apply(exports,arguments)
-},{"./React":685,"dup":161}],730:[function(require,module,exports){
+},{"./React":663,"dup":161}],708:[function(require,module,exports){
 arguments[4][162][0].apply(exports,arguments)
-},{"./adler32":774,"dup":162}],731:[function(require,module,exports){
+},{"./adler32":752,"dup":162}],709:[function(require,module,exports){
 arguments[4][163][0].apply(exports,arguments)
-},{"./DOMProperty":665,"./ReactBrowserEventEmitter":687,"./ReactCurrentOwner":699,"./ReactElement":717,"./ReactElementValidator":718,"./ReactEmptyComponent":719,"./ReactInstanceHandles":726,"./ReactInstanceMap":727,"./ReactMarkupChecksum":730,"./ReactPerf":736,"./ReactReconciler":743,"./ReactUpdateQueue":753,"./ReactUpdates":754,"./containsNode":778,"./emptyObject":785,"./getReactRootElementInContainer":799,"./instantiateReactComponent":804,"./invariant":805,"./setInnerHTML":819,"./shouldUpdateReactComponent":822,"./warning":826,"_process":463,"dup":163}],732:[function(require,module,exports){
+},{"./DOMProperty":643,"./ReactBrowserEventEmitter":665,"./ReactCurrentOwner":677,"./ReactElement":695,"./ReactElementValidator":696,"./ReactEmptyComponent":697,"./ReactInstanceHandles":704,"./ReactInstanceMap":705,"./ReactMarkupChecksum":708,"./ReactPerf":714,"./ReactReconciler":721,"./ReactUpdateQueue":731,"./ReactUpdates":732,"./containsNode":756,"./emptyObject":763,"./getReactRootElementInContainer":777,"./instantiateReactComponent":782,"./invariant":783,"./setInnerHTML":797,"./shouldUpdateReactComponent":800,"./warning":804,"_process":467,"dup":163}],710:[function(require,module,exports){
 arguments[4][164][0].apply(exports,arguments)
-},{"./ReactChildReconciler":690,"./ReactComponentEnvironment":695,"./ReactMultiChildUpdateTypes":733,"./ReactReconciler":743,"dup":164}],733:[function(require,module,exports){
+},{"./ReactChildReconciler":668,"./ReactComponentEnvironment":673,"./ReactMultiChildUpdateTypes":711,"./ReactReconciler":721,"dup":164}],711:[function(require,module,exports){
 arguments[4][165][0].apply(exports,arguments)
-},{"./keyMirror":811,"dup":165}],734:[function(require,module,exports){
+},{"./keyMirror":789,"dup":165}],712:[function(require,module,exports){
 arguments[4][166][0].apply(exports,arguments)
-},{"./Object.assign":683,"./invariant":805,"_process":463,"dup":166}],735:[function(require,module,exports){
+},{"./Object.assign":661,"./invariant":783,"_process":467,"dup":166}],713:[function(require,module,exports){
 arguments[4][167][0].apply(exports,arguments)
-},{"./invariant":805,"_process":463,"dup":167}],736:[function(require,module,exports){
+},{"./invariant":783,"_process":467,"dup":167}],714:[function(require,module,exports){
 arguments[4][168][0].apply(exports,arguments)
-},{"_process":463,"dup":168}],737:[function(require,module,exports){
+},{"_process":467,"dup":168}],715:[function(require,module,exports){
 arguments[4][169][0].apply(exports,arguments)
-},{"./Object.assign":683,"./emptyFunction":784,"./joinClasses":810,"dup":169}],738:[function(require,module,exports){
+},{"./Object.assign":661,"./emptyFunction":762,"./joinClasses":788,"dup":169}],716:[function(require,module,exports){
 arguments[4][170][0].apply(exports,arguments)
-},{"_process":463,"dup":170}],739:[function(require,module,exports){
+},{"_process":467,"dup":170}],717:[function(require,module,exports){
 arguments[4][171][0].apply(exports,arguments)
-},{"./keyMirror":811,"dup":171}],740:[function(require,module,exports){
+},{"./keyMirror":789,"dup":171}],718:[function(require,module,exports){
 arguments[4][172][0].apply(exports,arguments)
-},{"./ReactElement":717,"./ReactFragment":723,"./ReactPropTypeLocationNames":738,"./emptyFunction":784,"dup":172}],741:[function(require,module,exports){
+},{"./ReactElement":695,"./ReactFragment":701,"./ReactPropTypeLocationNames":716,"./emptyFunction":762,"dup":172}],719:[function(require,module,exports){
 arguments[4][173][0].apply(exports,arguments)
-},{"./Object.assign":683,"./PooledClass":684,"./ReactBrowserEventEmitter":687,"dup":173}],742:[function(require,module,exports){
+},{"./Object.assign":661,"./PooledClass":662,"./ReactBrowserEventEmitter":665,"dup":173}],720:[function(require,module,exports){
 arguments[4][174][0].apply(exports,arguments)
-},{"./CallbackQueue":661,"./Object.assign":683,"./PooledClass":684,"./ReactBrowserEventEmitter":687,"./ReactInputSelection":725,"./ReactPutListenerQueue":741,"./Transaction":771,"dup":174}],743:[function(require,module,exports){
+},{"./CallbackQueue":639,"./Object.assign":661,"./PooledClass":662,"./ReactBrowserEventEmitter":665,"./ReactInputSelection":703,"./ReactPutListenerQueue":719,"./Transaction":749,"dup":174}],721:[function(require,module,exports){
 arguments[4][175][0].apply(exports,arguments)
-},{"./ReactElementValidator":718,"./ReactRef":744,"_process":463,"dup":175}],744:[function(require,module,exports){
+},{"./ReactElementValidator":696,"./ReactRef":722,"_process":467,"dup":175}],722:[function(require,module,exports){
 arguments[4][176][0].apply(exports,arguments)
-},{"./ReactOwner":735,"dup":176}],745:[function(require,module,exports){
+},{"./ReactOwner":713,"dup":176}],723:[function(require,module,exports){
 arguments[4][177][0].apply(exports,arguments)
-},{"dup":177}],746:[function(require,module,exports){
+},{"dup":177}],724:[function(require,module,exports){
 arguments[4][178][0].apply(exports,arguments)
-},{"./ReactElement":717,"./ReactInstanceHandles":726,"./ReactMarkupChecksum":730,"./ReactServerRenderingTransaction":747,"./emptyObject":785,"./instantiateReactComponent":804,"./invariant":805,"_process":463,"dup":178}],747:[function(require,module,exports){
+},{"./ReactElement":695,"./ReactInstanceHandles":704,"./ReactMarkupChecksum":708,"./ReactServerRenderingTransaction":725,"./emptyObject":763,"./instantiateReactComponent":782,"./invariant":783,"_process":467,"dup":178}],725:[function(require,module,exports){
 arguments[4][179][0].apply(exports,arguments)
-},{"./CallbackQueue":661,"./Object.assign":683,"./PooledClass":684,"./ReactPutListenerQueue":741,"./Transaction":771,"./emptyFunction":784,"dup":179}],748:[function(require,module,exports){
+},{"./CallbackQueue":639,"./Object.assign":661,"./PooledClass":662,"./ReactPutListenerQueue":719,"./Transaction":749,"./emptyFunction":762,"dup":179}],726:[function(require,module,exports){
 arguments[4][180][0].apply(exports,arguments)
-},{"dup":180}],749:[function(require,module,exports){
+},{"dup":180}],727:[function(require,module,exports){
 arguments[4][181][0].apply(exports,arguments)
-},{"./EventConstants":670,"./EventPluginHub":672,"./EventPropagators":675,"./Object.assign":683,"./React":685,"./ReactBrowserEventEmitter":687,"./ReactCompositeComponent":697,"./ReactElement":717,"./ReactEmptyComponent":719,"./ReactInstanceHandles":726,"./ReactInstanceMap":727,"./ReactMount":731,"./ReactUpdates":754,"./SyntheticEvent":763,"./emptyObject":785,"dup":181}],750:[function(require,module,exports){
+},{"./EventConstants":648,"./EventPluginHub":650,"./EventPropagators":653,"./Object.assign":661,"./React":663,"./ReactBrowserEventEmitter":665,"./ReactCompositeComponent":675,"./ReactElement":695,"./ReactEmptyComponent":697,"./ReactInstanceHandles":704,"./ReactInstanceMap":705,"./ReactMount":709,"./ReactUpdates":732,"./SyntheticEvent":741,"./emptyObject":763,"dup":181}],728:[function(require,module,exports){
 arguments[4][182][0].apply(exports,arguments)
-},{"./ReactChildren":691,"./ReactFragment":723,"dup":182}],751:[function(require,module,exports){
+},{"./ReactChildren":669,"./ReactFragment":701,"dup":182}],729:[function(require,module,exports){
 arguments[4][183][0].apply(exports,arguments)
-},{"./ExecutionEnvironment":676,"dup":183}],752:[function(require,module,exports){
+},{"./ExecutionEnvironment":654,"dup":183}],730:[function(require,module,exports){
 arguments[4][184][0].apply(exports,arguments)
-},{"./Object.assign":683,"./React":685,"./ReactTransitionChildMapping":750,"./cloneWithProps":777,"./emptyFunction":784,"dup":184}],753:[function(require,module,exports){
+},{"./Object.assign":661,"./React":663,"./ReactTransitionChildMapping":728,"./cloneWithProps":755,"./emptyFunction":762,"dup":184}],731:[function(require,module,exports){
 arguments[4][185][0].apply(exports,arguments)
-},{"./Object.assign":683,"./ReactCurrentOwner":699,"./ReactElement":717,"./ReactInstanceMap":727,"./ReactLifeCycle":728,"./ReactUpdates":754,"./invariant":805,"./warning":826,"_process":463,"dup":185}],754:[function(require,module,exports){
+},{"./Object.assign":661,"./ReactCurrentOwner":677,"./ReactElement":695,"./ReactInstanceMap":705,"./ReactLifeCycle":706,"./ReactUpdates":732,"./invariant":783,"./warning":804,"_process":467,"dup":185}],732:[function(require,module,exports){
 arguments[4][186][0].apply(exports,arguments)
-},{"./CallbackQueue":661,"./Object.assign":683,"./PooledClass":684,"./ReactCurrentOwner":699,"./ReactPerf":736,"./ReactReconciler":743,"./Transaction":771,"./invariant":805,"./warning":826,"_process":463,"dup":186}],755:[function(require,module,exports){
+},{"./CallbackQueue":639,"./Object.assign":661,"./PooledClass":662,"./ReactCurrentOwner":677,"./ReactPerf":714,"./ReactReconciler":721,"./Transaction":749,"./invariant":783,"./warning":804,"_process":467,"dup":186}],733:[function(require,module,exports){
 arguments[4][187][0].apply(exports,arguments)
-},{"./LinkedStateMixin":679,"./React":685,"./ReactCSSTransitionGroup":688,"./ReactComponentWithPureRenderMixin":696,"./ReactDefaultPerf":715,"./ReactFragment":723,"./ReactTestUtils":749,"./ReactTransitionGroup":752,"./ReactUpdates":754,"./cloneWithProps":777,"./cx":782,"./update":825,"_process":463,"dup":187}],756:[function(require,module,exports){
+},{"./LinkedStateMixin":657,"./React":663,"./ReactCSSTransitionGroup":666,"./ReactComponentWithPureRenderMixin":674,"./ReactDefaultPerf":693,"./ReactFragment":701,"./ReactTestUtils":727,"./ReactTransitionGroup":730,"./ReactUpdates":732,"./cloneWithProps":755,"./cx":760,"./update":803,"_process":467,"dup":187}],734:[function(require,module,exports){
 arguments[4][188][0].apply(exports,arguments)
-},{"./DOMProperty":665,"dup":188}],757:[function(require,module,exports){
+},{"./DOMProperty":643,"dup":188}],735:[function(require,module,exports){
 arguments[4][189][0].apply(exports,arguments)
-},{"./EventConstants":670,"./EventPropagators":675,"./ReactInputSelection":725,"./SyntheticEvent":763,"./getActiveElement":791,"./isTextInputElement":808,"./keyOf":812,"./shallowEqual":821,"dup":189}],758:[function(require,module,exports){
+},{"./EventConstants":648,"./EventPropagators":653,"./ReactInputSelection":703,"./SyntheticEvent":741,"./getActiveElement":769,"./isTextInputElement":786,"./keyOf":790,"./shallowEqual":799,"dup":189}],736:[function(require,module,exports){
 arguments[4][190][0].apply(exports,arguments)
-},{"dup":190}],759:[function(require,module,exports){
+},{"dup":190}],737:[function(require,module,exports){
 arguments[4][191][0].apply(exports,arguments)
-},{"./EventConstants":670,"./EventPluginUtils":674,"./EventPropagators":675,"./SyntheticClipboardEvent":760,"./SyntheticDragEvent":762,"./SyntheticEvent":763,"./SyntheticFocusEvent":764,"./SyntheticKeyboardEvent":766,"./SyntheticMouseEvent":767,"./SyntheticTouchEvent":768,"./SyntheticUIEvent":769,"./SyntheticWheelEvent":770,"./getEventCharCode":792,"./invariant":805,"./keyOf":812,"./warning":826,"_process":463,"dup":191}],760:[function(require,module,exports){
+},{"./EventConstants":648,"./EventPluginUtils":652,"./EventPropagators":653,"./SyntheticClipboardEvent":738,"./SyntheticDragEvent":740,"./SyntheticEvent":741,"./SyntheticFocusEvent":742,"./SyntheticKeyboardEvent":744,"./SyntheticMouseEvent":745,"./SyntheticTouchEvent":746,"./SyntheticUIEvent":747,"./SyntheticWheelEvent":748,"./getEventCharCode":770,"./invariant":783,"./keyOf":790,"./warning":804,"_process":467,"dup":191}],738:[function(require,module,exports){
 arguments[4][192][0].apply(exports,arguments)
-},{"./SyntheticEvent":763,"dup":192}],761:[function(require,module,exports){
+},{"./SyntheticEvent":741,"dup":192}],739:[function(require,module,exports){
 arguments[4][193][0].apply(exports,arguments)
-},{"./SyntheticEvent":763,"dup":193}],762:[function(require,module,exports){
+},{"./SyntheticEvent":741,"dup":193}],740:[function(require,module,exports){
 arguments[4][194][0].apply(exports,arguments)
-},{"./SyntheticMouseEvent":767,"dup":194}],763:[function(require,module,exports){
+},{"./SyntheticMouseEvent":745,"dup":194}],741:[function(require,module,exports){
 arguments[4][195][0].apply(exports,arguments)
-},{"./Object.assign":683,"./PooledClass":684,"./emptyFunction":784,"./getEventTarget":795,"dup":195}],764:[function(require,module,exports){
+},{"./Object.assign":661,"./PooledClass":662,"./emptyFunction":762,"./getEventTarget":773,"dup":195}],742:[function(require,module,exports){
 arguments[4][196][0].apply(exports,arguments)
-},{"./SyntheticUIEvent":769,"dup":196}],765:[function(require,module,exports){
+},{"./SyntheticUIEvent":747,"dup":196}],743:[function(require,module,exports){
 arguments[4][197][0].apply(exports,arguments)
-},{"./SyntheticEvent":763,"dup":197}],766:[function(require,module,exports){
+},{"./SyntheticEvent":741,"dup":197}],744:[function(require,module,exports){
 arguments[4][198][0].apply(exports,arguments)
-},{"./SyntheticUIEvent":769,"./getEventCharCode":792,"./getEventKey":793,"./getEventModifierState":794,"dup":198}],767:[function(require,module,exports){
+},{"./SyntheticUIEvent":747,"./getEventCharCode":770,"./getEventKey":771,"./getEventModifierState":772,"dup":198}],745:[function(require,module,exports){
 arguments[4][199][0].apply(exports,arguments)
-},{"./SyntheticUIEvent":769,"./ViewportMetrics":772,"./getEventModifierState":794,"dup":199}],768:[function(require,module,exports){
+},{"./SyntheticUIEvent":747,"./ViewportMetrics":750,"./getEventModifierState":772,"dup":199}],746:[function(require,module,exports){
 arguments[4][200][0].apply(exports,arguments)
-},{"./SyntheticUIEvent":769,"./getEventModifierState":794,"dup":200}],769:[function(require,module,exports){
+},{"./SyntheticUIEvent":747,"./getEventModifierState":772,"dup":200}],747:[function(require,module,exports){
 arguments[4][201][0].apply(exports,arguments)
-},{"./SyntheticEvent":763,"./getEventTarget":795,"dup":201}],770:[function(require,module,exports){
+},{"./SyntheticEvent":741,"./getEventTarget":773,"dup":201}],748:[function(require,module,exports){
 arguments[4][202][0].apply(exports,arguments)
-},{"./SyntheticMouseEvent":767,"dup":202}],771:[function(require,module,exports){
+},{"./SyntheticMouseEvent":745,"dup":202}],749:[function(require,module,exports){
 arguments[4][203][0].apply(exports,arguments)
-},{"./invariant":805,"_process":463,"dup":203}],772:[function(require,module,exports){
+},{"./invariant":783,"_process":467,"dup":203}],750:[function(require,module,exports){
 arguments[4][204][0].apply(exports,arguments)
-},{"dup":204}],773:[function(require,module,exports){
+},{"dup":204}],751:[function(require,module,exports){
 arguments[4][205][0].apply(exports,arguments)
-},{"./invariant":805,"_process":463,"dup":205}],774:[function(require,module,exports){
+},{"./invariant":783,"_process":467,"dup":205}],752:[function(require,module,exports){
 arguments[4][206][0].apply(exports,arguments)
-},{"dup":206}],775:[function(require,module,exports){
+},{"dup":206}],753:[function(require,module,exports){
 arguments[4][207][0].apply(exports,arguments)
-},{"dup":207}],776:[function(require,module,exports){
+},{"dup":207}],754:[function(require,module,exports){
 arguments[4][208][0].apply(exports,arguments)
-},{"./camelize":775,"dup":208}],777:[function(require,module,exports){
+},{"./camelize":753,"dup":208}],755:[function(require,module,exports){
 arguments[4][209][0].apply(exports,arguments)
-},{"./ReactElement":717,"./ReactPropTransferer":737,"./keyOf":812,"./warning":826,"_process":463,"dup":209}],778:[function(require,module,exports){
+},{"./ReactElement":695,"./ReactPropTransferer":715,"./keyOf":790,"./warning":804,"_process":467,"dup":209}],756:[function(require,module,exports){
 arguments[4][210][0].apply(exports,arguments)
-},{"./isTextNode":809,"dup":210}],779:[function(require,module,exports){
+},{"./isTextNode":787,"dup":210}],757:[function(require,module,exports){
 arguments[4][211][0].apply(exports,arguments)
-},{"./toArray":823,"dup":211}],780:[function(require,module,exports){
+},{"./toArray":801,"dup":211}],758:[function(require,module,exports){
 arguments[4][212][0].apply(exports,arguments)
-},{"./ReactClass":692,"./ReactElement":717,"./invariant":805,"_process":463,"dup":212}],781:[function(require,module,exports){
+},{"./ReactClass":670,"./ReactElement":695,"./invariant":783,"_process":467,"dup":212}],759:[function(require,module,exports){
 arguments[4][213][0].apply(exports,arguments)
-},{"./ExecutionEnvironment":676,"./createArrayFromMixed":779,"./getMarkupWrap":797,"./invariant":805,"_process":463,"dup":213}],782:[function(require,module,exports){
+},{"./ExecutionEnvironment":654,"./createArrayFromMixed":757,"./getMarkupWrap":775,"./invariant":783,"_process":467,"dup":213}],760:[function(require,module,exports){
 arguments[4][214][0].apply(exports,arguments)
-},{"./warning":826,"_process":463,"dup":214}],783:[function(require,module,exports){
+},{"./warning":804,"_process":467,"dup":214}],761:[function(require,module,exports){
 arguments[4][215][0].apply(exports,arguments)
-},{"./CSSProperty":659,"dup":215}],784:[function(require,module,exports){
+},{"./CSSProperty":637,"dup":215}],762:[function(require,module,exports){
 arguments[4][216][0].apply(exports,arguments)
-},{"dup":216}],785:[function(require,module,exports){
+},{"dup":216}],763:[function(require,module,exports){
 arguments[4][217][0].apply(exports,arguments)
-},{"_process":463,"dup":217}],786:[function(require,module,exports){
+},{"_process":467,"dup":217}],764:[function(require,module,exports){
 arguments[4][218][0].apply(exports,arguments)
-},{"dup":218}],787:[function(require,module,exports){
+},{"dup":218}],765:[function(require,module,exports){
 arguments[4][219][0].apply(exports,arguments)
-},{"./ReactCurrentOwner":699,"./ReactInstanceMap":727,"./ReactMount":731,"./invariant":805,"./isNode":807,"./warning":826,"_process":463,"dup":219}],788:[function(require,module,exports){
+},{"./ReactCurrentOwner":677,"./ReactInstanceMap":705,"./ReactMount":709,"./invariant":783,"./isNode":785,"./warning":804,"_process":467,"dup":219}],766:[function(require,module,exports){
 arguments[4][220][0].apply(exports,arguments)
-},{"./traverseAllChildren":824,"./warning":826,"_process":463,"dup":220}],789:[function(require,module,exports){
+},{"./traverseAllChildren":802,"./warning":804,"_process":467,"dup":220}],767:[function(require,module,exports){
 arguments[4][221][0].apply(exports,arguments)
-},{"dup":221}],790:[function(require,module,exports){
+},{"dup":221}],768:[function(require,module,exports){
 arguments[4][222][0].apply(exports,arguments)
-},{"dup":222}],791:[function(require,module,exports){
+},{"dup":222}],769:[function(require,module,exports){
 arguments[4][223][0].apply(exports,arguments)
-},{"dup":223}],792:[function(require,module,exports){
+},{"dup":223}],770:[function(require,module,exports){
 arguments[4][224][0].apply(exports,arguments)
-},{"dup":224}],793:[function(require,module,exports){
+},{"dup":224}],771:[function(require,module,exports){
 arguments[4][225][0].apply(exports,arguments)
-},{"./getEventCharCode":792,"dup":225}],794:[function(require,module,exports){
+},{"./getEventCharCode":770,"dup":225}],772:[function(require,module,exports){
 arguments[4][226][0].apply(exports,arguments)
-},{"dup":226}],795:[function(require,module,exports){
+},{"dup":226}],773:[function(require,module,exports){
 arguments[4][227][0].apply(exports,arguments)
-},{"dup":227}],796:[function(require,module,exports){
+},{"dup":227}],774:[function(require,module,exports){
 arguments[4][228][0].apply(exports,arguments)
-},{"dup":228}],797:[function(require,module,exports){
+},{"dup":228}],775:[function(require,module,exports){
 arguments[4][229][0].apply(exports,arguments)
-},{"./ExecutionEnvironment":676,"./invariant":805,"_process":463,"dup":229}],798:[function(require,module,exports){
+},{"./ExecutionEnvironment":654,"./invariant":783,"_process":467,"dup":229}],776:[function(require,module,exports){
 arguments[4][230][0].apply(exports,arguments)
-},{"dup":230}],799:[function(require,module,exports){
+},{"dup":230}],777:[function(require,module,exports){
 arguments[4][231][0].apply(exports,arguments)
-},{"dup":231}],800:[function(require,module,exports){
+},{"dup":231}],778:[function(require,module,exports){
 arguments[4][232][0].apply(exports,arguments)
-},{"./ExecutionEnvironment":676,"dup":232}],801:[function(require,module,exports){
+},{"./ExecutionEnvironment":654,"dup":232}],779:[function(require,module,exports){
 arguments[4][233][0].apply(exports,arguments)
-},{"dup":233}],802:[function(require,module,exports){
+},{"dup":233}],780:[function(require,module,exports){
 arguments[4][234][0].apply(exports,arguments)
-},{"dup":234}],803:[function(require,module,exports){
+},{"dup":234}],781:[function(require,module,exports){
 arguments[4][235][0].apply(exports,arguments)
-},{"./hyphenate":802,"dup":235}],804:[function(require,module,exports){
+},{"./hyphenate":780,"dup":235}],782:[function(require,module,exports){
 arguments[4][236][0].apply(exports,arguments)
-},{"./Object.assign":683,"./ReactCompositeComponent":697,"./ReactEmptyComponent":719,"./ReactNativeComponent":734,"./invariant":805,"./warning":826,"_process":463,"dup":236}],805:[function(require,module,exports){
+},{"./Object.assign":661,"./ReactCompositeComponent":675,"./ReactEmptyComponent":697,"./ReactNativeComponent":712,"./invariant":783,"./warning":804,"_process":467,"dup":236}],783:[function(require,module,exports){
 arguments[4][237][0].apply(exports,arguments)
-},{"_process":463,"dup":237}],806:[function(require,module,exports){
+},{"_process":467,"dup":237}],784:[function(require,module,exports){
 arguments[4][238][0].apply(exports,arguments)
-},{"./ExecutionEnvironment":676,"dup":238}],807:[function(require,module,exports){
+},{"./ExecutionEnvironment":654,"dup":238}],785:[function(require,module,exports){
 arguments[4][239][0].apply(exports,arguments)
-},{"dup":239}],808:[function(require,module,exports){
+},{"dup":239}],786:[function(require,module,exports){
 arguments[4][240][0].apply(exports,arguments)
-},{"dup":240}],809:[function(require,module,exports){
+},{"dup":240}],787:[function(require,module,exports){
 arguments[4][241][0].apply(exports,arguments)
-},{"./isNode":807,"dup":241}],810:[function(require,module,exports){
+},{"./isNode":785,"dup":241}],788:[function(require,module,exports){
 arguments[4][242][0].apply(exports,arguments)
-},{"dup":242}],811:[function(require,module,exports){
+},{"dup":242}],789:[function(require,module,exports){
 arguments[4][243][0].apply(exports,arguments)
-},{"./invariant":805,"_process":463,"dup":243}],812:[function(require,module,exports){
+},{"./invariant":783,"_process":467,"dup":243}],790:[function(require,module,exports){
 arguments[4][244][0].apply(exports,arguments)
-},{"dup":244}],813:[function(require,module,exports){
+},{"dup":244}],791:[function(require,module,exports){
 arguments[4][245][0].apply(exports,arguments)
-},{"dup":245}],814:[function(require,module,exports){
+},{"dup":245}],792:[function(require,module,exports){
 arguments[4][246][0].apply(exports,arguments)
-},{"dup":246}],815:[function(require,module,exports){
+},{"dup":246}],793:[function(require,module,exports){
 arguments[4][247][0].apply(exports,arguments)
-},{"./ReactElement":717,"./invariant":805,"_process":463,"dup":247}],816:[function(require,module,exports){
+},{"./ReactElement":695,"./invariant":783,"_process":467,"dup":247}],794:[function(require,module,exports){
 arguments[4][248][0].apply(exports,arguments)
-},{"./ExecutionEnvironment":676,"dup":248}],817:[function(require,module,exports){
+},{"./ExecutionEnvironment":654,"dup":248}],795:[function(require,module,exports){
 arguments[4][249][0].apply(exports,arguments)
-},{"./performance":816,"dup":249}],818:[function(require,module,exports){
+},{"./performance":794,"dup":249}],796:[function(require,module,exports){
 arguments[4][250][0].apply(exports,arguments)
-},{"./escapeTextContentForBrowser":786,"dup":250}],819:[function(require,module,exports){
+},{"./escapeTextContentForBrowser":764,"dup":250}],797:[function(require,module,exports){
 arguments[4][251][0].apply(exports,arguments)
-},{"./ExecutionEnvironment":676,"dup":251}],820:[function(require,module,exports){
+},{"./ExecutionEnvironment":654,"dup":251}],798:[function(require,module,exports){
 arguments[4][252][0].apply(exports,arguments)
-},{"./ExecutionEnvironment":676,"./escapeTextContentForBrowser":786,"./setInnerHTML":819,"dup":252}],821:[function(require,module,exports){
+},{"./ExecutionEnvironment":654,"./escapeTextContentForBrowser":764,"./setInnerHTML":797,"dup":252}],799:[function(require,module,exports){
 arguments[4][253][0].apply(exports,arguments)
-},{"dup":253}],822:[function(require,module,exports){
+},{"dup":253}],800:[function(require,module,exports){
 arguments[4][254][0].apply(exports,arguments)
-},{"./warning":826,"_process":463,"dup":254}],823:[function(require,module,exports){
+},{"./warning":804,"_process":467,"dup":254}],801:[function(require,module,exports){
 arguments[4][255][0].apply(exports,arguments)
-},{"./invariant":805,"_process":463,"dup":255}],824:[function(require,module,exports){
+},{"./invariant":783,"_process":467,"dup":255}],802:[function(require,module,exports){
 arguments[4][256][0].apply(exports,arguments)
-},{"./ReactElement":717,"./ReactFragment":723,"./ReactInstanceHandles":726,"./getIteratorFn":796,"./invariant":805,"./warning":826,"_process":463,"dup":256}],825:[function(require,module,exports){
+},{"./ReactElement":695,"./ReactFragment":701,"./ReactInstanceHandles":704,"./getIteratorFn":774,"./invariant":783,"./warning":804,"_process":467,"dup":256}],803:[function(require,module,exports){
 arguments[4][257][0].apply(exports,arguments)
-},{"./Object.assign":683,"./invariant":805,"./keyOf":812,"_process":463,"dup":257}],826:[function(require,module,exports){
+},{"./Object.assign":661,"./invariant":783,"./keyOf":790,"_process":467,"dup":257}],804:[function(require,module,exports){
 arguments[4][258][0].apply(exports,arguments)
-},{"./emptyFunction":784,"_process":463,"dup":258}],827:[function(require,module,exports){
+},{"./emptyFunction":762,"_process":467,"dup":258}],805:[function(require,module,exports){
 arguments[4][259][0].apply(exports,arguments)
-},{"./lib/React":685,"dup":259}],828:[function(require,module,exports){
+},{"./lib/React":663,"dup":259}],806:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -73196,15 +68822,18 @@ var VideoCollage = require("../bubbly_videoCollage/src/bubblyVC.js");
 var SmallMSN = require("../bubbly_small_msn/src/smallmsn.js");
 var SmallText = require("../bubbly_small_text/src/smallText.js");
 var SocialInfluance = require("../bubbly_socialInfluance/src/socialInfluance.js");
-var CommentList = require("../bubbly_comments/bubbly_comments/src/comments.js");
+
 var CommentListMaterial = require("../bubbly_comments/bubbly_comments/src/commentsMaterial.js");
 var RSSListDesc = require("../bubbly_rsslist_desc/src/rssListDesc.js");
 var RSSListImg = require("../bubbly_rsslist_img/src/rssListImg.js");
 var ImageGallery = require("../bubbly_rsslist_img/src/rssListImageGallery.js");
 var BubblyBMYahoo = require("../bubbly_bm/src/bubblyBmReal.js");
 var LargePicture = require("../bubbly_largePicture/src/largePicture.js");
+var LargeVideoAutoPlay = require("../bubbly_largeVideo/src/LargeVideoAutoPlay.js");
 var LargeVideo = require("../bubbly_largeVideo/src/largeVideo.js");
 var Wall = require("../bubbly_wall/src/wall.js");
+var ImageGalleryThumbNail = require("../bubbly_bm/src/imageGalleryThumbNail.js");
+var Story = require("../bubbly_story/src/story.js");
 //var UserApp = require("../bubbly_contactForm/src/contactForm.js");
 
 var Bubbly = React.createClass({
@@ -73250,6 +68879,8 @@ var Bubbly = React.createClass({
 		}
 
 
+
+
 		console.log(this.props.id + " " + JSON.stringify(this.props.data) + " " + this.props.returnurl + " " + this.props.styles);
 		if (this.props.cardtype === "BMOLD") {
 			return React.createElement(
@@ -73263,6 +68894,12 @@ var Bubbly = React.createClass({
 				null,
 				React.createElement(BubblyBMYahoo, { id: this.props.id, data: this.state.cmpdata, returnurl: cmpreturnurl, styles: this.props.styles })
 			);
+		} else if (this.props.cardtype === "STORY") {
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(Story, { id: this.props.id, data: this.state.cmpdata, title: this.props.title, discription: this.props.Description, returnurl: cmpreturnurl, styles: this.props.styles })
+			);
 		} else if (this.props.cardtype === "SMALLOLD") {
 			return React.createElement(
 				"div",
@@ -73273,13 +68910,13 @@ var Bubbly = React.createClass({
 			return React.createElement(
 				"div",
 				null,
-				React.createElement(MediumCard, { id: this.props.id, data: this.state.cmpdata, returnurl: cmpreturnurl, styles: this.props.styles })
+				React.createElement(MediumCard, { id: this.props.id, data: this.state.cmpdata, returnurl: cmpreturnurl, returnurl3: this.props.returnurl3, styles: this.props.styles })
 			);
 		} else if (this.props.cardtype === "LARGE") {
 			return React.createElement(
 				"div",
 				null,
-				React.createElement(LargeCard, { id: this.props.id, data: this.state.cmpdata, returnurl: cmpreturnurl, styles: this.props.styles })
+				React.createElement(LargeCard, { id: this.props.id, data: this.state.cmpdata, returnurl: cmpreturnurl, returnurl3: this.props.returnurl3, styles: this.props.styles })
 			);
 		} else if (this.props.cardtype === "SMALLVERTICAL") {
 			return React.createElement(
@@ -73323,6 +68960,12 @@ var Bubbly = React.createClass({
 				null,
 				React.createElement(LargeVideo, { id: this.props.id, data: this.state.cmpdata, returnurl: cmpreturnurl, styles: this.props.styles })
 			);
+		} else if (this.props.cardtype === "VCARDAUTO") {
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(LargeVideoAutoPlay, { id: this.props.id, data: this.state.cmpdata, returnurl: cmpreturnurl, styles: this.props.styles })
+			);
 		} else if (this.props.cardtype === "VC") {
 			return React.createElement(
 				"div",
@@ -73365,6 +69008,12 @@ var Bubbly = React.createClass({
 				null,
 				React.createElement(ImageGallery, { id: this.props.id, data: this.state.cmpdata, returnurl: cmpreturnurl, styles: this.props.styles })
 			);
+		} else if (this.props.cardtype === "IMAGEGALLERYTHUMBNAIL") {
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(ImageGalleryThumbNail, { id: this.props.id, data: this.state.cmpdata, returnurl: cmpreturnurl, styles: this.props.styles })
+			);
 		} else if (this.props.cardtype === "BMYAHOO") {
 			return React.createElement(
 				"div",
@@ -73386,7 +69035,8 @@ module.exports = Bubbly;
 //React.render(<Bubbly   id={'bolly_data3046'} cardtype={'BM'} returnurl={'http://bharatmovies.social'} styles={'styles'} clientid={'100'}/>,document.getElementById('pic'));
 
 
-
+//Main converter
+// NODE_ENV=production browserify -t [ reactify --es6 ] ./js/jquery.prettyPhoto.js ./js/owl.carousel.min.js ./js/jquery.mixitup.min.js ./js/sliderengine/amazingslider.js ./src/bubblyRunner.js --standalone BubblyCard | uglifyjs > ./dist/bubbly.min.js
 
 /*
 
@@ -73458,5 +69108,5 @@ var clientId = null ;*/
 
 //id, container, type, returnUrl, styles, clientId dataFromPage
 
-},{"../bubbly_bm/src/bubblyBm.js":260,"../bubbly_bm/src/bubblyBmReal.js":261,"../bubbly_comments/bubbly_comments/src/comments.js":262,"../bubbly_comments/bubbly_comments/src/commentsMaterial.js":263,"../bubbly_largePicture/src/largePicture.js":264,"../bubbly_largeVideo/src/largeVideo.js":265,"../bubbly_materializecss/src/cardPanel.js":266,"../bubbly_materializecss/src/cardReveal.js":267,"../bubbly_materializecss/src/largeCard.js":268,"../bubbly_materializecss/src/mediumCard.js":269,"../bubbly_materializecss/src/smallCard.js":270,"../bubbly_photoCollage/src/bubblyPC.js":271,"../bubbly_photoCollage/src/bubblyPCMixIt.js":272,"../bubbly_rsslist_desc/src/rssListDesc.js":273,"../bubbly_rsslist_img/src/rssListImageGallery.js":274,"../bubbly_rsslist_img/src/rssListImg.js":275,"../bubbly_small/src/bubblySmall.js":431,"../bubbly_small_msn/src/smallmsn.js":432,"../bubbly_small_text/src/smallText.js":433,"../bubbly_socialInfluance/src/socialInfluance.js":434,"../bubbly_videoCollage/src/bubblyVC.js":436,"../bubbly_wall/src/wall.js":437,"jQuery":498,"react":827}]},{},[1])(1)
+},{"../bubbly_bm/src/bubblyBm.js":260,"../bubbly_bm/src/bubblyBmReal.js":261,"../bubbly_bm/src/imageGalleryThumbNail.js":262,"../bubbly_comments/bubbly_comments/src/commentsMaterial.js":263,"../bubbly_largePicture/src/largePicture.js":264,"../bubbly_largeVideo/src/LargeVideoAutoPlay.js":265,"../bubbly_largeVideo/src/largeVideo.js":266,"../bubbly_materializecss/src/cardPanel.js":267,"../bubbly_materializecss/src/cardReveal.js":268,"../bubbly_materializecss/src/largeCard.js":269,"../bubbly_materializecss/src/mediumCard.js":270,"../bubbly_materializecss/src/smallCard.js":271,"../bubbly_photoCollage/src/bubblyPC.js":272,"../bubbly_photoCollage/src/bubblyPCMixIt.js":273,"../bubbly_rsslist_desc/src/rssListDesc.js":274,"../bubbly_rsslist_img/src/rssListImageGallery.js":275,"../bubbly_rsslist_img/src/rssListImg.js":276,"../bubbly_small/src/bubblySmall.js":432,"../bubbly_small_msn/src/smallmsn.js":433,"../bubbly_small_text/src/smallText.js":434,"../bubbly_socialInfluance/src/socialInfluance.js":435,"../bubbly_story/src/story.js":437,"../bubbly_videoCollage/src/bubblyVC.js":438,"../bubbly_wall/src/wall.js":439,"jQuery":468,"react":805}]},{},[1])(1)
 });

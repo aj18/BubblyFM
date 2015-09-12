@@ -1,4 +1,5 @@
 var React = require("react");
+var Radium = require('radium');
 var jQuery = require("jquery");
 //var DoughnutChart = require("react-d3-components").DoughnutChart;;
 var TagList = require('../../flowly/TagList.js');
@@ -13,50 +14,48 @@ var SIM = React.createClass({
     render: function(){
         //debugger;
         //
-        var styles = {
-                 s1 :{ padding: '0px'},
-                
-        }
-        var fbUrl=this.props.returnurl+ '/Comments?id=' + this.props.id + '&type=source&page=1&q=Facebook';
-        var twitUrl=this.props.returnurl+ '/Comments?id=' + this.props.id + '&type=source&page=1&q=Twitter';
-        var tumbUrl=this.props.returnurl+ '/Comments?id=' + this.props.id + '&type=source&page=1&q=Tumblr';
-        var maleUrl=this.props.returnurl+ '/Comments?id=' + this.props.id + '&type=gender&page=1&q=Male';
-        var femaleUrl=this.props.returnurl+ '/Comments?id=' + this.props.id + '&type=gender&page=1&q=Female';
-        var otherGenderUrl=this.props.returnurl+ '/Comments?id=' + this.props.id + '&type=gender&page=1&q=Others';
+       
+        var fbUrl=this.props.returnurl+ '?id=' + this.props.id + '&type=source&page=1&q=Facebook';
+        var twitUrl=this.props.returnurl+ '?id=' + this.props.id + '&type=source&page=1&q=Twitter';
+        var tumbUrl=this.props.returnurl+ '?id=' + this.props.id + '&type=source&page=1&q=Tumblr';
+        var maleUrl=this.props.returnurl+ '?id=' + this.props.id + '&type=gender&page=1&q=Male';
+        var femaleUrl=this.props.returnurl+ '?id=' + this.props.id + '&type=gender&page=1&q=Female';
+        var otherGenderUrl=this.props.returnurl+ '?id=' + this.props.id + '&type=gender&page=1&q=Others';
         var total=this.props.data.Stat.PosCount+this.props.data.Stat.NegCount+this.props.data.Stat.NeuCount;
 
         return(
-       <div className="social-card z-depth-3">
-            <div className="row" style={{'margin-bottom':'0px'}}>
-                <div className="col s12" style={{'padding':'1px'}}>
-                     <ul id="projects-collection" className="collection" style={{'border':'none'}}>
-                        <li className="collection-item avatar" style={{'border':'none'}}>
+       <div className="card z-depth-3">
+            <div className="row" style={{"margin-bottom":"0px;"}}>
+                <div className="col s12" style={{"padding":"1px"}}>
+                     <ul id="projects-collection" className="collection" style={{"border":"none"}}>
+                        <li className="collection-item avatar" style={{"border":"none"}}>
                             <span className="social-collection-header">Social Influence</span>
                             <p>Total Count : {total}</p>
                         </li>
-                        <li className="collection-item" style={{'border':'none'}}>
+                        <li className="collection-item" style={{"border":"none"}}>
                             <div className="card-content">
                                     <div id="doughnut-chart-wrapper">
                                         <DoughnutChart dataD={this.props.doughnutData} />
-                                        <div style={{top:'-125px'}} className="doughnut-chart-status">{total}
+                                        <div style={{"top":"-125px"}} className="doughnut-chart-status">{total}
                                             <p className="ultra-small center-align">Counts</p>
                                         </div>
                                     </div>
                                 <div style={{'text-align':'center'}}>
-                                    <ul className="doughnut-chart-legend" style={{'display': 'inline-flex'}}>
+                                    <ul className="doughnut-chart-legend" style={{"display": "inline-flex"}}>
                                         <li className="kitchen ultra-small"><span className="legend-color"></span>Positive</li>
-                                        <li className="mobile ultra-small"  style={{'padding-left': '20px','padding-right': '20px'}}><span className="legend-color"></span> Negative</li>
+                                        <li className="mobile ultra-small"  style={{"padding-left": "20px;","padding-right": "20px;"}}><span className="legend-color"></span> Negative</li>
                                         <li className="home ultra-small"><span className="legend-color"></span> Neutral</li>
                                     </ul>
                                 </div>
                             </div>
                        </li>
-                       <li className="collection-item avatar" style={{'border':'none'}}>
-                                        <i className="mdi-social-pages circle red darken-2"></i>
+                       <li className="collection-item avatar" style={{"border":"none"}}>
+                                        <i className="material-icons circle red darken-2">tv</i>
+                                        
                                         <span className="social-collection-header">Channel</span>
                                         <p>Total Count : {this.props.Projects.Meter.Twitter + this.props.Projects.Meter.Facebook + this.props.Projects.Meter.Tumblr}</p>
                         </li>
-                        <li className="collection-item" style={{'border':'none'}}>
+                        <li className="collection-item" style={{"border":"none"}}>
                             <div className="row">
                                 <div className="col s6">
                                     <p className="social-collections-title"><a href={twitUrl}><i className='fa fa-twitter fa-1x'></i> Twitter</a></p>
@@ -70,7 +69,7 @@ var SIM = React.createClass({
                                 </div>
                             </div>
                         </li>
-                        <li className="collection-item" style={{'border':'none'}}>
+                        <li className="collection-item" style={{"border":"none"}}>
                             <div className="row">
                                 <div className="col s6">
                                     <p className="social-collections-title"><a href={fbUrl}><i className='fa fa-facebook fa-1x'></i> Facebook</a></p>
@@ -84,7 +83,7 @@ var SIM = React.createClass({
                                 </div>
                             </div>
                         </li>
-                        <li className="collection-item" style={{'border':'none'}}>
+                        <li className="collection-item" style={{"border":"none"}}>
                             <div className="row">
                                 <div className="col s6">
 
@@ -100,12 +99,13 @@ var SIM = React.createClass({
                             </div>
                         </li>
 
-                        <li className="collection-item avatar" style={{'border':'none'}}>
-                            <i className="mdi-social-people circle red darken-2"></i>
+                        <li className="collection-item avatar" style={{"border":"none"}}>
+                        <i className="material-icons circle red darken-2">people</i>
+                            
                             <span className="social-collection-header">Gender</span>
                             <p>Total Stats : {this.props.Projects.Meter.Male + this.props.Projects.Meter.Female + this.props.Projects.Meter.Others}</p>
                         </li>
-                        <li className="collection-item" style={{'border':'none'}}>
+                        <li className="collection-item" style={{"border":"none"}}>
                             <div className="row">
                                 <div className="col s5">
                                     <p className="social-collections-title"><strong></strong> <a href={maleUrl}><i className="fa fa-male fa-1x"></i> Male</a></p>
@@ -116,12 +116,13 @@ var SIM = React.createClass({
                                 </div>
                                 <div className="col s4">
                                     <div className="progress">
-                                         <div className="determinate" style={{width: this.props.Projects.Meter.MalePer}}></div>   
+                                        <div className="determinate" style={{width: this.props.Projects.Meter.MalePer}}></div>  
+                                         
                                     </div>                                                
                                 </div>
                             </div>
                         </li>
-                        <li className="collection-item" style={{'border':'none'}}>
+                        <li className="collection-item" style={{"border":"none"}}>
                             <div className="row">
                                 <div className="col s5">
                                     <p className="social-collections-title"><strong></strong> <a href={femaleUrl}><i className="fa fa-female fa-1x"></i> Female</a></p>
@@ -132,12 +133,12 @@ var SIM = React.createClass({
                                 </div>
                                 <div className="col s4">
                                     <div className="progress">
-                                        <div className="determinate" style={{width: this.props.Projects.Meter.FemalePer}}></div>   
-                                    </div>                                                
+                                         <div className="determinate" style={{width: this.props.Projects.Meter.FemalePer}}></div>   
+                                             </div>                                                
                                 </div>
                             </div>
                         </li>
-                        <li className="collection-item" style={{'border':'none'}}>
+                        <li className="collection-item" style={{"border":"none"}}>
                             <div className="row">
                                 <div className="col s5">
                                     <p className="social-collections-title"><strong></strong><a href={otherGenderUrl}> Others</a></p>
@@ -149,28 +150,30 @@ var SIM = React.createClass({
                                 <div className="col s4">
                                     <div className="progress">
                                         <div className="determinate" style={{width: this.props.Projects.Meter.OthersPer}}></div>   
-                                    </div>                                                
+                                         </div>                                                
                                 </div>
                                
                             </div>
                         </li>
                         
-                        <li className="collection-item avatar" style={{'border':'none'}}>
-                            <i className="mdi-action-picture-in-picture circle red darken-2"></i>
+                        <li className="collection-item avatar" style={{"border":"none"}}>
+
+                        <i className="material-icons circle red darken-2 icon-demo">perm_media</i>
+                            
                             <span className="social-collection-header">Media</span>
                             <p>Total Media counts : {this.props.data.VideosCount + this.props.data.PhotosCount}</p>
                         </li>
-                        <li className="collection-item" style={{'border':'none'}}>
+                        <li className="collection-item" style={{"border":"none"}}>
                             <div className="row">
                                <StatisticsTable videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} id={this.props.id}  returnurl={this.props.returnurl} />
                             </div>
                         </li>
-                        <li className="collection-item avatar" style={{'border':'none'}}>
+                        <li className="collection-item avatar" style={{"border":"none"}}>
                             <i className="mdi-communication-location-on circle red darken-2"></i>
                             <span className="collection-header">Geo Location</span>
                             <p>World map, world regions, countries</p>
                         </li>
-                        <li className="collection-item" style={{'padding':'1px 1px','border':'none'}}> 
+                        <li className="collection-item" style={{"padding":"1px 1px","border":"none"}}> 
 
                                 <DBTSLocation id={this.props.id} 
                                 polarChartData={this.props.polarChartData} 
@@ -179,7 +182,7 @@ var SIM = React.createClass({
                                 returnurl={this.props.returnurl} />
                            
                         </li>
-                        <li className="collection-item" style={{'padding':'1px 1px','border':'none'}}>
+                        <li className="collection-item" style={{"padding":"1px 1px","border":"none"}}>
                          
                             
                                
@@ -187,12 +190,12 @@ var SIM = React.createClass({
                                   <div className="col s12">
                                     <ul className="tabs tab-demo-active z-depth-1" style={{"width": "100%;"}}>
                                       <li className="tab col s6" style={{"width": "50%;"}}><a className="white-text red darken-1 waves-effect waves-light active" href="#tags1">
-                                      <i className="mdi-action-perm-identity"></i> Tags</a>
+                                      <i className="material-icons tiny">perm_identity</i> Tags</a>
                                       </li>
                                       
 
                                       <li className="tab col s6" style={{"width": "50%;"}}><a className="white-text light-blue darken-1 waves-effect waves-light" href="#emotions2">
-                                      <i className="mdi-action-speaker-notes"></i> Emotions</a>
+                                      <i className="material-icons tiny">speaker_notes</i> Emotions</a>
                                       </li>
                                     <div className="indicator" style={{"right": "488px; left: 0px;"}}></div>
                                     <div className="indicator" style={{"right": "488px; left: 0px;"}}></div></ul>
