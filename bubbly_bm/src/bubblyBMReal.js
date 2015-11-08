@@ -21,7 +21,7 @@ var DonutChartMaterial = require('../../flowly/DonutChartMaterial.js');
 var BulletGenderChart = require('../../flowly/BulletGenderChart.js');
 
 
-var BubblyBMYahoo = React.createClass({
+var BubblyBMYahooTEST = React.createClass({
   
 	render:function() {
    
@@ -106,7 +106,7 @@ var BubblyBMYahoo = React.createClass({
 
                           </div>
                            <div className="row" style={{'padding': '0px','margin':'5px'}}>
-                                 <h4> Social Influance </h4>
+                                 <h4> Social Influence </h4>
                                 <div id="doughnut-chart-wrapper">
                                                   <DonutChartMaterial id="hero-donut" donutD={donutData} />
                                                   <div  className="doughnut-chart-status" style={{'top': '-90px !important','font-size':'16px'} }>{total}
@@ -141,4 +141,4 @@ var BubblyBMYahoo = React.createClass({
 });
 
 
-module.exports = BubblyBMYahoo;
+module.exports = BubblyBMYahooTEST;

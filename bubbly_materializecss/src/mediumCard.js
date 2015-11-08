@@ -17,21 +17,23 @@ var MediumCard = React.createClass({
 
 		return(
 				
-		            <div className="card medium z-depth-3">
-			            <div className="card-image">
+		            <div className="card medium z-depth-3" style={this.props.styles.cardStyle}>
+			            <div className="card-image" style={this.props.styles.cardImageStyle}>
 
 			              <Photo url= {this.props.data.Photo} />
-			              <a href={this.props.returnurl}>
-			              	<span className="card-title social-main-title" style={{'bottom':'5px !important'}}>
+			              
+			              	<span className="card-title social-main-title" style={this.props.styles.cardTitleStyle}>
+			              		<a href={this.props.returnurl+'?id='+this.props.id} style={this.props.styles.cardTitleAnchoStyle}>
 			              		{this.props.data.Name}
+			              		</a>
 			              	</span>
-			              </a>
+			              
 			            </div>
-			            <div className="card-content">
+			            <div className="card-content" style={this.props.styles.descriptionStyle}>
 			              <p>{this.props.data.Description}</p>
 			            </div>
 			           
-			            <div className="card-action">
+			            <div className="card-action" style={this.props.styles.actionStyle}>
 			              <StatisticsTable id={this.props.id} returnurl={this.props.returnurl3} videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} />
 			            </div>
 		            </div>

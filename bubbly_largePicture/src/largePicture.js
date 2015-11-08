@@ -15,7 +15,7 @@ var LargePicture = React.createClass({
 
             
                 <div className="card-panel" style={this.props.styles.panelStyle}>
-                    <a  href={this.props.returnurl}>
+                    <a  href={this.props.returnurl} style={this.props.styles.cardTitleAnchoStyle}>
                         <div className="card-image">
                              <PhotoDynamic url= {this.props.data.Photo} pictureStyle={this.props.styles.pictureStyle}/>
                         </div>

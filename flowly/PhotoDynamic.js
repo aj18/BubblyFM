@@ -1,8 +1,10 @@
 var React = require("react");
 
 var PhotoDynamic = React.createClass({
+	
     render : function() {
-      
+      console.log("pic prop " + this.props.pictureStyle);
+
         var imageContainerStyle = {width: '100%', height: '400', overflow: 'hidden' };
         
         var imgStyle = { width: '100%' };
@@ -12,7 +14,7 @@ var PhotoDynamic = React.createClass({
                 
             </div>);
 
-}
+   }
 
 });
 

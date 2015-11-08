@@ -9,10 +9,10 @@ var StatisticsTable = React.createClass({
         <table className="table table-hover">
             <tbody>
                 <tr>
-                   <td ><a href={url+'video'}><i className="fa fa-video-camera"></i></a></td>
-                   <td><a href={url+'video'}>{this.props.videoCount}</a></td>
-                   <td><a href={url+'photo'}><i className="fa fa-picture-o"></i></a></td>
-                   <td><a href={url+'photo'}>{this.props.photoCount}</a></td>
+                   <td style={{'padding':'0px',border:'none !important'}}><a href={url+'video'}><i className="fa fa-video-camera"></i></a></td>
+                   <td style={{'padding':'0px',border:'none !important'}}><a href={url+'video'}>{this.props.videoCount}</a></td>
+                   <td style={{'padding':'0px',border:'none !important'}}><a href={url+'photo'}><i className="fa fa-picture-o"></i></a></td>
+                   <td style={{'padding':'0px',border:'none !important'}}><a href={url+'photo'}>{this.props.photoCount}</a></td>
                 </tr>
                 
          </tbody>

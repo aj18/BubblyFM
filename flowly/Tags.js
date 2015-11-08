@@ -8,7 +8,7 @@ var Tags = React.createClass({
         var styles = {
                 s1 : { marginRight: '5px' , fontSize: '10px'},
                 s2 : { marginTop: '5px', marginBottom: '5px' , overflow: 'hidden', fontSize:'8px'},
-                s3 : { padding:'5px 5px'}
+                s3 : { padding:'5px 5px', border:'none !important'}
         }
         var tag1,tag2,tag3;
          if(this.props.tags){

@@ -17,7 +17,7 @@ var DonutChartMaterial = React.createClass({
         });
     },
     render : function() {
-        return (<canvas id="doughnut-chart-socialinfluance-bm" height='150px'></canvas>);
+        return (<canvas id="doughnut-chart-socialinfluance-bm" height='170px'></canvas>);
 
     }
 

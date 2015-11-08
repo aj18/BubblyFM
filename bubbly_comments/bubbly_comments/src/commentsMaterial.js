@@ -228,7 +228,7 @@ var CommentListMaterial = React.createClass({
             <header className="content-module-header">
             <div className="row">
               <div className="col s12 m9">
-               <h3><a href={urlTitle}>{this.props.title}</a>
+               <h3>{this.props.title}
 			   </h3>
 			  </div>
 			 

@@ -11,26 +11,23 @@ var ImageCard = React.createClass({
        			 color: '#6B6B6B'
     	}
 		return(
-				<div className="row">
-		        <div className="col s12 m7">
-		        	<div className="card z-depth-3">
-		                <div className="card-image">
+				
+		        	<div className="card z-depth-3" style={this.props.styles.cardStyle}>
+		                <div className="card-image" style={this.props.styles.cardImageStyle}>
 		                <Photo url= {this.props.data.Photo} />
 			              
-			              <span className="card-title socialTitleColor">{this.props.data.Name}</span>
+			              <span className="card-title socialTitleColor" style={this.props.styles.cardTitleStyle}>{this.props.data.Name}</span>
 			            </div>
-			            <div className="card-content">
-			              <p>{this.props.data.Description}</p>
+			            <div className="card-content" style={this.props.styles.descriptionStyle}>
+			              <p style={this.props.styles.descriptionStyle}>{this.props.data.Description}</p>
 			            </div>
-			            <div className="card-action">
+			            <div className="card-action" style={this.props.styles.actionStyle}>
 			              <a href={this.props.returnurl}>This is a link</a>
 			              <a href={this.props.returnurl}>This is a link</a>
 			        	</div>
 			          
 			        </div>
-		        </div>
-		        </div>
-		    
+		       
 		);
 	}
 

@@ -20,7 +20,7 @@ var ImageGalleryYahoo = React.createClass({
 
         width:'100%',
 
-        height:335,
+        height:305,
 
         skinsfoldername:"http://social24x7.azurewebsites.net/cdn/images",
 
@@ -415,31 +415,29 @@ var ImageGalleryYahoo = React.createClass({
 		var styles = {
        	 		 s1 :{ margin: '10px',float:'left'},
        			 s3 : {boxShadow: '0px 3px 10px 0px rgba(50, 50, 50, 0.5)',width:'75%'},
-                 s4 : {display:'block',position:'relative',maxWidth:'100%',margin:'0px auto 100px'},
-                 s5 : {display:'none',height:'370px !important'},
+                 s4 : {display:'block',position:'relative',maxWidth:'100%',margin:'0px auto 100px',height:'220px'},
+                 s5 : {display:'none'},
                  s6 : {display:'block',position:'relative',margin:'0 auto'},
                  s7 : {width:'100% !important;','height': '100% !important;',objectFit: 'cover !important;' }
        	 	 
     	}
         console.log("rss : "+ JSON.stringify(this.props.data));
-        return (  
-                
-              
-                    
-                    <div id="amazingslider-wrapper-1" style={styles.s4}>
+        return (    <div id="amazingslider-wrapper-1" style={styles.s4}>
                         <div id="amazingslider-1" ref="amazingsliderbm" style={{'display': 'block !important;',
                                                                                  'position': 'relative !important;',
                                                                                  'width': '100% !important;',
-                                                                                 'height': '350px;'}}>
+                                                                                 'height': '180px;'}}>
                             <ul className="amazingslider-slides" style={styles.s5}>
 
                                 {this.props.data.map(function(item, i) {
+                                    console.log("item " + item);
+                                    var altDesc = item.Description  ;
                                    
                                     return(
 
                                      <li>    
                                             
-                                            <img src={item.Url} style={{'object-fit': 'cover !important;'}}/>
+                                            <img src={item.Url} data-description= {altDesc} style={{'object-fit': 'cover !important;'}}/>
                                      </li>
                                     );
                                

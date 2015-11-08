@@ -39,7 +39,7 @@ var LargeVideo = React.createClass({
                       
                       
                       <span className="card-title social-sub-title" style={this.props.styles.subTitleStyle}>
-                      <a  href={this.props.returnurl} style={{'color':'inherit','text-decoration':'inherit'}}>{this.props.data.Name} </a>
+                      <a  href={this.props.returnurl} style={this.props.styles.cardTitleAnchoStyle}>{this.props.data.Name} </a>
                       </span>
                      
                     </div>

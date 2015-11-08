@@ -25,7 +25,7 @@ var ImageGallery = React.createClass({
 
     },
 	render: function() {
-        var url=this.props.returnurl+ '?id=' + this.props.id + '&q=&page=1&type=';
+        var url=this.props.returnurl+ '?id=' + this.props.id;
 		var styles = {
        	 		 
                  s2 : {maxWidth: '100%',height: '100%'}
@@ -188,7 +188,7 @@ var ImageGallery = React.createClass({
            console.log(  i + " " + currentvalue );
         });*/
         return (  
-                   <a href={url} >
+                   
                            <div className="card-panel" style={this.props.styles.cardStyle}>
                                <div className="slider" style={this.props.styles.sliderStyle}>
                                     <ul className="slides" style={this.props.styles.slidesStyle}>
@@ -197,12 +197,12 @@ var ImageGallery = React.createClass({
                                          
                                     </ul>
                               </div>
-                              <span className="card-title social-main-title" style={this.props.styles.cardTitleStyle} ><a href={url} >{this.props.data.Name}</a></span>
+                              <span className="card-title social-main-title" style={this.props.styles.cardTitleStyle} ><a href={url} style={{'color':'#ffffff'}}>{this.props.data.Name}</a></span>
                               <br></br>
-                              <span className="card-title social-sub-title" style={this.props.styles.cardSubTitleStyle} ><a href={url} >{this.props.data.Description}</a></span>
+                              <span className="card-title social-sub-title" style={this.props.styles.cardSubTitleStyle} ><a href={url} style={{'color':'#ffffff'}}>{this.props.data.Description}</a></span>
                               
                           </div>
-                     </a>
+                     
                     
             );
    

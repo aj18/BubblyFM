@@ -11,6 +11,21 @@ var $$ = function (tagname) { return document.getElementsByTagName(tagname); }
 
 var LargeVideo = React.createClass({
 
+  openModal: function() {
+        console.log(this.props.data);
+        console.log("id " + this.props.id);
+        console.log("returnurl " + this.props.returnurl);
+        
+        
+        popupS.modal({
+            content: '<div id="picturestorylb"></div>'
+                
+        });
+
+        React.render(<StorySliderLB id={this.props.id} storyid = { this.props.data.storyId} data={this.props.data.Data} title={this.props.data.Title} discription={this.props.data.Description} PictureUrl={this.props.data.PictureUrl}  returnurl={this.props.returnurl} styles={this.props.styles}/>
+                ,document.getElementById('picturestorylb'));
+    },
+
 
   onYouTubeIframeAPIReady: function () {
         
@@ -49,28 +64,58 @@ var LargeVideo = React.createClass({
          console.log(videoURL);
          console.log(this.props.returnurl);
 
-         
-        return (  
-            <div className="card-panel" style={this.props.styles.panelStyle}>
-                
-                    <div className="card-image">
-                        <iframe id="player1"  style= {this.props.styles.pictureStyle} src={videoURL} frameborder="none" allowfullscreen></iframe>
-                     
-                      <span className="card-title social-main-title" style={this.props.styles.titleStyle}>
-                      <a  href={this.props.returnurl}>
-                      {this.props.data.Description}</a></span>
-                      <br></br>
-                      <span className="card-title social-sub-title" style={this.props.styles.subTitleStyle}>
-                      <a  href={this.props.returnurl}>{this.props.data.Name} </a>
-                      </span>
-                     
+         if(this.props.storyLB === true) {
+
+                    return (  
+                      <div className="card-panel" style={this.props.styles.panelStyle} onClick={this.openModal}>
+                          
+                              <div className="card-image">
+                                  <iframe id="player1"  style= {this.props.styles.pictureStyle} src={videoURL} frameborder="none" allowfullscreen></iframe>
+                               
+                                <span className="card-title social-main-title" style={this.props.styles.titleStyle}>
+                                <a  href={this.props.returnurl} style = {{'color':'#ffffff','text-overflow': 'ellipsis;','white-space': 'nowrap;','overflow': 'hidden;','max-width': '65%;'}}>
+                                {this.props.data.Description}</a></span>
+                                <br></br>
+                                <span className="card-title social-sub-title" style={this.props.styles.subTitleStyle}>
+                                <a  href={this.props.returnurl} style={this.props.styles.cardTitleAnchoStyle}>{this.props.data.Name} </a>
+                                </span>
+                               
+                              </div>
+                          
+                         
                     </div>
-                
-               
-          </div>
-                
-                
-            );
+                          
+                          
+                );
+
+            
+
+        } else {
+
+
+         
+            return (  
+                <div className="card-panel" style={this.props.styles.panelStyle}>
+                    
+                        <div className="card-image">
+                            <iframe id="player1"  style= {this.props.styles.pictureStyle} src={videoURL} frameborder="none" allowfullscreen></iframe>
+                         
+                          <span className="card-title social-main-title" style={this.props.styles.titleStyle}>
+                          <a  href={this.props.returnurl} style = {{'color':'#ffffff','text-overflow': 'ellipsis;','white-space': 'nowrap;','overflow': 'hidden;','max-width': '65%;'}}>
+                          {this.props.data.Description}</a></span>
+                          <br></br>
+                          <span className="card-title social-sub-title" style={this.props.styles.subTitleStyle}>
+                          <a  href={this.props.returnurl} style={this.props.styles.cardTitleAnchoStyle}>{this.props.data.Name} </a>
+                          </span>
+                         
+                        </div>
+                    
+                   
+              </div>
+                    
+                    
+                );
+        }
    
  	}
 

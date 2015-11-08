@@ -1,7 +1,7 @@
 var React = require('react');
 
 var Bubbly = require("./social.jsx");
-var SIM =require("../bubbly_socialInfluance_material/src/sim.js");
+var SIM =require("../bubbly_socialInfluance_material/src/simre.js");
 
 
 var  BubblyCardRunner = function (campaignId,cardType,returnUrl,styles,clientId,dataFromPage,container,returnUrl3) {
@@ -86,10 +86,11 @@ var  BubblyRSSCardRunner = function (campaignId,cardType,returnUrl,styles,client
   }
 };
 
-var BubblyStoryRunner = function (id, storyId, container, dataFromPage, returnUrl, style, cardType,clientId,limit,description,title) {
+var BubblyStoryRunner = function (id, storyIdPara, container, dataFromPage, returnUrl, style, cardType,clientId,limit,description,title,storyLBPara) {
         var returnurl="http://www.cricket24x7.social";
         var titleLocal = "Bubbly Story";
         var storyIdLocal = "story_default";
+        var storyLBLocal = false;
         if (returnUrl)
         {
             returnurl=returnUrl;
@@ -98,8 +99,16 @@ var BubblyStoryRunner = function (id, storyId, container, dataFromPage, returnUr
             titleLocal = title;
         }
 
-        if (storyId) {
-            storyIdLocal = storyId;
+        if (storyIdPara) {
+            storyIdLocal = storyIdPara;
+        }
+
+       
+        console.log("storyLBPara " + storyLBPara);
+        if (storyLBPara)
+        {
+          
+          storyLBLocal = storyLBPara;
         }
         
         if (dataFromPage == null || dataFromPage == "") {
@@ -118,14 +127,17 @@ var BubblyStoryRunner = function (id, storyId, container, dataFromPage, returnUr
                         delete data[i];
                     }
                 });
-                debugger;
-                React.render(<Bubbly data={ajaxdata.Data}  title={ajaxdata.Title} discription={ajaxdata.Description} id={id} cardtype={cardType} returnurl={returnUrl} styles={style} clientid={clientId}/>,container);
+
+                console.log("storyid " + storyIdLocal);
+              
+                React.render(<Bubbly data={ajaxdata} storyId={storyIdLocal} storyLB={storyLBLocal}  title={ajaxdata.Title} discription={ajaxdata.Description} id={id} cardtype={cardType} returnurl={returnUrl} styles={style} clientid={clientId}/>,container);
 
 
             });
         }
         else{
-           React.render(<Bubbly data={dataFromPage.Data} title={titleLocal} discription={dataFromPage.Description} id={id} cardtype={cardType} returnurl={returnUrl} styles={style} clientid={clientId}/>,container);
+          console.log("storyid " + storyIdPara);
+           React.render(<Bubbly data={dataFromPage} storyId={storyIdPara} storyLB={storyLBLocal}  title={titleLocal} discription={dataFromPage.Description} id={id} cardtype={cardType} returnurl={returnUrl} styles={style} clientid={clientId}/>,container);
 
         }
 
@@ -587,9 +599,11 @@ BubblyCard.prototype.showRSSCard = function(para, dataFromPage, container) {
 }
 
 BubblyCard.prototype.showStoryCards = function(para, dataFromPage, container) {
-  console.log(this.aSetting);
-  BubblyStoryRunner(para.campaignId, para.storyId, container, dataFromPage, para.returnUrl, para.style, para.cardType, para.limit,para.description,para.title);
+  console.log("story style " + para.styles);
+  console.log("story LB " + para.storyLB);
 
+  BubblyStoryRunner(para.campaignId, para.storyId, container, dataFromPage, para.returnUrl, para.styles, para.cardType,para.clientId, para.limit, para.description, para.title, para.storyLB);
+ 
 }
 
 BubblyCard.prototype.parseData = function(para, dataFromPage, container) {

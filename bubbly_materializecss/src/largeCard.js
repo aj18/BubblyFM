@@ -9,24 +9,21 @@ var PhotoLarge = require('../../flowly/PhotoLarge.js');
 var LargeCard = React.createClass({
 
 	render(){
-		var styles = {
-       	 		 
-       			 color: '#6B6B6B'
-    	}
+		console.log('style'+this.props.styles);
 		
 		return(
 				
-		            <div className="card large z-depth-3">
-			            <div className="card-image">
+		            <div className="card large z-depth-3" style={this.props.styles.cardStyle}>
+			            <div className="card-image"  style={this.props.styles.cardImageStyle}>
 			            {this.props.data.Photo ? <Photo url= {this.props.data.Photo} />
                            :<div></div>}
 			              
-			              <span className="card-title"><a className="socialTitleColor" href={this.props.returnurl}>{this.props.data.Name}</a></span>
+			              <span className="card-title" style={this.props.styles.cardTitleStyle}><a className="socialTitleColor" style={this.props.styles.cardTitleAnchoStyle} href={this.props.returnurl+'?id=' + this.props.id}>{this.props.data.Name}</a></span>
 			            </div>
-			            <div className="card-content">
+			            <div className="card-content" style={this.props.styles.descriptionStyle}>
 			              <p>{this.props.data.Description} </p>
 			            </div>
-			            <div className="card-action">
+			            <div className="card-action" style={this.props.styles.actionStyle}>
                           <StatisticsTable id={this.props.id} returnurl={this.props.returnurl3} videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} />
                       	  <Tags tags= {this.props.data.Tags} returnurl={this.props.returnurl3}/>       
 			            </div>

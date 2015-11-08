@@ -421,6 +421,9 @@ var RSSListDesc = React.createClass({
        	 	 
     	}
         console.log("rss : "+ JSON.stringify(this.props.data));
+        
+        var url=this.props.returnurl+ '/Comments?id=' + this.props.id + '&type=source&page=1&q=';
+
         return (  
                 
                 <div className="social-card z-depth-3">
@@ -436,7 +439,9 @@ var RSSListDesc = React.createClass({
                                     var altDesc = item.content +' '+ item.publisher + '-' + item.publishDate ;
                                     return(
 
-                                    <li><a href={item.url}><img src={item.image.url} alt={item.title} data-description= {altDesc}/></a>
+                                    <li><a href={item.url}>
+                                        <img src={item.image.url} alt={item.title} data-description= {altDesc}/>
+                                        </a>
                                         
                                      </li>
                                     );
@@ -453,7 +458,7 @@ var RSSListDesc = React.createClass({
                                 {this.props.data.map(function(item, i) {
                                     return(
                                         <li><img src={item.image.url} alt={item.title} />
-                                            <p>{item.content}</p>
+                                           <p>{item.content}</p>
                                         </li>
                                     
                                     );

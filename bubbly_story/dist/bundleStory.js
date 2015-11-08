@@ -3,6 +3,7 @@
 
 var React = require("react");
 var jQuery = require("jquery");
+var Slider = require("react-slick");
 
 var FluidVid = React.createClass({
     displayName: "FluidVid",
@@ -28,258 +29,279 @@ var FluidVid = React.createClass({
     }
 });
 
-var CommentList = React.createClass({
-    displayName: "CommentList",
+var PhotoSlider = React.createClass({
+    displayName: "PhotoSlider",
+    componentDidMount: function () {
+        var links = document.getElementsByClassName("gallery-1");
 
-
-
-    render: function () {
-        var s1 = { "font-family": "georgia", "font-size": "16px", "line-height": "26px", "margin-bottom": "4%", "margin-left": "10%", "margin-right": "9%" };
-        var s2 = { width: "100%", height: "40px" };
-        var s3 = { width: "100%" };
-        var s4 = { "padding-top": "20px", width: "100%" };
-        var s5 = { height: "48px", width: "48px", padding: "4px", "border-bottom": "none", "margin-right": "5px" };
-        var s8 = { "padding-right": "5px", color: "darkgray" };
-
-        var urlTitle = this.props.returnurl;
-        // http://, https://, ftp://
-        var urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
-        var date = Date.parse(Date().toString());
-
-        var commentNodes = this.props.data.map(function (item, i) {
-            return React.createElement(
-                "div",
-                null,
-                item.VideoID ? React.createElement(
-                    "div",
-                    { className: "fluidvids-youtube" },
-                    React.createElement(FluidVid, { src: "http://www.youtube.com/embed/" + item.VideoID + "?rel=0" })
-                ) : item.PhotoUrl && item.Datasource == "Instagram" ? React.createElement(
-                    "div",
-                    null,
-                    React.createElement("img", { style: s3, src: item.PhotoUrl })
-                ) : item.PhotoUrl && item.Datasource == "GooglePlus" ? React.createElement(
-                    "div",
-                    null,
-                    React.createElement("img", { style: s3, src: item.PhotoUrl })
-                ) : item.PhotoUrl && item.Datasource == "Tumblr" ? React.createElement(
-                    "div",
-                    null,
-                    React.createElement("img", { style: s3, src: item.PhotoUrl })
-                ) : item.PhotoUrl && item.Datasource == "Twitter" ? React.createElement(
-                    "div",
-                    null,
-                    React.createElement("img", { style: s3, src: item.PhotoUrl })
-                ) : item.PhotoUrl && item.Datasource == "Facebook" ? React.createElement(
-                    "div",
-                    null,
-                    React.createElement("img", { style: s3, src: item.PhotoUrl })
-                ) : false,
-                item.Datasource == "Twitter" ? React.createElement(
-                    "div",
-                    null,
-                    React.createElement(
-                        "a",
-                        { href: "https://twitter.com/" + item.ProfileID.substr(1), target: "_blank", className: "pull-left" },
-                        React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 })
-                    ),
-                    React.createElement(
-                        "div",
-                        { style: s2 },
-                        React.createElement(
-                            "div",
-                            null,
-                            React.createElement(
-                                "a",
-                                { href: "https://twitter.com/" + item.ProfileID.substr(1), target: "_blank" },
-                                item.ProfileName ? item.ProfileName.substr(1) : "No Name"
-                            ),
-                            React.createElement(
-                                "div",
-                                { className: "pull-right" },
-                                React.createElement("span", { style: s8, className: "fa fa-twitter-square" })
-                            )
-                        ),
-                        React.createElement(
-                            "p",
-                            null,
-                            item.ProfileID,
-                            " (",
-                            item.ProfileFollower,
-                            ")"
-                        )
-                    )
-                ) : item.Datasource == "Instagram" ? React.createElement(
-                    "div",
-                    null,
-                    React.createElement(
-                        "a",
-                        { href: "https://instagram.com/" + item.ProfileID, target: "_blank", className: "pull-left" },
-                        React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 })
-                    ),
-                    React.createElement(
-                        "div",
-                        { style: s2 },
-                        React.createElement(
-                            "a",
-                            { href: "https://instagram.com/" + item.ProfileID, target: "_blank" },
-                            item.ProfileName ? item.ProfileName : "No Name"
-                        ),
-                        React.createElement(
-                            "div",
-                            { className: "pull-right" },
-                            React.createElement("span", { style: s8, className: "fa fa-instagram" })
-                        )
-                    )
-                ) : item.Datasource == "GooglePlus" ? React.createElement(
-                    "div",
-                    null,
-                    React.createElement(
-                        "a",
-                        { href: "https://plus.google.com/" + item.ProfileID, target: "_blank", className: "pull-left" },
-                        React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 })
-                    ),
-                    React.createElement(
-                        "div",
-                        { style: s2 },
-                        React.createElement(
-                            "a",
-                            { href: "https://plus.google.com/" + item.ProfileID, target: "_blank" },
-                            item.ProfileName ? item.ProfileName : "No Name"
-                        ),
-                        React.createElement(
-                            "div",
-                            { className: "pull-right" },
-                            React.createElement("span", { style: s8, className: "fa fa-google-plus-square" })
-                        )
-                    )
-                ) : item.Datasource == "Tumblr" ? React.createElement(
-                    "div",
-                    null,
-                    React.createElement(
-                        "a",
-                        { href: "http://" + item.ProfileID + ".tumblr.com", target: "_blank", className: "pull-left" },
-                        React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 })
-                    ),
-                    React.createElement(
-                        "div",
-                        { style: s2 },
-                        React.createElement(
-                            "a",
-                            { href: "http://" + item.ProfileID + ".tumblr.com", target: "_blank" },
-                            item.ProfileName ? item.ProfileName : "No Name"
-                        ),
-                        React.createElement(
-                            "div",
-                            { className: "pull-right" },
-                            React.createElement("span", { style: s8, className: "fa fa-tumblr-square" })
-                        )
-                    )
-                ) : item.Datasource == "Facebook" ? React.createElement(
-                    "div",
-                    null,
-                    React.createElement(
-                        "a",
-                        { href: "https://www.facebook.com/profile.php?id =" + item.ProfileID, target: " _blank", className: "pull-left" },
-                        React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 })
-                    ),
-                    React.createElement(
-                        "div",
-                        { style: s2 },
-                        React.createElement(
-                            "a",
-                            { href: "https://www.facebook.com/profile.php?id =" + item.ProfileID, target: " _blank" },
-                            item.ProfileName ? item.ProfileName : "No Name"
-                        ),
-                        React.createElement(
-                            "div",
-                            { className: "pull-right" },
-                            React.createElement("span", { style: s8, className: "fa fa-facebook-square" })
-                        )
-                    )
-                ) : false,
-                React.createElement(
-                    "div",
-                    { className: "card-content" },
-                    React.createElement("div", { dangerouslySetInnerHTML: { __html: item.Text != null ? item.Text.replace(urlPattern, "<a style=\"word-break:break-word;\" href=\"$&\" target=\"_blank\">$&</a>") : false } }),
-                    React.createElement(
-                        "p",
-                        { className: "pull-left", style: s4 },
-                        item.Datasource == "Instagram" ? Math.round((date / 1000 - parseInt(item.DocDate)) * 1.1574074074074e-8) >= 1 ? React.createElement(
-                            "span",
-                            null,
-                            Math.round((date / 1000 - parseInt(item.DocDate)) * 1.1574074074074e-8),
-                            "d"
-                        ) : Math.round((date / 1000 - parseInt(item.DocDate)) * 1.1574074074074e-8) < 1 && Math.round((date / 1000 - parseInt(item.DocDate)) * 2.7777777777778e-7) > 1 ? React.createElement(
-                            "span",
-                            null,
-                            Math.round((date / 1000 - parseInt(item.DocDate)) * 2.7777777777778e-7),
-                            "h"
-                        ) : Math.round((date / 1000 - item.DocDate) * 2.7777777777778e-7) < 1 ? React.createElement(
-                            "span",
-                            null,
-                            Math.round((date / 1000 - parseInt(item.DocDate)) / 60000),
-                            "m"
-                        ) : false : Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074e-8) >= 1 ? React.createElement(
-                            "span",
-                            null,
-                            Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074e-8),
-                            "d"
-                        ) : Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074e-8) < 1 && Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778e-7) > 1 ? React.createElement(
-                            "span",
-                            null,
-                            Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778e-7),
-                            "h"
-                        ) : Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778e-7) < 1 ? React.createElement(
-                            "span",
-                            null,
-                            Math.round((date - Date.parse(item.DocDate)) / 60000),
-                            "m"
-                        ) : false
-                    )
-                ),
-                React.createElement(
-                    "p",
-                    { style: s1 },
-                    item.Comments
-                )
-            );
+        jQuery(".gallery-1").unbind("click").bind("click", function (event) {
+            blueimp.Gallery(links, {
+                index: $(this).get(0),
+                event: event
+            });
         });
+    },
+    render: function () {
+        var settings = {
+            dots: true,
+            infinite: false,
+            speed: 500,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            autoplay: 1,
+            responsive: [{
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: true
+                }
+            }, {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }, {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }]
+
+
+        };
         return React.createElement(
             "div",
-            { className: "card" },
+            { className: "slick-content" },
             React.createElement(
-                "div",
-                { style: { "padding-left": "5px" } },
-                React.createElement(
-                    "h3",
-                    null,
-                    this.props.title
-                ),
-                React.createElement(
-                    "h5",
-                    null,
-                    this.props.discription
-                )
-            ),
-            commentNodes
+                Slider,
+                settings,
+                this.props.data.map(function (item, i) {
+                    var s1 = { "font-family": "georgia", "font-size": "16px", "line-height": "26px", "margin-bottom": "2%", "margin-left": "10%", "margin-right": "9%" };
+                    var s2 = { width: "100%", height: "40px" };
+                    var s3 = { width: "100%" };
+                    var s4 = { "padding-top": "20px", width: "100%", "padding-left": "5px" };
+                    var s5 = { height: "48px", width: "48px", padding: "4px", "border-bottom": "none", "margin-right": "5px" };
+                    var s8 = { "padding-right": "5px", color: "darkgray" };
+
+                    var urlTitle = this.props.returnurl;
+                    var urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
+                    var date = Date.parse(Date().toString());
+                    return React.createElement(
+                        "div",
+                        null,
+                        React.createElement(
+                            "div",
+                            { style: { "padding-left": "5px", float: "left", clear: "left", width: "70%" } },
+                            item.VideoID ? React.createElement(
+                                "div",
+                                { className: "fluidvids-youtube" },
+                                React.createElement(FluidVid, { src: "http://www.youtube.com/embed/" + item.VideoID + "?rel=0" })
+                            ) : item.PhotoUrl && item.Datasource == "Instagram" ? React.createElement(
+                                "div",
+                                null,
+                                React.createElement("img", { style: s3, src: item.PhotoUrl })
+                            ) : item.PhotoUrl && item.Datasource == "GooglePlus" ? React.createElement(
+                                "div",
+                                null,
+                                React.createElement("img", { style: s3, src: item.PhotoUrl })
+                            ) : item.PhotoUrl && item.Datasource == "Tumblr" ? React.createElement(
+                                "div",
+                                null,
+                                React.createElement("img", { style: s3, src: item.PhotoUrl })
+                            ) : item.PhotoUrl && item.Datasource == "Twitter" ? React.createElement(
+                                "div",
+                                null,
+                                React.createElement("img", { style: s3, src: item.PhotoUrl })
+                            ) : item.PhotoUrl && item.Datasource == "Facebook" ? React.createElement(
+                                "div",
+                                null,
+                                React.createElement("img", { style: s3, src: item.PhotoUrl })
+                            ) : false
+                        ),
+                        React.createElement(
+                            "div",
+                            { style: { float: "left", width: "30%" } },
+                            item.Datasource == "Twitter" ? React.createElement(
+                                "div",
+                                null,
+                                React.createElement(
+                                    "a",
+                                    { href: "https://twitter.com/" + item.ProfileID.substr(1), target: "_blank", className: "pull-left" },
+                                    React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 })
+                                ),
+                                React.createElement(
+                                    "div",
+                                    { style: s2 },
+                                    React.createElement(
+                                        "div",
+                                        null,
+                                        React.createElement(
+                                            "a",
+                                            { href: "https://twitter.com/" + item.ProfileID.substr(1), target: "_blank" },
+                                            item.ProfileName ? item.ProfileName.substr(1) : "No Name"
+                                        ),
+                                        React.createElement(
+                                            "div",
+                                            { className: "pull-right" },
+                                            React.createElement("span", { style: s8, className: "fa fa-twitter-square" })
+                                        )
+                                    ),
+                                    React.createElement(
+                                        "p",
+                                        null,
+                                        item.ProfileID,
+                                        " (",
+                                        item.ProfileFollower,
+                                        ")"
+                                    )
+                                )
+                            ) : item.Datasource == "Instagram" ? React.createElement(
+                                "div",
+                                null,
+                                React.createElement(
+                                    "a",
+                                    { href: "https://instagram.com/" + item.ProfileID, target: "_blank", className: "pull-left" },
+                                    React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 })
+                                ),
+                                React.createElement(
+                                    "div",
+                                    { style: s2 },
+                                    React.createElement(
+                                        "a",
+                                        { href: "https://instagram.com/" + item.ProfileID, target: "_blank" },
+                                        item.ProfileName ? item.ProfileName : "No Name"
+                                    ),
+                                    React.createElement(
+                                        "div",
+                                        { className: "pull-right" },
+                                        React.createElement("span", { style: s8, className: "fa fa-instagram" })
+                                    )
+                                )
+                            ) : item.Datasource == "GooglePlus" ? React.createElement(
+                                "div",
+                                null,
+                                React.createElement(
+                                    "a",
+                                    { href: "https://plus.google.com/" + item.ProfileID, target: "_blank", className: "pull-left" },
+                                    React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 })
+                                ),
+                                React.createElement(
+                                    "div",
+                                    { style: s2 },
+                                    React.createElement(
+                                        "a",
+                                        { href: "https://plus.google.com/" + item.ProfileID, target: "_blank" },
+                                        item.ProfileName ? item.ProfileName : "No Name"
+                                    ),
+                                    React.createElement(
+                                        "div",
+                                        { className: "pull-right" },
+                                        React.createElement("span", { style: s8, className: "fa fa-google-plus-square" })
+                                    )
+                                )
+                            ) : item.Datasource == "Tumblr" ? React.createElement(
+                                "div",
+                                null,
+                                React.createElement(
+                                    "a",
+                                    { href: "http://" + item.ProfileID + ".tumblr.com", target: "_blank", className: "pull-left" },
+                                    React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 })
+                                ),
+                                React.createElement(
+                                    "div",
+                                    { style: s2 },
+                                    React.createElement(
+                                        "a",
+                                        { href: "http://" + item.ProfileID + ".tumblr.com", target: "_blank" },
+                                        item.ProfileName ? item.ProfileName : "No Name"
+                                    ),
+                                    React.createElement(
+                                        "div",
+                                        { className: "pull-right" },
+                                        React.createElement("span", { style: s8, className: "fa fa-tumblr-square" })
+                                    )
+                                )
+                            ) : item.Datasource == "Facebook" ? React.createElement(
+                                "div",
+                                null,
+                                React.createElement(
+                                    "a",
+                                    { href: "https://www.facebook.com/profile.php?id =" + item.ProfileID, target: " _blank", className: "pull-left" },
+                                    React.createElement("img", { src: item.ProfilePhotoUrl, style: s5 })
+                                ),
+                                React.createElement(
+                                    "div",
+                                    { style: s2 },
+                                    React.createElement(
+                                        "a",
+                                        { href: "https://www.facebook.com/profile.php?id =" + item.ProfileID, target: " _blank" },
+                                        item.ProfileName ? item.ProfileName : "No Name"
+                                    ),
+                                    React.createElement(
+                                        "div",
+                                        { className: "pull-right" },
+                                        React.createElement("span", { style: s8, className: "fa fa-facebook-square" })
+                                    )
+                                )
+                            ) : false,
+                            React.createElement(
+                                "div",
+                                { style: { "padding-bottom": "20px" }, className: "card-content" },
+                                React.createElement("div", { dangerouslySetInnerHTML: { __html: item.Text != null ? item.Text.replace(urlPattern, "<a style=\"word-break:break-word;\" href=\"$&\" target=\"_blank\">$&</a>") : false } }),
+                                React.createElement(
+                                    "p",
+                                    { className: "pull-left", style: s4 },
+                                    item.Datasource == "Instagram" ? Math.round((date / 1000 - parseInt(item.DocDate)) * 1.1574074074074e-8) >= 1 ? React.createElement(
+                                        "span",
+                                        null,
+                                        Math.round((date / 1000 - parseInt(item.DocDate)) * 1.1574074074074e-8),
+                                        "d"
+                                    ) : Math.round((date / 1000 - parseInt(item.DocDate)) * 1.1574074074074e-8) < 1 && Math.round((date / 1000 - parseInt(item.DocDate)) * 2.7777777777778e-7) > 1 ? React.createElement(
+                                        "span",
+                                        null,
+                                        Math.round((date / 1000 - parseInt(item.DocDate)) * 2.7777777777778e-7),
+                                        "h"
+                                    ) : Math.round((date / 1000 - item.DocDate) * 2.7777777777778e-7) < 1 ? React.createElement(
+                                        "span",
+                                        null,
+                                        Math.round((date / 1000 - parseInt(item.DocDate)) / 60000),
+                                        "m"
+                                    ) : false : Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074e-8) >= 1 ? React.createElement(
+                                        "span",
+                                        null,
+                                        Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074e-8),
+                                        "d"
+                                    ) : Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074e-8) < 1 && Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778e-7) > 1 ? React.createElement(
+                                        "span",
+                                        null,
+                                        Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778e-7),
+                                        "h"
+                                    ) : Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778e-7) < 1 ? React.createElement(
+                                        "span",
+                                        null,
+                                        Math.round((date - Date.parse(item.DocDate)) / 60000),
+                                        "m"
+                                    ) : false
+                                )
+                            ),
+                            React.createElement(
+                                "p",
+                                { style: s1 },
+                                item.Comments
+                            )
+                        )
+                    );
+                }, this)
+            )
         );
     }
 });
 
 
-
-
-
-//var container=document.getElementById('comments');var
-var data = [{ ID: "618392413250416640", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Tue Jul 07 12:13:35 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@raqooq5", ProfileName: "@Наталия Эсперовa", ProfileScreenName: null, ProfileFollower: "244", ProfileFriends: "1", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/550180904488824833/5L7uKBVu_normal.jpeg", Likes: null, Retweet: null, Text: "RT: shafiqu94319914: RT ICC: LATEST: Great news for BCBTigers in the ODI rankings following the #BanvInd series vi… http://t.co/XqdVghz8G6" }, { ID: "618306451648307201", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Tue Jul 07 06:32:00 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "NA", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@vaguely_vague", ProfileName: "@?", ProfileScreenName: null, ProfileFollower: "1667", ProfileFriends: "300", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/617596057044713472/xOVsr5aG_normal.jpg", Likes: null, Retweet: null, Text: "RT @LoKarDi_RT: Anushka: Virat i want you here in 5mins.\nVirat: Ok my love. #INDvsBAN" }, { ID: "618300749626216449", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Tue Jul 07 06:09:20 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@shamimork", ProfileName: "@Shamim Hasan Ork ", ProfileScreenName: null, ProfileFollower: "20867", ProfileFriends: "21359", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/613032538517340160/_ldwPPO1_normal.jpg", Likes: null, Retweet: null, Text: "RT @BCBtigers: FOUR! Liton hits a nice four. He moves to 12* &amp; Bangladesh reaches to 71/2 in 11 overs. #BANvIND #riseofthetigers" }, { ID: "618137325856407552", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Mon Jul 06 19:19:57 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@adhopanto_naim", ProfileName: "@Adhopanto_Naim", ProfileScreenName: null, ProfileFollower: "78", ProfileFriends: "1540", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/612568846700974080/OddRKu2x_normal.jpg", Likes: null, Retweet: null, Text: "RT @letmetweet007: Shabbir Rahman looks like Maxwell of Bangladesh. Similar stance, body language, and attitude. Classy. #INDvBAN #banglade…" }, { ID: "618088468044853248", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Mon Jul 06 16:05:48 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CISWTa7UAAAC7Wx.jpg", ProfileID: "@Parthkacha4", ProfileName: "@Parth Kacha", ProfileScreenName: null, ProfileFollower: "66", ProfileFriends: "165", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/616583002261360640/1UdjHBBm_normal.jpg", Likes: null, Retweet: null, Text: "RT @DHONIism: You can't disrespect Dhoni, he knows his stuff: Raina backs his skipper http://t.co/gGQdrWwLCG #BANvIND http://t.co/t1CD2eMjqE" }, { ID: "618048047436668928", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Mon Jul 06 13:25:11 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@spathak30", ProfileName: "@Sandeep Pathak", ProfileScreenName: null, ProfileFollower: "147", ProfileFriends: "346", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/1768426719/image_normal.jpg", Likes: null, Retweet: null, Text: "@htTweets Rahane &amp; India should not underestimate teams with home turf advantage. #IndvsBan a lesson not to be forgotten in a hurry." }, { ID: "617963104777826304", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Mon Jul 06 07:47:40 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@Smile_plzzz_", ProfileName: "@Smile plzz", ProfileScreenName: null, ProfileFollower: "118", ProfileFriends: "88", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/617376110737670145/lA027WcL_normal.jpg", Likes: null, Retweet: null, Text: "RT @GagFire2015: RT: raqooq5: RT: Njshawon143: congrats BCBtigers to win this series against BCCI ICC. #BanvInd #riseofthetigers #n… http:/…" }, { ID: "617953438823899136", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Mon Jul 06 07:09:15 +0000 2015", Address: "Pakistan", Country: "Pakistan(PK)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@OneFunnyZone", ProfileName: "@UrDu JokEs", ProfileScreenName: null, ProfileFollower: "36", ProfileFriends: "29", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/617739261303898112/o6qTt6Dv_normal.jpg", Likes: null, Retweet: null, Text: "RT @cricinfo_record: This is the first ever occasion in India's Test history that opening stand is of 200+ runs in match's first innings aw…" }, { ID: "617951960138788864", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Mon Jul 06 07:03:22 +0000 2015", Address: "Pakistan", Country: "Pakistan(PK)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@OneFunnyZone", ProfileName: "@UrDu JokEs", ProfileScreenName: null, ProfileFollower: "36", ProfileFriends: "29", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/617739261303898112/o6qTt6Dv_normal.jpg", Likes: null, Retweet: null, Text: "RT @cricinfo_record: Most 50+ scores as captain in INTL matches:\n129 Ponting,\n110 GSmith,\n84 SFleming,\n80* MS Dhoni,\n80 ABorder,\n65 Ranatun…" }, { ID: "617947412095578113", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Mon Jul 06 06:45:18 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@AsmVerma", ProfileName: "@बस रिट्वीट करूंगा |", ProfileScreenName: null, ProfileFollower: "34", ProfileFriends: "57", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/614395059627143168/2f8aL8tk_normal.jpg", Likes: null, Retweet: null, Text: "RT @cricBC: Dhoni drops Jadeja. In Bollywood movies such moments are followed by dramatic thunder and lightning effects. #BanvInd" }, { ID: "617945750127820800", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Mon Jul 06 06:38:42 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@AsmVerma", ProfileName: "@बस रिट्वीट करूंगा |", ProfileScreenName: null, ProfileFollower: "34", ProfileFriends: "57", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/614395059627143168/2f8aL8tk_normal.jpg", Likes: null, Retweet: null, Text: "RT @KyaUkhaadLega: Dear Indian Team, please wrap this match up quickly to save the Indian tax payer's money spent on the lights at the stad…" }, { ID: "617775597570293760", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sun Jul 05 19:22:34 +0000 2015", Address: "India", Country: "India(IN)", Sentiment: "Positive", Gender: "NA", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@TheD_Major", ProfileName: "@D Major", ProfileScreenName: null, ProfileFollower: "53", ProfileFriends: "21", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/603940171323584512/BoHlGWD0_normal.png", Likes: null, Retweet: null, Text: "STAR SPORTS created \"Mauka Mauka\" ad we lost #CWC15 dey created \"Bacha Bacha\" we lost #BANvIND #DeshKeLiye didn't fruited we lost #HWL2015 😋" }, { ID: "617647474761728000", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sun Jul 05 10:53:27 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@Shivanii_S", ProfileName: "@Shivanii.", ProfileScreenName: null, ProfileFollower: "5029", ProfileFriends: "3694", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/593833546466369536/s-LvNvsW_normal.jpg", Likes: null, Retweet: null, Text: "RT @Fariha_bd: @Shivanii_S still wounded with #BANvIND defeat! How immature!!" }, { ID: "617645894175883264", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sun Jul 05 10:47:11 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@Fariha_bd", ProfileName: "@Fariha", ProfileScreenName: null, ProfileFollower: "365", ProfileFriends: "349", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/573350606397575169/BCxcFrRq_normal.jpeg", Likes: null, Retweet: null, Text: "@Shivanii_S still wounded with #BANvIND defeat! How immature!!" }, { ID: "617632696483733504", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sun Jul 05 09:54:44 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@AghoneyGodara", ProfileName: "@arun godara", ProfileScreenName: null, ProfileFollower: "5", ProfileFriends: "10", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/604927900836458497/E88b6O1n_normal.jpg", Likes: null, Retweet: null, Text: "RT @KaifSays: When was last time you saw 3 slips in 41st over ? Says how much control #bangladesh has kept during this match #indvsban" }, { ID: "617628903864008704", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sun Jul 05 09:39:40 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@achaldalal", ProfileName: "@ACHAL DALAL", ProfileScreenName: null, ProfileFollower: "99", ProfileFriends: "198", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/582461665670656000/xJlQfPMV_normal.jpg", Likes: null, Retweet: null, Text: "@jpduminy21 shows exactly why we needed @harbhajan_singh in ODI series! #BANvIND" }, { ID: "617412334542163968", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jul 04 19:19:06 +0000 2015", Address: "Pakistan", Country: "Pakistan(PK)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@Shani_asks", ProfileName: "@USMAN SHANI", ProfileScreenName: null, ProfileFollower: "18", ProfileFriends: "13", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/603088854615138305/6A4LGWcG_normal.jpg", Likes: null, Retweet: null, Text: "@trawler101 u rapis sing mauka when win &amp; when others do the same..u start to cry..#banvind" }, { ID: "617399391427690496", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jul 04 18:27:40 +0000 2015", Address: "Chittagong, Bangladesh", Country: "Bangladesh(BD)", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@mamun311293", ProfileName: "@Abdullah Al Mamun", ProfileScreenName: null, ProfileFollower: "37", ProfileFriends: "14", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/1174960053/Mamun_Vay_normal.jpg", Likes: null, Retweet: null, Text: "Star Sports is showing highlights of #BanVsInd ODI.\n\nBut which match????\n\n------3rd ODI..... :D" }, { ID: "617239538352558080", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jul 04 07:52:28 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CI3ZOUqUsAA7-GU.jpg", ProfileID: "@siya_kram", ProfileName: "@Siya Ke Ram OFC", ProfileScreenName: null, ProfileFollower: "158", ProfileFriends: "42", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/588181122330169344/jt5oB8KG_normal.jpg", Likes: null, Retweet: null, Text: "RT @PakCricketPCB: Ban is Playing Really well nowadays &amp; their fans Deserve to celebrate but this Pic has crossed the limits #IndvsBan http…" }, { ID: "617182874207301632", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jul 04 04:07:18 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@cutepraba98", ProfileName: "@cute praba", ProfileScreenName: null, ProfileFollower: "1", ProfileFriends: "24", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/613692141273878528/cyyWJ2u0_normal.jpg", Likes: null, Retweet: null, Text: "RT @cricinfo_record: Most 50+ scores as captain in INTL matches:\n129 Ponting,\n110 GSmith,\n84 SFleming,\n80* MS Dhoni,\n80 ABorder,\n65 Ranatun…" }, { ID: "617155367005327361", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jul 04 02:18:00 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@cricbol", ProfileName: "@cricbol", ProfileScreenName: null, ProfileFollower: "80", ProfileFriends: "218", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/2786084841/c2f3fe231b29c93fd528a06431a8aefb_normal.png", Likes: null, Retweet: null, Text: "3rd ODI, #BanvInd – India 317/6 (50 overs) Bangladesh 240/10 (47 overs) India won by 77 runs. Suresh Raina is the… http://t.co/Uurd4RFRmk" }, { ID: "617095856043524100", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Fri Jul 03 22:21:31 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@raqooq5", ProfileName: "@Наталия Эсперовa", ProfileScreenName: null, ProfileFollower: "205", ProfileFriends: "1", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/550180904488824833/5L7uKBVu_normal.jpeg", Likes: null, Retweet: null, Text: "RT: 7011Celik: RT IamBakkar1: Congrates My Bangladesh ♥\n#INDvBAN \n#BANvIND \n#RiseOfTheTigers\n\nShbd_sohag tArUnNoO … http://t.co/XqdVghz8G6" }, { ID: "617086858007150593", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Fri Jul 03 21:45:46 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CIDCx3YUwAAn3dv.jpg", ProfileID: "@7011Celik", ProfileName: "@yasin çelik", ProfileScreenName: null, ProfileFollower: "566", ProfileFriends: "1991", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/544955333139894272/0TUE8q4a_normal.jpeg", Likes: null, Retweet: null, Text: "RT @IamBakkar1: Congrates My Bangladesh ♥\n#INDvBAN \n#BANvIND \n#RiseOfTheTigers\n\n@Shbd_sohag @tArUnNoO @mrsaddam510  @The_Pure_H3art http://…" }, { ID: "617085045660979200", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Fri Jul 03 21:38:34 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CIDCx3YUwAAn3dv.jpg", ProfileID: "@ansarbasha9866", ProfileName: "@Ansar Basha", ProfileScreenName: null, ProfileFollower: "587", ProfileFriends: "1999", ProfilePhotoUrl: "http://abs.twimg.com/sticky/default_profile_images/default_profile_1_normal.png", Likes: null, Retweet: null, Text: "RT @IamBakkar1: Congrates My Bangladesh ♥\n#INDvBAN \n#BANvIND \n#RiseOfTheTigers\n\n@Shbd_sohag @tArUnNoO @mrsaddam510  @The_Pure_H3art http://…" }, { ID: "617017759776419840", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Fri Jul 03 17:11:12 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CIDCx3YUwAAn3dv.jpg", ProfileID: "@free_hookup", ProfileName: "@cHookup™", ProfileScreenName: null, ProfileFollower: "1185", ProfileFriends: "2002", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/600775607547334656/0a1oOQps_normal.png", Likes: null, Retweet: null, Text: "RT @IamBakkar1: Congrates My Bangladesh ♥\n#INDvBAN \n#BANvIND \n#RiseOfTheTigers\n\n@Shbd_sohag @tArUnNoO @mrsaddam510  @The_Pure_H3art http://…" }, { ID: "617013395212992512", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Fri Jul 03 16:53:51 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CIDCx3YUwAAn3dv.jpg", ProfileID: "@colson7674", ProfileName: "@Richard Colson", ProfileScreenName: null, ProfileFollower: "347", ProfileFriends: "790", ProfilePhotoUrl: "http://abs.twimg.com/sticky/default_profile_images/default_profile_0_normal.png", Likes: null, Retweet: null, Text: "RT @IamBakkar1: Congrates My Bangladesh ♥\n#INDvBAN \n#BANvIND \n#RiseOfTheTigers\n\n@Shbd_sohag @tArUnNoO @mrsaddam510  @The_Pure_H3art http://…" }, { ID: "616902826984222720", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Fri Jul 03 09:34:30 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CISWTa7UAAAC7Wx.jpg", ProfileID: "@MenonvrindaV", ProfileName: "@☺Vrinda☺", ProfileScreenName: null, ProfileFollower: "212", ProfileFriends: "208", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/615589410843705344/qXAdyrzw_normal.jpg", Likes: null, Retweet: null, Text: "RT @DHONIism: You can't disrespect Dhoni, he knows his stuff: Raina backs his skipper http://t.co/gGQdrWwLCG #BANvIND http://t.co/t1CD2eMjqE" }, { ID: "616886599725379584", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Fri Jul 03 08:30:01 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@MikkhailVaswani", ProfileName: "@ThatCricketGuy", ProfileScreenName: null, ProfileFollower: "3247", ProfileFriends: "183", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/616481538536902657/hUG6xzv2_normal.jpg", Likes: null, Retweet: null, Text: "RT @bmsurti11: @ajinkyarahane88: \n@bmsurti11 writes: 10 Amazing Facts About Ajinkya Rahane\nREAD HERE: http://t.co/kU2YtG7gJf #BANvIND #Raha…" }, { ID: "616819986741399553", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Fri Jul 03 04:05:19 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CI9igoTUwAE9luE.png", ProfileID: "@IndiaDefends", ProfileName: "@India Defends", ProfileScreenName: null, ProfileFollower: "219", ProfileFriends: "676", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/556007794856296448/smmShL8T_normal.png", Likes: null, Retweet: null, Text: "#Blog: NBT Sports: #CWC15 #INDvsBAN \nबड़ा झटका!!! विराट कोहली 3 रन बनाकर आ ... - http://t.co/X6L38TQ4DO #IndiaDefends http://t.co/u0KguBSkvx" }, { ID: "616715625449140225", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Thu Jul 02 21:10:37 +0000 2015", Address: "Lahore, Pakistan", Country: "Pakistan(PK)", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CI3ZOUqUsAA7-GU.jpg", ProfileID: "@usamahaider12", ProfileName: "@Usama Bukhari", ProfileScreenName: null, ProfileFollower: "27", ProfileFriends: "295", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/616712466756571141/IUp2Gxgw_normal.jpg", Likes: null, Retweet: null, Text: "RT @PakCricketPCB: Ban is Playing Really well nowadays &amp; their fans Deserve to celebrate but this Pic has crossed the limits #IndvsBan http…" }, { ID: "616694179662422018", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Thu Jul 02 19:45:24 +0000 2015", Address: "Dhaka, Bangladesh", Country: "Bangladesh(BD)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@BelongstoRaya", ProfileName: "@Prottoy Piash Mahmud", ProfileScreenName: null, ProfileFollower: "86", ProfileFriends: "184", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/616225333285523456/CyboOBKa_normal.jpg", Likes: null, Retweet: null, Text: "RT @adidascricket: @BCBtigers win convincingly yesterday. They looked like a good ODI unit playing aggressively and showing they meant busi…" }, { ID: "616691574924296192", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Thu Jul 02 19:35:03 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CI3ZOUqUsAA7-GU.jpg", ProfileID: "@imsdonkey55", ProfileName: "@CricKet55", ProfileScreenName: null, ProfileFollower: "25", ProfileFriends: "244", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/615375606625214464/gzSdkJNS_normal.jpg", Likes: null, Retweet: null, Text: "RT @PakCricketPCB: Ban is Playing Really well nowadays &amp; their fans Deserve to celebrate but this Pic has crossed the limits #IndvsBan http…" }, { ID: "616685972122673153", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Thu Jul 02 19:12:47 +0000 2015", Address: "Gujrat, Pakistan", Country: "Pakistan(PK)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CI3ZOUqUsAA7-GU.jpg", ProfileID: "@salmanjaved_sj", ProfileName: "@maliksalman", ProfileScreenName: null, ProfileFollower: "33", ProfileFriends: "166", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/576435780496687104/tFPE-AuU_normal.jpeg", Likes: null, Retweet: null, Text: "RT @PakCricketPCB: Ban is Playing Really well nowadays &amp; their fans Deserve to celebrate but this Pic has crossed the limits #IndvsBan http…" }, { ID: "616681177525714946", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Thu Jul 02 18:53:44 +0000 2015", Address: "Pakistan", Country: "Pakistan(PK)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CI3ZOUqUsAA7-GU.jpg", ProfileID: "@cricket_PK2", ProfileName: "@Green Shirts", ProfileScreenName: null, ProfileFollower: "922", ProfileFriends: "101", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/615553538291187712/F97X3cGu_normal.jpg", Likes: null, Retweet: null, Text: "RT @PakCricketPCB: Ban is Playing Really well nowadays &amp; their fans Deserve to celebrate but this Pic has crossed the limits #IndvsBan http…" }, { ID: "616613380665708544", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Thu Jul 02 14:24:20 +0000 2015", Address: "Narayanganj, Bangladesh", Country: "Bangladesh(BD)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CIR4-DzUsAAvi2w.jpg", ProfileID: "@PopnessEmran", ProfileName: "@POPNess Emran", ProfileScreenName: null, ProfileFollower: "28", ProfileFriends: "88", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/615820483582275588/c87i6Gx4_normal.jpg", Likes: null, Retweet: null, Text: "RT @BCBtigers: Congratulations to all @BCBtigers for the historical series win against @BCCI. #BANvIND #riseofthetigers http://t.co/x5bcNKz…" }, { ID: "616567804788101120", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Thu Jul 02 11:23:14 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CI3ZOUqUsAA7-GU.jpg", ProfileID: "@farooq_amin30", ProfileName: "@Farooq Amin", ProfileScreenName: null, ProfileFollower: "62", ProfileFriends: "166", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/553552853030039552/IZUSrXo5_normal.jpeg", Likes: null, Retweet: null, Text: "RT @PakCricketPCB: Ban is Playing Really well nowadays &amp; their fans Deserve to celebrate but this Pic has crossed the limits #IndvsBan http…" }, { ID: "616536541314158592", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Thu Jul 02 09:19:00 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CI3ZOUqUsAA7-GU.jpg", ProfileID: "@Moxin_ali3", ProfileName: "@Mohsin Ali", ProfileScreenName: null, ProfileFollower: "50", ProfileFriends: "359", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/602409634691878912/Jc4HTwnH_normal.jpg", Likes: null, Retweet: null, Text: "RT @PakCricketPCB: Ban is Playing Really well nowadays &amp; their fans Deserve to celebrate but this Pic has crossed the limits #IndvsBan http…" }, { ID: "616475748140908544", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Thu Jul 02 05:17:26 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@imRohitian45", ProfileName: "@Sonya R. Sharma ❤", ProfileScreenName: null, ProfileFollower: "943", ProfileFriends: "118", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/616316688129134592/XqWum9ig_normal.jpg", Likes: null, Retweet: null, Text: "RT @adidascricket: @BCBtigers win convincingly yesterday. They looked like a good ODI unit playing aggressively and showing they meant busi…" }, { ID: "616475405357223936", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Thu Jul 02 05:16:04 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@Ankushchoubey_", ProfileName: "@Ankush RG Follower", ProfileScreenName: null, ProfileFollower: "1087", ProfileFriends: "216", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/614803569187762176/Fcd9jNC6_normal.jpg", Likes: null, Retweet: null, Text: "RT @JM_Scindia: Congratulations Team India for a Convincing victory against Bangladesh &amp; advancing to Semi Finals of the @cricketworldcup. …" }, { ID: "616468440136613888", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Thu Jul 02 04:48:24 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CI3ZOUqUsAA7-GU.jpg", ProfileID: "@Hinakhanalive", ProfileName: "@Hina Khan", ProfileScreenName: null, ProfileFollower: "128", ProfileFriends: "120", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/587203434048176129/cXhVTore_normal.jpg", Likes: null, Retweet: null, Text: "RT @PakCricketPCB: Ban is Playing Really well nowadays &amp; their fans Deserve to celebrate but this Pic has crossed the limits #IndvsBan http…" }, { ID: "616454858422517760", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Thu Jul 02 03:54:26 +0000 2015", Address: "Jammu and Kashmir", Country: "None(None)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CI3ZOUqUsAA7-GU.jpg", ProfileID: "@malikhamid33", ProfileName: "@Hamid malik", ProfileScreenName: null, ProfileFollower: "3", ProfileFriends: "50", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/613933323388219392/IY3aOtJR_normal.jpg", Likes: null, Retweet: null, Text: "RT @PakCricketPCB: Ban is Playing Really well nowadays &amp; their fans Deserve to celebrate but this Pic has crossed the limits #IndvsBan http…" }, { ID: "616426998747955200", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Thu Jul 02 02:03:43 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CI3ZOUqUsAA7-GU.jpg", ProfileID: "@majid786917", ProfileName: "@Cricket back to #Pak", ProfileScreenName: null, ProfileFollower: "168", ProfileFriends: "54", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/599663537485516800/Ua5arHQe_normal.jpg", Likes: null, Retweet: null, Text: "RT @PakCricketPCB: Ban is Playing Really well nowadays &amp; their fans Deserve to celebrate but this Pic has crossed the limits #IndvsBan http…" }, { ID: "616400492516765696", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Thu Jul 02 00:18:24 +0000 2015", Address: "London, UK", Country: "United Kingdom(GB)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CIRlS4IXAAAGUQ9.jpg", ProfileID: "@zamirtelecom", ProfileName: "@Zamir Telecom Ltd.", ProfileScreenName: null, ProfileFollower: "270", ProfileFriends: "115", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/2725509698/b3469af141abf66c173ae3985c19e97c_normal.jpeg", Likes: null, Retweet: null, Text: "RT @simplecall: Did U get ur #bonus ?\nHurry up!\nTry: http://t.co/4bcWRL3Txk\n\n#cheap #calls #BANvIND #IndiaVsBangladesh #cricketlive http://…" }, { ID: "616398869857832961", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Thu Jul 02 00:11:57 +0000 2015", Address: "Pakistan", Country: "Pakistan(PK)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CI3ZOUqUsAA7-GU.jpg", ProfileID: "@itsme_ark", ProfileName: "@Aamir Khan", ProfileScreenName: null, ProfileFollower: "320", ProfileFriends: "201", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/609698835925827585/TtIC5OTZ_normal.jpg", Likes: null, Retweet: null, Text: "RT @PakCricketPCB: Ban is Playing Really well nowadays &amp; their fans Deserve to celebrate but this Pic has crossed the limits #IndvsBan http…" }, { ID: "616392873303347200", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Wed Jul 01 23:48:07 +0000 2015", Address: "Chittagong, Bangladesh", Country: "Bangladesh(BD)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CIR4-DzUsAAvi2w.jpg", ProfileID: "@nazir330", ProfileName: "@Mohammed Oayan", ProfileScreenName: null, ProfileFollower: "23", ProfileFriends: "133", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/570629592098033664/a8F8gacy_normal.jpeg", Likes: null, Retweet: null, Text: "RT @BCBtigers: Congratulations to all @BCBtigers for the historical series win against @BCCI. #BANvIND #riseofthetigers http://t.co/x5bcNKz…" }, { ID: "616390554318848000", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Wed Jul 01 23:38:54 +0000 2015", Address: "Bengaluru, Karnataka, India", Country: "India(IN)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@Priyanshu7Singh", ProfileName: "@Priyanshu singh", ProfileScreenName: null, ProfileFollower: "146", ProfileFriends: "1745", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/607114162649493504/LeJntISh_normal.jpg", Likes: null, Retweet: null, Text: "RT @cricinfo_record: Most 50+ scores as captain in INTL matches:\n129 Ponting,\n110 GSmith,\n84 SFleming,\n80* MS Dhoni,\n80 ABorder,\n65 Ranatun…" }, { ID: "616388348953915393", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Wed Jul 01 23:30:08 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CI3ZOUqUsAA7-GU.jpg", ProfileID: "@asmarakhan19", ProfileName: "@Asmara", ProfileScreenName: null, ProfileFollower: "219", ProfileFriends: "187", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/614410828301910016/NW-Xvcxf_normal.jpg", Likes: null, Retweet: null, Text: "RT @PakCricketPCB: Ban is Playing Really well nowadays &amp; their fans Deserve to celebrate but this Pic has crossed the limits #IndvsBan http…" }, { ID: "616388073249734656", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Wed Jul 01 23:29:03 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CI3ZOUqUsAA7-GU.jpg", ProfileID: "@MuneebPashtun", ProfileName: "@Muneeb Khan", ProfileScreenName: null, ProfileFollower: "25", ProfileFriends: "219", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/443294602137595904/dp08Xvwj_normal.jpeg", Likes: null, Retweet: null, Text: "RT @PakCricketPCB: Ban is Playing Really well nowadays &amp; their fans Deserve to celebrate but this Pic has crossed the limits #IndvsBan http…" }, { ID: "616387834598002688", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Wed Jul 01 23:28:06 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CI3ZOUqUsAA7-GU.jpg", ProfileID: "@yasolapakos", ProfileName: "@Yaso ✨", ProfileScreenName: null, ProfileFollower: "247", ProfileFriends: "104", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/614097557933961216/I2_5sRvy_normal.jpg", Likes: null, Retweet: null, Text: "RT @PakCricketPCB: Ban is Playing Really well nowadays &amp; their fans Deserve to celebrate but this Pic has crossed the limits #IndvsBan http…" }, { ID: "616387755304599553", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Wed Jul 01 23:27:47 +0000 2015", Address: "Mirpur", Country: "None(None)", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CI3ZOUqUsAA7-GU.jpg", ProfileID: "@SabahZafar1", ProfileName: "@Sabah Zafar", ProfileScreenName: null, ProfileFollower: "86", ProfileFriends: "170", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/615455092569812993/_mX7SY1Z_normal.jpg", Likes: null, Retweet: null, Text: "RT @PakCricketPCB: Ban is Playing Really well nowadays &amp; their fans Deserve to celebrate but this Pic has crossed the limits #IndvsBan http…" }, { ID: "616387566183383040", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Wed Jul 01 23:27:02 +0000 2015", Address: "Lahore, Pakistan", Country: "Pakistan(PK)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CI3ZOUqUsAA7-GU.jpg", ProfileID: "@PakCricketPCB", ProfileName: "@Pakistan Cricket ", ProfileScreenName: null, ProfileFollower: "1714", ProfileFriends: "1929", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/517251437818961921/pJhkp2dd_normal.jpeg", Likes: null, Retweet: null, Text: "Ban is Playing Really well nowadays &amp; their fans Deserve to celebrate but this Pic has crossed the limits #IndvsBan http://t.co/1xVCkjAawK" }, { ID: "616330149865205760", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Wed Jul 01 19:38:53 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "NA", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@imTaohid", ProfileName: "@M THD", ProfileScreenName: null, ProfileFollower: "21", ProfileFriends: "420", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/447392644667150336/lWMBkMr2_normal.jpeg", Likes: null, Retweet: null, Text: "RT @bomanirani: From this day on, may they will never be referred to, as 'minnows', ever again!!! Bravo Bangla Desh! #INDvBAN" }, { ID: "616294536428412932", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Wed Jul 01 17:17:22 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@hwasif60", ProfileName: "@Wasif Hussain", ProfileScreenName: null, ProfileFollower: "8", ProfileFriends: "226", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/603593435103121408/Osaf7Hi3_normal.jpg", Likes: null, Retweet: null, Text: "Making fun of Indain team by publishing such type cartoon is totally childish act.\n#BANvIND" }, { ID: "616209649155600384", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Wed Jul 01 11:40:03 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@virushkalover", ProfileName: "@Nushki ", ProfileScreenName: null, ProfileFollower: "1862", ProfileFriends: "1918", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/616205648922038273/4ydJQ8vY_normal.jpg", Likes: null, Retweet: null, Text: "RT @_hafees: If you want to compare someone with Virat Kohli, come up with his individual records. Don't compare by looking their recent fo…" }, { ID: "616177054296334336", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Wed Jul 01 09:30:32 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@akshay_khanna", ProfileName: "@Akshay Khanna", ProfileScreenName: null, ProfileFollower: "330", ProfileFriends: "474", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/537603640974770176/fYT4t4NC_normal.jpeg", Likes: null, Retweet: null, Text: "#INDvBAN Overall wins. ODI: India 26 Bangladesh 5.Test: #Ind 6 #Ban 0. @ProthomAlo Morons! wat r u gloating about? @BCBtigers #Dolts #gaandu" }, { ID: "616173062870953984", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Wed Jul 01 09:14:40 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@raqooq5", ProfileName: "@Наталия Эсперовa", ProfileScreenName: null, ProfileFollower: "179", ProfileFriends: "1", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/550180904488824833/5L7uKBVu_normal.jpeg", Likes: null, Retweet: null, Text: "RT: raqooq5: RT: MyNameIs007Khan: #INDvBAN Same Idiot's screaming now were OK &amp; even Supported Charlie Hebdo carto… http://t.co/XqdVghz8G6" }, { ID: "616136365416284160", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Wed Jul 01 06:48:51 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@FanOfBangladesh", ProfileName: "@Fan Of Bangladesh ", ProfileScreenName: null, ProfileFollower: "97", ProfileFriends: "40", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/603807500975022080/QESacso7_normal.jpg", Likes: null, Retweet: null, Text: "RT @meh_priata: Mustafizur you made people all over the world recognise our country !! Ours may SMALL but strong #riseofthetigers #BANvIND" }, { ID: "616132532728303617", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Wed Jul 01 06:33:37 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@IamNicck", ProfileName: "@NIkhIL", ProfileScreenName: null, ProfileFollower: "146", ProfileFriends: "351", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/613997006835417090/WTe-c33S_normal.jpg", Likes: null, Retweet: null, Text: "RT @28anand: 19, debut, 5-wkt haul...well done Mustafizur #BANvIND" }, { ID: "616124078181629953", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Wed Jul 01 06:00:01 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CHnP2W5UsAApme4.jpg", ProfileID: "@mindglowingtips", ProfileName: "@cricketer of bihar", ProfileScreenName: null, ProfileFollower: "1365", ProfileFriends: "2011", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/615345216678002688/w4l6f6tp_normal.jpg", Likes: null, Retweet: null, Text: "RT @BCCI: MS Dhoni was back in action. He looked fresh, relaxed and geared up. #BanvsInd http://t.co/yWZCHZ4Ffa" }, { ID: "616122595021172736", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Wed Jul 01 05:54:08 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CIHc0BbUcAEq6Hf.png", ProfileID: "@ngopal050", ProfileName: "@Proudest INDIAN (67)", ProfileScreenName: null, ProfileFollower: "2061", ProfileFriends: "244", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/563206096106438656/n15U1gdC_normal.jpeg", Likes: null, Retweet: null, Text: "RT @greymind43: MS Dhoni has a terrific ODI record, give him respect: Sourav Ganguly \n#IndvsBan http://t.co/m99GlzWnOc" }, { ID: "615999134873579521", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Tue Jun 30 21:43:33 +0000 2015", Address: "Earth, TX 79031, USA", Country: "United States(US)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CAdPX-CUkAAemzk.jpg", ProfileID: "@tweetordie1", ProfileName: "@Tweet or die", ProfileScreenName: null, ProfileFollower: "1927", ProfileFriends: "740", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/596323638682525698/hrL_c8wg_normal.jpg", Likes: null, Retweet: null, Text: "RT @IndianCricNews: Congratulations to Captain Cool for his 100th ODI win. \nRETWEET and Wish MS DHONI\n#MSD100 #INDvBAN #INDvsBAN #CWC15 htt…" }, { ID: "615965181349339137", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Tue Jun 30 19:28:37 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@andro8ammar", ProfileName: "@Andro8", ProfileScreenName: null, ProfileFollower: "264", ProfileFriends: "40", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/589648474888540161/nysIZ7Z7_normal.png", Likes: null, Retweet: null, Text: "runal_jaju: RT MeraMedicare: Cost of a button at GOOGLE is, US $110 Million #google #USA #BANvIND #HangoutON #mera… http://t.co/Y5YFUibRjJ" }, { ID: "615964338495451136", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Tue Jun 30 19:25:17 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CHydyGRVAAI1VIQ.png", ProfileID: "@runal_jaju", ProfileName: "@runal jaju", ProfileScreenName: null, ProfileFollower: "40", ProfileFriends: "170", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/555638807878320128/mzf4vAX8_normal.jpeg", Likes: null, Retweet: null, Text: "RT @MeraMedicare: Cost of a button at GOOGLE is, US $110 Million #google #USA #BANvIND #HangoutON #meramedicare #Delhi #BBTrailerAt5pm http…" }, { ID: "615923564567367680", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Tue Jun 30 16:43:15 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@antonysavio96", ProfileName: "@Antony Savio", ProfileScreenName: null, ProfileFollower: "15", ProfileFriends: "105", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/599903627080142848/oWdoVz2q_normal.jpg", Likes: null, Retweet: null, Text: "RT @mipaltan: #IND: 26/0 after 5 overs. Steady start by our openers. #BANvIND" }, { ID: "615921192940089344", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Tue Jun 30 16:33:50 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CIwxD3aVEAAS-Ri.jpg", ProfileID: "@MyNameIs007Khan", ProfileName: "@BATMAN", ProfileScreenName: null, ProfileFollower: "38", ProfileFriends: "175", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/601071393820708864/76-Q4Rd1_normal.jpg", Likes: null, Retweet: null, Text: "@OfficialCSA #BANvSA  Look what happen to team #IND after #INDvBAN series! #BDTigers are in mood! #SAvBAN #BANvIND http://t.co/WKcDSWwrM7" }, { ID: "615904236216320001", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Tue Jun 30 15:26:27 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CIwhn9ZUsAAyclY.jpg", ProfileID: "@ashenai", ProfileName: "@ashenai", ProfileScreenName: null, ProfileFollower: "128", ProfileFriends: "107", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/1630218758/aks_profile_normal.JPG", Likes: null, Retweet: null, Text: "Ad in BD newspaper - super trolls these Bangladeshis are. &amp; it looks perfectly normal on Ravindra Jadeja #BanvInd http://t.co/xl0oouvejt" }, { ID: "615897099561885696", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Tue Jun 30 14:58:06 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@snazzyanish", ProfileName: "@AnishLANKYKumar", ProfileScreenName: null, ProfileFollower: "85", ProfileFriends: "595", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/416749208515784704/0sNzW-R2_normal.jpeg", Likes: null, Retweet: null, Text: "RT @hegdepooja: Glad to know #India won! Off to the Semis 💃💃 Now it's MY time to perform ;) #INDvsBAN #MohenjoDaro #victory" }, { ID: "615850448193368064", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Tue Jun 30 11:52:43 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "NA", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@mshivs", ProfileName: "@M Shiv Shankar", ProfileScreenName: null, ProfileFollower: "70", ProfileFriends: "105", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/609010303397855232/_wAGY1dw_normal.jpg", Likes: null, Retweet: null, Text: "LOL,such reactions how show minnowish they r,one win n they go insane\r\"Bangladeshi print mocks Indian team #BanvInd\rhttp://t.co/KoH4vNASdO\"" }, { ID: "615835167165280256", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Tue Jun 30 10:52:00 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@salahuddinraz", ProfileName: "@SaLaH UddiN", ProfileScreenName: null, ProfileFollower: "806", ProfileFriends: "263", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/529731969500733440/4_xTkPYy_normal.jpeg", Likes: null, Retweet: null, Text: "Sharfuddoulla #TheTigerUmpire did great umpiring not being stressed by mighty #TeamIndia appeals&amp;taking right decission #JoyBangla #BANvIND" }, { ID: "615821020285399040", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Tue Jun 30 09:55:47 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@jafranfz", ProfileName: "@Jafu", ProfileScreenName: null, ProfileFollower: "452", ProfileFriends: "304", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/570975889085579264/1mE_xpaG_normal.jpeg", Likes: null, Retweet: null, Text: "RT @cricinfo_record: Most 50+ scores as captain in INTL matches:\n129 Ponting,\n110 GSmith,\n84 SFleming,\n80* MS Dhoni,\n80 ABorder,\n65 Ranatun…" }, { ID: "615583849846734848", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Mon Jun 29 18:13:21 +0000 2015", Address: "Dhaka, Bangladesh", Country: "Bangladesh(BD)", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@salahuddinraz", ProfileName: "@SaLaH UddiN", ProfileScreenName: null, ProfileFollower: "806", ProfileFriends: "264", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/529731969500733440/4_xTkPYy_normal.jpeg", Likes: null, Retweet: null, Text: ".@abpnewstv is trying to create Divide &amp; Rule in creating Indo-Bangla conflict by #SudhirGautam Drama. #INDvBAN #BANvIND" }, { ID: "615556963968122880", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Mon Jun 29 16:26:31 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@prashantkumarns", ProfileName: "@Tum se na ho payega!", ProfileScreenName: null, ProfileFollower: "140", ProfileFriends: "467", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/532546443408457728/EQewPfXi_normal.jpeg", Likes: null, Retweet: null, Text: "RT @HindiSatire: Last best performance of Virat Kohli was in Comedy Nights With Kapil ..  #BANvIND" }, { ID: "615436437882830848", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Mon Jun 29 08:27:35 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "NA", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@rafiqul536700", ProfileName: "@MD Rafiqul Islam ", ProfileScreenName: null, ProfileFollower: "3", ProfileFriends: "91", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/587992743642697729/yvv3Mm0O_normal.jpg", Likes: null, Retweet: null, Text: "RT @bomanirani: From this day on, may they will never be referred to, as 'minnows', ever again!!! Bravo Bangla Desh! #INDvBAN" }, { ID: "615335372030021637", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Mon Jun 29 01:45:59 +0000 2015", Address: "Bhubaneshwar, Odisha, India", Country: "India(IN)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@deepak_Das01", ProfileName: "@deepak kumar das", ProfileScreenName: null, ProfileFollower: "53", ProfileFriends: "45", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/378800000741157543/7b73fd77f710d5a2189355180291f08c_normal.jpeg", Likes: null, Retweet: null, Text: "RT @RaunakRK: Has Ravi Shastri made the difference here as well? #justgetthefeeling #BanvsInd" }, { ID: "615335345048059904", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Mon Jun 29 01:45:53 +0000 2015", Address: "Bhubaneshwar, Odisha, India", Country: "India(IN)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@deepak_Das01", ProfileName: "@deepak kumar das", ProfileScreenName: null, ProfileFollower: "53", ProfileFriends: "45", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/378800000741157543/7b73fd77f710d5a2189355180291f08c_normal.jpeg", Likes: null, Retweet: null, Text: "RT @harioombaba: I have always thought of Ravi Shastri as a big mouthed mediocre jackass. This series re-confirms my belief. Sack Ravi Shas…" }, { ID: "615262063846256640", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sun Jun 28 20:54:41 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "NA", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@aljalil17", ProfileName: "@al jalil ", ProfileScreenName: null, ProfileFollower: "14", ProfileFriends: "162", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/613962212294529024/5hR-LEda_normal.jpg", Likes: null, Retweet: null, Text: "RT @bomanirani: From this day on, may they will never be referred to, as 'minnows', ever again!!! Bravo Bangla Desh! #INDvBAN" }, { ID: "615204436864925697", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sun Jun 28 17:05:42 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CIGllVOVEAEK7RX.jpg", ProfileID: "@ramsayz_chintu", ProfileName: "@Ram Pothineni", ProfileScreenName: null, ProfileFollower: "98", ProfileFriends: "407", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/614994004703227905/y83L3o2V_normal.jpg", Likes: null, Retweet: null, Text: "RT @IExpressSports: MS Dhoni looks ruffled, in dire need of ‘Yoga': @BishanBedi http://t.co/l8iAB87gWe #BANvIND #Dhoni http://t.co/g04wQ6n4…" }, { ID: "615070718783549440", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sun Jun 28 08:14:21 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@Andym6769", ProfileName: "@Andrew Mundell", ProfileScreenName: null, ProfileFollower: "1385", ProfileFriends: "2001", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/612930851874172928/g0Kr1V6X_normal.jpg", Likes: null, Retweet: null, Text: "RT @cricbuzz: Dhoni records his 59th ODI fifty. This is his 3rd fifty in his last six innings. #BANvIND" }, { ID: "615023067052441600", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sun Jun 28 05:05:00 +0000 2015", Address: "Bengaluru, Karnataka, India", Country: "India(IN)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@Priyanshu7Singh", ProfileName: "@Priyanshu singh", ProfileScreenName: null, ProfileFollower: "133", ProfileFriends: "1707", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/607114162649493504/LeJntISh_normal.jpg", Likes: null, Retweet: null, Text: "RT @cricinfo_record: This is the first ever occasion in India's Test history that opening stand is of 200+ runs in match's first innings aw…" }, { ID: "615006665306320897", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sun Jun 28 03:59:49 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CIR4-DzUsAAvi2w.jpg", ProfileID: "@santabul", ProfileName: "@santa bul", ProfileScreenName: null, ProfileFollower: "32", ProfileFriends: "431", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/588519777817112576/VVeKyUh2_normal.jpg", Likes: null, Retweet: null, Text: "RT @BCBtigers: Congratulations to all @BCBtigers for the historical series win against @BCCI. #BANvIND #riseofthetigers http://t.co/x5bcNKz…" }, { ID: "614895021251170304", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 20:36:11 +0000 2015", Address: "Ludhiana, Punjab, India", Country: "India(IN)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@Singh3460", ProfileName: "@ਟੁੱਟ ਪੈਨਾ•°•°੩੪੬੦ :p", ProfileScreenName: null, ProfileFollower: "2066", ProfileFriends: "1531", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/611937859629481984/J6nu9x_O_normal.jpg", Likes: null, Retweet: null, Text: "RT @I_ShineNotBurn: And @BCBtigers tigers have the best fans 😍😍 the crowd at the stadium is love ❤ #BANvIND" }, { ID: "614871539339517953", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 19:02:53 +0000 2015", Address: "New Delhi, Delhi, India", Country: "India(IN)", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CISWTa7UAAAC7Wx.jpg", ProfileID: "@chancha51350078", ProfileName: "@chanchal gupta", ProfileScreenName: null, ProfileFollower: "417", ProfileFriends: "305", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/563333117901950976/uahnm-5E_normal.jpeg", Likes: null, Retweet: null, Text: "RT @jaspreet_sahni: You can't disrespect Dhoni, he knows his stuff: Raina backs his skipper http://t.co/KwZWlj8Vgj #BANvIND http://t.co/Nxm…" }, { ID: "614851908235194368", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 17:44:52 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@InvincibleSR", ProfileName: "@Rohan Sule  ", ProfileScreenName: null, ProfileFollower: "177", ProfileFriends: "181", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/418277032888659968/NRKCBZ0x_normal.jpeg", Likes: null, Retweet: null, Text: "Its better to have medium pacers who can bowl better line and length rather than bowlers who only have Pace but no brains #BCCI #INDvBAN" }, { ID: "614825181874237440", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 15:58:40 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CISWTa7UAAAC7Wx.jpg", ProfileID: "@Stone98King", ProfileName: "@Ankit", ProfileScreenName: null, ProfileFollower: "2", ProfileFriends: "28", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/601439398010322944/tmVAQlHm_normal.jpg", Likes: null, Retweet: null, Text: "RT @DHONIism: You can't disrespect Dhoni, he knows his stuff: Raina backs his skipper http://t.co/gGQdrWwLCG #BANvIND http://t.co/t1CD2eMjqE" }, { ID: "614823380282404864", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 15:51:31 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@kashifbaloch", ProfileName: "@kashif baloch", ProfileScreenName: null, ProfileFollower: "272", ProfileFriends: "1", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/609599827492519936/CiyOl8Lv_normal.png", Likes: null, Retweet: null, Text: "http://t.co/gGlQYw6Y93 I've also become a fan of #Mustafizur,he should end up with at-least 300# ODI wickets.A true star in making.#indvsban" }, { ID: "614821214398189568", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 15:42:54 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@monjurhasan22", ProfileName: "@monjur hasan", ProfileScreenName: null, ProfileFollower: "1", ProfileFriends: "26", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/378800000354838746/9199872e6e7bb0cc7159ccb05b187247_normal.jpeg", Likes: null, Retweet: null, Text: "\"@jhaveribazaar: Masrafe Mortaza - Runs like Akhtar, bowls like Ganguly #BANvIND\"thanks" }, { ID: "614819469450346499", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 15:35:58 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@QTvPK", ProfileName: "@#GK #inFO", ProfileScreenName: null, ProfileFollower: "2831", ProfileFriends: "0", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/568642051018072064/bPJg6Ggr_normal.png", Likes: null, Retweet: null, Text: "#CPLt20\n#PAKvSL\n#t20Blast\n#BANvIND\n\nFor Updates &amp; Live Score\n\nFollow\n@PAK_Tour_SL\nNo Add\nNo Bkwas\n1 Try Plz\nOV TO OV UPDATES\n+,\nOn @Azuna_CC" }, { ID: "614812565563179009", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 15:08:32 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@raqooq5", ProfileName: "@Наталия Эсперовa", ProfileScreenName: null, ProfileFollower: "144", ProfileFriends: "1", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/550180904488824833/5L7uKBVu_normal.jpeg", Likes: null, Retweet: null, Text: "RT: MustafizFanclub: RT ICC: LATEST: Great news for BCBTigers in the ODI rankings following the #BanvInd series vi… http://t.co/XqdVghz8G6" }, { ID: "614809550760226816", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 14:56:34 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@ramankk92", ProfileName: "@Raman K K", ProfileScreenName: null, ProfileFollower: "357", ProfileFriends: "2003", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/610605892065624065/CjrMG1c2_normal.jpg", Likes: null, Retweet: null, Text: "RT @cricinfo_record: Most 50+ scores as captain in INTL matches:\n129 Ponting,\n110 GSmith,\n84 SFleming,\n80* MS Dhoni,\n80 ABorder,\n65 Ranatun…" }, { ID: "614808927876714496", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 14:54:05 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CIR4-DzUsAAvi2w.jpg", ProfileID: "@MustafizFanclub", ProfileName: "@Mustafizur Rahman", ProfileScreenName: null, ProfileFollower: "3", ProfileFriends: "32", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/614809081639866368/HHqkAqFf_normal.jpg", Likes: null, Retweet: null, Text: "RT @BCBtigers: Congratulations to all @BCBtigers for the historical series win against @BCCI. #BANvIND #riseofthetigers http://t.co/x5bcNKz…" }, { ID: "614779595699716096", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 12:57:32 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@RavitGanti", ProfileName: "@Ravit kumar ganti", ProfileScreenName: null, ProfileFollower: "5", ProfileFriends: "15", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/567637631685505024/2ZHTcfJo_normal.jpeg", Likes: null, Retweet: null, Text: "disappointed, @teamind lost the series against bangladesh #indvsban. But some relaxation after the last match win. Congrats @teamban" }, { ID: "614721298996969472", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 09:05:53 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@erkhalsa", ProfileName: "@Aмвraan da тaara ☆", ProfileScreenName: null, ProfileFollower: "3477", ProfileFriends: "844", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/605353036718817280/S0fS-kGe_normal.png", Likes: null, Retweet: null, Text: "RT @I_ShineNotBurn: And @BCBtigers tigers have the best fans 😍😍 the crowd at the stadium is love ❤ #BANvIND" }, { ID: "614708833353515008", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 08:16:21 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CIR4-DzUsAAvi2w.jpg", ProfileID: "@ABIDTELECOMTBBD", ProfileName: "@RISLAM TBBD", ProfileScreenName: null, ProfileFollower: "6", ProfileFriends: "240", ProfilePhotoUrl: "http://abs.twimg.com/sticky/default_profile_images/default_profile_2_normal.png", Likes: null, Retweet: null, Text: "RT @BCBtigers: Congratulations to all @BCBtigers for the historical series win against @BCCI. #BANvIND #riseofthetigers http://t.co/x5bcNKz…" }, { ID: "614702117354213376", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 07:49:40 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@nafisafaruque11", ProfileName: "@Nafisa Faruque", ProfileScreenName: null, ProfileFollower: "14", ProfileFriends: "31", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/605021705891807232/5qeA0AEj_normal.jpg", Likes: null, Retweet: null, Text: "Another great article on the @BCBtigers by @sammielev  \n#BANvIND #Bangladesh #Proud \n\nhttp://t.co/JMhOTXqUxL" }, { ID: "614683243762159616", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 06:34:40 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CIPxDWrUYAAAhfF.png", ProfileID: "@Gouruvishnu1802", ProfileName: "@Gouru vishnu", ProfileScreenName: null, ProfileFollower: "1", ProfileFriends: "39", ProfilePhotoUrl: "http://abs.twimg.com/sticky/default_profile_images/default_profile_1_normal.png", Likes: null, Retweet: null, Text: "RT @mipaltan: 3rd ODI, #BANvIND, time to back our boys. All the @ImRo45 &amp; @RayuduAmbati. Go #TeamIndia. http://t.co/fuGt0Nb9pn" }, { ID: "614648260901257217", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 04:15:39 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CIP4H6HWsAA3Xum.png", ProfileID: "@maryjspr3", ProfileName: "@mary", ProfileScreenName: null, ProfileFollower: "7", ProfileFriends: "172", ProfilePhotoUrl: "http://abs.twimg.com/sticky/default_profile_images/default_profile_0_normal.png", Likes: null, Retweet: null, Text: "RT @BCCI: We’ve taken time to introspect, says @ashwinravi99. READ:  http://t.co/9hNLIZBwwj #BANvsIND http://t.co/FKLSkRsPB3" }, { ID: "614645815504560128", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 04:05:56 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "F", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CIepHNGVEAAIQWY.jpg", ProfileID: "@IndiaDefends", ProfileName: "@India Defends", ProfileScreenName: null, ProfileFollower: "199", ProfileFriends: "675", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/556007794856296448/smmShL8T_normal.png", Likes: null, Retweet: null, Text: "#Blog: Nishu : Good comeback by Shami &amp; India #INDvBAN #CWC15 - http://t.co/qdGbkpvIg0 #IndiaDefends http://t.co/bcr6qGmVWu" }, { ID: "614643591277719552", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 03:57:06 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@zikrulahsan", ProfileName: "@Md. Zikrul Ahsan", ProfileScreenName: null, ProfileFollower: "1235", ProfileFriends: "440", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/220518655/Shawon_at_Charu_normal.jpg", Likes: null, Retweet: null, Text: "@abpnewstv is trying to create Divide &amp; Rule in creating Indo-Bangla conflict by #SudhirGautam Drama. #INDvBAN #BANvIND" }, { ID: "614638299517358084", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 03:36:04 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: "http://pbs.twimg.com/media/CIG5a89WUAAIw7S.jpg", ProfileID: "@Jewelrana96", ProfileName: "@JEWEL RANA", ProfileScreenName: null, ProfileFollower: "89", ProfileFriends: "177", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/607939037400203264/FS7IxWz0_normal.jpg", Likes: null, Retweet: null, Text: "RT @ibnlive: Felt so good to hear Mustafizur's comments: Mohammad Aamir\nhttp://t.co/gpiK7UkWrS #INDvBAN http://t.co/rNQ5udgHlR" }, { ID: "614621777478709248", Bookmark: "g1AAAAJjeJzLYWBg4MhgTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpkSJL___9_Fpjj5hz4dMf9eL-aJKAhNVkkGJOkACST7FFNumecLgEySYkkkxxAJsWjmnR36vYXIJPMSTIpAWRSPZpJG2x-AE1iv0SKSXksQJKhAUgBDZuPbNrcPUtA7uIi3bQFENP2I4dX3jctkGmipJt2AGLafWS3bf7zDmSaAemmPYCYhhJuuTG3QKbpZ2UBAHN_yRw", Datasource: "Twitter", DocDate: "Sat Jun 27 02:30:25 +0000 2015", Address: null, Country: "()", Sentiment: "Positive", Gender: "M", VideoUrl: null, VideoSource: null, VideoID: null, PhotoUrl: null, ProfileID: "@DailyO_", ProfileName: "@DailyO", ProfileScreenName: null, ProfileFollower: "12904", ProfileFriends: "37", ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/507429705155215360/fwOqvAXX_normal.jpeg", Likes: null, Retweet: null, Text: "I feel it is time for #Dhoni to give up the ODI captaincy | @vikrantgupta73 | #ViratKohli #IndVsBan | http://t.co/fWPVFSIAiX" }];
-//var type="positive";
-//var returnurl="http://bharatmovies.social";
-//var title="Popular comments on social media";
-//var id="cric_data3009";
-//var q="Male";
-
-//React.render(<CommentList data={data} id={id} title={title} returnurl={returnurl} type={type} q={q} container={container}/>, container);
 
 var BubblyStoryRunner = (function () {
     var storyCardWidget = function (id, container, dataFromPage, returnUrl, style, cardType, Limit, Title) {
@@ -291,7 +313,7 @@ var BubblyStoryRunner = (function () {
         if (Title) {
             title = Title;
         }
-
+        debugger;
         if (dataFromPage == null || dataFromPage == "") {
             var weburl = "http://s24x7.azurewebsites.net/api/summary/story";
             var url = weburl + "?id=" + id + "&storyid=story_default";
@@ -308,21 +330,16 @@ var BubblyStoryRunner = (function () {
                             delete data[i];
                         }
                 });
-                debugger;
-                React.render(React.createElement(CommentList, { data: data.Data, title: data.Title, discription: data.Description, Campaign: data.Campaign, returnurl: returnurl }), container);
+                React.render(React.createElement(PhotoSlider, { data: data.Data, title: data.Title, discription: data.Description, Campaign: data.Campaign, returnurl: returnurl }), container);
             });
         } else {
-            React.render(React.createElement(CommentList, { data: dataFromPage.Data, title: dataFromPage.Title, discription: dataFromPage.Description, Campaign: dataFromPage.Campaign, returnurl: returnurl }), container);
+            React.render(React.createElement(PhotoSlider, { data: dataFromPage.Data, title: dataFromPage.Title, discription: dataFromPage.Description, Campaign: dataFromPage.Campaign, returnurl: returnurl }), container);
         }
     };
     return {
         storyCardWidget: storyCardWidget
     };
 })();
-
-//http://s24x7.azurewebsites.net/api/summary/story?id=bolly_data3618&storyid=story_default
-//http://s24x7.azurewebsites.net/api/summary/story?id=bolly_data3618&storyid=story_default
-//http://s24x7.azurewebsites.net/api/summary/story?id=bolly_data3621&storyid=story_default&_=1441977288781
 
 module.exports = BubblyCard;
 
@@ -332,6 +349,391 @@ BubblyCard.prototype.showCard = function (vlist, dataFromPage, container1) {
     BubblyStoryRunner.storyCardWidget(vlist.campaignId, container1, dataFromPage, vlist.returnUrl, vlist.style, vlist.cardType, vlist.Limit);
 };
 
+var data = {
+    ID: "123",
+    Title: "Shaandar - Trailer Launch",
+    Description: "Journey from making to the trailer , Shahid and aalia rocks",
+    Campaign: "Shaandar",
+    Data: [{
+        ID: "1062699355727999967_1909053339",
+        Datasource: "Instagram",
+        DocDate: "1440903656.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/sh0.08/e35/11821340_391983644344081_511513436_n.jpg",
+        ProfileID: "bollywood__rocks",
+        ProfileName: "",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/1516222_885246851558536_468657096_a.jpg",
+        Text: "#shandaar @shahidkapoor #aliabhatt",
+        Comments: "Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.",
+        Flowlly: ""
+    }, {
+        ID: "1064504306528718804_1636460290",
+        Datasource: "Instagram",
+        DocDate: "1441118823.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s640x640/sh0.08/e35/11950717_1636556923253787_233382749_n.jpg",
+        ProfileID: "forevershahid",
+        ProfileName: "Shahid Kapoor ❤️ Turkish Fans",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/11849378_1454953098146048_656087323_a.jpg",
+        Text: "@shahidkapoor OMG So Sweet 😍😍\nMr Expression 😚 \n#shahidkapoor \n#JhalakReloaded \n#jhalakdikhlajaa \n#indiancinema #bestactor #india #bollywood #handsome #dashing #great #cool #charisma #pyaar #perfection #shandaar #movie #lovely #boy ❤️",
+        Comments: "Shahid expression along with aalia's cuteness to make public crazy",
+        Flowlly: ""
+    }, {
+        ID: "1062699355727999967_1909053339",
+        Datasource: "Instagram",
+        DocDate: "1440903656.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/sh0.08/e35/11821340_391983644344081_511513436_n.jpg",
+        ProfileID: "bollywood__rocks",
+        ProfileName: "",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/1516222_885246851558536_468657096_a.jpg",
+        Text: "#shandaar @shahidkapoor #aliabhatt",
+        Comments: "Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.",
+        Flowlly: ""
+    }, {
+        ID: "1064504306528718804_1636460290",
+        Datasource: "Instagram",
+        DocDate: "1441118823.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s640x640/sh0.08/e35/11950717_1636556923253787_233382749_n.jpg",
+        ProfileID: "forevershahid",
+        ProfileName: "Shahid Kapoor ❤️ Turkish Fans",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/11849378_1454953098146048_656087323_a.jpg",
+        Text: "@shahidkapoor OMG So Sweet 😍😍\nMr Expression 😚 \n#shahidkapoor \n#JhalakReloaded \n#jhalakdikhlajaa \n#indiancinema #bestactor #india #bollywood #handsome #dashing #great #cool #charisma #pyaar #perfection #shandaar #movie #lovely #boy ❤️",
+        Comments: "Shahid expression along with aalia's cuteness to make public crazy",
+        Flowlly: ""
+    }, {
+        ID: "1062699355727999967_1909053339",
+        Datasource: "Instagram",
+        DocDate: "1440903656.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/sh0.08/e35/11821340_391983644344081_511513436_n.jpg",
+        ProfileID: "bollywood__rocks",
+        ProfileName: "",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/1516222_885246851558536_468657096_a.jpg",
+        Text: "#shandaar @shahidkapoor #aliabhatt",
+        Comments: "Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.",
+        Flowlly: ""
+    }, {
+        ID: "1064504306528718804_1636460290",
+        Datasource: "Instagram",
+        DocDate: "1441118823.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s640x640/sh0.08/e35/11950717_1636556923253787_233382749_n.jpg",
+        ProfileID: "forevershahid",
+        ProfileName: "Shahid Kapoor ❤️ Turkish Fans",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/11849378_1454953098146048_656087323_a.jpg",
+        Text: "@shahidkapoor OMG So Sweet 😍😍\nMr Expression 😚 \n#shahidkapoor \n#JhalakReloaded \n#jhalakdikhlajaa \n#indiancinema #bestactor #india #bollywood #handsome #dashing #great #cool #charisma #pyaar #perfection #shandaar #movie #lovely #boy ❤️",
+        Comments: "Shahid expression along with aalia's cuteness to make public crazy",
+        Flowlly: ""
+    }, {
+        ID: "1062699355727999967_1909053339",
+        Datasource: "Instagram",
+        DocDate: "1440903656.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/sh0.08/e35/11821340_391983644344081_511513436_n.jpg",
+        ProfileID: "bollywood__rocks",
+        ProfileName: "",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/1516222_885246851558536_468657096_a.jpg",
+        Text: "#shandaar @shahidkapoor #aliabhatt",
+        Comments: "Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.",
+        Flowlly: ""
+    }, {
+        ID: "1064504306528718804_1636460290",
+        Datasource: "Instagram",
+        DocDate: "1441118823.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s640x640/sh0.08/e35/11950717_1636556923253787_233382749_n.jpg",
+        ProfileID: "forevershahid",
+        ProfileName: "Shahid Kapoor ❤️ Turkish Fans",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/11849378_1454953098146048_656087323_a.jpg",
+        Text: "@shahidkapoor OMG So Sweet 😍😍\nMr Expression 😚 \n#shahidkapoor \n#JhalakReloaded \n#jhalakdikhlajaa \n#indiancinema #bestactor #india #bollywood #handsome #dashing #great #cool #charisma #pyaar #perfection #shandaar #movie #lovely #boy ❤️",
+        Comments: "Shahid expression along with aalia's cuteness to make public crazy",
+        Flowlly: ""
+    }, {
+        ID: "1062699355727999967_1909053339",
+        Datasource: "Instagram",
+        DocDate: "1440903656.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/sh0.08/e35/11821340_391983644344081_511513436_n.jpg",
+        ProfileID: "bollywood__rocks",
+        ProfileName: "",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/1516222_885246851558536_468657096_a.jpg",
+        Text: "#shandaar @shahidkapoor #aliabhatt",
+        Comments: "Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.",
+        Flowlly: ""
+    }, {
+        ID: "1064504306528718804_1636460290",
+        Datasource: "Instagram",
+        DocDate: "1441118823.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s640x640/sh0.08/e35/11950717_1636556923253787_233382749_n.jpg",
+        ProfileID: "forevershahid",
+        ProfileName: "Shahid Kapoor ❤️ Turkish Fans",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/11849378_1454953098146048_656087323_a.jpg",
+        Text: "@shahidkapoor OMG So Sweet 😍😍\nMr Expression 😚 \n#shahidkapoor \n#JhalakReloaded \n#jhalakdikhlajaa \n#indiancinema #bestactor #india #bollywood #handsome #dashing #great #cool #charisma #pyaar #perfection #shandaar #movie #lovely #boy ❤️",
+        Comments: "Shahid expression along with aalia's cuteness to make public crazy",
+        Flowlly: ""
+    }, {
+        ID: "1062699355727999967_1909053339",
+        Datasource: "Instagram",
+        DocDate: "1440903656.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/sh0.08/e35/11821340_391983644344081_511513436_n.jpg",
+        ProfileID: "bollywood__rocks",
+        ProfileName: "",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/1516222_885246851558536_468657096_a.jpg",
+        Text: "#shandaar @shahidkapoor #aliabhatt",
+        Comments: "Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.",
+        Flowlly: ""
+    }, {
+        ID: "1064504306528718804_1636460290",
+        Datasource: "Instagram",
+        DocDate: "1441118823.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s640x640/sh0.08/e35/11950717_1636556923253787_233382749_n.jpg",
+        ProfileID: "forevershahid",
+        ProfileName: "Shahid Kapoor ❤️ Turkish Fans",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/11849378_1454953098146048_656087323_a.jpg",
+        Text: "@shahidkapoor OMG So Sweet 😍😍\nMr Expression 😚 \n#shahidkapoor \n#JhalakReloaded \n#jhalakdikhlajaa \n#indiancinema #bestactor #india #bollywood #handsome #dashing #great #cool #charisma #pyaar #perfection #shandaar #movie #lovely #boy ❤️",
+        Comments: "Shahid expression along with aalia's cuteness to make public crazy",
+        Flowlly: ""
+    }, {
+        ID: "1062699355727999967_1909053339",
+        Datasource: "Instagram",
+        DocDate: "1440903656.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/sh0.08/e35/11821340_391983644344081_511513436_n.jpg",
+        ProfileID: "bollywood__rocks",
+        ProfileName: "",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/1516222_885246851558536_468657096_a.jpg",
+        Text: "#shandaar @shahidkapoor #aliabhatt",
+        Comments: "Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.",
+        Flowlly: ""
+    }, {
+        ID: "1064504306528718804_1636460290",
+        Datasource: "Instagram",
+        DocDate: "1441118823.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s640x640/sh0.08/e35/11950717_1636556923253787_233382749_n.jpg",
+        ProfileID: "forevershahid",
+        ProfileName: "Shahid Kapoor ❤️ Turkish Fans",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/11849378_1454953098146048_656087323_a.jpg",
+        Text: "@shahidkapoor OMG So Sweet 😍😍\nMr Expression 😚 \n#shahidkapoor \n#JhalakReloaded \n#jhalakdikhlajaa \n#indiancinema #bestactor #india #bollywood #handsome #dashing #great #cool #charisma #pyaar #perfection #shandaar #movie #lovely #boy ❤️",
+        Comments: "Shahid expression along with aalia's cuteness to make public crazy",
+        Flowlly: ""
+    }, {
+        ID: "1062699355727999967_1909053339",
+        Datasource: "Instagram",
+        DocDate: "1440903656.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/sh0.08/e35/11821340_391983644344081_511513436_n.jpg",
+        ProfileID: "bollywood__rocks",
+        ProfileName: "",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/1516222_885246851558536_468657096_a.jpg",
+        Text: "#shandaar @shahidkapoor #aliabhatt",
+        Comments: "Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.",
+        Flowlly: ""
+    }, {
+        ID: "1064504306528718804_1636460290",
+        Datasource: "Instagram",
+        DocDate: "1441118823.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s640x640/sh0.08/e35/11950717_1636556923253787_233382749_n.jpg",
+        ProfileID: "forevershahid",
+        ProfileName: "Shahid Kapoor ❤️ Turkish Fans",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/11849378_1454953098146048_656087323_a.jpg",
+        Text: "@shahidkapoor OMG So Sweet 😍😍\nMr Expression 😚 \n#shahidkapoor \n#JhalakReloaded \n#jhalakdikhlajaa \n#indiancinema #bestactor #india #bollywood #handsome #dashing #great #cool #charisma #pyaar #perfection #shandaar #movie #lovely #boy ❤️",
+        Comments: "Shahid expression along with aalia's cuteness to make public crazy",
+        Flowlly: ""
+    }, {
+        ID: "1062699355727999967_1909053339",
+        Datasource: "Instagram",
+        DocDate: "1440903656.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/sh0.08/e35/11821340_391983644344081_511513436_n.jpg",
+        ProfileID: "bollywood__rocks",
+        ProfileName: "",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/1516222_885246851558536_468657096_a.jpg",
+        Text: "#shandaar @shahidkapoor #aliabhatt",
+        Comments: "Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.",
+        Flowlly: ""
+    }, {
+        ID: "1064504306528718804_1636460290",
+        Datasource: "Instagram",
+        DocDate: "1441118823.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s640x640/sh0.08/e35/11950717_1636556923253787_233382749_n.jpg",
+        ProfileID: "forevershahid",
+        ProfileName: "Shahid Kapoor ❤️ Turkish Fans",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/11849378_1454953098146048_656087323_a.jpg",
+        Text: "@shahidkapoor OMG So Sweet 😍😍\nMr Expression 😚 \n#shahidkapoor \n#JhalakReloaded \n#jhalakdikhlajaa \n#indiancinema #bestactor #india #bollywood #handsome #dashing #great #cool #charisma #pyaar #perfection #shandaar #movie #lovely #boy ❤️",
+        Comments: "Shahid expression along with aalia's cuteness to make public crazy",
+        Flowlly: ""
+    }, {
+        ID: "634978871973048320",
+        Datasource: "Twitter",
+        DocDate: "Sat Aug 22 06:42:15 +0000 2015",
+        VideoUrl: "https://youtu.be/30fU76o1BuI",
+        VideoSource: "Youtube",
+        VideoID: "30fU76o1BuI",
+        PhotoUrl: null,
+        ProfileID: "@anuj_vyas",
+        ProfileName: "@Anuj Vyas",
+        ProfilePhotoUrl: "http://pbs.twimg.com/profile_images/378800000122305549/819ca8363e920c36215f847ae72a914c_normal.jpeg",
+        Text: "#shandaar #zabardast #zindabaad #fame @Nawazuddin_S  https://t.co/nf28NznL2U",
+        Comments: "now lets see the trailer of shaandar to see if the chemistry really clicks.",
+        Flowlly: ""
+    }, {
+        ID: "1062699355727999967_1909053339",
+        Datasource: "Instagram",
+        DocDate: "1440903656.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/sh0.08/e35/11821340_391983644344081_511513436_n.jpg",
+        ProfileID: "bollywood__rocks",
+        ProfileName: "",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/1516222_885246851558536_468657096_a.jpg",
+        Text: "#shandaar @shahidkapoor #aliabhatt",
+        Comments: "Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.",
+        Flowlly: ""
+    }, {
+        ID: "1064504306528718804_1636460290",
+        Datasource: "Instagram",
+        DocDate: "1441118823.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s640x640/sh0.08/e35/11950717_1636556923253787_233382749_n.jpg",
+        ProfileID: "forevershahid",
+        ProfileName: "Shahid Kapoor ❤️ Turkish Fans",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/11849378_1454953098146048_656087323_a.jpg",
+        Text: "@shahidkapoor OMG So Sweet 😍😍\nMr Expression 😚 \n#shahidkapoor \n#JhalakReloaded \n#jhalakdikhlajaa \n#indiancinema #bestactor #india #bollywood #handsome #dashing #great #cool #charisma #pyaar #perfection #shandaar #movie #lovely #boy ❤️",
+        Comments: "Shahid expression along with aalia's cuteness to make public crazy",
+        Flowlly: ""
+    }, {
+        ID: "1062699355727999967_1909053339",
+        Datasource: "Instagram",
+        DocDate: "1440903656.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/sh0.08/e35/11821340_391983644344081_511513436_n.jpg",
+        ProfileID: "bollywood__rocks",
+        ProfileName: "",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/1516222_885246851558536_468657096_a.jpg",
+        Text: "#shandaar @shahidkapoor #aliabhatt",
+        Comments: "Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.",
+        Flowlly: ""
+    }, {
+        ID: "1064504306528718804_1636460290",
+        Datasource: "Instagram",
+        DocDate: "1441118823.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s640x640/sh0.08/e35/11950717_1636556923253787_233382749_n.jpg",
+        ProfileID: "forevershahid",
+        ProfileName: "Shahid Kapoor ❤️ Turkish Fans",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/11849378_1454953098146048_656087323_a.jpg",
+        Text: "@shahidkapoor OMG So Sweet 😍😍\nMr Expression 😚 \n#shahidkapoor \n#JhalakReloaded \n#jhalakdikhlajaa \n#indiancinema #bestactor #india #bollywood #handsome #dashing #great #cool #charisma #pyaar #perfection #shandaar #movie #lovely #boy ❤️",
+        Comments: "Shahid expression along with aalia's cuteness to make public crazy",
+        Flowlly: ""
+    }, {
+        ID: "1062699355727999967_1909053339",
+        Datasource: "Instagram",
+        DocDate: "1440903656.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/sh0.08/e35/11821340_391983644344081_511513436_n.jpg",
+        ProfileID: "bollywood__rocks",
+        ProfileName: "",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/1516222_885246851558536_468657096_a.jpg",
+        Text: "#shandaar @shahidkapoor #aliabhatt",
+        Comments: "Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.",
+        Flowlly: ""
+    }, {
+        ID: "1064504306528718804_1636460290",
+        Datasource: "Instagram",
+        DocDate: "1441118823.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s640x640/sh0.08/e35/11950717_1636556923253787_233382749_n.jpg",
+        ProfileID: "forevershahid",
+        ProfileName: "Shahid Kapoor ❤️ Turkish Fans",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/11849378_1454953098146048_656087323_a.jpg",
+        Text: "@shahidkapoor OMG So Sweet 😍😍\nMr Expression 😚 \n#shahidkapoor \n#JhalakReloaded \n#jhalakdikhlajaa \n#indiancinema #bestactor #india #bollywood #handsome #dashing #great #cool #charisma #pyaar #perfection #shandaar #movie #lovely #boy ❤️",
+        Comments: "Shahid expression along with aalia's cuteness to make public crazy",
+        Flowlly: ""
+    }, {
+        ID: "1062699355727999967_1909053339",
+        Datasource: "Instagram",
+        DocDate: "1440903656.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/s640x640/sh0.08/e35/11821340_391983644344081_511513436_n.jpg",
+        ProfileID: "bollywood__rocks",
+        ProfileName: "",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/1516222_885246851558536_468657096_a.jpg",
+        Text: "#shandaar @shahidkapoor #aliabhatt",
+        Comments: "Shahid and aalia at promotional event of Shaandar. 1000s of fans crowded the venue to the duo.",
+        Flowlly: ""
+    }, {
+        ID: "1064504306528718804_1636460290",
+        Datasource: "Instagram",
+        DocDate: "1441118823.0",
+        VideoUrl: null,
+        VideoSource: null,
+        VideoID: null,
+        PhotoUrl: "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s640x640/sh0.08/e35/11950717_1636556923253787_233382749_n.jpg",
+        ProfileID: "forevershahid",
+        ProfileName: "Shahid Kapoor ❤️ Turkish Fans",
+        ProfilePhotoUrl: "http://photos-a.ak.instagram.com/hphotos-ak-xfa1/t51.2885-19/s150x150/11849378_1454953098146048_656087323_a.jpg",
+        Text: "@shahidkapoor OMG So Sweet 😍😍\nMr Expression 😚 \n#shahidkapoor \n#JhalakReloaded \n#jhalakdikhlajaa \n#indiancinema #bestactor #india #bollywood #handsome #dashing #great #cool #charisma #pyaar #perfection #shandaar #movie #lovely #boy ❤️",
+        Comments: "Shahid expression along with aalia's cuteness to make public crazy",
+        Flowlly: ""
+    }]
+};
 var Bubbly = new BubblyCard();
 var containerStory = document.getElementById("story");
 var paraStory = {
@@ -342,9 +744,10 @@ var paraStory = {
     clientId: "100",
     limit: "50"
 };
-Bubbly.showCard(paraStory, null, containerStory);
+Bubbly.showCard(paraStory, data, containerStory);
+// http://, https://, ftp://
 
-},{"jquery":2,"react":157}],2:[function(require,module,exports){
+},{"jquery":2,"react":179,"react-slick":6}],2:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -9557,6 +9960,1739 @@ return jQuery;
 }));
 
 },{}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var PrevArrow = _react2['default'].createClass({
+  displayName: 'PrevArrow',
+
+  clickHandler: function clickHandler(options, e) {
+    e.preventDefault();
+    this.props.clickHandler(options, e);
+  },
+  render: function render() {
+    var prevClasses = { 'slick-prev': true };
+    var prevHandler = this.clickHandler.bind(this, { message: 'previous' });
+
+    if (!this.props.infinite && (this.props.currentSlide === 0 || this.props.slideCount <= this.props.slidesToShow)) {
+      prevClasses['slick-disabled'] = true;
+      prevHandler = null;
+    }
+
+    var prevArrowProps = {
+      key: '0',
+      ref: 'previous',
+      'data-role': 'none',
+      className: (0, _classnames2['default'])(prevClasses),
+      style: { display: 'block' },
+      onClick: prevHandler
+    };
+    var prevArrow;
+
+    if (this.props.prevArrow) {
+      prevArrow = _react2['default'].createElement(this.props.prevArrow, prevArrowProps);
+    } else {
+      prevArrow = _react2['default'].createElement(
+        'button',
+        _extends({ key: '0', type: 'button' }, prevArrowProps),
+        ' Previous'
+      );
+    }
+
+    return prevArrow;
+  }
+});
+
+exports.PrevArrow = PrevArrow;
+var NextArrow = _react2['default'].createClass({
+  displayName: 'NextArrow',
+
+  clickHandler: function clickHandler(options, e) {
+    e.preventDefault();
+    this.props.clickHandler(options, e);
+  },
+  render: function render() {
+    var nextClasses = { 'slick-next': true };
+    var nextHandler = this.clickHandler.bind(this, { message: 'next' });
+
+    if (!this.props.infinite) {
+      if (this.props.centerMode && this.props.currentSlide >= this.props.slideCount - 1) {
+        nextClasses['slick-disabled'] = true;
+        nextHandler = null;
+      } else {
+        if (this.props.currentSlide >= this.props.slideCount - this.props.slidesToShow) {
+          nextClasses['slick-disabled'] = true;
+          nextHandler = null;
+        }
+      }
+
+      if (this.props.slideCount <= this.props.slidesToShow) {
+        nextClasses['slick-disabled'] = true;
+        nextHandler = null;
+      }
+    }
+
+    var nextArrowProps = {
+      key: '1',
+      ref: 'next',
+      'data-role': 'none',
+      className: (0, _classnames2['default'])(nextClasses),
+      style: { display: 'block' },
+      onClick: nextHandler
+    };
+
+    var nextArrow;
+
+    if (this.props.nextArrow) {
+      nextArrow = _react2['default'].createElement(this.props.nextArrow, nextArrowProps);
+    } else {
+      nextArrow = _react2['default'].createElement(
+        'button',
+        _extends({ key: '1', type: 'button' }, nextArrowProps),
+        ' Next'
+      );
+    }
+
+    return nextArrow;
+  }
+});
+exports.NextArrow = NextArrow;
+},{"classnames":14,"react":179}],4:[function(require,module,exports){
+'use strict';
+
+var defaultProps = {
+    className: '',
+    // accessibility: true,
+    adaptiveHeight: false,
+    arrows: true,
+    autoplay: false,
+    autoplaySpeed: 3000,
+    centerMode: false,
+    centerPadding: '50px',
+    cssEase: 'ease',
+    dots: false,
+    dotsClass: 'slick-dots',
+    draggable: true,
+    easing: 'linear',
+    edgeFriction: 0.35,
+    fade: false,
+    focusOnSelect: false,
+    infinite: true,
+    initialSlide: 0,
+    lazyLoad: false,
+    responsive: null,
+    rtl: false,
+    slide: 'div',
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    speed: 500,
+    swipe: true,
+    swipeToSlide: false,
+    touchMove: true,
+    touchThreshold: 5,
+    useCSS: true,
+    variableWidth: false,
+    vertical: false,
+    // waitForAnimate: true,
+    afterChange: null,
+    beforeChange: null,
+    edgeEvent: null,
+    init: null,
+    swipeEvent: null,
+    // nextArrow, prevArrow are react componets
+    nextArrow: null,
+    prevArrow: null
+};
+
+module.exports = defaultProps;
+},{}],5:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var getDotCount = function getDotCount(spec) {
+  var dots;
+  dots = Math.ceil(spec.slideCount / spec.slidesToScroll);
+  return dots;
+};
+
+var Dots = _react2['default'].createClass({
+  displayName: 'Dots',
+
+  clickHandler: function clickHandler(options, e) {
+    // In Autoplay the focus stays on clicked button even after transition
+    // to next slide. That only goes away by click somewhere outside
+    e.preventDefault();
+    this.props.clickHandler(options);
+  },
+  render: function render() {
+    var _this = this;
+
+    var dotCount = getDotCount({
+      slideCount: this.props.slideCount,
+      slidesToScroll: this.props.slidesToScroll
+    });
+
+    // Apply join & split to Array to pre-fill it for IE8
+    //
+    // Credit: http://stackoverflow.com/a/13735425/1849458
+    var dots = Array.apply(null, Array(dotCount + 1).join('0').split('')).map(function (x, i) {
+
+      var className = (0, _classnames2['default'])({
+        'slick-active': _this.props.currentSlide === i * _this.props.slidesToScroll
+      });
+
+      var dotOptions = {
+        message: 'dots',
+        index: i,
+        slidesToScroll: _this.props.slidesToScroll,
+        currentSlide: _this.props.currentSlide
+      };
+
+      return _react2['default'].createElement(
+        'li',
+        { key: i, className: className },
+        _react2['default'].createElement(
+          'button',
+          { onClick: _this.clickHandler.bind(_this, dotOptions) },
+          i
+        )
+      );
+    });
+
+    return _react2['default'].createElement(
+      'ul',
+      { className: this.props.dotsClass, style: { display: 'block' } },
+      dots
+    );
+  }
+});
+exports.Dots = Dots;
+},{"classnames":14,"react":179}],6:[function(require,module,exports){
+'use strict';
+
+module.exports = require('./slider');
+},{"./slider":12}],7:[function(require,module,exports){
+"use strict";
+
+var initialState = {
+    animating: false,
+    dragging: false,
+    autoPlayTimer: null,
+    currentDirection: 0,
+    currentLeft: null,
+    currentSlide: 0,
+    direction: 1,
+    // listWidth: null,
+    // listHeight: null,
+    // loadIndex: 0,
+    slideCount: null,
+    slideWidth: null,
+    // sliding: false,
+    // slideOffset: 0,
+    swipeLeft: null,
+    touchObject: {
+        startX: 0,
+        startY: 0,
+        curX: 0,
+        curY: 0
+    },
+
+    lazyLoadedList: [],
+
+    // added for react
+    initialized: false,
+    edgeDragged: false,
+    swiped: false, // used by swipeEvent. differentites between touch and swipe.
+    trackStyle: {},
+    trackWidth: 0
+
+    // Removed
+    // transformsEnabled: false,
+    // $nextArrow: null,
+    // $prevArrow: null,
+    // $dots: null,
+    // $list: null,
+    // $slideTrack: null,
+    // $slides: null,
+};
+
+module.exports = initialState;
+},{}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _mixinsEventHandlers = require('./mixins/event-handlers');
+
+var _mixinsEventHandlers2 = _interopRequireDefault(_mixinsEventHandlers);
+
+var _mixinsHelpers = require('./mixins/helpers');
+
+var _mixinsHelpers2 = _interopRequireDefault(_mixinsHelpers);
+
+var _initialState = require('./initial-state');
+
+var _initialState2 = _interopRequireDefault(_initialState);
+
+var _defaultProps = require('./default-props');
+
+var _defaultProps2 = _interopRequireDefault(_defaultProps);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _track = require('./track');
+
+var _dots = require('./dots');
+
+var _arrows = require('./arrows');
+
+var InnerSlider = _react2['default'].createClass({
+  displayName: 'InnerSlider',
+
+  mixins: [_mixinsHelpers2['default'], _mixinsEventHandlers2['default']],
+  getInitialState: function getInitialState() {
+    return _initialState2['default'];
+  },
+  getDefaultProps: function getDefaultProps() {
+    return _defaultProps2['default'];
+  },
+  componentWillMount: function componentWillMount() {
+    if (this.props.init) {
+      this.props.init();
+    }
+    this.setState({
+      mounted: true
+    });
+    var lazyLoadedList = [];
+    for (var i = 0; i < this.props.children.length; i++) {
+      if (i >= this.state.currentSlide && i < this.state.currentSlide + this.props.slidesToShow) {
+        lazyLoadedList.push(i);
+      }
+    }
+
+    if (this.props.lazyLoad && this.state.lazyLoadedList.length === 0) {
+      this.setState({
+        lazyLoadedList: lazyLoadedList
+      });
+    }
+  },
+  componentDidMount: function componentDidMount() {
+    // Hack for autoplay -- Inspect Later
+    this.initialize(this.props);
+    this.adaptHeight();
+    window.addEventListener('resize', this.onWindowResized);
+  },
+  componentWillUnmount: function componentWillUnmount() {
+    window.removeEventListener('resize', this.onWindowResized);
+    if (this.state.autoPlayTimer) {
+      window.clearTimeout(this.state.autoPlayTimer);
+    }
+  },
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    this.update(nextProps);
+  },
+  componentDidUpdate: function componentDidUpdate() {
+    this.adaptHeight();
+  },
+  onWindowResized: function onWindowResized() {
+    this.update(this.props);
+  },
+  render: function render() {
+    var className = (0, _classnames2['default'])('slick-initialized', 'slick-slider', this.props.className);
+
+    var trackProps = {
+      fade: this.props.fade,
+      cssEase: this.props.cssEase,
+      speed: this.props.speed,
+      infinite: this.props.infinite,
+      centerMode: this.props.centerMode,
+      currentSlide: this.state.currentSlide,
+      lazyLoad: this.props.lazyLoad,
+      lazyLoadedList: this.state.lazyLoadedList,
+      rtl: this.props.rtl,
+      slideWidth: this.state.slideWidth,
+      slidesToShow: this.props.slidesToShow,
+      slideCount: this.state.slideCount,
+      trackStyle: this.state.trackStyle,
+      variableWidth: this.props.variableWidth
+    };
+
+    var dots;
+
+    if (this.props.dots === true && this.state.slideCount > this.props.slidesToShow) {
+      var dotProps = {
+        dotsClass: this.props.dotsClass,
+        slideCount: this.state.slideCount,
+        slidesToShow: this.props.slidesToShow,
+        currentSlide: this.state.currentSlide,
+        slidesToScroll: this.props.slidesToScroll,
+        clickHandler: this.changeSlide
+      };
+
+      dots = _react2['default'].createElement(_dots.Dots, dotProps);
+    }
+
+    var prevArrow, nextArrow;
+
+    var arrowProps = {
+      infinite: this.props.infinite,
+      centerMode: this.props.centerMode,
+      currentSlide: this.state.currentSlide,
+      slideCount: this.state.slideCount,
+      slidesToShow: this.props.slidesToShow,
+      prevArrow: this.props.prevArrow,
+      nextArrow: this.props.nextArrow,
+      clickHandler: this.changeSlide
+    };
+
+    if (this.props.arrows) {
+      prevArrow = _react2['default'].createElement(_arrows.PrevArrow, arrowProps);
+      nextArrow = _react2['default'].createElement(_arrows.NextArrow, arrowProps);
+    }
+
+    return _react2['default'].createElement(
+      'div',
+      { className: className },
+      _react2['default'].createElement(
+        'div',
+        {
+          ref: 'list',
+          className: 'slick-list',
+          onMouseDown: this.swipeStart,
+          onMouseMove: this.state.dragging ? this.swipeMove : null,
+          onMouseUp: this.swipeEnd,
+          onMouseLeave: this.state.dragging ? this.swipeEnd : null,
+          onTouchStart: this.swipeStart,
+          onTouchMove: this.state.dragging ? this.swipeMove : null,
+          onTouchEnd: this.swipeEnd,
+          onTouchCancel: this.state.dragging ? this.swipeEnd : null },
+        _react2['default'].createElement(
+          _track.Track,
+          _extends({ ref: 'track' }, trackProps),
+          this.props.children
+        )
+      ),
+      prevArrow,
+      nextArrow,
+      dots
+    );
+  }
+});
+exports.InnerSlider = InnerSlider;
+},{"./arrows":3,"./default-props":4,"./dots":5,"./initial-state":7,"./mixins/event-handlers":9,"./mixins/helpers":10,"./track":13,"classnames":14,"react":179}],9:[function(require,module,exports){
+'use strict';
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _trackHelper = require('./trackHelper');
+
+var _objectAssign = require('object-assign');
+
+var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+var EventHandlers = {
+  // Event handler for previous and next
+  changeSlide: function changeSlide(options) {
+    var indexOffset, slideOffset, unevenOffset, targetSlide;
+    unevenOffset = this.state.slideCount % this.props.slidesToScroll !== 0;
+    indexOffset = unevenOffset ? 0 : (this.state.slideCount - this.state.currentSlide) % this.props.slidesToScroll;
+
+    if (options.message === 'previous') {
+      slideOffset = indexOffset === 0 ? this.props.slidesToScroll : this.props.slidesToShow - indexOffset;
+      targetSlide = this.state.currentSlide - slideOffset;
+    } else if (options.message === 'next') {
+      slideOffset = indexOffset === 0 ? this.props.slidesToScroll : indexOffset;
+      targetSlide = this.state.currentSlide + slideOffset;
+    } else if (options.message === 'dots') {
+      // Click on dots
+      targetSlide = options.index * options.slidesToScroll;
+      if (targetSlide === options.currentSlide) {
+        return;
+      }
+    }
+
+    this.slideHandler(targetSlide);
+  },
+  // Accessiblity handler for previous and next
+  keyHandler: function keyHandler(e) {},
+  // Focus on selecting a slide (click handler on track)
+  selectHandler: function selectHandler(e) {},
+  swipeStart: function swipeStart(e) {
+    var touches, posX, posY;
+
+    if (this.props.swipe === false || 'ontouchend' in document && this.props.swipe === false) {
+      return;
+    } else if (this.props.draggable === false && e.type.indexOf('mouse') !== -1) {
+      return;
+    }
+    posX = e.touches !== undefined ? e.touches[0].pageX : e.clientX;
+    posY = e.touches !== undefined ? e.touches[0].pageY : e.clientY;
+    this.setState({
+      dragging: true,
+      touchObject: {
+        startX: posX,
+        startY: posY,
+        curX: posX,
+        curY: posY
+      }
+    });
+  },
+  swipeMove: function swipeMove(e) {
+    if (!this.state.dragging) {
+      return;
+    }
+    if (this.state.animating) {
+      return;
+    }
+    var swipeLeft;
+    var curLeft, positionOffset;
+    var touchObject = this.state.touchObject;
+
+    curLeft = (0, _trackHelper.getTrackLeft)((0, _objectAssign2['default'])({
+      slideIndex: this.state.currentSlide,
+      trackRef: this.refs.track
+    }, this.props, this.state));
+    touchObject.curX = e.touches ? e.touches[0].pageX : e.clientX;
+    touchObject.curY = e.touches ? e.touches[0].pageY : e.clientY;
+    touchObject.swipeLength = Math.round(Math.sqrt(Math.pow(touchObject.curX - touchObject.startX, 2)));
+
+    positionOffset = (this.props.rtl === false ? 1 : -1) * (touchObject.curX > touchObject.startX ? 1 : -1);
+
+    var currentSlide = this.state.currentSlide;
+    var dotCount = Math.ceil(this.state.slideCount / this.props.slidesToScroll);
+    var swipeDirection = this.swipeDirection(this.state.touchObject);
+    var touchSwipeLength = touchObject.swipeLength;
+
+    if (this.props.infinite === false) {
+      if (currentSlide === 0 && swipeDirection === 'right' || currentSlide + 1 >= dotCount && swipeDirection === 'left') {
+        touchSwipeLength = touchObject.swipeLength * this.props.edgeFriction;
+
+        if (this.state.edgeDragged === false && this.props.edgeEvent) {
+          this.props.edgeEvent(swipeDirection);
+          this.setState({ edgeDragged: true });
+        }
+      }
+    }
+
+    if (this.state.swiped === false && this.props.swipeEvent) {
+      this.props.swipeEvent(swipeDirection);
+      this.setState({ swiped: true });
+    }
+
+    swipeLeft = curLeft + touchSwipeLength * positionOffset;
+    this.setState({
+      touchObject: touchObject,
+      swipeLeft: swipeLeft,
+      trackStyle: (0, _trackHelper.getTrackCSS)((0, _objectAssign2['default'])({ left: swipeLeft }, this.props, this.state))
+    });
+
+    if (Math.abs(touchObject.curX - touchObject.startX) < Math.abs(touchObject.curY - touchObject.startY) * 0.8) {
+      return;
+    }
+    if (touchObject.swipeLength > 4) {
+      e.preventDefault();
+    }
+  },
+  swipeEnd: function swipeEnd(e) {
+    if (!this.state.dragging) {
+      return;
+    }
+    var touchObject = this.state.touchObject;
+    var minSwipe = this.state.listWidth / this.props.touchThreshold;
+    var swipeDirection = this.swipeDirection(touchObject);
+
+    // reset the state of touch related state variables.
+    this.setState({
+      dragging: false,
+      edgeDragged: false,
+      swiped: false,
+      swipeLeft: null,
+      touchObject: {}
+    });
+    // Fix for #13
+    if (!touchObject.swipeLength) {
+      return;
+    }
+    if (touchObject.swipeLength > minSwipe) {
+      e.preventDefault();
+      if (swipeDirection === 'left') {
+        this.slideHandler(this.state.currentSlide + this.props.slidesToScroll);
+      } else if (swipeDirection === 'right') {
+        this.slideHandler(this.state.currentSlide - this.props.slidesToScroll);
+      } else {
+        this.slideHandler(this.state.currentSlide);
+      }
+    } else {
+      // Adjust the track back to it's original position.
+      var currentLeft = (0, _trackHelper.getTrackLeft)((0, _objectAssign2['default'])({
+        slideIndex: this.state.currentSlide,
+        trackRef: this.refs.track
+      }, this.props, this.state));
+
+      this.setState({
+        trackStyle: (0, _trackHelper.getTrackAnimateCSS)((0, _objectAssign2['default'])({ left: currentLeft }, this.props, this.state))
+      });
+    }
+  }
+};
+
+exports['default'] = EventHandlers;
+module.exports = exports['default'];
+},{"./trackHelper":11,"object-assign":17}],10:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactLibReactTransitionEvents = require('react/lib/ReactTransitionEvents');
+
+var _reactLibReactTransitionEvents2 = _interopRequireDefault(_reactLibReactTransitionEvents);
+
+var _trackHelper = require('./trackHelper');
+
+var _objectAssign = require('object-assign');
+
+var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+var helpers = {
+  initialize: function initialize(props) {
+    var slideCount = _react2['default'].Children.count(props.children);
+    var listWidth = this.getWidth(this.refs.list.getDOMNode());
+    var trackWidth = this.getWidth(this.refs.track.getDOMNode());
+    var slideWidth = this.getWidth(this.getDOMNode()) / props.slidesToShow;
+
+    var currentSlide = props.rtl ? slideCount - 1 - props.initialSlide : props.initialSlide;
+
+    this.setState({
+      slideCount: slideCount,
+      slideWidth: slideWidth,
+      listWidth: listWidth,
+      trackWidth: trackWidth,
+      currentSlide: currentSlide
+
+    }, function () {
+
+      var targetLeft = (0, _trackHelper.getTrackLeft)((0, _objectAssign2['default'])({
+        slideIndex: this.state.currentSlide,
+        trackRef: this.refs.track
+      }, props, this.state));
+      // getCSS function needs previously set state
+      var trackStyle = (0, _trackHelper.getTrackCSS)((0, _objectAssign2['default'])({ left: targetLeft }, props, this.state));
+
+      this.setState({ trackStyle: trackStyle });
+
+      this.autoPlay(); // once we're set up, trigger the initial autoplay.
+    });
+  },
+  update: function update(props) {
+    // This method has mostly same code as initialize method.
+    // Refactor it
+    var slideCount = _react2['default'].Children.count(props.children);
+    var listWidth = this.getWidth(this.refs.list.getDOMNode());
+    var trackWidth = this.getWidth(this.refs.track.getDOMNode());
+    var slideWidth = this.getWidth(this.getDOMNode()) / props.slidesToShow;
+
+    this.setState({
+      slideCount: slideCount,
+      slideWidth: slideWidth,
+      listWidth: listWidth,
+      trackWidth: trackWidth
+    }, function () {
+
+      var targetLeft = (0, _trackHelper.getTrackLeft)((0, _objectAssign2['default'])({
+        slideIndex: this.state.currentSlide,
+        trackRef: this.refs.track
+      }, props, this.state));
+      // getCSS function needs previously set state
+      var trackStyle = (0, _trackHelper.getTrackCSS)((0, _objectAssign2['default'])({ left: targetLeft }, props, this.state));
+
+      this.setState({ trackStyle: trackStyle });
+    });
+  },
+  getWidth: function getWidth(elem) {
+    return elem.getBoundingClientRect().width || elem.offsetWidth;
+  },
+  adaptHeight: function adaptHeight() {
+    if (this.props.adaptiveHeight) {
+      var selector = '[data-index="' + this.state.currentSlide + '"]';
+      if (this.refs.list) {
+        var slickList = this.refs.list.getDOMNode();
+        slickList.style.height = slickList.querySelector(selector).offsetHeight + 'px';
+      }
+    }
+  },
+  slideHandler: function slideHandler(index) {
+    var _this = this;
+
+    // Functionality of animateSlide and postSlide is merged into this function
+    // console.log('slideHandler', index);
+    var targetSlide, currentSlide;
+    var targetLeft, currentLeft;
+    var callback;
+
+    if (this.state.animating === true || this.state.currentSlide === index) {
+      return;
+    }
+
+    if (this.props.fade) {
+      currentSlide = this.state.currentSlide;
+
+      //  Shifting targetSlide back into the range
+      if (index < 0) {
+        targetSlide = index + this.state.slideCount;
+      } else if (index >= this.state.slideCount) {
+        targetSlide = index - this.state.slideCount;
+      } else {
+        targetSlide = index;
+      }
+
+      if (this.props.lazyLoad && this.state.lazyLoadedList.indexOf(targetSlide) < 0) {
+        this.setState({
+          lazyLoadedList: this.state.lazyLoadedList.concat(targetSlide)
+        });
+      }
+
+      callback = function () {
+        _this.setState({
+          animating: false
+        });
+        if (_this.props.afterChange) {
+          _this.props.afterChange(currentSlide);
+        }
+        _reactLibReactTransitionEvents2['default'].removeEndEventListener(_this.refs.track.getDOMNode().children[currentSlide], callback);
+      };
+
+      this.setState({
+        animating: true,
+        currentSlide: targetSlide
+      }, function () {
+        _reactLibReactTransitionEvents2['default'].addEndEventListener(this.refs.track.getDOMNode().children[currentSlide], callback);
+      });
+
+      if (this.props.beforeChange) {
+        this.props.beforeChange(this.state.currentSlide, currentSlide);
+      }
+
+      this.autoPlay();
+      return;
+    }
+
+    targetSlide = index;
+    if (targetSlide < 0) {
+      if (this.props.infinite === false) {
+        currentSlide = 0;
+      } else if (this.state.slideCount % this.props.slidesToScroll !== 0) {
+        currentSlide = this.state.slideCount - this.state.slideCount % this.props.slidesToScroll;
+      } else {
+        currentSlide = this.state.slideCount + targetSlide;
+      }
+    } else if (targetSlide >= this.state.slideCount) {
+      if (this.props.infinite === false) {
+        currentSlide = this.state.slideCount - this.props.slidesToShow;
+      } else if (this.state.slideCount % this.props.slidesToScroll !== 0) {
+        currentSlide = 0;
+      } else {
+        currentSlide = targetSlide - this.state.slideCount;
+      }
+    } else {
+      currentSlide = targetSlide;
+    }
+
+    targetLeft = (0, _trackHelper.getTrackLeft)((0, _objectAssign2['default'])({
+      slideIndex: targetSlide,
+      trackRef: this.refs.track
+    }, this.props, this.state));
+
+    currentLeft = (0, _trackHelper.getTrackLeft)((0, _objectAssign2['default'])({
+      slideIndex: currentSlide,
+      trackRef: this.refs.track
+    }, this.props, this.state));
+
+    if (this.props.infinite === false) {
+      targetLeft = currentLeft;
+    }
+
+    if (this.props.beforeChange) {
+      this.props.beforeChange(this.state.currentSlide, currentSlide);
+    }
+
+    if (this.props.lazyLoad) {
+      var loaded = true;
+      var slidesToLoad = [];
+      for (var i = targetSlide; i < targetSlide + this.props.slidesToShow; i++) {
+        loaded = loaded && this.state.lazyLoadedList.indexOf(i) >= 0;
+        if (!loaded) {
+          slidesToLoad.push(i);
+        }
+      }
+      if (!loaded) {
+        this.setState({
+          lazyLoadedList: this.state.lazyLoadedList.concat(slidesToLoad)
+        });
+      }
+    }
+
+    // Slide Transition happens here.
+    // animated transition happens to target Slide and
+    // non - animated transition happens to current Slide
+    // If CSS transitions are false, directly go the current slide.
+
+    if (this.props.useCSS === false) {
+
+      this.setState({
+        currentSlide: currentSlide,
+        trackStyle: (0, _trackHelper.getTrackCSS)((0, _objectAssign2['default'])({ left: currentLeft }, this.props, this.state))
+      }, function () {
+        if (this.props.afterChange) {
+          this.props.afterChange(currentSlide);
+        }
+      });
+    } else {
+
+      var nextStateChanges = {
+        animating: false,
+        currentSlide: currentSlide,
+        trackStyle: (0, _trackHelper.getTrackCSS)((0, _objectAssign2['default'])({ left: currentLeft }, this.props, this.state)),
+        swipeLeft: null
+      };
+
+      callback = function () {
+        _this.setState(nextStateChanges);
+        if (_this.props.afterChange) {
+          _this.props.afterChange(currentSlide);
+        }
+        _reactLibReactTransitionEvents2['default'].removeEndEventListener(_this.refs.track.getDOMNode(), callback);
+      };
+
+      this.setState({
+        animating: true,
+        currentSlide: targetSlide,
+        trackStyle: (0, _trackHelper.getTrackAnimateCSS)((0, _objectAssign2['default'])({ left: targetLeft }, this.props, this.state))
+      }, function () {
+        _reactLibReactTransitionEvents2['default'].addEndEventListener(this.refs.track.getDOMNode(), callback);
+      });
+    }
+
+    this.autoPlay();
+  },
+  swipeDirection: function swipeDirection(touchObject) {
+    var xDist, yDist, r, swipeAngle;
+
+    xDist = touchObject.startX - touchObject.curX;
+    yDist = touchObject.startY - touchObject.curY;
+    r = Math.atan2(yDist, xDist);
+
+    swipeAngle = Math.round(r * 180 / Math.PI);
+    if (swipeAngle < 0) {
+      swipeAngle = 360 - Math.abs(swipeAngle);
+    }
+    if (swipeAngle <= 45 && swipeAngle >= 0 || swipeAngle <= 360 && swipeAngle >= 315) {
+      return this.props.rtl === false ? 'left' : 'right';
+    }
+    if (swipeAngle >= 135 && swipeAngle <= 225) {
+      return this.props.rtl === false ? 'right' : 'left';
+    }
+
+    return 'vertical';
+  },
+  autoPlay: function autoPlay() {
+    var _this2 = this;
+
+    var play = function play() {
+      if (_this2.state.mounted) {
+        _this2.slideHandler(_this2.state.currentSlide + _this2.props.slidesToScroll);
+      }
+    };
+    if (this.props.autoplay) {
+      window.clearTimeout(this.state.autoPlayTimer);
+      this.setState({
+        autoPlayTimer: window.setTimeout(play, this.props.autoplaySpeed)
+      });
+    }
+  }
+};
+
+exports['default'] = helpers;
+module.exports = exports['default'];
+},{"./trackHelper":11,"object-assign":17,"react":179,"react/lib/ReactTransitionEvents":107}],11:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var checkSpecKeys = function checkSpecKeys(spec, keysArray) {
+  return keysArray.reduce(function (value, key) {
+    return value && spec.hasOwnProperty(key);
+  }, true) ? null : console.error('Keys Missing', spec);
+};
+
+var getTrackCSS = function getTrackCSS(spec) {
+  checkSpecKeys(spec, ['left', 'variableWidth', 'slideCount', 'slidesToShow', 'slideWidth']);
+
+  var trackWidth;
+
+  if (spec.variableWidth) {
+    trackWidth = (spec.slideCount + 2 * spec.slidesToShow) * spec.slideWidth;
+  } else if (spec.centerMode) {
+    trackWidth = (spec.slideCount + 2 * (spec.slidesToShow + 1)) * spec.slideWidth;
+  } else {
+    trackWidth = (spec.slideCount + 2 * spec.slidesToShow) * spec.slideWidth;
+  }
+
+  var style = {
+    opacity: 1,
+    width: trackWidth,
+    WebkitTransform: 'translate3d(' + spec.left + 'px, 0px, 0px)',
+    transform: 'translate3d(' + spec.left + 'px, 0px, 0px)',
+    transition: '',
+    WebkitTransition: '',
+    msTransform: 'translateX(' + spec.left + 'px)'
+  };
+
+  // Fallback for IE8
+  if (!window.addEventListener && window.attachEvent) {
+    style.marginLeft = spec.left + 'px';
+  }
+
+  return style;
+};
+
+exports.getTrackCSS = getTrackCSS;
+var getTrackAnimateCSS = function getTrackAnimateCSS(spec) {
+  checkSpecKeys(spec, ['left', 'variableWidth', 'slideCount', 'slidesToShow', 'slideWidth', 'speed', 'cssEase']);
+
+  var style = getTrackCSS(spec);
+  // useCSS is true by default so it can be undefined
+  style.WebkitTransition = '-webkit-transform ' + spec.speed + 'ms ' + spec.cssEase;
+  style.transition = 'transform ' + spec.speed + 'ms ' + spec.cssEase;
+  return style;
+};
+
+exports.getTrackAnimateCSS = getTrackAnimateCSS;
+var getTrackLeft = function getTrackLeft(spec) {
+
+  checkSpecKeys(spec, ['slideIndex', 'trackRef', 'infinite', 'centerMode', 'slideCount', 'slidesToShow', 'slidesToScroll', 'slideWidth', 'listWidth', 'variableWidth']);
+
+  var slideOffset = 0;
+  var targetLeft;
+  var targetSlide;
+
+  if (spec.fade) {
+    return 0;
+  }
+
+  if (spec.infinite) {
+    if (spec.slideCount > spec.slidesToShow) {
+      slideOffset = spec.slideWidth * spec.slidesToShow * -1;
+    }
+    if (spec.slideCount % spec.slidesToScroll !== 0) {
+      if (spec.slideIndex + spec.slidesToScroll > spec.slideCount && spec.slideCount > spec.slidesToShow) {
+        if (spec.slideIndex > spec.slideCount) {
+          slideOffset = (spec.slidesToShow - (spec.slideIndex - spec.slideCount)) * spec.slideWidth * -1;
+        } else {
+          slideOffset = spec.slideCount % spec.slidesToScroll * spec.slideWidth * -1;
+        }
+      }
+    }
+  }
+
+  if (spec.centerMode) {
+    if (spec.infinite) {
+      slideOffset += spec.slideWidth * Math.floor(spec.slidesToShow / 2);
+    } else {
+      slideOffset = spec.slideWidth * Math.floor(spec.slidesToShow / 2);
+    }
+  }
+
+  targetLeft = spec.slideIndex * spec.slideWidth * -1 + slideOffset;
+
+  if (spec.variableWidth === true) {
+    var targetSlideIndex;
+    if (spec.slideCount <= spec.slidesToShow || spec.infinite === false) {
+      targetSlide = spec.trackRef.getDOMNode().childNodes[spec.slideIndex];
+    } else {
+      targetSlideIndex = spec.slideIndex + spec.slidesToShow;
+      targetSlide = spec.trackRef.getDOMNode().childNodes[targetSlideIndex];
+    }
+    targetLeft = targetSlide ? targetSlide.offsetLeft * -1 : 0;
+    if (spec.centerMode === true) {
+      if (spec.infinite === false) {
+        targetSlide = spec.trackRef.getDOMNode().children[spec.slideIndex];
+      } else {
+        targetSlide = spec.trackRef.getDOMNode().children[spec.slideIndex + spec.slidesToShow + 1];
+      }
+
+      targetLeft = targetSlide ? targetSlide.offsetLeft * -1 : 0;
+      targetLeft += (spec.listWidth - targetSlide.offsetWidth) / 2;
+    }
+  }
+
+  return targetLeft;
+};
+exports.getTrackLeft = getTrackLeft;
+},{}],12:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _innerSlider = require('./inner-slider');
+
+var _objectAssign = require('object-assign');
+
+var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+var _json2mq = require('json2mq');
+
+var _json2mq2 = _interopRequireDefault(_json2mq);
+
+var _reactResponsiveMixin = require('react-responsive-mixin');
+
+var _reactResponsiveMixin2 = _interopRequireDefault(_reactResponsiveMixin);
+
+var _defaultProps = require('./default-props');
+
+var _defaultProps2 = _interopRequireDefault(_defaultProps);
+
+var Slider = _react2['default'].createClass({
+  displayName: 'Slider',
+
+  mixins: [_reactResponsiveMixin2['default']],
+  getInitialState: function getInitialState() {
+    return {
+      breakpoint: null
+    };
+  },
+  componentDidMount: function componentDidMount() {
+    var _this = this;
+
+    if (this.props.responsive) {
+      var breakpoints = this.props.responsive.map(function (breakpt) {
+        return breakpt.breakpoint;
+      });
+      breakpoints.sort(function (x, y) {
+        return x - y;
+      });
+
+      breakpoints.forEach(function (breakpoint, index) {
+        var bQuery;
+        if (index === 0) {
+          bQuery = (0, _json2mq2['default'])({ minWidth: 0, maxWidth: breakpoint });
+        } else {
+          bQuery = (0, _json2mq2['default'])({ minWidth: breakpoints[index - 1], maxWidth: breakpoint });
+        }
+        _this.media(bQuery, function () {
+          _this.setState({ breakpoint: breakpoint });
+        });
+      });
+
+      // Register media query for full screen. Need to support resize from small to large
+      var query = (0, _json2mq2['default'])({ minWidth: breakpoints.slice(-1)[0] });
+
+      this.media(query, function () {
+        _this.setState({ breakpoint: null });
+      });
+    }
+  },
+  render: function render() {
+    var _this2 = this;
+
+    var settings;
+    var newProps;
+    if (this.state.breakpoint) {
+      newProps = this.props.responsive.filter(function (resp) {
+        return resp.breakpoint === _this2.state.breakpoint;
+      });
+      settings = newProps[0].settings === 'unslick' ? 'unslick' : (0, _objectAssign2['default'])({}, this.props, newProps[0].settings);
+    } else {
+      settings = (0, _objectAssign2['default'])({}, _defaultProps2['default'], this.props);
+    }
+    if (settings === 'unslick') {
+      // if 'unslick' responsive breakpoint setting used, just return the <Slider> tag nested HTML
+      return _react2['default'].createElement(
+        'div',
+        null,
+        this.props.children
+      );
+    } else {
+      return _react2['default'].createElement(
+        _innerSlider.InnerSlider,
+        settings,
+        this.props.children
+      );
+    }
+  }
+});
+
+module.exports = Slider;
+},{"./default-props":4,"./inner-slider":8,"json2mq":15,"object-assign":17,"react":179,"react-responsive-mixin":18}],13:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactLibCloneWithProps = require('react/lib/cloneWithProps');
+
+var _reactLibCloneWithProps2 = _interopRequireDefault(_reactLibCloneWithProps);
+
+var _objectAssign = require('object-assign');
+
+var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var getSlideClasses = function getSlideClasses(spec) {
+  var slickActive, slickCenter, slickCloned;
+  var centerOffset, index;
+
+  if (spec.rtl) {
+    index = spec.slideCount - 1 - spec.index;
+    console.log();
+  } else {
+    index = spec.index;
+  }
+
+  slickCloned = index < 0 || index >= spec.slideCount;
+  if (spec.centerMode) {
+    centerOffset = Math.floor(spec.slidesToShow / 2);
+    slickCenter = spec.currentSlide === index;
+    if (index > spec.currentSlide - centerOffset - 1 && index <= spec.currentSlide + centerOffset) {
+      slickActive = true;
+    }
+  } else {
+    slickActive = spec.currentSlide <= index && index < spec.currentSlide + spec.slidesToShow;
+  }
+  return (0, _classnames2['default'])({
+    'slick-slide': true,
+    'slick-active': slickActive,
+    'slick-center': slickCenter,
+    'slick-cloned': slickCloned
+  });
+};
+
+var getSlideStyle = function getSlideStyle(spec) {
+  var style = {};
+
+  if (spec.variableWidth === undefined || spec.variableWidth === false) {
+    style.width = spec.slideWidth;
+  }
+
+  if (spec.fade) {
+    style.position = 'relative';
+    style.left = -spec.index * spec.slideWidth;
+    style.opacity = spec.currentSlide === spec.index ? 1 : 0;
+    style.transition = 'opacity ' + spec.speed + 'ms ' + spec.cssEase;
+    style.WebkitTransition = 'opacity ' + spec.speed + 'ms ' + spec.cssEase;
+  }
+
+  return style;
+};
+
+var renderSlides = function renderSlides(spec) {
+  var key;
+  var slides = [];
+  var preCloneSlides = [];
+  var postCloneSlides = [];
+  var count = _react2['default'].Children.count(spec.children);
+  var child;
+
+  _react2['default'].Children.forEach(spec.children, function (elem, index) {
+    if (!spec.lazyLoad | (spec.lazyLoad && spec.lazyLoadedList.indexOf(index) >= 0)) {
+      child = elem;
+    } else {
+      child = _react2['default'].createElement('div', null);
+    }
+
+    var childStyle = getSlideStyle((0, _objectAssign2['default'])({}, spec, { index: index }));
+    slides.push((0, _reactLibCloneWithProps2['default'])(child, {
+      key: index,
+      'data-index': index,
+      className: getSlideClasses((0, _objectAssign2['default'])({ index: index }, spec)),
+      style: childStyle
+    }));
+
+    // variableWidth doesn't wrap properly.
+    if (spec.infinite && spec.fade === false) {
+      var infiniteCount = spec.variableWidth ? spec.slidesToShow + 1 : spec.slidesToShow;
+
+      if (index >= count - infiniteCount) {
+        key = -(count - index);
+        preCloneSlides.push((0, _reactLibCloneWithProps2['default'])(child, {
+          key: key,
+          'data-index': key,
+          className: getSlideClasses((0, _objectAssign2['default'])({ index: key }, spec)),
+          style: childStyle
+        }));
+      }
+
+      if (index < infiniteCount) {
+        key = count + index;
+        postCloneSlides.push((0, _reactLibCloneWithProps2['default'])(child, {
+          key: key,
+          'data-index': key,
+          className: getSlideClasses((0, _objectAssign2['default'])({ index: key }, spec)),
+          style: childStyle
+        }));
+      }
+    }
+  });
+
+  if (spec.rtl) {
+    return preCloneSlides.concat(slides, postCloneSlides).reverse();
+  } else {
+    return preCloneSlides.concat(slides, postCloneSlides);
+  }
+};
+
+var Track = _react2['default'].createClass({
+  displayName: 'Track',
+
+  render: function render() {
+    var slides = renderSlides(this.props);
+    return _react2['default'].createElement(
+      'div',
+      { className: 'slick-track', style: this.props.trackStyle },
+      slides
+    );
+  }
+});
+exports.Track = Track;
+},{"classnames":14,"object-assign":17,"react":179,"react/lib/cloneWithProps":131}],14:[function(require,module,exports){
+/*!
+  Copyright (c) 2015 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+	'use strict';
+
+	var hasOwn = {}.hasOwnProperty;
+
+	function classNames () {
+		var classes = '';
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if (argType === 'string' || argType === 'number') {
+				classes += ' ' + arg;
+			} else if (Array.isArray(arg)) {
+				classes += ' ' + classNames.apply(null, arg);
+			} else if (argType === 'object') {
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes += ' ' + key;
+					}
+				}
+			}
+		}
+
+		return classes.substr(1);
+	}
+
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = classNames;
+	} else if (typeof define === 'function' && typeof define.amd === 'object' && define.amd) {
+		// register as 'classnames', consistent with npm package name
+		define('classnames', function () {
+			return classNames;
+		});
+	} else {
+		window.classNames = classNames;
+	}
+}());
+
+},{}],15:[function(require,module,exports){
+var camel2hyphen = require('string-convert/camel2hyphen');
+
+var isDimension = function (feature) {
+  var re = /[height|width]$/;
+  return re.test(feature);
+};
+
+var obj2mq = function (obj) {
+  var mq = '';
+  var features = Object.keys(obj);
+  features.forEach(function (feature, index) {
+    var value = obj[feature];
+    feature = camel2hyphen(feature);
+    // Add px to dimension features
+    if (isDimension(feature) && typeof value === 'number') {
+      value = value + 'px';
+    }
+    if (value === true) {
+      mq += feature;
+    } else if (value === false) {
+      mq += 'not ' + feature;
+    } else {
+      mq += '(' + feature + ': ' + value + ')';
+    }
+    if (index < features.length-1) {
+      mq += ' and '
+    }
+  });
+  return mq;
+};
+
+var json2mq = function (query) {
+  var mq = '';
+  if (typeof query === 'string') {
+    return query;
+  }
+  // Handling array of media queries
+  if (query instanceof Array) {
+    query.forEach(function (q, index) {
+      mq += obj2mq(q);
+      if (index < query.length-1) {
+        mq += ', '
+      }
+    });
+    return mq;
+  }
+  // Handling single media query
+  return obj2mq(query);
+};
+
+module.exports = json2mq;
+},{"string-convert/camel2hyphen":16}],16:[function(require,module,exports){
+var camel2hyphen = function (str) {
+  return str
+          .replace(/[A-Z]/g, function (match) {
+            return '-' + match.toLowerCase();
+          })
+          .toLowerCase();
+};
+
+module.exports = camel2hyphen;
+},{}],17:[function(require,module,exports){
+'use strict';
+
+function ToObject(val) {
+	if (val == null) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+module.exports = Object.assign || function (target, source) {
+	var from;
+	var keys;
+	var to = ToObject(target);
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = arguments[s];
+		keys = Object.keys(Object(from));
+
+		for (var i = 0; i < keys.length; i++) {
+			to[keys[i]] = from[keys[i]];
+		}
+	}
+
+	return to;
+};
+
+},{}],18:[function(require,module,exports){
+var canUseDOM = require('can-use-dom');
+var enquire = canUseDOM && require('enquire.js');
+var json2mq = require('json2mq');
+
+var ResponsiveMixin = {
+  media: function (query, handler) {
+    query = json2mq(query);
+    if (typeof handler === 'function') {
+      handler = {
+        match: handler
+      };
+    }
+    enquire.register(query, handler);
+
+    // Queue the handlers to unregister them at unmount  
+    if (! this._responsiveMediaHandlers) {
+      this._responsiveMediaHandlers = [];
+    }
+    this._responsiveMediaHandlers.push({query: query, handler: handler});
+  },
+  componentWillUnmount: function () {
+    if (this._responsiveMediaHandlers) {
+      this._responsiveMediaHandlers.forEach(function(obj) {
+        enquire.unregister(obj.query, obj.handler);
+      });
+    }
+  }
+};
+
+module.exports = ResponsiveMixin;
+},{"can-use-dom":19,"enquire.js":20,"json2mq":15}],19:[function(require,module,exports){
+var canUseDOM = !!(
+  typeof window !== 'undefined' &&
+  window.document &&
+  window.document.createElement
+);
+
+module.exports = canUseDOM;
+},{}],20:[function(require,module,exports){
+/*!
+ * enquire.js v2.1.1 - Awesome Media Queries in JavaScript
+ * Copyright (c) 2014 Nick Williams - http://wicky.nillia.ms/enquire.js
+ * License: MIT (http://www.opensource.org/licenses/mit-license.php)
+ */
+
+;(function (name, context, factory) {
+	var matchMedia = window.matchMedia;
+
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = factory(matchMedia);
+	}
+	else if (typeof define === 'function' && define.amd) {
+		define(function() {
+			return (context[name] = factory(matchMedia));
+		});
+	}
+	else {
+		context[name] = factory(matchMedia);
+	}
+}('enquire', this, function (matchMedia) {
+
+	'use strict';
+
+    /*jshint unused:false */
+    /**
+     * Helper function for iterating over a collection
+     *
+     * @param collection
+     * @param fn
+     */
+    function each(collection, fn) {
+        var i      = 0,
+            length = collection.length,
+            cont;
+
+        for(i; i < length; i++) {
+            cont = fn(collection[i], i);
+            if(cont === false) {
+                break; //allow early exit
+            }
+        }
+    }
+
+    /**
+     * Helper function for determining whether target object is an array
+     *
+     * @param target the object under test
+     * @return {Boolean} true if array, false otherwise
+     */
+    function isArray(target) {
+        return Object.prototype.toString.apply(target) === '[object Array]';
+    }
+
+    /**
+     * Helper function for determining whether target object is a function
+     *
+     * @param target the object under test
+     * @return {Boolean} true if function, false otherwise
+     */
+    function isFunction(target) {
+        return typeof target === 'function';
+    }
+
+    /**
+     * Delegate to handle a media query being matched and unmatched.
+     *
+     * @param {object} options
+     * @param {function} options.match callback for when the media query is matched
+     * @param {function} [options.unmatch] callback for when the media query is unmatched
+     * @param {function} [options.setup] one-time callback triggered the first time a query is matched
+     * @param {boolean} [options.deferSetup=false] should the setup callback be run immediately, rather than first time query is matched?
+     * @constructor
+     */
+    function QueryHandler(options) {
+        this.options = options;
+        !options.deferSetup && this.setup();
+    }
+    QueryHandler.prototype = {
+
+        /**
+         * coordinates setup of the handler
+         *
+         * @function
+         */
+        setup : function() {
+            if(this.options.setup) {
+                this.options.setup();
+            }
+            this.initialised = true;
+        },
+
+        /**
+         * coordinates setup and triggering of the handler
+         *
+         * @function
+         */
+        on : function() {
+            !this.initialised && this.setup();
+            this.options.match && this.options.match();
+        },
+
+        /**
+         * coordinates the unmatch event for the handler
+         *
+         * @function
+         */
+        off : function() {
+            this.options.unmatch && this.options.unmatch();
+        },
+
+        /**
+         * called when a handler is to be destroyed.
+         * delegates to the destroy or unmatch callbacks, depending on availability.
+         *
+         * @function
+         */
+        destroy : function() {
+            this.options.destroy ? this.options.destroy() : this.off();
+        },
+
+        /**
+         * determines equality by reference.
+         * if object is supplied compare options, if function, compare match callback
+         *
+         * @function
+         * @param {object || function} [target] the target for comparison
+         */
+        equals : function(target) {
+            return this.options === target || this.options.match === target;
+        }
+
+    };
+    /**
+     * Represents a single media query, manages it's state and registered handlers for this query
+     *
+     * @constructor
+     * @param {string} query the media query string
+     * @param {boolean} [isUnconditional=false] whether the media query should run regardless of whether the conditions are met. Primarily for helping older browsers deal with mobile-first design
+     */
+    function MediaQuery(query, isUnconditional) {
+        this.query = query;
+        this.isUnconditional = isUnconditional;
+        this.handlers = [];
+        this.mql = matchMedia(query);
+
+        var self = this;
+        this.listener = function(mql) {
+            self.mql = mql;
+            self.assess();
+        };
+        this.mql.addListener(this.listener);
+    }
+    MediaQuery.prototype = {
+
+        /**
+         * add a handler for this query, triggering if already active
+         *
+         * @param {object} handler
+         * @param {function} handler.match callback for when query is activated
+         * @param {function} [handler.unmatch] callback for when query is deactivated
+         * @param {function} [handler.setup] callback for immediate execution when a query handler is registered
+         * @param {boolean} [handler.deferSetup=false] should the setup callback be deferred until the first time the handler is matched?
+         */
+        addHandler : function(handler) {
+            var qh = new QueryHandler(handler);
+            this.handlers.push(qh);
+
+            this.matches() && qh.on();
+        },
+
+        /**
+         * removes the given handler from the collection, and calls it's destroy methods
+         * 
+         * @param {object || function} handler the handler to remove
+         */
+        removeHandler : function(handler) {
+            var handlers = this.handlers;
+            each(handlers, function(h, i) {
+                if(h.equals(handler)) {
+                    h.destroy();
+                    return !handlers.splice(i,1); //remove from array and exit each early
+                }
+            });
+        },
+
+        /**
+         * Determine whether the media query should be considered a match
+         * 
+         * @return {Boolean} true if media query can be considered a match, false otherwise
+         */
+        matches : function() {
+            return this.mql.matches || this.isUnconditional;
+        },
+
+        /**
+         * Clears all handlers and unbinds events
+         */
+        clear : function() {
+            each(this.handlers, function(handler) {
+                handler.destroy();
+            });
+            this.mql.removeListener(this.listener);
+            this.handlers.length = 0; //clear array
+        },
+
+        /*
+         * Assesses the query, turning on all handlers if it matches, turning them off if it doesn't match
+         */
+        assess : function() {
+            var action = this.matches() ? 'on' : 'off';
+
+            each(this.handlers, function(handler) {
+                handler[action]();
+            });
+        }
+    };
+    /**
+     * Allows for registration of query handlers.
+     * Manages the query handler's state and is responsible for wiring up browser events
+     *
+     * @constructor
+     */
+    function MediaQueryDispatch () {
+        if(!matchMedia) {
+            throw new Error('matchMedia not present, legacy browsers require a polyfill');
+        }
+
+        this.queries = {};
+        this.browserIsIncapable = !matchMedia('only all').matches;
+    }
+
+    MediaQueryDispatch.prototype = {
+
+        /**
+         * Registers a handler for the given media query
+         *
+         * @param {string} q the media query
+         * @param {object || Array || Function} options either a single query handler object, a function, or an array of query handlers
+         * @param {function} options.match fired when query matched
+         * @param {function} [options.unmatch] fired when a query is no longer matched
+         * @param {function} [options.setup] fired when handler first triggered
+         * @param {boolean} [options.deferSetup=false] whether setup should be run immediately or deferred until query is first matched
+         * @param {boolean} [shouldDegrade=false] whether this particular media query should always run on incapable browsers
+         */
+        register : function(q, options, shouldDegrade) {
+            var queries         = this.queries,
+                isUnconditional = shouldDegrade && this.browserIsIncapable;
+
+            if(!queries[q]) {
+                queries[q] = new MediaQuery(q, isUnconditional);
+            }
+
+            //normalise to object in an array
+            if(isFunction(options)) {
+                options = { match : options };
+            }
+            if(!isArray(options)) {
+                options = [options];
+            }
+            each(options, function(handler) {
+                queries[q].addHandler(handler);
+            });
+
+            return this;
+        },
+
+        /**
+         * unregisters a query and all it's handlers, or a specific handler for a query
+         *
+         * @param {string} q the media query to target
+         * @param {object || function} [handler] specific handler to unregister
+         */
+        unregister : function(q, handler) {
+            var query = this.queries[q];
+
+            if(query) {
+                if(handler) {
+                    query.removeHandler(handler);
+                }
+                else {
+                    query.clear();
+                    delete this.queries[q];
+                }
+            }
+
+            return this;
+        }
+    };
+
+	return new MediaQueryDispatch();
+
+}));
+},{}],21:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -9583,7 +11719,7 @@ var AutoFocusMixin = {
 
 module.exports = AutoFocusMixin;
 
-},{"./focusNode":121}],4:[function(require,module,exports){
+},{"./focusNode":142}],22:[function(require,module,exports){
 /**
  * Copyright 2013-2015 Facebook, Inc.
  * All rights reserved.
@@ -10078,7 +12214,7 @@ var BeforeInputEventPlugin = {
 
 module.exports = BeforeInputEventPlugin;
 
-},{"./EventConstants":16,"./EventPropagators":21,"./ExecutionEnvironment":22,"./FallbackCompositionState":23,"./SyntheticCompositionEvent":95,"./SyntheticInputEvent":99,"./keyOf":143}],5:[function(require,module,exports){
+},{"./EventConstants":34,"./EventPropagators":39,"./ExecutionEnvironment":40,"./FallbackCompositionState":41,"./SyntheticCompositionEvent":115,"./SyntheticInputEvent":119,"./keyOf":165}],23:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -10203,7 +12339,7 @@ var CSSProperty = {
 
 module.exports = CSSProperty;
 
-},{}],6:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -10385,7 +12521,7 @@ var CSSPropertyOperations = {
 module.exports = CSSPropertyOperations;
 
 }).call(this,require('_process'))
-},{"./CSSProperty":5,"./ExecutionEnvironment":22,"./camelizeStyleName":110,"./dangerousStyleValue":115,"./hyphenateStyleName":135,"./memoizeStringOnly":145,"./warning":156,"_process":158}],7:[function(require,module,exports){
+},{"./CSSProperty":23,"./ExecutionEnvironment":40,"./camelizeStyleName":130,"./dangerousStyleValue":136,"./hyphenateStyleName":156,"./memoizeStringOnly":167,"./warning":178,"_process":180}],25:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -10485,7 +12621,7 @@ PooledClass.addPoolingTo(CallbackQueue);
 module.exports = CallbackQueue;
 
 }).call(this,require('_process'))
-},{"./Object.assign":28,"./PooledClass":29,"./invariant":137,"_process":158}],8:[function(require,module,exports){
+},{"./Object.assign":46,"./PooledClass":47,"./invariant":158,"_process":180}],26:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -10867,7 +13003,7 @@ var ChangeEventPlugin = {
 
 module.exports = ChangeEventPlugin;
 
-},{"./EventConstants":16,"./EventPluginHub":18,"./EventPropagators":21,"./ExecutionEnvironment":22,"./ReactUpdates":89,"./SyntheticEvent":97,"./isEventSupported":138,"./isTextInputElement":140,"./keyOf":143}],9:[function(require,module,exports){
+},{"./EventConstants":34,"./EventPluginHub":36,"./EventPropagators":39,"./ExecutionEnvironment":40,"./ReactUpdates":109,"./SyntheticEvent":117,"./isEventSupported":159,"./isTextInputElement":161,"./keyOf":165}],27:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -10892,7 +13028,7 @@ var ClientReactRootIndex = {
 
 module.exports = ClientReactRootIndex;
 
-},{}],10:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -11030,7 +13166,7 @@ var DOMChildrenOperations = {
 module.exports = DOMChildrenOperations;
 
 }).call(this,require('_process'))
-},{"./Danger":13,"./ReactMultiChildUpdateTypes":74,"./invariant":137,"./setTextContent":151,"_process":158}],11:[function(require,module,exports){
+},{"./Danger":31,"./ReactMultiChildUpdateTypes":92,"./invariant":158,"./setTextContent":173,"_process":180}],29:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -11329,7 +13465,7 @@ var DOMProperty = {
 module.exports = DOMProperty;
 
 }).call(this,require('_process'))
-},{"./invariant":137,"_process":158}],12:[function(require,module,exports){
+},{"./invariant":158,"_process":180}],30:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -11521,7 +13657,7 @@ var DOMPropertyOperations = {
 module.exports = DOMPropertyOperations;
 
 }).call(this,require('_process'))
-},{"./DOMProperty":11,"./quoteAttributeValueForBrowser":149,"./warning":156,"_process":158}],13:[function(require,module,exports){
+},{"./DOMProperty":29,"./quoteAttributeValueForBrowser":171,"./warning":178,"_process":180}],31:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -11708,7 +13844,7 @@ var Danger = {
 module.exports = Danger;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":22,"./createNodesFromMarkup":114,"./emptyFunction":116,"./getMarkupWrap":129,"./invariant":137,"_process":158}],14:[function(require,module,exports){
+},{"./ExecutionEnvironment":40,"./createNodesFromMarkup":135,"./emptyFunction":137,"./getMarkupWrap":150,"./invariant":158,"_process":180}],32:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -11747,7 +13883,7 @@ var DefaultEventPluginOrder = [
 
 module.exports = DefaultEventPluginOrder;
 
-},{"./keyOf":143}],15:[function(require,module,exports){
+},{"./keyOf":165}],33:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -11887,7 +14023,7 @@ var EnterLeaveEventPlugin = {
 
 module.exports = EnterLeaveEventPlugin;
 
-},{"./EventConstants":16,"./EventPropagators":21,"./ReactMount":72,"./SyntheticMouseEvent":101,"./keyOf":143}],16:[function(require,module,exports){
+},{"./EventConstants":34,"./EventPropagators":39,"./ReactMount":90,"./SyntheticMouseEvent":121,"./keyOf":165}],34:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -11959,7 +14095,7 @@ var EventConstants = {
 
 module.exports = EventConstants;
 
-},{"./keyMirror":142}],17:[function(require,module,exports){
+},{"./keyMirror":164}],35:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -12049,7 +14185,7 @@ var EventListener = {
 module.exports = EventListener;
 
 }).call(this,require('_process'))
-},{"./emptyFunction":116,"_process":158}],18:[function(require,module,exports){
+},{"./emptyFunction":137,"_process":180}],36:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -12327,7 +14463,7 @@ var EventPluginHub = {
 module.exports = EventPluginHub;
 
 }).call(this,require('_process'))
-},{"./EventPluginRegistry":19,"./EventPluginUtils":20,"./accumulateInto":107,"./forEachAccumulated":122,"./invariant":137,"_process":158}],19:[function(require,module,exports){
+},{"./EventPluginRegistry":37,"./EventPluginUtils":38,"./accumulateInto":127,"./forEachAccumulated":143,"./invariant":158,"_process":180}],37:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -12607,7 +14743,7 @@ var EventPluginRegistry = {
 module.exports = EventPluginRegistry;
 
 }).call(this,require('_process'))
-},{"./invariant":137,"_process":158}],20:[function(require,module,exports){
+},{"./invariant":158,"_process":180}],38:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -12828,7 +14964,7 @@ var EventPluginUtils = {
 module.exports = EventPluginUtils;
 
 }).call(this,require('_process'))
-},{"./EventConstants":16,"./invariant":137,"_process":158}],21:[function(require,module,exports){
+},{"./EventConstants":34,"./invariant":158,"_process":180}],39:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -12970,7 +15106,7 @@ var EventPropagators = {
 module.exports = EventPropagators;
 
 }).call(this,require('_process'))
-},{"./EventConstants":16,"./EventPluginHub":18,"./accumulateInto":107,"./forEachAccumulated":122,"_process":158}],22:[function(require,module,exports){
+},{"./EventConstants":34,"./EventPluginHub":36,"./accumulateInto":127,"./forEachAccumulated":143,"_process":180}],40:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -13014,7 +15150,7 @@ var ExecutionEnvironment = {
 
 module.exports = ExecutionEnvironment;
 
-},{}],23:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -13105,7 +15241,7 @@ PooledClass.addPoolingTo(FallbackCompositionState);
 
 module.exports = FallbackCompositionState;
 
-},{"./Object.assign":28,"./PooledClass":29,"./getTextContentAccessor":132}],24:[function(require,module,exports){
+},{"./Object.assign":46,"./PooledClass":47,"./getTextContentAccessor":153}],42:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -13316,7 +15452,7 @@ var HTMLDOMPropertyConfig = {
 
 module.exports = HTMLDOMPropertyConfig;
 
-},{"./DOMProperty":11,"./ExecutionEnvironment":22}],25:[function(require,module,exports){
+},{"./DOMProperty":29,"./ExecutionEnvironment":40}],43:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -13472,7 +15608,7 @@ var LinkedValueUtils = {
 module.exports = LinkedValueUtils;
 
 }).call(this,require('_process'))
-},{"./ReactPropTypes":80,"./invariant":137,"_process":158}],26:[function(require,module,exports){
+},{"./ReactPropTypes":99,"./invariant":158,"_process":180}],44:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -13529,7 +15665,7 @@ var LocalEventTrapMixin = {
 module.exports = LocalEventTrapMixin;
 
 }).call(this,require('_process'))
-},{"./ReactBrowserEventEmitter":32,"./accumulateInto":107,"./forEachAccumulated":122,"./invariant":137,"_process":158}],27:[function(require,module,exports){
+},{"./ReactBrowserEventEmitter":50,"./accumulateInto":127,"./forEachAccumulated":143,"./invariant":158,"_process":180}],45:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -13587,7 +15723,7 @@ var MobileSafariClickEventPlugin = {
 
 module.exports = MobileSafariClickEventPlugin;
 
-},{"./EventConstants":16,"./emptyFunction":116}],28:[function(require,module,exports){
+},{"./EventConstants":34,"./emptyFunction":137}],46:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -13636,7 +15772,7 @@ function assign(target, sources) {
 
 module.exports = assign;
 
-},{}],29:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -13752,7 +15888,7 @@ var PooledClass = {
 module.exports = PooledClass;
 
 }).call(this,require('_process'))
-},{"./invariant":137,"_process":158}],30:[function(require,module,exports){
+},{"./invariant":158,"_process":180}],48:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -13904,7 +16040,7 @@ React.version = '0.13.3';
 module.exports = React;
 
 }).call(this,require('_process'))
-},{"./EventPluginUtils":20,"./ExecutionEnvironment":22,"./Object.assign":28,"./ReactChildren":34,"./ReactClass":35,"./ReactComponent":36,"./ReactContext":40,"./ReactCurrentOwner":41,"./ReactDOM":42,"./ReactDOMTextComponent":53,"./ReactDefaultInjection":56,"./ReactElement":59,"./ReactElementValidator":60,"./ReactInstanceHandles":68,"./ReactMount":72,"./ReactPerf":77,"./ReactPropTypes":80,"./ReactReconciler":83,"./ReactServerRendering":86,"./findDOMNode":119,"./onlyChild":146,"_process":158}],31:[function(require,module,exports){
+},{"./EventPluginUtils":38,"./ExecutionEnvironment":40,"./Object.assign":46,"./ReactChildren":52,"./ReactClass":53,"./ReactComponent":54,"./ReactContext":58,"./ReactCurrentOwner":59,"./ReactDOM":60,"./ReactDOMTextComponent":71,"./ReactDefaultInjection":74,"./ReactElement":77,"./ReactElementValidator":78,"./ReactInstanceHandles":86,"./ReactMount":90,"./ReactPerf":95,"./ReactPropTypes":99,"./ReactReconciler":102,"./ReactServerRendering":105,"./findDOMNode":140,"./onlyChild":168,"_process":180}],49:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -13935,7 +16071,7 @@ var ReactBrowserComponentMixin = {
 
 module.exports = ReactBrowserComponentMixin;
 
-},{"./findDOMNode":119}],32:[function(require,module,exports){
+},{"./findDOMNode":140}],50:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -14288,7 +16424,7 @@ var ReactBrowserEventEmitter = assign({}, ReactEventEmitterMixin, {
 
 module.exports = ReactBrowserEventEmitter;
 
-},{"./EventConstants":16,"./EventPluginHub":18,"./EventPluginRegistry":19,"./Object.assign":28,"./ReactEventEmitterMixin":63,"./ViewportMetrics":106,"./isEventSupported":138}],33:[function(require,module,exports){
+},{"./EventConstants":34,"./EventPluginHub":36,"./EventPluginRegistry":37,"./Object.assign":46,"./ReactEventEmitterMixin":81,"./ViewportMetrics":126,"./isEventSupported":159}],51:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -14415,7 +16551,7 @@ var ReactChildReconciler = {
 
 module.exports = ReactChildReconciler;
 
-},{"./ReactReconciler":83,"./flattenChildren":120,"./instantiateReactComponent":136,"./shouldUpdateReactComponent":153}],34:[function(require,module,exports){
+},{"./ReactReconciler":102,"./flattenChildren":141,"./instantiateReactComponent":157,"./shouldUpdateReactComponent":175}],52:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -14568,7 +16704,7 @@ var ReactChildren = {
 module.exports = ReactChildren;
 
 }).call(this,require('_process'))
-},{"./PooledClass":29,"./ReactFragment":65,"./traverseAllChildren":155,"./warning":156,"_process":158}],35:[function(require,module,exports){
+},{"./PooledClass":47,"./ReactFragment":83,"./traverseAllChildren":177,"./warning":178,"_process":180}],53:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -15514,7 +17650,7 @@ var ReactClass = {
 module.exports = ReactClass;
 
 }).call(this,require('_process'))
-},{"./Object.assign":28,"./ReactComponent":36,"./ReactCurrentOwner":41,"./ReactElement":59,"./ReactErrorUtils":62,"./ReactInstanceMap":69,"./ReactLifeCycle":70,"./ReactPropTypeLocationNames":78,"./ReactPropTypeLocations":79,"./ReactUpdateQueue":88,"./invariant":137,"./keyMirror":142,"./keyOf":143,"./warning":156,"_process":158}],36:[function(require,module,exports){
+},{"./Object.assign":46,"./ReactComponent":54,"./ReactCurrentOwner":59,"./ReactElement":77,"./ReactErrorUtils":80,"./ReactInstanceMap":87,"./ReactLifeCycle":88,"./ReactPropTypeLocationNames":97,"./ReactPropTypeLocations":98,"./ReactUpdateQueue":108,"./invariant":158,"./keyMirror":164,"./keyOf":165,"./warning":178,"_process":180}],54:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -15668,7 +17804,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = ReactComponent;
 
 }).call(this,require('_process'))
-},{"./ReactUpdateQueue":88,"./invariant":137,"./warning":156,"_process":158}],37:[function(require,module,exports){
+},{"./ReactUpdateQueue":108,"./invariant":158,"./warning":178,"_process":180}],55:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15715,7 +17851,7 @@ var ReactComponentBrowserEnvironment = {
 
 module.exports = ReactComponentBrowserEnvironment;
 
-},{"./ReactDOMIDOperations":46,"./ReactMount":72}],38:[function(require,module,exports){
+},{"./ReactDOMIDOperations":64,"./ReactMount":90}],56:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -15776,7 +17912,7 @@ var ReactComponentEnvironment = {
 module.exports = ReactComponentEnvironment;
 
 }).call(this,require('_process'))
-},{"./invariant":137,"_process":158}],39:[function(require,module,exports){
+},{"./invariant":158,"_process":180}],57:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -16689,7 +18825,7 @@ var ReactCompositeComponent = {
 module.exports = ReactCompositeComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":28,"./ReactComponentEnvironment":38,"./ReactContext":40,"./ReactCurrentOwner":41,"./ReactElement":59,"./ReactElementValidator":60,"./ReactInstanceMap":69,"./ReactLifeCycle":70,"./ReactNativeComponent":75,"./ReactPerf":77,"./ReactPropTypeLocationNames":78,"./ReactPropTypeLocations":79,"./ReactReconciler":83,"./ReactUpdates":89,"./emptyObject":117,"./invariant":137,"./shouldUpdateReactComponent":153,"./warning":156,"_process":158}],40:[function(require,module,exports){
+},{"./Object.assign":46,"./ReactComponentEnvironment":56,"./ReactContext":58,"./ReactCurrentOwner":59,"./ReactElement":77,"./ReactElementValidator":78,"./ReactInstanceMap":87,"./ReactLifeCycle":88,"./ReactNativeComponent":93,"./ReactPerf":95,"./ReactPropTypeLocationNames":97,"./ReactPropTypeLocations":98,"./ReactReconciler":102,"./ReactUpdates":109,"./emptyObject":138,"./invariant":158,"./shouldUpdateReactComponent":175,"./warning":178,"_process":180}],58:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -16767,7 +18903,7 @@ var ReactContext = {
 module.exports = ReactContext;
 
 }).call(this,require('_process'))
-},{"./Object.assign":28,"./emptyObject":117,"./warning":156,"_process":158}],41:[function(require,module,exports){
+},{"./Object.assign":46,"./emptyObject":138,"./warning":178,"_process":180}],59:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16801,7 +18937,7 @@ var ReactCurrentOwner = {
 
 module.exports = ReactCurrentOwner;
 
-},{}],42:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -16980,7 +19116,7 @@ var ReactDOM = mapObject({
 module.exports = ReactDOM;
 
 }).call(this,require('_process'))
-},{"./ReactElement":59,"./ReactElementValidator":60,"./mapObject":144,"_process":158}],43:[function(require,module,exports){
+},{"./ReactElement":77,"./ReactElementValidator":78,"./mapObject":166,"_process":180}],61:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17044,7 +19180,7 @@ var ReactDOMButton = ReactClass.createClass({
 
 module.exports = ReactDOMButton;
 
-},{"./AutoFocusMixin":3,"./ReactBrowserComponentMixin":31,"./ReactClass":35,"./ReactElement":59,"./keyMirror":142}],44:[function(require,module,exports){
+},{"./AutoFocusMixin":21,"./ReactBrowserComponentMixin":49,"./ReactClass":53,"./ReactElement":77,"./keyMirror":164}],62:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -17554,7 +19690,7 @@ ReactDOMComponent.injection = {
 module.exports = ReactDOMComponent;
 
 }).call(this,require('_process'))
-},{"./CSSPropertyOperations":6,"./DOMProperty":11,"./DOMPropertyOperations":12,"./Object.assign":28,"./ReactBrowserEventEmitter":32,"./ReactComponentBrowserEnvironment":37,"./ReactMount":72,"./ReactMultiChild":73,"./ReactPerf":77,"./escapeTextContentForBrowser":118,"./invariant":137,"./isEventSupported":138,"./keyOf":143,"./warning":156,"_process":158}],45:[function(require,module,exports){
+},{"./CSSPropertyOperations":24,"./DOMProperty":29,"./DOMPropertyOperations":30,"./Object.assign":46,"./ReactBrowserEventEmitter":50,"./ReactComponentBrowserEnvironment":55,"./ReactMount":90,"./ReactMultiChild":91,"./ReactPerf":95,"./escapeTextContentForBrowser":139,"./invariant":158,"./isEventSupported":159,"./keyOf":165,"./warning":178,"_process":180}],63:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17603,7 +19739,7 @@ var ReactDOMForm = ReactClass.createClass({
 
 module.exports = ReactDOMForm;
 
-},{"./EventConstants":16,"./LocalEventTrapMixin":26,"./ReactBrowserComponentMixin":31,"./ReactClass":35,"./ReactElement":59}],46:[function(require,module,exports){
+},{"./EventConstants":34,"./LocalEventTrapMixin":44,"./ReactBrowserComponentMixin":49,"./ReactClass":53,"./ReactElement":77}],64:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -17771,7 +19907,7 @@ ReactPerf.measureMethods(ReactDOMIDOperations, 'ReactDOMIDOperations', {
 module.exports = ReactDOMIDOperations;
 
 }).call(this,require('_process'))
-},{"./CSSPropertyOperations":6,"./DOMChildrenOperations":10,"./DOMPropertyOperations":12,"./ReactMount":72,"./ReactPerf":77,"./invariant":137,"./setInnerHTML":150,"_process":158}],47:[function(require,module,exports){
+},{"./CSSPropertyOperations":24,"./DOMChildrenOperations":28,"./DOMPropertyOperations":30,"./ReactMount":90,"./ReactPerf":95,"./invariant":158,"./setInnerHTML":172,"_process":180}],65:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17816,7 +19952,7 @@ var ReactDOMIframe = ReactClass.createClass({
 
 module.exports = ReactDOMIframe;
 
-},{"./EventConstants":16,"./LocalEventTrapMixin":26,"./ReactBrowserComponentMixin":31,"./ReactClass":35,"./ReactElement":59}],48:[function(require,module,exports){
+},{"./EventConstants":34,"./LocalEventTrapMixin":44,"./ReactBrowserComponentMixin":49,"./ReactClass":53,"./ReactElement":77}],66:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17862,7 +19998,7 @@ var ReactDOMImg = ReactClass.createClass({
 
 module.exports = ReactDOMImg;
 
-},{"./EventConstants":16,"./LocalEventTrapMixin":26,"./ReactBrowserComponentMixin":31,"./ReactClass":35,"./ReactElement":59}],49:[function(require,module,exports){
+},{"./EventConstants":34,"./LocalEventTrapMixin":44,"./ReactBrowserComponentMixin":49,"./ReactClass":53,"./ReactElement":77}],67:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -18039,7 +20175,7 @@ var ReactDOMInput = ReactClass.createClass({
 module.exports = ReactDOMInput;
 
 }).call(this,require('_process'))
-},{"./AutoFocusMixin":3,"./DOMPropertyOperations":12,"./LinkedValueUtils":25,"./Object.assign":28,"./ReactBrowserComponentMixin":31,"./ReactClass":35,"./ReactElement":59,"./ReactMount":72,"./ReactUpdates":89,"./invariant":137,"_process":158}],50:[function(require,module,exports){
+},{"./AutoFocusMixin":21,"./DOMPropertyOperations":30,"./LinkedValueUtils":43,"./Object.assign":46,"./ReactBrowserComponentMixin":49,"./ReactClass":53,"./ReactElement":77,"./ReactMount":90,"./ReactUpdates":109,"./invariant":158,"_process":180}],68:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -18091,7 +20227,7 @@ var ReactDOMOption = ReactClass.createClass({
 module.exports = ReactDOMOption;
 
 }).call(this,require('_process'))
-},{"./ReactBrowserComponentMixin":31,"./ReactClass":35,"./ReactElement":59,"./warning":156,"_process":158}],51:[function(require,module,exports){
+},{"./ReactBrowserComponentMixin":49,"./ReactClass":53,"./ReactElement":77,"./warning":178,"_process":180}],69:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18269,7 +20405,7 @@ var ReactDOMSelect = ReactClass.createClass({
 
 module.exports = ReactDOMSelect;
 
-},{"./AutoFocusMixin":3,"./LinkedValueUtils":25,"./Object.assign":28,"./ReactBrowserComponentMixin":31,"./ReactClass":35,"./ReactElement":59,"./ReactUpdates":89}],52:[function(require,module,exports){
+},{"./AutoFocusMixin":21,"./LinkedValueUtils":43,"./Object.assign":46,"./ReactBrowserComponentMixin":49,"./ReactClass":53,"./ReactElement":77,"./ReactUpdates":109}],70:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18482,7 +20618,7 @@ var ReactDOMSelection = {
 
 module.exports = ReactDOMSelection;
 
-},{"./ExecutionEnvironment":22,"./getNodeForCharacterOffset":130,"./getTextContentAccessor":132}],53:[function(require,module,exports){
+},{"./ExecutionEnvironment":40,"./getNodeForCharacterOffset":151,"./getTextContentAccessor":153}],71:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18599,7 +20735,7 @@ assign(ReactDOMTextComponent.prototype, {
 
 module.exports = ReactDOMTextComponent;
 
-},{"./DOMPropertyOperations":12,"./Object.assign":28,"./ReactComponentBrowserEnvironment":37,"./ReactDOMComponent":44,"./escapeTextContentForBrowser":118}],54:[function(require,module,exports){
+},{"./DOMPropertyOperations":30,"./Object.assign":46,"./ReactComponentBrowserEnvironment":55,"./ReactDOMComponent":62,"./escapeTextContentForBrowser":139}],72:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -18739,7 +20875,7 @@ var ReactDOMTextarea = ReactClass.createClass({
 module.exports = ReactDOMTextarea;
 
 }).call(this,require('_process'))
-},{"./AutoFocusMixin":3,"./DOMPropertyOperations":12,"./LinkedValueUtils":25,"./Object.assign":28,"./ReactBrowserComponentMixin":31,"./ReactClass":35,"./ReactElement":59,"./ReactUpdates":89,"./invariant":137,"./warning":156,"_process":158}],55:[function(require,module,exports){
+},{"./AutoFocusMixin":21,"./DOMPropertyOperations":30,"./LinkedValueUtils":43,"./Object.assign":46,"./ReactBrowserComponentMixin":49,"./ReactClass":53,"./ReactElement":77,"./ReactUpdates":109,"./invariant":158,"./warning":178,"_process":180}],73:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18812,7 +20948,7 @@ var ReactDefaultBatchingStrategy = {
 
 module.exports = ReactDefaultBatchingStrategy;
 
-},{"./Object.assign":28,"./ReactUpdates":89,"./Transaction":105,"./emptyFunction":116}],56:[function(require,module,exports){
+},{"./Object.assign":46,"./ReactUpdates":109,"./Transaction":125,"./emptyFunction":137}],74:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -18971,7 +21107,7 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
-},{"./BeforeInputEventPlugin":4,"./ChangeEventPlugin":8,"./ClientReactRootIndex":9,"./DefaultEventPluginOrder":14,"./EnterLeaveEventPlugin":15,"./ExecutionEnvironment":22,"./HTMLDOMPropertyConfig":24,"./MobileSafariClickEventPlugin":27,"./ReactBrowserComponentMixin":31,"./ReactClass":35,"./ReactComponentBrowserEnvironment":37,"./ReactDOMButton":43,"./ReactDOMComponent":44,"./ReactDOMForm":45,"./ReactDOMIDOperations":46,"./ReactDOMIframe":47,"./ReactDOMImg":48,"./ReactDOMInput":49,"./ReactDOMOption":50,"./ReactDOMSelect":51,"./ReactDOMTextComponent":53,"./ReactDOMTextarea":54,"./ReactDefaultBatchingStrategy":55,"./ReactDefaultPerf":57,"./ReactElement":59,"./ReactEventListener":64,"./ReactInjection":66,"./ReactInstanceHandles":68,"./ReactMount":72,"./ReactReconcileTransaction":82,"./SVGDOMPropertyConfig":90,"./SelectEventPlugin":91,"./ServerReactRootIndex":92,"./SimpleEventPlugin":93,"./createFullPageComponent":113,"_process":158}],57:[function(require,module,exports){
+},{"./BeforeInputEventPlugin":22,"./ChangeEventPlugin":26,"./ClientReactRootIndex":27,"./DefaultEventPluginOrder":32,"./EnterLeaveEventPlugin":33,"./ExecutionEnvironment":40,"./HTMLDOMPropertyConfig":42,"./MobileSafariClickEventPlugin":45,"./ReactBrowserComponentMixin":49,"./ReactClass":53,"./ReactComponentBrowserEnvironment":55,"./ReactDOMButton":61,"./ReactDOMComponent":62,"./ReactDOMForm":63,"./ReactDOMIDOperations":64,"./ReactDOMIframe":65,"./ReactDOMImg":66,"./ReactDOMInput":67,"./ReactDOMOption":68,"./ReactDOMSelect":69,"./ReactDOMTextComponent":71,"./ReactDOMTextarea":72,"./ReactDefaultBatchingStrategy":73,"./ReactDefaultPerf":75,"./ReactElement":77,"./ReactEventListener":82,"./ReactInjection":84,"./ReactInstanceHandles":86,"./ReactMount":90,"./ReactReconcileTransaction":101,"./SVGDOMPropertyConfig":110,"./SelectEventPlugin":111,"./ServerReactRootIndex":112,"./SimpleEventPlugin":113,"./createFullPageComponent":134,"_process":180}],75:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -19237,7 +21373,7 @@ var ReactDefaultPerf = {
 
 module.exports = ReactDefaultPerf;
 
-},{"./DOMProperty":11,"./ReactDefaultPerfAnalysis":58,"./ReactMount":72,"./ReactPerf":77,"./performanceNow":148}],58:[function(require,module,exports){
+},{"./DOMProperty":29,"./ReactDefaultPerfAnalysis":76,"./ReactMount":90,"./ReactPerf":95,"./performanceNow":170}],76:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -19443,7 +21579,7 @@ var ReactDefaultPerfAnalysis = {
 
 module.exports = ReactDefaultPerfAnalysis;
 
-},{"./Object.assign":28}],59:[function(require,module,exports){
+},{"./Object.assign":46}],77:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -19751,7 +21887,7 @@ ReactElement.isValidElement = function(object) {
 module.exports = ReactElement;
 
 }).call(this,require('_process'))
-},{"./Object.assign":28,"./ReactContext":40,"./ReactCurrentOwner":41,"./warning":156,"_process":158}],60:[function(require,module,exports){
+},{"./Object.assign":46,"./ReactContext":58,"./ReactCurrentOwner":59,"./warning":178,"_process":180}],78:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -20216,7 +22352,7 @@ var ReactElementValidator = {
 module.exports = ReactElementValidator;
 
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":41,"./ReactElement":59,"./ReactFragment":65,"./ReactNativeComponent":75,"./ReactPropTypeLocationNames":78,"./ReactPropTypeLocations":79,"./getIteratorFn":128,"./invariant":137,"./warning":156,"_process":158}],61:[function(require,module,exports){
+},{"./ReactCurrentOwner":59,"./ReactElement":77,"./ReactFragment":83,"./ReactNativeComponent":93,"./ReactPropTypeLocationNames":97,"./ReactPropTypeLocations":98,"./getIteratorFn":149,"./invariant":158,"./warning":178,"_process":180}],79:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -20311,7 +22447,7 @@ var ReactEmptyComponent = {
 module.exports = ReactEmptyComponent;
 
 }).call(this,require('_process'))
-},{"./ReactElement":59,"./ReactInstanceMap":69,"./invariant":137,"_process":158}],62:[function(require,module,exports){
+},{"./ReactElement":77,"./ReactInstanceMap":87,"./invariant":158,"_process":180}],80:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -20343,7 +22479,7 @@ var ReactErrorUtils = {
 
 module.exports = ReactErrorUtils;
 
-},{}],63:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -20393,7 +22529,7 @@ var ReactEventEmitterMixin = {
 
 module.exports = ReactEventEmitterMixin;
 
-},{"./EventPluginHub":18}],64:[function(require,module,exports){
+},{"./EventPluginHub":36}],82:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -20576,7 +22712,7 @@ var ReactEventListener = {
 
 module.exports = ReactEventListener;
 
-},{"./EventListener":17,"./ExecutionEnvironment":22,"./Object.assign":28,"./PooledClass":29,"./ReactInstanceHandles":68,"./ReactMount":72,"./ReactUpdates":89,"./getEventTarget":127,"./getUnboundedScrollPosition":133}],65:[function(require,module,exports){
+},{"./EventListener":35,"./ExecutionEnvironment":40,"./Object.assign":46,"./PooledClass":47,"./ReactInstanceHandles":86,"./ReactMount":90,"./ReactUpdates":109,"./getEventTarget":148,"./getUnboundedScrollPosition":154}],83:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015, Facebook, Inc.
@@ -20761,7 +22897,7 @@ var ReactFragment = {
 module.exports = ReactFragment;
 
 }).call(this,require('_process'))
-},{"./ReactElement":59,"./warning":156,"_process":158}],66:[function(require,module,exports){
+},{"./ReactElement":77,"./warning":178,"_process":180}],84:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -20803,7 +22939,7 @@ var ReactInjection = {
 
 module.exports = ReactInjection;
 
-},{"./DOMProperty":11,"./EventPluginHub":18,"./ReactBrowserEventEmitter":32,"./ReactClass":35,"./ReactComponentEnvironment":38,"./ReactDOMComponent":44,"./ReactEmptyComponent":61,"./ReactNativeComponent":75,"./ReactPerf":77,"./ReactRootIndex":85,"./ReactUpdates":89}],67:[function(require,module,exports){
+},{"./DOMProperty":29,"./EventPluginHub":36,"./ReactBrowserEventEmitter":50,"./ReactClass":53,"./ReactComponentEnvironment":56,"./ReactDOMComponent":62,"./ReactEmptyComponent":79,"./ReactNativeComponent":93,"./ReactPerf":95,"./ReactRootIndex":104,"./ReactUpdates":109}],85:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -20938,7 +23074,7 @@ var ReactInputSelection = {
 
 module.exports = ReactInputSelection;
 
-},{"./ReactDOMSelection":52,"./containsNode":111,"./focusNode":121,"./getActiveElement":123}],68:[function(require,module,exports){
+},{"./ReactDOMSelection":70,"./containsNode":132,"./focusNode":142,"./getActiveElement":144}],86:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -21274,7 +23410,7 @@ var ReactInstanceHandles = {
 module.exports = ReactInstanceHandles;
 
 }).call(this,require('_process'))
-},{"./ReactRootIndex":85,"./invariant":137,"_process":158}],69:[function(require,module,exports){
+},{"./ReactRootIndex":104,"./invariant":158,"_process":180}],87:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -21323,7 +23459,7 @@ var ReactInstanceMap = {
 
 module.exports = ReactInstanceMap;
 
-},{}],70:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 /**
  * Copyright 2015, Facebook, Inc.
  * All rights reserved.
@@ -21360,7 +23496,7 @@ var ReactLifeCycle = {
 
 module.exports = ReactLifeCycle;
 
-},{}],71:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -21408,7 +23544,7 @@ var ReactMarkupChecksum = {
 
 module.exports = ReactMarkupChecksum;
 
-},{"./adler32":108}],72:[function(require,module,exports){
+},{"./adler32":128}],90:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -22299,7 +24435,7 @@ ReactPerf.measureMethods(ReactMount, 'ReactMount', {
 module.exports = ReactMount;
 
 }).call(this,require('_process'))
-},{"./DOMProperty":11,"./ReactBrowserEventEmitter":32,"./ReactCurrentOwner":41,"./ReactElement":59,"./ReactElementValidator":60,"./ReactEmptyComponent":61,"./ReactInstanceHandles":68,"./ReactInstanceMap":69,"./ReactMarkupChecksum":71,"./ReactPerf":77,"./ReactReconciler":83,"./ReactUpdateQueue":88,"./ReactUpdates":89,"./containsNode":111,"./emptyObject":117,"./getReactRootElementInContainer":131,"./instantiateReactComponent":136,"./invariant":137,"./setInnerHTML":150,"./shouldUpdateReactComponent":153,"./warning":156,"_process":158}],73:[function(require,module,exports){
+},{"./DOMProperty":29,"./ReactBrowserEventEmitter":50,"./ReactCurrentOwner":59,"./ReactElement":77,"./ReactElementValidator":78,"./ReactEmptyComponent":79,"./ReactInstanceHandles":86,"./ReactInstanceMap":87,"./ReactMarkupChecksum":89,"./ReactPerf":95,"./ReactReconciler":102,"./ReactUpdateQueue":108,"./ReactUpdates":109,"./containsNode":132,"./emptyObject":138,"./getReactRootElementInContainer":152,"./instantiateReactComponent":157,"./invariant":158,"./setInnerHTML":172,"./shouldUpdateReactComponent":175,"./warning":178,"_process":180}],91:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -22729,7 +24865,7 @@ var ReactMultiChild = {
 
 module.exports = ReactMultiChild;
 
-},{"./ReactChildReconciler":33,"./ReactComponentEnvironment":38,"./ReactMultiChildUpdateTypes":74,"./ReactReconciler":83}],74:[function(require,module,exports){
+},{"./ReactChildReconciler":51,"./ReactComponentEnvironment":56,"./ReactMultiChildUpdateTypes":92,"./ReactReconciler":102}],92:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -22762,7 +24898,7 @@ var ReactMultiChildUpdateTypes = keyMirror({
 
 module.exports = ReactMultiChildUpdateTypes;
 
-},{"./keyMirror":142}],75:[function(require,module,exports){
+},{"./keyMirror":164}],93:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -22869,7 +25005,7 @@ var ReactNativeComponent = {
 module.exports = ReactNativeComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":28,"./invariant":137,"_process":158}],76:[function(require,module,exports){
+},{"./Object.assign":46,"./invariant":158,"_process":180}],94:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -22981,7 +25117,7 @@ var ReactOwner = {
 module.exports = ReactOwner;
 
 }).call(this,require('_process'))
-},{"./invariant":137,"_process":158}],77:[function(require,module,exports){
+},{"./invariant":158,"_process":180}],95:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -23085,7 +25221,117 @@ function _noMeasure(objName, fnName, func) {
 module.exports = ReactPerf;
 
 }).call(this,require('_process'))
-},{"_process":158}],78:[function(require,module,exports){
+},{"_process":180}],96:[function(require,module,exports){
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactPropTransferer
+ */
+
+'use strict';
+
+var assign = require("./Object.assign");
+var emptyFunction = require("./emptyFunction");
+var joinClasses = require("./joinClasses");
+
+/**
+ * Creates a transfer strategy that will merge prop values using the supplied
+ * `mergeStrategy`. If a prop was previously unset, this just sets it.
+ *
+ * @param {function} mergeStrategy
+ * @return {function}
+ */
+function createTransferStrategy(mergeStrategy) {
+  return function(props, key, value) {
+    if (!props.hasOwnProperty(key)) {
+      props[key] = value;
+    } else {
+      props[key] = mergeStrategy(props[key], value);
+    }
+  };
+}
+
+var transferStrategyMerge = createTransferStrategy(function(a, b) {
+  // `merge` overrides the first object's (`props[key]` above) keys using the
+  // second object's (`value`) keys. An object's style's existing `propA` would
+  // get overridden. Flip the order here.
+  return assign({}, b, a);
+});
+
+/**
+ * Transfer strategies dictate how props are transferred by `transferPropsTo`.
+ * NOTE: if you add any more exceptions to this list you should be sure to
+ * update `cloneWithProps()` accordingly.
+ */
+var TransferStrategies = {
+  /**
+   * Never transfer `children`.
+   */
+  children: emptyFunction,
+  /**
+   * Transfer the `className` prop by merging them.
+   */
+  className: createTransferStrategy(joinClasses),
+  /**
+   * Transfer the `style` prop (which is an object) by merging them.
+   */
+  style: transferStrategyMerge
+};
+
+/**
+ * Mutates the first argument by transferring the properties from the second
+ * argument.
+ *
+ * @param {object} props
+ * @param {object} newProps
+ * @return {object}
+ */
+function transferInto(props, newProps) {
+  for (var thisKey in newProps) {
+    if (!newProps.hasOwnProperty(thisKey)) {
+      continue;
+    }
+
+    var transferStrategy = TransferStrategies[thisKey];
+
+    if (transferStrategy && TransferStrategies.hasOwnProperty(thisKey)) {
+      transferStrategy(props, thisKey, newProps[thisKey]);
+    } else if (!props.hasOwnProperty(thisKey)) {
+      props[thisKey] = newProps[thisKey];
+    }
+  }
+  return props;
+}
+
+/**
+ * ReactPropTransferer are capable of transferring props to another component
+ * using a `transferPropsTo` method.
+ *
+ * @class ReactPropTransferer
+ */
+var ReactPropTransferer = {
+
+  /**
+   * Merge two props objects using TransferStrategies.
+   *
+   * @param {object} oldProps original props (they take precedence)
+   * @param {object} newProps new props to merge in
+   * @return {object} a new object containing both sets of props merged.
+   */
+  mergeProps: function(oldProps, newProps) {
+    return transferInto(assign({}, oldProps), newProps);
+  }
+
+};
+
+module.exports = ReactPropTransferer;
+
+},{"./Object.assign":46,"./emptyFunction":137,"./joinClasses":163}],97:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -23113,7 +25359,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = ReactPropTypeLocationNames;
 
 }).call(this,require('_process'))
-},{"_process":158}],79:[function(require,module,exports){
+},{"_process":180}],98:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23137,7 +25383,7 @@ var ReactPropTypeLocations = keyMirror({
 
 module.exports = ReactPropTypeLocations;
 
-},{"./keyMirror":142}],80:[function(require,module,exports){
+},{"./keyMirror":164}],99:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23486,7 +25732,7 @@ function getPreciseType(propValue) {
 
 module.exports = ReactPropTypes;
 
-},{"./ReactElement":59,"./ReactFragment":65,"./ReactPropTypeLocationNames":78,"./emptyFunction":116}],81:[function(require,module,exports){
+},{"./ReactElement":77,"./ReactFragment":83,"./ReactPropTypeLocationNames":97,"./emptyFunction":137}],100:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23542,7 +25788,7 @@ PooledClass.addPoolingTo(ReactPutListenerQueue);
 
 module.exports = ReactPutListenerQueue;
 
-},{"./Object.assign":28,"./PooledClass":29,"./ReactBrowserEventEmitter":32}],82:[function(require,module,exports){
+},{"./Object.assign":46,"./PooledClass":47,"./ReactBrowserEventEmitter":50}],101:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23718,7 +25964,7 @@ PooledClass.addPoolingTo(ReactReconcileTransaction);
 
 module.exports = ReactReconcileTransaction;
 
-},{"./CallbackQueue":7,"./Object.assign":28,"./PooledClass":29,"./ReactBrowserEventEmitter":32,"./ReactInputSelection":67,"./ReactPutListenerQueue":81,"./Transaction":105}],83:[function(require,module,exports){
+},{"./CallbackQueue":25,"./Object.assign":46,"./PooledClass":47,"./ReactBrowserEventEmitter":50,"./ReactInputSelection":85,"./ReactPutListenerQueue":100,"./Transaction":125}],102:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -23842,7 +26088,7 @@ var ReactReconciler = {
 module.exports = ReactReconciler;
 
 }).call(this,require('_process'))
-},{"./ReactElementValidator":60,"./ReactRef":84,"_process":158}],84:[function(require,module,exports){
+},{"./ReactElementValidator":78,"./ReactRef":103,"_process":180}],103:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23913,7 +26159,7 @@ ReactRef.detachRefs = function(instance, element) {
 
 module.exports = ReactRef;
 
-},{"./ReactOwner":76}],85:[function(require,module,exports){
+},{"./ReactOwner":94}],104:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23944,7 +26190,7 @@ var ReactRootIndex = {
 
 module.exports = ReactRootIndex;
 
-},{}],86:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -24026,7 +26272,7 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
-},{"./ReactElement":59,"./ReactInstanceHandles":68,"./ReactMarkupChecksum":71,"./ReactServerRenderingTransaction":87,"./emptyObject":117,"./instantiateReactComponent":136,"./invariant":137,"_process":158}],87:[function(require,module,exports){
+},{"./ReactElement":77,"./ReactInstanceHandles":86,"./ReactMarkupChecksum":89,"./ReactServerRenderingTransaction":106,"./emptyObject":138,"./instantiateReactComponent":157,"./invariant":158,"_process":180}],106:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -24139,7 +26385,118 @@ PooledClass.addPoolingTo(ReactServerRenderingTransaction);
 
 module.exports = ReactServerRenderingTransaction;
 
-},{"./CallbackQueue":7,"./Object.assign":28,"./PooledClass":29,"./ReactPutListenerQueue":81,"./Transaction":105,"./emptyFunction":116}],88:[function(require,module,exports){
+},{"./CallbackQueue":25,"./Object.assign":46,"./PooledClass":47,"./ReactPutListenerQueue":100,"./Transaction":125,"./emptyFunction":137}],107:[function(require,module,exports){
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactTransitionEvents
+ */
+
+'use strict';
+
+var ExecutionEnvironment = require("./ExecutionEnvironment");
+
+/**
+ * EVENT_NAME_MAP is used to determine which event fired when a
+ * transition/animation ends, based on the style property used to
+ * define that event.
+ */
+var EVENT_NAME_MAP = {
+  transitionend: {
+    'transition': 'transitionend',
+    'WebkitTransition': 'webkitTransitionEnd',
+    'MozTransition': 'mozTransitionEnd',
+    'OTransition': 'oTransitionEnd',
+    'msTransition': 'MSTransitionEnd'
+  },
+
+  animationend: {
+    'animation': 'animationend',
+    'WebkitAnimation': 'webkitAnimationEnd',
+    'MozAnimation': 'mozAnimationEnd',
+    'OAnimation': 'oAnimationEnd',
+    'msAnimation': 'MSAnimationEnd'
+  }
+};
+
+var endEvents = [];
+
+function detectEvents() {
+  var testEl = document.createElement('div');
+  var style = testEl.style;
+
+  // On some platforms, in particular some releases of Android 4.x,
+  // the un-prefixed "animation" and "transition" properties are defined on the
+  // style object but the events that fire will still be prefixed, so we need
+  // to check if the un-prefixed events are useable, and if not remove them
+  // from the map
+  if (!('AnimationEvent' in window)) {
+    delete EVENT_NAME_MAP.animationend.animation;
+  }
+
+  if (!('TransitionEvent' in window)) {
+    delete EVENT_NAME_MAP.transitionend.transition;
+  }
+
+  for (var baseEventName in EVENT_NAME_MAP) {
+    var baseEvents = EVENT_NAME_MAP[baseEventName];
+    for (var styleName in baseEvents) {
+      if (styleName in style) {
+        endEvents.push(baseEvents[styleName]);
+        break;
+      }
+    }
+  }
+}
+
+if (ExecutionEnvironment.canUseDOM) {
+  detectEvents();
+}
+
+// We use the raw {add|remove}EventListener() call because EventListener
+// does not know how to remove event listeners and we really should
+// clean up. Also, these events are not triggered in older browsers
+// so we should be A-OK here.
+
+function addEventListener(node, eventName, eventListener) {
+  node.addEventListener(eventName, eventListener, false);
+}
+
+function removeEventListener(node, eventName, eventListener) {
+  node.removeEventListener(eventName, eventListener, false);
+}
+
+var ReactTransitionEvents = {
+  addEndEventListener: function(node, eventListener) {
+    if (endEvents.length === 0) {
+      // If CSS transitions are not supported, trigger an "end animation"
+      // event immediately.
+      window.setTimeout(eventListener, 0);
+      return;
+    }
+    endEvents.forEach(function(endEvent) {
+      addEventListener(node, endEvent, eventListener);
+    });
+  },
+
+  removeEndEventListener: function(node, eventListener) {
+    if (endEvents.length === 0) {
+      return;
+    }
+    endEvents.forEach(function(endEvent) {
+      removeEventListener(node, endEvent, eventListener);
+    });
+  }
+};
+
+module.exports = ReactTransitionEvents;
+
+},{"./ExecutionEnvironment":40}],108:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015, Facebook, Inc.
@@ -24438,7 +26795,7 @@ var ReactUpdateQueue = {
 module.exports = ReactUpdateQueue;
 
 }).call(this,require('_process'))
-},{"./Object.assign":28,"./ReactCurrentOwner":41,"./ReactElement":59,"./ReactInstanceMap":69,"./ReactLifeCycle":70,"./ReactUpdates":89,"./invariant":137,"./warning":156,"_process":158}],89:[function(require,module,exports){
+},{"./Object.assign":46,"./ReactCurrentOwner":59,"./ReactElement":77,"./ReactInstanceMap":87,"./ReactLifeCycle":88,"./ReactUpdates":109,"./invariant":158,"./warning":178,"_process":180}],109:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -24720,7 +27077,7 @@ var ReactUpdates = {
 module.exports = ReactUpdates;
 
 }).call(this,require('_process'))
-},{"./CallbackQueue":7,"./Object.assign":28,"./PooledClass":29,"./ReactCurrentOwner":41,"./ReactPerf":77,"./ReactReconciler":83,"./Transaction":105,"./invariant":137,"./warning":156,"_process":158}],90:[function(require,module,exports){
+},{"./CallbackQueue":25,"./Object.assign":46,"./PooledClass":47,"./ReactCurrentOwner":59,"./ReactPerf":95,"./ReactReconciler":102,"./Transaction":125,"./invariant":158,"./warning":178,"_process":180}],110:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -24814,7 +27171,7 @@ var SVGDOMPropertyConfig = {
 
 module.exports = SVGDOMPropertyConfig;
 
-},{"./DOMProperty":11}],91:[function(require,module,exports){
+},{"./DOMProperty":29}],111:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25009,7 +27366,7 @@ var SelectEventPlugin = {
 
 module.exports = SelectEventPlugin;
 
-},{"./EventConstants":16,"./EventPropagators":21,"./ReactInputSelection":67,"./SyntheticEvent":97,"./getActiveElement":123,"./isTextInputElement":140,"./keyOf":143,"./shallowEqual":152}],92:[function(require,module,exports){
+},{"./EventConstants":34,"./EventPropagators":39,"./ReactInputSelection":85,"./SyntheticEvent":117,"./getActiveElement":144,"./isTextInputElement":161,"./keyOf":165,"./shallowEqual":174}],112:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25040,7 +27397,7 @@ var ServerReactRootIndex = {
 
 module.exports = ServerReactRootIndex;
 
-},{}],93:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -25468,7 +27825,7 @@ var SimpleEventPlugin = {
 module.exports = SimpleEventPlugin;
 
 }).call(this,require('_process'))
-},{"./EventConstants":16,"./EventPluginUtils":20,"./EventPropagators":21,"./SyntheticClipboardEvent":94,"./SyntheticDragEvent":96,"./SyntheticEvent":97,"./SyntheticFocusEvent":98,"./SyntheticKeyboardEvent":100,"./SyntheticMouseEvent":101,"./SyntheticTouchEvent":102,"./SyntheticUIEvent":103,"./SyntheticWheelEvent":104,"./getEventCharCode":124,"./invariant":137,"./keyOf":143,"./warning":156,"_process":158}],94:[function(require,module,exports){
+},{"./EventConstants":34,"./EventPluginUtils":38,"./EventPropagators":39,"./SyntheticClipboardEvent":114,"./SyntheticDragEvent":116,"./SyntheticEvent":117,"./SyntheticFocusEvent":118,"./SyntheticKeyboardEvent":120,"./SyntheticMouseEvent":121,"./SyntheticTouchEvent":122,"./SyntheticUIEvent":123,"./SyntheticWheelEvent":124,"./getEventCharCode":145,"./invariant":158,"./keyOf":165,"./warning":178,"_process":180}],114:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25513,7 +27870,7 @@ SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
 
 module.exports = SyntheticClipboardEvent;
 
-},{"./SyntheticEvent":97}],95:[function(require,module,exports){
+},{"./SyntheticEvent":117}],115:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25558,7 +27915,7 @@ SyntheticEvent.augmentClass(
 
 module.exports = SyntheticCompositionEvent;
 
-},{"./SyntheticEvent":97}],96:[function(require,module,exports){
+},{"./SyntheticEvent":117}],116:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25597,7 +27954,7 @@ SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
 
 module.exports = SyntheticDragEvent;
 
-},{"./SyntheticMouseEvent":101}],97:[function(require,module,exports){
+},{"./SyntheticMouseEvent":121}],117:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25763,7 +28120,7 @@ PooledClass.addPoolingTo(SyntheticEvent, PooledClass.threeArgumentPooler);
 
 module.exports = SyntheticEvent;
 
-},{"./Object.assign":28,"./PooledClass":29,"./emptyFunction":116,"./getEventTarget":127}],98:[function(require,module,exports){
+},{"./Object.assign":46,"./PooledClass":47,"./emptyFunction":137,"./getEventTarget":148}],118:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25802,7 +28159,7 @@ SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
 
 module.exports = SyntheticFocusEvent;
 
-},{"./SyntheticUIEvent":103}],99:[function(require,module,exports){
+},{"./SyntheticUIEvent":123}],119:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25848,7 +28205,7 @@ SyntheticEvent.augmentClass(
 
 module.exports = SyntheticInputEvent;
 
-},{"./SyntheticEvent":97}],100:[function(require,module,exports){
+},{"./SyntheticEvent":117}],120:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25935,7 +28292,7 @@ SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
 
 module.exports = SyntheticKeyboardEvent;
 
-},{"./SyntheticUIEvent":103,"./getEventCharCode":124,"./getEventKey":125,"./getEventModifierState":126}],101:[function(require,module,exports){
+},{"./SyntheticUIEvent":123,"./getEventCharCode":145,"./getEventKey":146,"./getEventModifierState":147}],121:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26016,7 +28373,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 
 module.exports = SyntheticMouseEvent;
 
-},{"./SyntheticUIEvent":103,"./ViewportMetrics":106,"./getEventModifierState":126}],102:[function(require,module,exports){
+},{"./SyntheticUIEvent":123,"./ViewportMetrics":126,"./getEventModifierState":147}],122:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26064,7 +28421,7 @@ SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
 
 module.exports = SyntheticTouchEvent;
 
-},{"./SyntheticUIEvent":103,"./getEventModifierState":126}],103:[function(require,module,exports){
+},{"./SyntheticUIEvent":123,"./getEventModifierState":147}],123:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26126,7 +28483,7 @@ SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 
 module.exports = SyntheticUIEvent;
 
-},{"./SyntheticEvent":97,"./getEventTarget":127}],104:[function(require,module,exports){
+},{"./SyntheticEvent":117,"./getEventTarget":148}],124:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26187,7 +28544,7 @@ SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
 
 module.exports = SyntheticWheelEvent;
 
-},{"./SyntheticMouseEvent":101}],105:[function(require,module,exports){
+},{"./SyntheticMouseEvent":121}],125:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -26428,7 +28785,7 @@ var Transaction = {
 module.exports = Transaction;
 
 }).call(this,require('_process'))
-},{"./invariant":137,"_process":158}],106:[function(require,module,exports){
+},{"./invariant":158,"_process":180}],126:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26457,7 +28814,7 @@ var ViewportMetrics = {
 
 module.exports = ViewportMetrics;
 
-},{}],107:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -26523,7 +28880,7 @@ function accumulateInto(current, next) {
 module.exports = accumulateInto;
 
 }).call(this,require('_process'))
-},{"./invariant":137,"_process":158}],108:[function(require,module,exports){
+},{"./invariant":158,"_process":180}],128:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26557,7 +28914,7 @@ function adler32(data) {
 
 module.exports = adler32;
 
-},{}],109:[function(require,module,exports){
+},{}],129:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26589,7 +28946,7 @@ function camelize(string) {
 
 module.exports = camelize;
 
-},{}],110:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -26631,7 +28988,66 @@ function camelizeStyleName(string) {
 
 module.exports = camelizeStyleName;
 
-},{"./camelize":109}],111:[function(require,module,exports){
+},{"./camelize":129}],131:[function(require,module,exports){
+(function (process){
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @typechecks static-only
+ * @providesModule cloneWithProps
+ */
+
+'use strict';
+
+var ReactElement = require("./ReactElement");
+var ReactPropTransferer = require("./ReactPropTransferer");
+
+var keyOf = require("./keyOf");
+var warning = require("./warning");
+
+var CHILDREN_PROP = keyOf({children: null});
+
+/**
+ * Sometimes you want to change the props of a child passed to you. Usually
+ * this is to add a CSS class.
+ *
+ * @param {ReactElement} child child element you'd like to clone
+ * @param {object} props props you'd like to modify. className and style will be
+ * merged automatically.
+ * @return {ReactElement} a clone of child with props merged in.
+ */
+function cloneWithProps(child, props) {
+  if ("production" !== process.env.NODE_ENV) {
+    ("production" !== process.env.NODE_ENV ? warning(
+      !child.ref,
+      'You are calling cloneWithProps() on a child with a ref. This is ' +
+      'dangerous because you\'re creating a new child which will not be ' +
+      'added as a ref to its parent.'
+    ) : null);
+  }
+
+  var newProps = ReactPropTransferer.mergeProps(props, child.props);
+
+  // Use `child.props.children` if it is provided.
+  if (!newProps.hasOwnProperty(CHILDREN_PROP) &&
+      child.props.hasOwnProperty(CHILDREN_PROP)) {
+    newProps.children = child.props.children;
+  }
+
+  // The current API doesn't retain _owner and _context, which is why this
+  // doesn't use ReactElement.cloneAndReplaceProps.
+  return ReactElement.createElement(child.type, newProps);
+}
+
+module.exports = cloneWithProps;
+
+}).call(this,require('_process'))
+},{"./ReactElement":77,"./ReactPropTransferer":96,"./keyOf":165,"./warning":178,"_process":180}],132:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26675,7 +29091,7 @@ function containsNode(outerNode, innerNode) {
 
 module.exports = containsNode;
 
-},{"./isTextNode":141}],112:[function(require,module,exports){
+},{"./isTextNode":162}],133:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26761,7 +29177,7 @@ function createArrayFromMixed(obj) {
 
 module.exports = createArrayFromMixed;
 
-},{"./toArray":154}],113:[function(require,module,exports){
+},{"./toArray":176}],134:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -26823,7 +29239,7 @@ function createFullPageComponent(tag) {
 module.exports = createFullPageComponent;
 
 }).call(this,require('_process'))
-},{"./ReactClass":35,"./ReactElement":59,"./invariant":137,"_process":158}],114:[function(require,module,exports){
+},{"./ReactClass":53,"./ReactElement":77,"./invariant":158,"_process":180}],135:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -26913,7 +29329,7 @@ function createNodesFromMarkup(markup, handleScript) {
 module.exports = createNodesFromMarkup;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":22,"./createArrayFromMixed":112,"./getMarkupWrap":129,"./invariant":137,"_process":158}],115:[function(require,module,exports){
+},{"./ExecutionEnvironment":40,"./createArrayFromMixed":133,"./getMarkupWrap":150,"./invariant":158,"_process":180}],136:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26971,7 +29387,7 @@ function dangerousStyleValue(name, value) {
 
 module.exports = dangerousStyleValue;
 
-},{"./CSSProperty":5}],116:[function(require,module,exports){
+},{"./CSSProperty":23}],137:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27005,7 +29421,7 @@ emptyFunction.thatReturnsArgument = function(arg) { return arg; };
 
 module.exports = emptyFunction;
 
-},{}],117:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27029,7 +29445,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = emptyObject;
 
 }).call(this,require('_process'))
-},{"_process":158}],118:[function(require,module,exports){
+},{"_process":180}],139:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27069,7 +29485,7 @@ function escapeTextContentForBrowser(text) {
 
 module.exports = escapeTextContentForBrowser;
 
-},{}],119:[function(require,module,exports){
+},{}],140:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27142,7 +29558,7 @@ function findDOMNode(componentOrElement) {
 module.exports = findDOMNode;
 
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":41,"./ReactInstanceMap":69,"./ReactMount":72,"./invariant":137,"./isNode":139,"./warning":156,"_process":158}],120:[function(require,module,exports){
+},{"./ReactCurrentOwner":59,"./ReactInstanceMap":87,"./ReactMount":90,"./invariant":158,"./isNode":160,"./warning":178,"_process":180}],141:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27200,7 +29616,7 @@ function flattenChildren(children) {
 module.exports = flattenChildren;
 
 }).call(this,require('_process'))
-},{"./traverseAllChildren":155,"./warning":156,"_process":158}],121:[function(require,module,exports){
+},{"./traverseAllChildren":177,"./warning":178,"_process":180}],142:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -27229,7 +29645,7 @@ function focusNode(node) {
 
 module.exports = focusNode;
 
-},{}],122:[function(require,module,exports){
+},{}],143:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27260,7 +29676,7 @@ var forEachAccumulated = function(arr, cb, scope) {
 
 module.exports = forEachAccumulated;
 
-},{}],123:[function(require,module,exports){
+},{}],144:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27289,7 +29705,7 @@ function getActiveElement() /*?DOMElement*/ {
 
 module.exports = getActiveElement;
 
-},{}],124:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27341,7 +29757,7 @@ function getEventCharCode(nativeEvent) {
 
 module.exports = getEventCharCode;
 
-},{}],125:[function(require,module,exports){
+},{}],146:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27446,7 +29862,7 @@ function getEventKey(nativeEvent) {
 
 module.exports = getEventKey;
 
-},{"./getEventCharCode":124}],126:[function(require,module,exports){
+},{"./getEventCharCode":145}],147:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27493,7 +29909,7 @@ function getEventModifierState(nativeEvent) {
 
 module.exports = getEventModifierState;
 
-},{}],127:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27524,7 +29940,7 @@ function getEventTarget(nativeEvent) {
 
 module.exports = getEventTarget;
 
-},{}],128:[function(require,module,exports){
+},{}],149:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27568,7 +29984,7 @@ function getIteratorFn(maybeIterable) {
 
 module.exports = getIteratorFn;
 
-},{}],129:[function(require,module,exports){
+},{}],150:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27687,7 +30103,7 @@ function getMarkupWrap(nodeName) {
 module.exports = getMarkupWrap;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":22,"./invariant":137,"_process":158}],130:[function(require,module,exports){
+},{"./ExecutionEnvironment":40,"./invariant":158,"_process":180}],151:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27762,7 +30178,7 @@ function getNodeForCharacterOffset(root, offset) {
 
 module.exports = getNodeForCharacterOffset;
 
-},{}],131:[function(require,module,exports){
+},{}],152:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27797,7 +30213,7 @@ function getReactRootElementInContainer(container) {
 
 module.exports = getReactRootElementInContainer;
 
-},{}],132:[function(require,module,exports){
+},{}],153:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27834,7 +30250,7 @@ function getTextContentAccessor() {
 
 module.exports = getTextContentAccessor;
 
-},{"./ExecutionEnvironment":22}],133:[function(require,module,exports){
+},{"./ExecutionEnvironment":40}],154:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27874,7 +30290,7 @@ function getUnboundedScrollPosition(scrollable) {
 
 module.exports = getUnboundedScrollPosition;
 
-},{}],134:[function(require,module,exports){
+},{}],155:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27907,7 +30323,7 @@ function hyphenate(string) {
 
 module.exports = hyphenate;
 
-},{}],135:[function(require,module,exports){
+},{}],156:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27948,7 +30364,7 @@ function hyphenateStyleName(string) {
 
 module.exports = hyphenateStyleName;
 
-},{"./hyphenate":134}],136:[function(require,module,exports){
+},{"./hyphenate":155}],157:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -28086,7 +30502,7 @@ function instantiateReactComponent(node, parentCompositeType) {
 module.exports = instantiateReactComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":28,"./ReactCompositeComponent":39,"./ReactEmptyComponent":61,"./ReactNativeComponent":75,"./invariant":137,"./warning":156,"_process":158}],137:[function(require,module,exports){
+},{"./Object.assign":46,"./ReactCompositeComponent":57,"./ReactEmptyComponent":79,"./ReactNativeComponent":93,"./invariant":158,"./warning":178,"_process":180}],158:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -28143,7 +30559,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 }).call(this,require('_process'))
-},{"_process":158}],138:[function(require,module,exports){
+},{"_process":180}],159:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28208,7 +30624,7 @@ function isEventSupported(eventNameSuffix, capture) {
 
 module.exports = isEventSupported;
 
-},{"./ExecutionEnvironment":22}],139:[function(require,module,exports){
+},{"./ExecutionEnvironment":40}],160:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28235,7 +30651,7 @@ function isNode(object) {
 
 module.exports = isNode;
 
-},{}],140:[function(require,module,exports){
+},{}],161:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28278,7 +30694,7 @@ function isTextInputElement(elem) {
 
 module.exports = isTextInputElement;
 
-},{}],141:[function(require,module,exports){
+},{}],162:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28303,7 +30719,48 @@ function isTextNode(object) {
 
 module.exports = isTextNode;
 
-},{"./isNode":139}],142:[function(require,module,exports){
+},{"./isNode":160}],163:[function(require,module,exports){
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule joinClasses
+ * @typechecks static-only
+ */
+
+'use strict';
+
+/**
+ * Combines multiple className strings into one.
+ * http://jsperf.com/joinclasses-args-vs-array
+ *
+ * @param {...?string} classes
+ * @return {string}
+ */
+function joinClasses(className/*, ... */) {
+  if (!className) {
+    className = '';
+  }
+  var nextClass;
+  var argLength = arguments.length;
+  if (argLength > 1) {
+    for (var ii = 1; ii < argLength; ii++) {
+      nextClass = arguments[ii];
+      if (nextClass) {
+        className = (className ? className + ' ' : '') + nextClass;
+      }
+    }
+  }
+  return className;
+}
+
+module.exports = joinClasses;
+
+},{}],164:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -28358,7 +30815,7 @@ var keyMirror = function(obj) {
 module.exports = keyMirror;
 
 }).call(this,require('_process'))
-},{"./invariant":137,"_process":158}],143:[function(require,module,exports){
+},{"./invariant":158,"_process":180}],165:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28394,7 +30851,7 @@ var keyOf = function(oneKeyObj) {
 
 module.exports = keyOf;
 
-},{}],144:[function(require,module,exports){
+},{}],166:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28447,7 +30904,7 @@ function mapObject(object, callback, context) {
 
 module.exports = mapObject;
 
-},{}],145:[function(require,module,exports){
+},{}],167:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28480,7 +30937,7 @@ function memoizeStringOnly(callback) {
 
 module.exports = memoizeStringOnly;
 
-},{}],146:[function(require,module,exports){
+},{}],168:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -28520,7 +30977,7 @@ function onlyChild(children) {
 module.exports = onlyChild;
 
 }).call(this,require('_process'))
-},{"./ReactElement":59,"./invariant":137,"_process":158}],147:[function(require,module,exports){
+},{"./ReactElement":77,"./invariant":158,"_process":180}],169:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28548,7 +31005,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = performance || {};
 
-},{"./ExecutionEnvironment":22}],148:[function(require,module,exports){
+},{"./ExecutionEnvironment":40}],170:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28576,7 +31033,7 @@ var performanceNow = performance.now.bind(performance);
 
 module.exports = performanceNow;
 
-},{"./performance":147}],149:[function(require,module,exports){
+},{"./performance":169}],171:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28604,7 +31061,7 @@ function quoteAttributeValueForBrowser(value) {
 
 module.exports = quoteAttributeValueForBrowser;
 
-},{"./escapeTextContentForBrowser":118}],150:[function(require,module,exports){
+},{"./escapeTextContentForBrowser":139}],172:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28693,7 +31150,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = setInnerHTML;
 
-},{"./ExecutionEnvironment":22}],151:[function(require,module,exports){
+},{"./ExecutionEnvironment":40}],173:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28735,7 +31192,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = setTextContent;
 
-},{"./ExecutionEnvironment":22,"./escapeTextContentForBrowser":118,"./setInnerHTML":150}],152:[function(require,module,exports){
+},{"./ExecutionEnvironment":40,"./escapeTextContentForBrowser":139,"./setInnerHTML":172}],174:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28779,7 +31236,7 @@ function shallowEqual(objA, objB) {
 
 module.exports = shallowEqual;
 
-},{}],153:[function(require,module,exports){
+},{}],175:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -28883,7 +31340,7 @@ function shouldUpdateReactComponent(prevElement, nextElement) {
 module.exports = shouldUpdateReactComponent;
 
 }).call(this,require('_process'))
-},{"./warning":156,"_process":158}],154:[function(require,module,exports){
+},{"./warning":178,"_process":180}],176:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -28955,7 +31412,7 @@ function toArray(obj) {
 module.exports = toArray;
 
 }).call(this,require('_process'))
-},{"./invariant":137,"_process":158}],155:[function(require,module,exports){
+},{"./invariant":158,"_process":180}],177:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -29208,7 +31665,7 @@ function traverseAllChildren(children, callback, traverseContext) {
 module.exports = traverseAllChildren;
 
 }).call(this,require('_process'))
-},{"./ReactElement":59,"./ReactFragment":65,"./ReactInstanceHandles":68,"./getIteratorFn":128,"./invariant":137,"./warning":156,"_process":158}],156:[function(require,module,exports){
+},{"./ReactElement":77,"./ReactFragment":83,"./ReactInstanceHandles":86,"./getIteratorFn":149,"./invariant":158,"./warning":178,"_process":180}],178:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -29271,10 +31728,10 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = warning;
 
 }).call(this,require('_process'))
-},{"./emptyFunction":116,"_process":158}],157:[function(require,module,exports){
+},{"./emptyFunction":137,"_process":180}],179:[function(require,module,exports){
 module.exports = require('./lib/React');
 
-},{"./lib/React":30}],158:[function(require,module,exports){
+},{"./lib/React":48}],180:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};

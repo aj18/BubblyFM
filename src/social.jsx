@@ -8,6 +8,7 @@ var LargeCard = require("../bubbly_materializecss/src/largeCard.js");
 var CardReveal = require("../bubbly_materializecss/src/cardReveal.js");
 var CardPanel = require("../bubbly_materializecss/src/cardPanel.js");
 
+
 var PhotoCollage = require("../bubbly_photoCollage/src/bubblyPC.js");
 var PhotoCollageMixIt = require("../bubbly_photoCollage/src/bubblyPCMixIt.js");
 var VideoCollage = require("../bubbly_videoCollage/src/bubblyVC.js");
@@ -20,13 +21,24 @@ var CommentListMaterial = require("../bubbly_comments/bubbly_comments/src/commen
 var RSSListDesc = require("../bubbly_rsslist_desc/src/rssListDesc.js");
 var RSSListImg = require("../bubbly_rsslist_img/src/rssListImg.js");
 var ImageGallery =require("../bubbly_rsslist_img/src/rssListImageGallery.js");
-var BubblyBMYahoo = require("../bubbly_bm/src/bubblyBmReal.js");
+var BubblyBMYahoo = require("../bubbly_bm/src/bubblyBmRealThree.js");
 var LargePicture = require("../bubbly_largePicture/src/largePicture.js");
+
+
 var LargeVideoAutoPlay = require("../bubbly_largeVideo/src/LargeVideoAutoPlay.js");
+
 var LargeVideo = require("../bubbly_largeVideo/src/largeVideo.js");
 var Wall = require("../bubbly_wall/src/wall.js");
+
 var ImageGalleryThumbNail = require("../bubbly_bm/src/imageGalleryThumbNail.js");
 var Story = require("../bubbly_story/src/story.js");
+var StoryLB = require("../bubbly_story/src/storyLB.js");
+var StorySlider = require("../bubbly_story/src/storySlider.js");
+var LargePictureStory = require("../bubbly_largePicture/src/largePictureStory.js");
+var CardPanelStory = require("../bubbly_materializecss/src/cardPanelStory.js");
+var LargeVideoAutoPlayStory = require("../bubbly_largeVideo/src/LargeVideoAutoPlayStory.js");
+var SmallMSNStory = require("../bubbly_small_msn/src/smallmsnStory.js");
+
 //var UserApp = require("../bubbly_contactForm/src/contactForm.js");
 
 var Bubbly = React.createClass({
@@ -96,14 +108,30 @@ var Bubbly = React.createClass({
 			);
 
 		}  else if( this.props.cardtype === "STORY"){
-			
+			console.log("id " + this.props.id);
 			return( 
 				<div>
-				<Story id={this.props.id} data={this.state.cmpdata} title={this.props.title} discription={this.props.Description}  returnurl={cmpreturnurl} styles={this.props.styles}/>
+				<Story id={this.props.id} storyid = { this.props.storyId} data={this.state.cmpdata.Data} title={this.props.title} discription={this.props.Description}  returnurl={cmpreturnurl} styles={this.props.styles}/>
 				</div>
 			);
 
-		}else if ( this.props.cardtype === "SMALLOLD") {
+		} else if( this.props.cardtype === "STORYLB"){
+			console.log("id " + this.props.id);
+			return( 
+				<div>
+				<StoryLB id={this.props.id} storyid = { this.props.storyId} data={this.state.cmpdata.Data} title={this.props.title} discription={this.props.Description}  returnurl={cmpreturnurl} styles={this.props.styles}/>
+				</div>
+			);
+
+		}  else if( this.props.cardtype === "STORYSLIDER"){
+			console.log("id " + this.props.id);
+			return( 
+				<div>
+				<StorySlider id={this.props.id} storyid = { this.props.storyId} data={this.state.cmpdata.Data} title={this.props.title} discription={this.props.Description}  returnurl={cmpreturnurl} styles={this.props.styles}/>
+				</div>
+			);
+
+		} else if ( this.props.cardtype === "SMALLOLD") {
 			return (
 				<div>
 				<BubblySmall id={this.props.id} data={this.state.cmpdata} returnurl={cmpreturnurl} styles={this.props.styles}/>	
@@ -157,7 +185,47 @@ var Bubbly = React.createClass({
 				<LargePicture id={this.props.id} data={this.state.cmpdata} returnurl={cmpreturnurl} styles={this.props.styles}/>	
 				</div>
 			);
-		}  else if ( this.props.cardtype === "VCARD") {
+		} else if ( this.props.cardtype === "STORYPCARD") {
+				
+				console.log("pstyles " + JSON.stringify(this.props.styles));
+				console.log("id " + this.props.id);
+				console.log("lightbox " + this.props.storyLB);
+			return (
+
+				<div>
+				<LargePictureStory id={this.props.id} storyLB= {this.props.storyLB} storyid = { this.props.storyId} data={this.state.cmpdata} returnurl={cmpreturnurl} styles={this.props.styles}/>	
+				</div>
+			);
+		} else if ( this.props.cardtype === "STORYVCARDAUTO") {
+				console.log("id " + this.props.id);
+				console.log("storyid " + this.props.storyId);
+			return (
+
+				<div>
+				<LargeVideoAutoPlayStory id={this.props.id} storyid = { this.props.storyId} data={this.state.cmpdata} returnurl={cmpreturnurl} styles={this.props.styles}/>	
+				</div>
+			);
+		} else if ( this.props.cardtype === "STORYCARDPANEL") {
+				console.log("id " + this.props.id);
+				console.log("vstyles " + JSON.stringify(this.state.cmpdata));
+				console.log("storyid " + this.props.storyId);
+			return (
+
+				<div>
+				<CardPanelStory id={this.props.id} storyLB= {this.props.storyLB} storyid = { this.props.storyId} data={this.state.cmpdata} returnurl={cmpreturnurl} styles={this.props.styles}/>	
+				</div>
+			);
+		} else if ( this.props.cardtype === "STORYSMALL") {
+				console.log(" Story small id " + this.props.id);
+				console.log("vstyles " + JSON.stringify(this.state.cmpdata));
+				console.log("storyid " + this.props.storyId);
+			return (
+
+				<div>
+				<SmallMSNStory id={this.props.id} storyLB= {this.props.storyLB} storyid = { this.props.storyId} data={this.state.cmpdata} returnurl={cmpreturnurl} styles={this.props.styles}/>	
+				</div>
+			);
+		} else if ( this.props.cardtype === "VCARD") {
 			return (
 				<div>
 				<LargeVideo id={this.props.id}  data={this.state.cmpdata} returnurl={cmpreturnurl} styles={this.props.styles}/>	

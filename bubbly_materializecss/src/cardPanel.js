@@ -6,7 +6,7 @@ var CardPanel = React.createClass({
 		return(
 			
 		   
-        	<a  href={this.props.returnurl} >
+        	<a  href={this.props.returnurl+'?id=' + this.props.id} >
 
 	        <div className="card-panel" style={this.props.styles.cardStyle}>
 	        	
