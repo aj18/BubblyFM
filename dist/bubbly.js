@@ -232,6 +232,10 @@ var BubblyBMYahoo = React.createClass({
 
         console.log("classnamestyle " + this.props.styles.classnameStyle);
 
+        var secondPageUrl = this.props.returnurl + "/home/news?id=" + this.props.id;
+
+
+
         if (index == 0) {
             console.log("Negative");
             return React.createElement(
@@ -273,15 +277,14 @@ var BubblyBMYahoo = React.createClass({
                         { className: "col s12 m6 l8" },
                         React.createElement(
                             "div",
-                            { className: "col s12 m11 l11" },
+                            { className: "col s12 m11 l10" },
                             React.createElement(
                                 "span",
-                                { style: { background: "url(http://social24x7.azurewebsites.net/cdn/images/ribbon21.png);", "background-repeat": "no-repeat;", padding: "5px 46px 6px 14px;", "line-height": "45px;", position: "relative;", top: "3px;", color: "#FFF;", "font-weight": "bold;", "z-index": "1;" } },
-                                " ",
+                                { style: { background: "url(http://social24x7.azurewebsites.net/cdn/images/ribbon21.png);", "background-size": "100% 100%;", "background-repeat": "no-repeat;", padding: "5px 46px 6px 14px;", "line-height": "45px;", position: "relative;", top: "3px;", color: "#FFF;", "font-weight": "bold;", "z-index": "1;" } },
                                 React.createElement(
                                     "a",
-                                    { href: "http://Social24x7.net", style: { color: "#ffffff" } },
-                                    "Social Connect"
+                                    { href: secondPageUrl, style: { color: "#ffffff" }, target: "_blank" },
+                                    "Click here to read the public Review of"
                                 )
                             ),
                             React.createElement("br", null),
@@ -290,7 +293,7 @@ var BubblyBMYahoo = React.createClass({
                                 { className: "card-title black-text" },
                                 React.createElement(
                                     "a",
-                                    { href: this.props.returnurl, style: { width: "140px !important" } },
+                                    { href: secondPageUrl, style: { width: "140px !important", "font-size": "20px;" }, target: "_blank" },
                                     this.props.data.Name
                                 )
                             ),
@@ -307,12 +310,12 @@ var BubblyBMYahoo = React.createClass({
                         ),
                         React.createElement(
                             "div",
-                            { className: "col s12 m1 l1", style: { "padding-top": "5px" } },
-                            React.createElement(StatisticsTableVertical, { videoCount: this.props.data.VideosCount, photoCount: this.props.data.PhotosCount, id: this.props.id, returnurl: this.props.returnurl3 })
+                            { className: "col s12 m1 l2", style: { padding: "0px 2px" } },
+                            React.createElement(StatisticsTableVertical, { videoCount: this.props.data.VideosCount, photoCount: this.props.data.PhotosCount, id: this.props.id, returnurl: this.props.returnurl + "/home/news" })
                         ),
                         React.createElement(
                             "a",
-                            { href: "http://www.bharatmovies.social", style: { "line-height": "0px;", float: "right;", "font-size": "13px;", "font-weight": "bold;", margin: "5px 5px;" } },
+                            { href: "http://www.bharatmovies.social", style: { "line-height": "0px;", float: "right;", "font-size": "13px;", "font-weight": "bold;", margin: "5px 5px;" }, target: "_blank" },
                             "Visit bharatmovies.social"
                         )
                     )
@@ -320,7 +323,7 @@ var BubblyBMYahoo = React.createClass({
                 React.createElement(
                     "div",
                     { className: "row", style: { padding: "0px", margin: "5px" } },
-                    React.createElement(ImageGalleryYahoo, { data: this.props.data.Photos })
+                    React.createElement(ImageGalleryYahoo, { ID: this.props.id, returnURL: this.props.returnurl, data: this.props.data.Photos })
                 )
             );
         }
@@ -367,15 +370,14 @@ var BubblyBMYahoo = React.createClass({
                         { className: "col s12 m6 l8" },
                         React.createElement(
                             "div",
-                            { className: "col s12 m11 l11" },
+                            { className: "col s12 m11 l10" },
                             React.createElement(
                                 "span",
-                                { style: { background: "url(http://social24x7.azurewebsites.net/cdn/images/ribbon21.png);", "background-repeat": "no-repeat;", padding: "5px 46px 6px 14px;", "line-height": "45px;", position: "relative;", top: "3px;", color: "#FFF;", "font-weight": "bold;", "z-index": "1;" } },
-                                " ",
+                                { style: { background: "url(http://social24x7.azurewebsites.net/cdn/images/ribbon21.png);", "background-size": "100% 100%;", "background-repeat": "no-repeat;", padding: "5px 46px 6px 14px;", "line-height": "45px;", position: "relative;", top: "3px;", color: "#FFF;", "font-weight": "bold;", "z-index": "1;" } },
                                 React.createElement(
                                     "a",
-                                    { href: "http://Social24x7.net", style: { color: "#ffffff" } },
-                                    "Social Connect"
+                                    { href: secondPageUrl, target: "_blank", style: { color: "#ffffff" } },
+                                    "Click here to read the public Review of"
                                 )
                             ),
                             React.createElement("br", null),
@@ -384,7 +386,7 @@ var BubblyBMYahoo = React.createClass({
                                 { className: "card-title black-text" },
                                 React.createElement(
                                     "a",
-                                    { href: this.props.returnurl, style: { width: "140px !important" } },
+                                    { href: secondPageUrl, style: { width: "140px !important", "font-size": "20px;" }, target: "_blank" },
                                     this.props.data.Name
                                 )
                             ),
@@ -401,12 +403,12 @@ var BubblyBMYahoo = React.createClass({
                         ),
                         React.createElement(
                             "div",
-                            { className: "col s12 m1 l1", style: { "padding-top": "5px" } },
-                            React.createElement(StatisticsTableVertical, { videoCount: this.props.data.VideosCount, photoCount: this.props.data.PhotosCount, id: this.props.id, returnurl: this.props.returnurl3 })
+                            { className: "col s12 m1 l2", style: { padding: "0px 2px" } },
+                            React.createElement(StatisticsTableVertical, { videoCount: this.props.data.VideosCount, photoCount: this.props.data.PhotosCount, id: this.props.id, returnurl: this.props.returnurl + "/home/news" })
                         ),
                         React.createElement(
                             "a",
-                            { href: "http://www.bharatmovies.social", style: { "line-height": "0px;", float: "right;", "font-size": "13px;", "font-weight": "bold;", margin: "5px 5px;" } },
+                            { href: "http://www.bharatmovies.social", target: "_blank", style: { "line-height": "0px;", float: "right;", "font-size": "13px;", "font-weight": "bold;", margin: "5px 5px;" } },
                             "Visit bharatmovies.social"
                         )
                     )
@@ -414,7 +416,7 @@ var BubblyBMYahoo = React.createClass({
                 React.createElement(
                     "div",
                     { className: "row", style: { padding: "0px", margin: "5px" } },
-                    React.createElement(ImageGalleryYahoo, { data: this.props.data.Photos })
+                    React.createElement(ImageGalleryYahoo, { ID: this.props.id, returnURL: this.props.returnurl, data: this.props.data.Photos })
                 )
             );
         }
@@ -461,15 +463,14 @@ var BubblyBMYahoo = React.createClass({
                         { className: "col s12 m6 l8" },
                         React.createElement(
                             "div",
-                            { className: "col s11 m11 l11" },
+                            { className: "col s11 m11 l10" },
                             React.createElement(
                                 "span",
-                                { style: { background: "url(http://social24x7.azurewebsites.net/cdn/images/ribbon21.png);", "background-repeat": "no-repeat;", padding: "5px 46px 6px 14px;", "line-height": "45px;", position: "relative;", top: "3px;", color: "#FFF;", "font-weight": "bold;", "z-index": "1;" } },
-                                " ",
+                                { style: { background: "url(http://social24x7.azurewebsites.net/cdn/images/ribbon21.png);", "background-size": "100% 100%;", "background-repeat": "no-repeat;", padding: "5px 46px 6px 14px;", "line-height": "45px;", position: "relative;", top: "3px;", color: "#FFF;", "font-weight": "bold;", "z-index": "1;" } },
                                 React.createElement(
                                     "a",
-                                    { href: "http://Social24x7.net", style: { color: "#ffffff" } },
-                                    "Social Connect"
+                                    { href: secondPageUrl, target: "_blank", style: { color: "#ffffff" } },
+                                    "Click here to read the public Review of"
                                 )
                             ),
                             React.createElement("br", null),
@@ -478,7 +479,7 @@ var BubblyBMYahoo = React.createClass({
                                 { className: "card-title black-text" },
                                 React.createElement(
                                     "a",
-                                    { href: this.props.returnurl, style: { width: "140px !important" } },
+                                    { href: secondPageUrl, target: "_blank", style: { width: "140px !important", "font-size": "20px;" } },
                                     this.props.data.Name
                                 )
                             ),
@@ -495,12 +496,12 @@ var BubblyBMYahoo = React.createClass({
                         ),
                         React.createElement(
                             "div",
-                            { className: "col s1 m1 l1", style: { "padding-top": "5px" } },
-                            React.createElement(StatisticsTableVertical, { videoCount: this.props.data.VideosCount, photoCount: this.props.data.PhotosCount, id: this.props.id, returnurl: this.props.returnurl3 })
+                            { className: "col s1 m1 l2", style: { padding: "0px 2px" } },
+                            React.createElement(StatisticsTableVertical, { videoCount: this.props.data.VideosCount, photoCount: this.props.data.PhotosCount, id: this.props.id, returnurl: this.props.returnurl + "/home/news" })
                         ),
                         React.createElement(
                             "a",
-                            { href: "http://www.bharatmovies.social", style: { "line-height": "0px;", float: "right;", "font-size": "13px;", "font-weight": "bold;", margin: "5px 5px;" } },
+                            { href: "http://www.bharatmovies.social", target: "_blank", style: { "line-height": "0px;", float: "right;", "font-size": "13px;", "font-weight": "bold;", margin: "5px 5px;" } },
                             "Visit bharatmovies.social"
                         )
                     )
@@ -508,7 +509,7 @@ var BubblyBMYahoo = React.createClass({
                 React.createElement(
                     "div",
                     { className: "row", style: { padding: "0px", margin: "5px" } },
-                    React.createElement(ImageGalleryYahoo, { data: this.props.data.Photos })
+                    React.createElement(ImageGalleryYahoo, { ID: this.props.id, returnURL: this.props.returnurl, data: this.props.data.Photos })
                 )
             );
         }
@@ -7611,7 +7612,7 @@ var StatisticsTableVertical = React.createClass({
                   { style: { padding: "2px" } },
                   React.createElement(
                      "a",
-                     { href: url + "video" },
+                     { href: url + "video", target: "_blank" },
                      React.createElement("i", { className: "fa fa-video-camera" })
                   )
                )
@@ -7624,7 +7625,7 @@ var StatisticsTableVertical = React.createClass({
                   { style: { padding: "2px" } },
                   React.createElement(
                      "a",
-                     { href: url + "video" },
+                     { href: url + "video", target: "_blank" },
                      this.props.videoCount
                   )
                )
@@ -7637,7 +7638,7 @@ var StatisticsTableVertical = React.createClass({
                   { style: { padding: "2px" } },
                   React.createElement(
                      "a",
-                     { href: url + "photo" },
+                     { href: url + "photo", target: "_blank" },
                      React.createElement("i", { className: "fa fa-picture-o" })
                   )
                )
@@ -7650,7 +7651,7 @@ var StatisticsTableVertical = React.createClass({
                   { style: { padding: "2px" } },
                   React.createElement(
                      "a",
-                     { href: url + "photo" },
+                     { href: url + "photo", target: "_blank" },
                      this.props.photoCount
                   )
                )
@@ -7710,15 +7711,7 @@ var StorySliderLB = React.createClass({
     },
     render: function () {
         console.log("flowly " + this.props.title);
-        var settings = {
-            dots: true,
-            infinite: true,
-            speed: 500,
-            fade: true,
-            cssEase: "linear"
-
-
-        };
+        var settings = { dots: true, infinite: true, speed: 500, fade: true, cssEase: "linear" };
         return React.createElement(
             "div",
             null,
@@ -7985,6 +7978,11 @@ var StorySliderLB = React.createClass({
                                 "p",
                                 { style: { margin: "0px;" } },
                                 this.props.discription
+                            ),
+                            React.createElement(
+                                "a",
+                                { href: this.props.returnurl + "?id=" + this.props.id, target: "_blank", style: { float: "right;", position: "relative;", bottom: "24px;", right: "0px;", background: "transparent;", color: "#f44336;", "border-radius": "10px;", padding: "0px 10px;", "font-size": "15px;" } },
+                                "...Read More"
                             )
                         )
                     )
@@ -8650,7 +8648,7 @@ var ImageGalleryYahoo = React.createClass({
             s7: { width: "100% !important;", height: "100% !important;", objectFit: "cover !important;" }
 
         };
-        console.log("rss : " + JSON.stringify(this.props.data));
+        console.log("galleryurl : " + this.props.returnURL + "/home/news?id=" + this.props.ID);
         return React.createElement(
             "div",
             { id: "amazingslider-wrapper-1", style: styles.s4 },
@@ -8670,7 +8668,11 @@ var ImageGalleryYahoo = React.createClass({
                         return React.createElement(
                             "li",
                             null,
-                            React.createElement("img", { src: item.Url, "data-description": altDesc, style: { "object-fit": "cover !important;" } })
+                            React.createElement(
+                                "a",
+                                { href: this.props.returnURL + "/home/news?id=" + this.props.ID, target: "_blank" },
+                                React.createElement("img", { src: item.Url, "data-description": altDesc, style: { "object-fit": "cover !important;" } })
+                            )
                         );
                     }, this)
                 ),
