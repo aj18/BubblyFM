@@ -9,16 +9,16 @@ var StatisticsTableVertical = React.createClass({
         <table className="table table-hover">
             <tbody>
                 <tr>
-                   <td style={{'padding':'2px'}}><a href={url+'video'}><i className="fa fa-video-camera"></i></a></td>
+                   <td style={{'padding':'2px'}}><a href={url+'video'} target="_blank"><i className="fa fa-video-camera"></i></a></td>
                 </tr>
                 <tr>
-                   <td style={{'padding':'2px'}}><a href={url+'video'}>{this.props.videoCount}</a></td>
+                   <td style={{'padding':'2px'}}><a href={url+'video'} target="_blank">{this.props.videoCount}</a></td>
                 </tr>
                 <tr>
-                   <td style={{'padding':'2px'}}><a href={url+'photo'}><i className="fa fa-picture-o"></i></a></td>
+                   <td style={{'padding':'2px'}}><a href={url+'photo'} target="_blank"><i className="fa fa-picture-o"></i></a></td>
                 </tr>
                 <tr>  
-                   <td style={{'padding':'2px'}}><a href={url+'photo'}>{this.props.photoCount}</a></td>
+                   <td style={{'padding':'2px'}}><a href={url+'photo'} target="_blank">{this.props.photoCount}</a></td>
                 </tr>
                 
           </tbody>

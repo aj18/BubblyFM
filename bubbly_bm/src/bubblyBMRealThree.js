@@ -108,6 +108,10 @@ var BubblyBMYahoo = React.createClass({
     
     console.log('classnamestyle ' + this.props.styles.classnameStyle);
 
+    var secondPageUrl = this.props.returnurl + '/home/news?id=' + this.props.id;
+
+   
+
     if(index == 0 ) {
          console.log("Negative");
          return (
@@ -129,24 +133,27 @@ var BubblyBMYahoo = React.createClass({
                                   </div>
                                   <div className="col s12 m6 l8">
                                   
-                                      <div className="col s12 m11 l11">
-                                        <span style={{'background': 'url(http://social24x7.azurewebsites.net/cdn/images/ribbon21.png);','background-repeat': 'no-repeat;','padding': '5px 46px 6px 14px;','line-height': '45px;','position': 'relative;','top': '3px;','color': '#FFF;','font-weight': 'bold;','z-index':'1;'}}> <a href="http://Social24x7.net" style={{'color':'#ffffff'}}>Social Connect</a></span><br/>
+                                      <div className="col s12 m11 l10">
+                                        <span style={{'background': 'url(http://social24x7.azurewebsites.net/cdn/images/ribbon21.png);','background-size': '100% 100%;','background-repeat': 'no-repeat;','padding': '5px 46px 6px 14px;','line-height': '45px;','position': 'relative;','top': '3px;','color': '#FFF;','font-weight': 'bold;','z-index':'1;'}}>
+                                         <a href={secondPageUrl} style={{'color':'#ffffff'}} target="_blank">Click here to read the public Review of</a></span><br/>
 
-                                        <span className="card-title black-text"><a href={this.props.returnurl} style={{'width':'140px !important'}} >{this.props.data.Name}</a></span>
+                                        <span className="card-title black-text">
+                                          <a href={secondPageUrl}  style={{'width':'140px !important','font-size': '20px;'}} target="_blank">{this.props.data.Name}</a>
+                                        </span>
                                         <p style={{'margin':'5px 0px;','color': '#787878;'}}><i>{this.props.data.Description}</i><br/></p>
                                           
                                       </div>
-                                      <div className="col s12 m1 l1" style={{'padding-top':'5px'}}>
-                                          <StatisticsTableVertical videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} id={this.props.id}  returnurl={this.props.returnurl3} />
+                                      <div className="col s12 m1 l2" style={{'padding':'0px 2px'}}>
+                                          <StatisticsTableVertical videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} id={this.props.id}  returnurl={this.props.returnurl+'/home/news'} />
                                           
                                       </div>
 
-                                      <a href="http://www.bharatmovies.social"  style={{'line-height': '0px;','float': 'right;','font-size': '13px;','font-weight': 'bold;','margin': '5px 5px;'}}>Visit bharatmovies.social</a>
+                                      <a href="http://www.bharatmovies.social" style={{'line-height': '0px;','float': 'right;','font-size': '13px;','font-weight': 'bold;','margin': '5px 5px;'}} target="_blank">Visit bharatmovies.social</a>
                                  </div> 
                           </div>
 
                           <div className='row' style={{'padding': '0px','margin':'5px'}}>
-                                 <ImageGalleryYahoo  data={this.props.data.Photos}/>  
+                                 <ImageGalleryYahoo ID={this.props.id} returnURL={this.props.returnurl} data={this.props.data.Photos}/>  
                          </div>   
                 </div>
 
@@ -176,24 +183,25 @@ var BubblyBMYahoo = React.createClass({
                                   </div>
                                   <div className="col s12 m6 l8">
                                   
-                                      <div className="col s12 m11 l11">
-                                        <span style={{'background': 'url(http://social24x7.azurewebsites.net/cdn/images/ribbon21.png);','background-repeat': 'no-repeat;','padding': '5px 46px 6px 14px;','line-height': '45px;','position': 'relative;','top': '3px;','color': '#FFF;','font-weight': 'bold;','z-index':'1;'}}> <a href="http://Social24x7.net" style={{'color':'#ffffff'}}>Social Connect</a></span><br/>
+                                      <div className="col s12 m11 l10">
+                                        <span style={{'background': 'url(http://social24x7.azurewebsites.net/cdn/images/ribbon21.png);','background-size': '100% 100%;','background-repeat': 'no-repeat;','padding': '5px 46px 6px 14px;','line-height': '45px;','position': 'relative;','top': '3px;','color': '#FFF;','font-weight': 'bold;','z-index':'1;'}}> 
+                                        <a href={secondPageUrl} target="_blank" style={{'color':'#ffffff'}}>Click here to read the public Review of</a></span><br/>
 
-                                        <span className="card-title black-text"><a href={this.props.returnurl} style={{'width':'140px !important'}} >{this.props.data.Name}</a></span>
+                                        <span className="card-title black-text"><a href={secondPageUrl} style={{'width':'140px !important','font-size': '20px;'}} target="_blank">{this.props.data.Name}</a></span>
                                         <p style={{'margin':'5px 0px;','color': '#787878;'}}><i>{this.props.data.Description}</i><br/></p>
                                           
                                       </div>
-                                      <div className="col s12 m1 l1" style={{'padding-top':'5px'}}>
-                                          <StatisticsTableVertical videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} id={this.props.id}  returnurl={this.props.returnurl3} />
+                                      <div className="col s12 m1 l2" style={{'padding':'0px 2px'}}>
+                                          <StatisticsTableVertical videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} id={this.props.id}  returnurl={this.props.returnurl+'/home/news'} />
                                           
                                       </div>
 
-                                      <a href="http://www.bharatmovies.social"  style={{'line-height': '0px;','float': 'right;','font-size': '13px;','font-weight': 'bold;','margin': '5px 5px;'}}>Visit bharatmovies.social</a>
+                                      <a href="http://www.bharatmovies.social"  target="_blank" style={{'line-height': '0px;','float': 'right;','font-size': '13px;','font-weight': 'bold;','margin': '5px 5px;'}}>Visit bharatmovies.social</a>
                                  </div> 
                           </div>
 
                           <div className='row' style={{'padding': '0px','margin':'5px'}}>
-                                 <ImageGalleryYahoo  data={this.props.data.Photos}/>  
+                                 <ImageGalleryYahoo ID={this.props.id} returnURL={this.props.returnurl} data={this.props.data.Photos}/>  
                          </div>   
                 </div>
 
@@ -222,24 +230,25 @@ var BubblyBMYahoo = React.createClass({
                                   </div>
                                   <div className="col s12 m6 l8">
                                   
-                                      <div className="col s11 m11 l11">
-                                        <span style={{'background': 'url(http://social24x7.azurewebsites.net/cdn/images/ribbon21.png);','background-repeat': 'no-repeat;','padding': '5px 46px 6px 14px;','line-height': '45px;','position': 'relative;','top': '3px;','color': '#FFF;','font-weight': 'bold;','z-index':'1;'}}> <a href="http://Social24x7.net" style={{'color':'#ffffff'}}>Social Connect</a></span><br/>
+                                      <div className="col s11 m11 l10">
+                                        <span style={{'background': 'url(http://social24x7.azurewebsites.net/cdn/images/ribbon21.png);','background-size': '100% 100%;','background-repeat': 'no-repeat;','padding': '5px 46px 6px 14px;','line-height': '45px;','position': 'relative;','top': '3px;','color': '#FFF;','font-weight': 'bold;','z-index':'1;'}}>
+                                         <a href={secondPageUrl} target="_blank" style={{'color':'#ffffff'}}>Click here to read the public Review of</a></span><br/>
 
-                                        <span className="card-title black-text"><a href={this.props.returnurl} style={{'width':'140px !important'}} >{this.props.data.Name}</a></span>
+                                        <span className="card-title black-text"><a href={secondPageUrl} target="_blank" style={{'width':'140px !important','font-size': '20px;'}} >{this.props.data.Name}</a></span>
                                         <p style={{'margin':'5px 0px;','color': '#787878;'}}><i>{this.props.data.Description}</i><br/></p>
                                           
                                       </div>
-                                      <div className="col s1 m1 l1" style={{'padding-top':'5px'}}>
-                                          <StatisticsTableVertical videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} id={this.props.id}  returnurl={this.props.returnurl3} />
+                                      <div className="col s1 m1 l2" style={{'padding':'0px 2px'}}>
+                                          <StatisticsTableVertical videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} id={this.props.id}  returnurl={this.props.returnurl+'/home/news'} />
                                           
                                       </div>
 
-                                      <a href="http://www.bharatmovies.social"  style={{'line-height': '0px;','float': 'right;','font-size': '13px;','font-weight': 'bold;','margin': '5px 5px;'}}>Visit bharatmovies.social</a>
+                                      <a href="http://www.bharatmovies.social" target="_blank" style={{'line-height': '0px;','float': 'right;','font-size': '13px;','font-weight': 'bold;','margin': '5px 5px;'}}>Visit bharatmovies.social</a>
                                  </div> 
                           </div>
 
                           <div className='row' style={{'padding': '0px','margin':'5px'}}>
-                                 <ImageGalleryYahoo  data={this.props.data.Photos}/>  
+                                 <ImageGalleryYahoo ID={this.props.id} returnURL={this.props.returnurl} data={this.props.data.Photos}/>  
                          </div>   
                 </div>
 

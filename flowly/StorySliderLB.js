@@ -40,15 +40,7 @@ var StorySliderLB= React.createClass({
     },
     render: function () {
       console.log("flowly "+ this.props.title);
-        var settings = {
-             dots: true,
-  infinite: true,
-  speed: 500,
-  fade: true,
-  cssEase: 'linear'
-
-
-        }
+        var settings = {dots: true,infinite: true,speed: 500,fade: true,cssEase: 'linear'}
         return (
         <div>
           <div className="row" style={{'margin-bottom': '0px;'}}>
@@ -226,6 +218,7 @@ var StorySliderLB= React.createClass({
                 <div className="col s12 offset-m4 m8 l8" style={{"padding":"0px;"}}>
                   <div className="rightside" style={{"background":"#272727;","font-size":"20px;","padding":"5px 10px;","margin":"0em !important;","color":"#FFF;","min-height:":"62px;","line-height":"25px !important;"}}>
                     <p style={{"margin":"0px;"}}>{this.props.discription}</p>
+                    <a href={this.props.returnurl+'?id='+this.props.id} target="_blank" style={{"float": "right;","position": "relative;", "bottom": "24px;", "right": "0px;", "background": "transparent;", "color": "#f44336;", "border-radius": "10px;", "padding": "0px 10px;", "font-size": "15px;"}}>...Read More</a>
                   </div>
                 </div>
             

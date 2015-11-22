@@ -421,7 +421,7 @@ var ImageGalleryYahoo = React.createClass({
                  s7 : {width:'100% !important;','height': '100% !important;',objectFit: 'cover !important;' }
        	 	 
     	}
-        console.log("rss : "+ JSON.stringify(this.props.data));
+        console.log("galleryurl : "+ this.props.returnURL+'/home/news?id='+this.props.ID );
         return (    <div id="amazingslider-wrapper-1" style={styles.s4}>
                         <div id="amazingslider-1" ref="amazingsliderbm" style={{'display': 'block !important;',
                                                                                  'position': 'relative !important;',
@@ -436,8 +436,9 @@ var ImageGalleryYahoo = React.createClass({
                                     return(
 
                                      <li>    
-                                            
+                                            <a href={this.props.returnURL+'/home/news?id='+this.props.ID} target="_blank">
                                             <img src={item.Url} data-description= {altDesc} style={{'object-fit': 'cover !important;'}}/>
+                                            </a>
                                      </li>
                                     );
                                

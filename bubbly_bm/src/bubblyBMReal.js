@@ -100,7 +100,9 @@ var BubblyBMYahooTEST = React.createClass({
                    </div>
                    <div className="col s12 m12 l6" style={{'padding': '0px'}}>
                           <div className="row" style={{'padding': '0px','margin':'5px'}}>
-                              <a href={this.props.returnurl+'/news/?id='+this.props.id}><h4>{this.props.data.Name}</h4></a>
+                              <a href={this.props.returnurl+'/news/?id='+this.props.id} target="_blank">
+                                <h4>{this.props.data.Name}</h4>
+                              </a>
                               <p style={{'text-overflow': 'ellipsis;','white-space': 'nowrap;'}}>{this.props.data.Description}</p>
                        
 
