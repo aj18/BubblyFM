@@ -55,7 +55,19 @@ var SIM = React.createClass({
                             <p>Total Count : {this.props.Projects.Meter.Twitter + this.props.Projects.Meter.Facebook + this.props.Projects.Meter.Tumblr}</p>
                         </li>
                     </ul>
-            </div>           
+            </div>    
+            <div className="row">
+                    <div className="col s6">
+                        <p className="social-collections-title"><a href={fbUrl}><i className='fa fa-facebook fa-1x'></i> Facebook</a></p>
+                        <p className="social-collections-content">Count : {this.props.Projects.Meter.Facebook}</p>
+                    </div>
+                    <div className="col s3">
+                        <span className="social-task-cat grey darken-3">{this.props.Projects.Meter.FacebookPer}%</span>
+                    </div>
+                    <div className="col s3">
+                        <Projectline data={this.props.Projects.Facebook} />
+                    </div>
+            </div>
             <div className="row">
                         <div className="col s6">
                             <p className="social-collections-title"><a href={twitUrl}><i className='fa fa-twitter fa-1x'></i> Twitter</a></p>
@@ -258,14 +270,15 @@ var DBTSLocation = React.createClass({
     
     },
     render: function(){
-            var polarChartItem = this.props.polarChartData.map(function(item) {
-                    return(  
+        var url=this.props.returnurl + "?id=" + this.props.id + "&type=geo&skipby=1&limit=100&q=";
+        var polarChartItem = this.props.polarChartData.map(function(item) {
+                return(  
                                 <div className="row">
                                     <div className="col s8">
-                                        <p className="collections-title"><strong> {item.label} </strong></p>
+                                        <p className="collections-title"><a href={url + item.key}><strong> {item.label} </strong></a></p>
                                     </div>
                                     <div className="col s4">                                                
-                                        <p className="task-cat light-green darken-3"><strong>{item.value} </strong></p>
+                                        <p className="task-cat"><strong>{item.value} </strong></p>
                                     </div>
                                 </div>
                             );

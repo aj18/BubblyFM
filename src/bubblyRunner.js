@@ -431,6 +431,7 @@ function SoicalInfluanceMaterialData(id,data,returnurl,container){
                  switch(item.key) {
                  case "in":
                             arr.value = item.value;
+                            arr.key=item.key;
                     arr.color= "#ff9800";
                       arr.highlight= "#ffb74d";
                     arr.label= item.valuestr;
@@ -444,6 +445,7 @@ function SoicalInfluanceMaterialData(id,data,returnurl,container){
                   break;
                       case "us":
                           arr.value= item.value;
+                          arr.key=item.key;
                   arr.color= "#f44336";
                   arr.highlight= "#FF5A5E";
                   arr.label= item.valuestr;
@@ -455,7 +457,8 @@ function SoicalInfluanceMaterialData(id,data,returnurl,container){
                     i=i+1;
                   break;
                 case "gb":
-                          arr.value= item.value;
+                    arr.value= item.value;
+                    arr.key=item.key;
                   arr.color= "#9c27b0";
                   arr.highlight= "#ce93d8";
                   arr.label= item.valuestr;
@@ -468,6 +471,7 @@ function SoicalInfluanceMaterialData(id,data,returnurl,container){
                   break;
                       case "au":
                           arr.value= item.value;
+                          arr.key=item.key;
                   arr.color= "#2196f3";
                   arr.highlight= "#90caf9";
                   arr.label= item.valuestr;
@@ -479,7 +483,8 @@ function SoicalInfluanceMaterialData(id,data,returnurl,container){
                     i=i+1;
                   break;
                 case "pk":
-                          arr.value= item.value;
+                    arr.value= item.value;
+                    arr.key=item.key;
                   arr.color= "#009688";
                   arr.highlight= "#80cbc4";
                   arr.label= item.valuestr;
@@ -491,7 +496,8 @@ function SoicalInfluanceMaterialData(id,data,returnurl,container){
                     i=i+1;
                   break;
                 case "ae":
-                          arr.value= item.value;
+                    arr.value= item.value;
+                    arr.key=item.key;
                   arr.color= "#00acc1";
                   arr.highlight= "#4dd0e1";
                   arr.label= item.valuestr;
@@ -504,6 +510,7 @@ function SoicalInfluanceMaterialData(id,data,returnurl,container){
                   break;
                       case "my":
                           arr.value= item.value;
+                          arr.key=item.key;
                   arr.color= "#4caf50";
                   arr.highlight= "#81c784";
                   arr.label= item.valuestr;
@@ -515,7 +522,8 @@ function SoicalInfluanceMaterialData(id,data,returnurl,container){
                     i=i+1;
                   break;
                   case "np":
-                          arr.value= item.value;
+                      arr.value= item.value;
+                      arr.key=item.key;
                   arr.color= "#3f51b5";
                   arr.highlight= "#7986cb";
                   arr.label= item.valuestr;

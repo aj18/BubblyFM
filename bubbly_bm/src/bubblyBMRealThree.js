@@ -144,7 +144,7 @@ var BubblyBMYahoo = React.createClass({
                                           
                                       </div>
                                       <div className="col s12 m1 l2" style={{'padding':'0px 2px'}}>
-                                          <StatisticsTableVertical videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} id={this.props.id}  returnurl={this.props.returnurl+'/home/news'} />
+                                          <StatisticsTableVertical videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} id={this.props.id}  returnurl={this.props.returnurl+'/home/comments'} />
                                           
                                       </div>
 
@@ -192,7 +192,7 @@ var BubblyBMYahoo = React.createClass({
                                           
                                       </div>
                                       <div className="col s12 m1 l2" style={{'padding':'0px 2px'}}>
-                                          <StatisticsTableVertical videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} id={this.props.id}  returnurl={this.props.returnurl+'/home/news'} />
+                                          <StatisticsTableVertical videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} id={this.props.id}  returnurl={this.props.returnurl+'/home/comments'} />
                                           
                                       </div>
 
@@ -239,7 +239,7 @@ var BubblyBMYahoo = React.createClass({
                                           
                                       </div>
                                       <div className="col s1 m1 l2" style={{'padding':'0px 2px'}}>
-                                          <StatisticsTableVertical videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} id={this.props.id}  returnurl={this.props.returnurl+'/home/news'} />
+                                          <StatisticsTableVertical videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} id={this.props.id}  returnurl={this.props.returnurl+'/home/comments'} />
                                           
                                       </div>
 
