@@ -4,7 +4,7 @@
   "description": "large picture web component",
   "main": "largePicture.jsx",
   "scripts": {
-    "test": "watchify -t 6to5ify ./src/largePictureStoryFancy.jsx -o ./dist/bundleLargePicture.js -v"
+    "test": "watchify -t 6to5ify ./src/largePicture.jsx -o ./dist/bundleLargePicture.js -v"
   },
   "repository": {
     "type": "git",

@@ -1,7 +1,5 @@
 var Radium = require('radium');
 var React = require("react");
-
-
 var NameAndComment = require('../../flowly/NameAndComment.js');
 var VideoLarge = require('../../flowly/VideoLarge.js');
 var VideoCover = require('../../flowly/VideoCover.js');

@@ -20,7 +20,7 @@ var MediumCard = React.createClass({
 		            <div className="card medium z-depth-3" style={this.props.styles.cardStyle}>
 			            <div className="card-image" style={this.props.styles.cardImageStyle}>
 
-			              <Photo url= {this.props.data.Photo} />
+			              <Photo share={this.props.data.Photo} url= {this.props.data.Photo} />
 			              
 			              	<span className="card-title social-main-title" style={this.props.styles.cardTitleStyle}>
 			              		<a href={this.props.returnurl+'?id='+this.props.id} style={this.props.styles.cardTitleAnchoStyle}>

@@ -3,12 +3,24 @@ var React = require("react");
 var NameAndComment = require('../../flowly/NameAndComment.js');
 var PhotoSmall = require('../../flowly/PhotoSmall.js');
 var StorySliderLB = require("../../flowly/StorySliderLB.js");
+var Share = require('../../flowly/ShareIcon.js');
 
 var popupS = require('popups');
 
 
 var SmallMSNStory = React.createClass({
+    componentDidMount: function () {
 
+        $(document).ready(function () {
+            $("#smallMSNstorylogo").hide();
+            $("#divSmallMSNStory").mouseenter(function () {
+                $("#smallMSNstorylogo").show();
+            });
+            $("#divSmallMSNStory").mouseleave(function () {
+                $("#smallMSNstorylogo").hide();
+            });
+        });
+    },
 	openModal: function() {
         console.log(this.props.data);
         console.log("id " + this.props.id);
@@ -30,8 +42,9 @@ var SmallMSNStory = React.createClass({
 		 if(this.props.storyLB === true) {
 
 		 	return (
-				<div className="card z-depth-1" style={this.props.styles.mainBoxStyle} onClick={this.openModal}>
+				<div id="divSmallMSNStory" className="card z-depth-1" style={this.props.styles.mainBoxStyle} onClick={this.openModal}>
 					<div className="main-box-social-smallmsn">
+                    <Share id="smallMSNstorylogo" Shareurl="http://media2.intoday.in/indiatoday/images/stories//2015MAY/shah-rukh-story_650_051715020614.jpg"/>
 						<a href={url} style={{'margin':'0px'}} >
 							<span>
 								<PhotoSmall  url= {this.props.data.PictureUrl} />
@@ -52,8 +65,9 @@ var SmallMSNStory = React.createClass({
 		 } else {
 		
 			return (
-				<div className="card z-depth-1" style={this.props.styles.mainBoxStyle}>
+				<div id="divSmallMSNStory" className="card z-depth-1" style={this.props.styles.mainBoxStyle}>
 				<div className="main-box-social-smallmsn">
+                    <Share id="smallMSNstorylogo" Shareurl="http://media2.intoday.in/indiatoday/images/stories//2015MAY/shah-rukh-story_650_051715020614.jpg"/>
 					<a href={url} style={{'margin':'0px'}} >
 						<span>
 						<PhotoSmall  url= {this.props.data.PictureUrl} />
