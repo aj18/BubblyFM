@@ -38031,10 +38031,7 @@ var LargePicture = React.createClass({
 
 
     render: function () {
-        logoid = this.generateUUID();
-        divid = this.generateUUID();
         console.log("LargePicture :" + this.props.returnurl);
-        debugger;
         return React.createElement(
             "div",
             { className: "card-panel", style: this.props.styles.panelStyle },
@@ -38043,7 +38040,7 @@ var LargePicture = React.createClass({
                 { href: this.props.returnurl, style: this.props.styles.cardTitleAnchoStyle },
                 React.createElement(
                     "div",
-                    { id: divid, className: "card-image" },
+                    { className: "card-image" },
                     React.createElement(PhotoDynamic, { share: this.props.data.Photo, url: this.props.data.Photo, pictureStyle: this.props.styles.pictureStyle })
                 ),
                 React.createElement(
@@ -41729,67 +41726,55 @@ var Radium = require("radium");
 var React = require("react");
 var NameAndComment = require("../../flowly/NameAndComment.js");
 var PhotoSmall = require("../../flowly/PhotoSmall.js");
-var Share = require("../../flowly/ShareIcon.js");
+
 
 var SmallMSN = React.createClass({
-				displayName: "SmallMSN",
+	displayName: "SmallMSN",
 
 
-				componentDidMount: function () {
-								$(document).ready(function () {
-												$("#smallMSNlogo").hide();
-												$("#divSmallMSN").mouseenter(function () {
-																$("#smallMSNlogo").show();
-												});
-												$("#divSmallMSN").mouseleave(function () {
-																$("#smallMSNlogo").hide();
-												});
-								});
-				},
-				render: function render() {
-								return React.createElement(
-												"div",
-												{ id: "divSmallMSN", className: "card z-depth-1", style: this.props.styles.cardStyle },
-												React.createElement(
-																"div",
-																{ className: "main-box-social-smallmsn", style: this.props.styles.mainBoxStyle },
-																React.createElement(Share, { id: "smallMSNlogo", Shareurl: "http://media2.intoday.in/indiatoday/images/stories//2015MAY/shah-rukh-story_650_051715020614.jpg" }),
-																React.createElement(
-																				"a",
-																				{ href: this.props.returnurl, style: { margin: "0px" } },
-																				React.createElement(
-																								"span",
-																								null,
-																								React.createElement(PhotoSmall, { url: this.props.data.PictureUrl })
-																				)
-																),
-																React.createElement(
-																				"div",
-																				{ className: "side-contain-social-smallmsn", style: this.props.styles.smallBoxStyle },
-																				React.createElement(
-																								"p",
-																								{ style: this.props.styles.descriptionStyle },
-																								this.props.data.Description
-																				),
-																				React.createElement(
-																								"p",
-																								null,
-																								React.createElement(
-																												"a",
-																												{ className: "socialTitleColor", href: this.props.returnurl + "?id=" + this.props.id, style: this.props.styles.cardTitleAnchoStyle },
-																												this.props.data.Name
-																								)
-																				)
-																)
-												)
-								);
-				}
+	render: function render() {
+		return React.createElement(
+			"div",
+			{ className: "card z-depth-1", style: this.props.styles.cardStyle },
+			React.createElement(
+				"div",
+				{ className: "main-box-social-smallmsn", style: this.props.styles.mainBoxStyle },
+				React.createElement(
+					"a",
+					{ href: this.props.returnurl, style: { margin: "0px" } },
+					React.createElement(
+						"span",
+						null,
+						React.createElement(PhotoSmall, { url: this.props.data.PictureUrl })
+					)
+				),
+				React.createElement(
+					"div",
+					{ className: "side-contain-social-smallmsn", style: this.props.styles.smallBoxStyle },
+					React.createElement(
+						"p",
+						{ style: this.props.styles.descriptionStyle },
+						this.props.data.Description
+					),
+					React.createElement(
+						"p",
+						null,
+						React.createElement(
+							"a",
+							{ className: "socialTitleColor", href: this.props.returnurl + "?id=" + this.props.id, style: this.props.styles.cardTitleAnchoStyle },
+							this.props.data.Name
+						)
+					)
+				)
+			)
+		);
+	}
 
 });
 
 module.exports = SmallMSN;
 
-},{"../../flowly/NameAndComment.js":804,"../../flowly/PhotoSmall.js":812,"../../flowly/ShareIcon.js":815,"radium":831,"react":1179}],786:[function(require,module,exports){
+},{"../../flowly/NameAndComment.js":804,"../../flowly/PhotoSmall.js":812,"radium":831,"react":1179}],786:[function(require,module,exports){
 "use strict";
 
 var Radium = require("radium");
@@ -41797,106 +41782,94 @@ var React = require("react");
 var NameAndComment = require("../../flowly/NameAndComment.js");
 var PhotoSmall = require("../../flowly/PhotoSmall.js");
 var StorySliderLB = require("../../flowly/StorySliderLB.js");
-var Share = require("../../flowly/ShareIcon.js");
 
 var popupS = require("popups");
 
 
 var SmallMSNStory = React.createClass({
-	displayName: "SmallMSNStory",
-	componentDidMount: function () {
-		$(document).ready(function () {
-			$("#smallMSNstorylogo").hide();
-			$("#divSmallMSNStory").mouseenter(function () {
-				$("#smallMSNstorylogo").show();
-			});
-			$("#divSmallMSNStory").mouseleave(function () {
-				$("#smallMSNstorylogo").hide();
-			});
-		});
-	},
-	openModal: function () {
-		console.log(this.props.data);
-		console.log("id " + this.props.id);
-		console.log("returnurl " + this.props.returnurl);
+    displayName: "SmallMSNStory",
 
-		popupS.modal({
-			content: "<div id=\"smallstorylb\"></div>"
 
-		});
+    openModal: function () {
+        console.log(this.props.data);
+        console.log("id " + this.props.id);
+        console.log("returnurl " + this.props.returnurl);
 
-		React.render(React.createElement(StorySliderLB, { id: this.props.id, storyid: this.props.data.storyId, data: this.props.data.Data, title: this.props.data.Title, discription: this.props.data.Description, PictureUrl: this.props.data.PictureUrl, returnurl: this.props.returnurl, styles: this.props.styles }), document.getElementById("smallstorylb"));
-	},
-	render: function render() {
-		var url = this.props.returnurl + "?id=" + this.props.id + "&storyid=" + this.props.storyid;
-		console.log("storyreturnurl : " + url);
-		console.log("storyLB : " + this.props.storyLB);
+        popupS.modal({
+            content: "<div id=\"smallstorylb\"></div>"
 
-		if (this.props.storyLB === true) {
-			return React.createElement(
-				"div",
-				{ id: "divSmallMSNStory", className: "card z-depth-1", style: this.props.styles.mainBoxStyle, onClick: this.openModal },
-				React.createElement(
-					"div",
-					{ className: "main-box-social-smallmsn" },
-					React.createElement(Share, { id: "smallMSNstorylogo", Shareurl: "http://media2.intoday.in/indiatoday/images/stories//2015MAY/shah-rukh-story_650_051715020614.jpg" }),
-					React.createElement(
-						"a",
-						{ href: url, style: { margin: "0px" } },
-						React.createElement(
-							"span",
-							null,
-							React.createElement(PhotoSmall, { url: this.props.data.PictureUrl })
-						)
-					),
-					React.createElement(
-						"div",
-						{ className: "side-contain-social-smallmsn", style: this.props.styles.smallBoxStyle },
-						React.createElement(
-							"a",
-							{ href: url, style: this.props.styles.cardTitleAnchoStyle },
-							this.props.data.Title
-						)
-					)
-				)
-			);
+        });
 
-		} else {
-			return React.createElement(
-				"div",
-				{ id: "divSmallMSNStory", className: "card z-depth-1", style: this.props.styles.mainBoxStyle },
-				React.createElement(
-					"div",
-					{ className: "main-box-social-smallmsn" },
-					React.createElement(Share, { id: "smallMSNstorylogo", Shareurl: "http://media2.intoday.in/indiatoday/images/stories//2015MAY/shah-rukh-story_650_051715020614.jpg" }),
-					React.createElement(
-						"a",
-						{ href: url, style: { margin: "0px" } },
-						React.createElement(
-							"span",
-							null,
-							React.createElement(PhotoSmall, { url: this.props.data.PictureUrl })
-						)
-					),
-					React.createElement(
-						"div",
-						{ className: "side-contain-social-smallmsn", style: this.props.styles.smallBoxStyle },
-						React.createElement(
-							"a",
-							{ href: url, style: this.props.styles.cardTitleAnchoStyle },
-							this.props.data.Title
-						)
-					)
-				)
-			);
-		}
-	}
+        React.render(React.createElement(StorySliderLB, { id: this.props.id, storyid: this.props.data.storyId, data: this.props.data.Data, title: this.props.data.Title, discription: this.props.data.Description, PictureUrl: this.props.data.PictureUrl, returnurl: this.props.returnurl, styles: this.props.styles }), document.getElementById("smallstorylb"));
+    },
+    render: function render() {
+        var url = this.props.returnurl + "?id=" + this.props.id + "&storyid=" + this.props.storyid;
+        console.log("storyreturnurl : " + url);
+        console.log("storyLB : " + this.props.storyLB);
+
+        if (this.props.storyLB === true) {
+            return React.createElement(
+                "div",
+                { className: "card z-depth-1", style: this.props.styles.mainBoxStyle, onClick: this.openModal },
+                React.createElement(
+                    "div",
+                    { className: "main-box-social-smallmsn" },
+                    React.createElement(
+                        "a",
+                        { href: url, style: { margin: "0px" } },
+                        React.createElement(
+                            "span",
+                            null,
+                            React.createElement(PhotoSmall, { url: this.props.data.PictureUrl })
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: "side-contain-social-smallmsn", style: this.props.styles.smallBoxStyle },
+                        React.createElement(
+                            "a",
+                            { href: url, style: this.props.styles.cardTitleAnchoStyle },
+                            this.props.data.Title
+                        )
+                    )
+                )
+            );
+
+        } else {
+            return React.createElement(
+                "div",
+                { className: "card z-depth-1", style: this.props.styles.mainBoxStyle },
+                React.createElement(
+                    "div",
+                    { className: "main-box-social-smallmsn" },
+                    React.createElement(
+                        "a",
+                        { href: url, style: { margin: "0px" } },
+                        React.createElement(
+                            "span",
+                            null,
+                            React.createElement(PhotoSmall, { url: this.props.data.PictureUrl })
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: "side-contain-social-smallmsn", style: this.props.styles.smallBoxStyle },
+                        React.createElement(
+                            "a",
+                            { href: url, style: this.props.styles.cardTitleAnchoStyle },
+                            this.props.data.Title
+                        )
+                    )
+                )
+            );
+        }
+    }
 
 });
 
 module.exports = SmallMSNStory;
 
-},{"../../flowly/NameAndComment.js":804,"../../flowly/PhotoSmall.js":812,"../../flowly/ShareIcon.js":815,"../../flowly/StorySliderLB.js":819,"popups":829,"radium":831,"react":1179}],787:[function(require,module,exports){
+},{"../../flowly/NameAndComment.js":804,"../../flowly/PhotoSmall.js":812,"../../flowly/StorySliderLB.js":819,"popups":829,"radium":831,"react":1179}],787:[function(require,module,exports){
 "use strict";
 
 var Radium = require("radium");
@@ -45646,7 +45619,7 @@ module.exports = NameAndComment;
 "use strict";
 
 var React = require("react");
-var Share = require("../flowly/ShareIcon.js");
+var Share = require("./ShareIcon.js");
 
 var Photo = React.createClass({
     displayName: "Photo",
@@ -45666,6 +45639,14 @@ var Photo = React.createClass({
         });
         console.log("leave");
     },
+    deleteTask: function (e) {
+        var taskIndex = parseInt(e.target.value, 10);
+        console.log("remove task: %d", taskIndex, this.state.items[taskIndex]);
+        this.setState(function (state) {
+            state.items.splice(taskIndex, 1);
+            return { items: state.items };
+        });
+    },
     render: function () {
         var thumbnailStyle = { width: "100%" };
         var imageContainerStyle = { width: "100%", height: "250px", overflow: "hidden" };
@@ -45676,7 +45657,7 @@ var Photo = React.createClass({
         return React.createElement(
             "div",
             { style: s4, onMouseEnter: this.onMouseEnterHandler, onMouseLeave: this.onMouseLeaveHandler },
-            React.createElement(Share, { show: this.state.hover, Shareurl: this.props.share })
+            this.state.hover ? React.createElement(Share, { Shareurl: this.props.share }) : this.props.deleteTask
         );
     }
 
@@ -45684,7 +45665,7 @@ var Photo = React.createClass({
 
 module.exports = Photo;
 
-},{"../flowly/ShareIcon.js":815,"react":1179}],806:[function(require,module,exports){
+},{"./ShareIcon.js":815,"react":1179}],806:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -45719,7 +45700,7 @@ var PhotoDynamic = React.createClass({
         return React.createElement(
             "div",
             { style: s4, onMouseEnter: this.onMouseEnterHandler, onMouseLeave: this.onMouseLeaveHandler },
-            React.createElement(Share, { show: this.state.hover, Shareurl: this.props.share })
+            this.state.hover ? React.createElement(Share, { Shareurl: this.props.share }) : null
         );
     }
 
@@ -46027,7 +46008,7 @@ var Share = React.createClass({
         var s2 = { "list-style-type": "none", margin: "0", "padding-right": "20px", float: "right", overflow: "hidden" };
         return React.createElement(
             "ul",
-            { className: this.props.show ? "" : "hidden", style: s2 },
+            { style: s2 },
             React.createElement(
                 "li",
                 { id: "id", style: { float: "left" } },

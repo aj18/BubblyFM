@@ -28,7 +28,7 @@ var PhotoDynamic = React.createClass({
         var s4={opacity: '1',float: 'left',height:this.props.pictureStyle.height,overflow: 'hidden',width:'100%', display: 'block', 'background-image': 'url('+this.props.url+')', 'background-size': 'cover','background-position':'25% 0%', 'background-repeat': 'no-repeat' };
     
         return (<div style={s4} onMouseEnter={this.onMouseEnterHandler} onMouseLeave={this.onMouseLeaveHandler} >    
-                <Share show={this.state.hover} Shareurl={this.props.share}/>
+               { this.state.hover ? <Share Shareurl={this.props.share}/> : null}
             </div>);
 
 }

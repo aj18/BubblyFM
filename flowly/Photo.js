@@ -1,5 +1,5 @@
 var React = require("react");
-var Share = require('../flowly/ShareIcon.js');
+var Share = require('./ShareIcon.js');
 
 var Photo = React.createClass({
     getInitialState: function () {
@@ -19,6 +19,14 @@ var Photo = React.createClass({
         });
         console.log('leave');
     },
+    deleteTask: function(e) {
+        var taskIndex = parseInt(e.target.value, 10);
+        console.log('remove task: %d', taskIndex, this.state.items[taskIndex]);
+        this.setState(state => {
+            state.items.splice(taskIndex, 1);
+            return {items: state.items};
+        });
+    },
     render : function() {
         var thumbnailStyle = { width: '100%' };
         var imageContainerStyle = {width: '100%', height: '250px', overflow: 'hidden' };
@@ -27,7 +35,7 @@ var Photo = React.createClass({
         backgroundImage: 'url('+this.props.url+')', backgroundSize: 'cover',backgroundPosition:'25% 0%', backgroundRepeat: 'no-repeat' };
     
         return (<div style={s4} onMouseEnter={this.onMouseEnterHandler} onMouseLeave={this.onMouseLeaveHandler}>
-                <Share show={this.state.hover} Shareurl={this.props.share}/>
+                {this.state.hover ? <Share Shareurl={this.props.share}/> : this.props.deleteTask }
             </div>);
 
 }
