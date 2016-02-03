@@ -1,5 +1,6 @@
-var React = require("react");
+﻿var React = require("react");
 var jQuery = require("jquery");
+
 var navigate = require('react-mini-router').navigate;
 
 var FluidVid = React.createClass({
@@ -37,8 +38,8 @@ var LoadMaterialDialog = React.createClass({
 });
 
 
-var CommentList = React.createClass({
-    
+var CommentListMaterial = React.createClass({
+
     getInitialState: function() {
         return {
             value: 'select'
@@ -65,8 +66,8 @@ var CommentList = React.createClass({
         this.setState({value: event.target.value});
         //navigate(event.target.value);
         window.location.href=event.target.value;
-      
-        
+
+
     },
     render: function() {
         var s2 = { 'min-height': '60px', 'margin': '0px 0px 0px 15px' ,'width':'80%'};
@@ -82,69 +83,79 @@ var CommentList = React.createClass({
 			    <div className="grid-item col s12 m4">
 					  <div className="col s12">
 					   <div className="card">
-						{item.VideoID ? <div className="fluidvids-youtube">
-							<FluidVid  src={"http://www.youtube.com/embed/" + item.VideoID + "?rel=0"} />
-						  </div>
-					   : item.Datasource=="Instagram" ? 
-					    <div>
-						 <div className="card-image"> <img  src={item.PhotoUrl} />
-						 </div>
-						 
+					       {item.VideoID ? <div className="fluidvids-youtube">
+							<FluidVid src={"http://www.youtube.com/embed/" + item.VideoID + "?rel=0" } />
 						</div>
-					  : item.Datasource=="GooglePlus" ? 
+					       : item.Datasource=="Instagram" ?
+					    <div>
+						 <div className="card-image">
+						 <img src={item.PhotoUrl} />
+						 </div>
+
+					    </div>
+					       : item.Datasource=="GooglePlus" ?
 						 <div>
-						  <div className="card-image"> <img   src={item.PhotoUrl} />
+						  <div className="card-image">
+						  <img src={item.PhotoUrl} />
 						  </div>
-						  
-						</div>
-					  : item.Datasource=="Tumblr" ? 
+
+						 </div>
+					       : item.Datasource=="Tumblr" ?
 					   <div>
-						<div className="card-image"> <img   src={item.PhotoUrl} />
+						<div className="card-image">
+						<img src={item.PhotoUrl} />
 						</div>
-						
+
 					   </div>
-					  : item.Datasource=="Twitter" ? 
+					       : item.Datasource=="Twitter" ?
 					    <div>
-						 <div className="card-image"> <img   src={item.PhotoUrl} />
+						 <div className="card-image">
+						 <img src={item.PhotoUrl} />
 						 </div>
-						 
-						</div>
-					  : item.Datasource=="Facebook" ?
+
+					    </div>
+					       : item.Datasource=="Facebook" ?
 						<div>
-						 <div className="card-image"> <img   src={item.PhotoUrl} />
+						 <div className="card-image">
+						 <img src={item.PhotoUrl} />
 						 </div>
-						 
+
 						</div>
-					  : false }
-			    <div className="card-content" style={{'margin-bottom':'-40px'}}>
-				{item.Datasource=="Twitter" ?
+					       : false }
+			    <div className="card-content" style={{'margin-bottom':'5px'}}>
+			        {item.Datasource=="Twitter" ?
 				  <div style={{'display':'inline-flex','width':'100%'}}>
-					<a href={"https://twitter.com/" + item.ProfileID.substr(1)} target="_blank"  className="pull-left">
-					   <img src={item.ProfilePhotoUrl} style={s5}/> </a>
+					<a href={"https://twitter.com/" + item.ProfileID.substr(1)} target="_blank" className="pull-left">
+					   <img src={item.ProfilePhotoUrl} style={s5} />
+					</a>
 					<div style={s2}>
 					   <div>
-						  <a href={"https://twitter.com/" + item.ProfileID.substr(1)} target="_blank">{item.ProfileName.substr(1)}     
+						  <a href={"https://twitter.com/" + item.ProfileID.substr(1)} target="_blank">
+						      {item.ProfileName.substr(1)}
 						  </a>
-					   </div>                
-					 {item.ProfileID} ({item.ProfileFollower})
+					   </div>
+					    {item.ProfileID} ({item.ProfileFollower})
 
 					</div>
                   <span style={s8} className="fa fa-twitter-square"></span>
 				  </div>
-					: item.Datasource=="Instagram" ?
+			        : item.Datasource=="Instagram" ?
 				  <div style={{'display':'inline-flex','width':'100%'}}>
 							<a href={"https://instagram.com/" + item.ProfileID} target="_blank" className="pull-left">
-								<img src= {item.ProfilePhotoUrl} style={s5}/> </a>
+								<img src={item.ProfilePhotoUrl} style={s5} />
+							</a>
 							<div style={s2}>
-								<a href={"https://instagram.com/" + item.ProfileID} target="_blank">{item.ProfileName}
+								<a href={"https://instagram.com/" + item.ProfileID} target="_blank">
+								    {item.ProfileName}
 								</a>
 							</div>
                       <span style={s8} className="fi-social-instagram"></span>
 				  </div>
-				   : item.Datasource=="GooglePlus" ?
+			        : item.Datasource=="GooglePlus" ?
 				  <div style={{'display':'inline-flex','width':'100%'}}>
 						<a href={"https://plus.google.com/" + item.ProfileID} target="_blank" className="pull-left">
-							<img src= {item.ProfilePhotoUrl} style={s5}/> </a>
+							<img src={item.ProfilePhotoUrl} style={s5} />
+						</a>
 						<div style={s2}>
                       <a href={"https://plus.google.com/" + item.ProfileID} target="_blank">
                           {item.ProfileName}
@@ -152,74 +163,77 @@ var CommentList = React.createClass({
 						</div>
                       <span style={s8} className="fa fa-google-plus-square"></span>
 				  </div>
-				 : item.Datasource=="Tumblr" ?
+			        : item.Datasource=="Tumblr" ?
 					<div style={{'display':'inline-flex','width':'100%'}}>
-							<a href={"http://" + item.ProfileID + ".tumblr.com"} target="_blank" className="pull-left">
-							<img src= {item.ProfilePhotoUrl} style={s5}/> </a>
+							<a href={"http://" + item.ProfileID + ".tumblr.com" } target="_blank" className="pull-left">
+							<img src={item.ProfilePhotoUrl} style={s5} />
+							</a>
 						<div style={s2}>
                         <a href={"http://" + item.ProfileID + ".tumblr.com" } target="_blank">
                             {item.ProfileName}
                         </a>
 						</div>
                         <span style={s8} className="fa fa-tumblr-square"></span>
-				   </div>
-				   : item.Datasource=="Facebook" ?
+					</div>
+			        : item.Datasource=="Facebook" ?
 				   <div style={{'display':'inline-flex','width':'100%'}}>
-					<a href={"https://www.facebook.com/profile.php?id=" + item.ProfileID} target="_blank" className="pull-left">
-					   <img src= {item.ProfilePhotoUrl} style={s5}/> </a>
+					<a href={"https://www.facebook.com/profile.php?id =" + item.ProfileID} target=" _blank" className="pull-left">
+					   <img src={item.ProfilePhotoUrl} style={s5} />
+					</a>
 						<div style={s2}>
                        <a href={"https://www.facebook.com/profile.php?id =" + item.ProfileID} target=" _blank">
                            {item.ProfileName}
                        </a>
-                            </div>
-                       <span style={s8} className="fa fa-facebook-square"></span>
 						</div>
-						: false}
-				  </div>
-				  <div className="card-content">
-				  
-				   <div dangerouslySetInnerHTML={{__html: item.Text != null ? item.Text.replace(urlPattern, '<a style="word-break:break-word;" href="$&" target="_blank">$&</a>') :false}} >
+                       <span style={s8} className="fa fa-facebook-square"></span>
 				   </div>
-				
-			     </div>
-					
-			      
-				  <p style={{'display':'block','margin':'10px'}}>
-				  		
-							{ item.Datasource=="Instagram" ? 
-								Math.round((date/1000 - parseInt(item.DocDate)) * 1.1574074074074E-8) >= 1 ? 
-						<span>{Math.round((date/1000 - parseInt(item.DocDate)) * 1.1574074074074E-8)}d</span> 
-											: Math.round((date/1000 - parseInt(item.DocDate)) * 1.1574074074074E-8) < 1 && Math.round((date/1000 - parseInt(item.DocDate)) * 2.7777777777778E-7) > 1 ?
-											<span >{Math.round((date/1000 - parseInt(item.DocDate)) * 2.7777777777778E-7)}h</span> 
-						: Math.round((date/1000 - item.DocDate) * 2.7777777777778E-7) < 1 ?
-											<span >{Math.round((date/1000 - parseInt(item.DocDate)) / 60000)}m</span> 
-											:false           
-								:  Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074E-8) >= 1 ? 
-						<span>{Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074E-8)}d</span> 
-											: Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074E-8) < 1 && Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778E-7) > 1 ?
-											<span >{Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778E-7)}h</span> 
-											: Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778E-7) < 1 ?
-											<span >{Math.round((date - Date.parse(item.DocDate)) / 60000)}m</span> 
-											:false          
-							}
-				        <span style={{'display':'block','float':'right','width':'38%','margin-left':'10px'}}>Source : 
-                            {item.Datasource=="Twitter" ?
+			        : false}
+			    </div>
+				  <div className="card-content">
+
+				   <div dangerouslySetInnerHTML={{__html: item.Text != null ? item.Text.replace(urlPattern, '<a style="word-break:break-word;" href="$&" target="_blank">$&</a>') :false}}>
+				   </div>
+
+				  </div>
+
+
+				  <p style={{'display':'block','margin':'10px','color':'black'}}>
+
+				      { item.Datasource=="Instagram" ?
+				      Math.round((date/1000 - parseInt(item.DocDate)) * 1.1574074074074E-8) >= 1 ?
+						<span>{Math.round((date/1000 - parseInt(item.DocDate)) * 1.1574074074074E-8)}d</span>
+				      : Math.round((date/1000 - parseInt(item.DocDate)) * 1.1574074074074E-8) < 1 && Math.round((date/1000 - parseInt(item.DocDate)) * 2.7777777777778E-7) > 1 ?
+											<span>{Math.round((date/1000 - parseInt(item.DocDate)) * 2.7777777777778E-7)}h</span>
+				      : Math.round((date/1000 - item.DocDate) * 2.7777777777778E-7) < 1 ?
+											<span>{Math.round((date/1000 - parseInt(item.DocDate)) / 60000)}m</span>
+				      :false
+				      :  Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074E-8) >= 1 ?
+						<span>{Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074E-8)}d</span>
+				      : Math.round((date - Date.parse(item.DocDate)) * 1.1574074074074E-8) < 1 && Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778E-7) > 1 ?
+											<span>{Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778E-7)}h</span>
+				      : Math.round((date - Date.parse(item.DocDate)) * 2.7777777777778E-7) < 1 ?
+											<span>{Math.round((date - Date.parse(item.DocDate)) / 60000)}m</span>
+				      :false
+				      }
+				        <span style={{'display':'block','float':'right','width':'38%','margin-left':'10px','color':'black'}}>
+				            Source :
+				            {item.Datasource=="Twitter" ?
                                 <a href={"https://twitter.com/" + item.ProfileID.substr(1) + "/status/" + item.ID} target="_blank"> Twitter</a>
-                            : item.Datasource=="Instagram" ?
+				            : item.Datasource=="Instagram" ?
 				  			<a href={"https://instagram.com/" + item.ProfileID.substr(1)} target="_blank"> Instagram</a>
-					          : item.Datasource=="GooglePlus" ?
+				            : item.Datasource=="GooglePlus" ?
 				  		<a href={"https://plus.google.com/" + item.ProfileID} target="_blank"> GooglePlus</a>
-				          : item.Datasource=="Tumblr" ?
+				            : item.Datasource=="Tumblr" ?
 							<a href={"http://" + item.ProfileID + ".tumblr.com" } target="_blank"> Tumblr</a>
-					         : item.Datasource=="Facebook" ?
+				            : item.Datasource=="Facebook" ?
 				   	  <a href={"https://www.facebook.com/" + item.ProfileID + "/posts/" + item.ID.split("_")[1]} target=" _blank"> Facebook</a>
-				  
-                            : false}
-                        </span>
+
+				            : false}
+				        </span>
 				  </p>
-			</div>
-		 </div>
-	 </div>
+					   </div>
+					  </div>
+			    </div>
           );
         });
         return (
@@ -227,52 +241,54 @@ var CommentList = React.createClass({
             <header className="content-module-header">
             <div className="row">
               <div className="col s12 m9">
-               <h3><a href={urlTitle}>{this.props.title}</a>
-			   </h3>
-			  </div>
-			 
-				
-				<div className="col s12 m3">             
+               <h3>
+                   {this.props.title}
+               </h3>
+              </div>
+
+
+				<div className="col s12 m3">
 					   <select id="lang" onChange={this.change} value={this.state.value} className="pull-right" style={{'color': '#23527c','outline': 'none','cursor': 'pointer','font-weight': 'bold',  'font-size': '18px', 'display':'inherit'}}>
 		                  <option value='select'>Select</option>
-		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=positive&skipby=0&limit=" + this.props.limit + "&q="}>Compliments on Social Media</option>
-		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=negative&skipby=0&limit=" + this.props.limit + "&q="}>Dark Comments on Social Media</option>
-		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=popular&skipby=0&limit=" + this.props.limit + "&q="}>Popular Comments On Social Media</option>
-		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=celebrity&skipby=0&limit=" + this.props.limit + "&q="}>Celebrity Comments On Social Media</option>
-		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=question&skipby=0&limit=" + this.props.limit + "&q="}>What people are Asking</option>
-		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=gender&skipby=0&limit=" + this.props.limit + "&q=Male"}>Comments on Male population</option>
-		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=gender&skipby=0&limit=" + this.props.limit + "&q=Female"}>Comments on Female population</option>
-		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=neutral&skipby=0&limit=" + this.props.limit + "&q="}>Comments - neutral</option>
-		  
-		               </select>
+		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=positive&skipby=0&limit=" + this.props.limit + "&q=" }>Compliments on Social Media</option>
+		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=negative&skipby=0&limit=" + this.props.limit + "&q=" }>Dark Comments on Social Media</option>
+		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=popular&skipby=0&limit=" + this.props.limit + "&q=" }>Popular Comments On Social Media</option>
+		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=celebrity&skipby=0&limit=" + this.props.limit + "&q=" }>Celebrity Comments On Social Media</option>
+		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=question&skipby=0&limit=" + this.props.limit + "&q=" }>What people are Asking</option>
+		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=gender&skipby=0&limit=" + this.props.limit + "&q=Male" }>Comments on Male population</option>
+		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=gender&skipby=0&limit=" + this.props.limit + "&q=Female" }>Comments on Female population</option>
+		                  <option value={this.props.returnurl + "?id=" + this.props.id + "&type=neutral&skipby=0&limit=" + this.props.limit + "&q=" }>Comments - neutral</option>
+
+					   </select>
 				</div>
-			</div>
-				
-           
+            </div>
+
+
             </header>
                    <div className="grid" ref="grid">
 					<div className="grid-sizer"></div>
 					<div className="divider"></div>
                     <div id="card-reveal" className="row">
-					 {commentNodes}
-					</div>
+                        {commentNodes}
+                    </div>
                    </div>
-            </section>
+          </section>
        );
     }
 });
 
 
 
+
 var container=document.getElementById('comments');var 
-data= [{"ID":"163648403825_10153462408813826","Bookmark":"g1AAAADoeJzLYWBgYM5gTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpSAJJJ9v___88C892cA5_u88j1_JDEwCAel4VqkjFekxJAJtWjmbRPUwBkkiEpJuWxAEmGB0DqP7q7Vs8Amib2KCsLAMLrSkw","Datasource":"Facebook","DocDate":"07/20/2015 16:00:46","Address":null,"Country":"()","Sentiment":"Neutral","Gender":null,"VideoUrl":null,"VideoSource":null,"VideoID":null,"PhotoUrl":"https://fbexternal-a.akamaihd.net/safe_image.php?d=AQDkIA8NM3GwflpH&w=130&h=130&url=http%3A%2F%2Fimages.indianexpress.com%2F2015%2F07%2Fsakshi_twitter_t.jpg%3Fw%3D480&cfs=1&sx=60&sy=0&sw=267&sh=267","ProfileID":"163648403825","ProfileName":"Indian Express","ProfileScreenName":null,"ProfileFollower":null,"ProfileFriends":null,"ProfilePhotoUrl":"http://graph.facebook.com/163648403825/picture?type=square","Likes":null,"Retweet":null,"Text":"What is MS Dhoni doing while taking a break from cricket?\n\nHis wife Sakshi Dhoni revealed it on Twitter on Monday."},{"ID":"118306468218564_926138407435362","Bookmark":"g1AAAADoeJzLYWBgYM5gTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpSAJJJ9v___88C892cA5_u88j1_JDEwCAel4VqkjFekxJAJtWjmbRPUwBkkiEpJuWxAEmGB0DqP7q7Vs8Amib2KCsLAMLrSkw","Datasource":"Facebook","DocDate":"07/20/2015 15:30:00","Address":null,"Country":"()","Sentiment":"Neutral","Gender":null,"VideoUrl":null,"VideoSource":null,"VideoID":null,"PhotoUrl":"https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xap1/v/t1.0-1/p200x200/11231206_507091669448110_6633612262691550429_n.jpg?oh=830d997440d470014257a801a807cfa6&oe=564EF13D&__gda__=1448292152_9da46f5e2617dc52436ba791e956988a","ProfileID":"118306468218564","ProfileName":"MS Dhoni","ProfileScreenName":null,"ProfileFollower":null,"ProfileFriends":null,"ProfilePhotoUrl":"http://graph.facebook.com/118306468218564/picture?type=square","Likes":null,"Retweet":null,"Text":"LIKE the Official FB page of Kona Srikar Bharat, 1st wicket-keeper batsman to score a triple ton in the Ranji Trophy.\nwww.facebook.com/CircleofCricket.KonaSrikarBharat\n\n:Team MSD - Circle Of Cricket"},{"ID":"138762029513432_948912321831728","Bookmark":"g1AAAADoeJzLYWBgYM5gTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpSAJJJ9v___88C892cA5_u88j1_JDEwCAel4VqkjFekxJAJtWjmbRPUwBkkiEpJuWxAEmGB0DqP7q7Vs8Amib2KCsLAMLrSkw","Datasource":"Facebook","DocDate":"07/20/2015 12:42:38","Address":null,"Country":"()","Sentiment":"Neutral","Gender":null,"VideoUrl":null,"VideoSource":null,"VideoID":null,"PhotoUrl":"https://fbexternal-a.akamaihd.net/safe_image.php?d=AQDUlsZycbaq8oiw&w=130&h=130&url=http%3A%2F%2Fimages.indiatvnews.com%2Fsportsother%2FIndiaTv5eca03_Untitled-1.jpg&cfs=1&sx=30&sy=0&sw=440&sh=440","ProfileID":"138762029513432","ProfileName":"India TV","ProfileScreenName":null,"ProfileFollower":null,"ProfileFriends":null,"ProfilePhotoUrl":"http://graph.facebook.com/138762029513432/picture?type=square","Likes":null,"Retweet":null,"Text":"MS Dhoni's wife Sakshi took to microblogging site Twitter to showcase how captain cool is keeping himself busy at home!"},{"ID":"153808061303123_1309806492369935","Bookmark":"g1AAAADoeJzLYWBgYM5gTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpSAJJJ9v___88C892cA5_u88j1_JDEwCAel4VqkjFekxJAJtWjmbRPUwBkkiEpJuWxAEmGB0DqP7q7Vs8Amib2KCsLAMLrSkw","Datasource":"Facebook","DocDate":"07/20/2015 10:32:18","Address":null,"Country":"()","Sentiment":"Neutral","Gender":null,"VideoUrl":null,"VideoSource":null,"VideoID":null,"PhotoUrl":"https://fbexternal-a.akamaihd.net/safe_image.php?d=AQBO9jsVb-F0_crZ&w=130&h=130&url=http%3A%2F%2Fwww.abplive.in%2Fincoming%2Farticle656489.ece%2Falternates%2FLANDSCAPE_480%2FSakshi%2520Dhoni.jpg&cfs=1&sx=41&sy=0&sw=300&sh=300","ProfileID":"153808061303123","ProfileName":"ABP News","ProfileScreenName":null,"ProfileFollower":null,"ProfileFriends":null,"ProfilePhotoUrl":"http://graph.facebook.com/153808061303123/picture?type=square","Likes":null,"Retweet":null,"Text":"MS Dhoni is spending time away from the cricket field in this manner."},{"ID":"759078590776834_1057536137597743","Bookmark":"g1AAAADoeJzLYWBgYM5gTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpSAJJJ9v___88C892cA5_u88j1_JDEwCAel4VqkjFekxJAJtWjmbRPUwBkkiEpJuWxAEmGB0DqP7q7Vs8Amib2KCsLAMLrSkw","Datasource":"Facebook","DocDate":"07/20/2015 10:31:50","Address":null,"Country":"()","Sentiment":"Neutral","Gender":null,"VideoUrl":null,"VideoSource":null,"VideoID":null,"PhotoUrl":"https://fbexternal-a.akamaihd.net/safe_image.php?d=AQBO9jsVb-F0_crZ&w=130&h=130&url=http%3A%2F%2Fwww.abplive.in%2Fincoming%2Farticle656489.ece%2Falternates%2FLANDSCAPE_480%2FSakshi%2520Dhoni.jpg&cfs=1&sx=41&sy=0&sw=300&sh=300","ProfileID":"759078590776834","ProfileName":"ABP Live","ProfileScreenName":null,"ProfileFollower":null,"ProfileFriends":null,"ProfilePhotoUrl":"http://graph.facebook.com/759078590776834/picture?type=square","Likes":null,"Retweet":null,"Text":"MS Dhoni is spending time away from the cricket field in this manner."},{"ID":"118306468218564_926079424107927","Bookmark":"g1AAAADoeJzLYWBgYM5gTmFQTElKzi9KdUhJMtQrzk_OTMwxMDDUS87JL01JzCvRy0styQEqZUpSAJJJ9v___88C892cA5_u88j1_JDEwCAel4VqkjFekxJAJtWjmbRPUwBkkiEpJuWxAEmGB0DqP7q7Vs8Amib2KCsLAMLrSkw","Datasource":"Facebook","DocDate":"07/20/2015 10:30:01","Address":null,"Country":"()","Sentiment":"Neutral","Gender":null,"VideoUrl":null,"VideoSource":null,"VideoID":null,"PhotoUrl":"https://fbexternal-a.akamaihd.net/safe_image.php?d=AQBQRFUPQmHt591V&w=130&h=130&url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQJKlIPc6Bs0C7tXecIVcGsSNuzWQul_a98y5P7KTQIzBSdBhur5ZPZr8gATxIMcW6oXO96oZVhYYmx7YExfSiejm3Eo-NoUBrHHeajOXEr9u6HZpwsvfmarFW85tzO8nXf6f_8C6krnUL8ZVFqc5mK5&cfs=1","ProfileID":"118306468218564","ProfileName":"MS Dhoni","ProfileScreenName":null,"ProfileFollower":null,"ProfileFriends":null,"ProfilePhotoUrl":"http://graph.facebook.com/118306468218564/picture?type=square","Likes":null,"Retweet":null,"Text":"#100Women If you know a woman who has made a difference in your community, here's your chance to recognize her.\n\n:Team MSD- Circle Of Cricket"}]
+data = [{ "ID": "684020650021892097", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 14:36:46 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "F", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": null, "ProfileID": "@plan1t", "ProfileName": "@sue", "ProfileScreenName": null, "ProfileFollower": "29", "ProfileFriends": "85", "ProfilePhotoUrl": "http://abs.twimg.com/sticky/default_profile_images/default_profile_3_normal.png", "Likes": null, "Retweet": null, "Text": "@BiggBoss @PriyaSometimes @princenarula88 yes and always been" }, { "ID": "684020065688129537", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 14:34:26 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Positive", "Gender": "F", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": null, "ProfileID": "@Venky_Luv", "ProfileName": "@Venky", "ProfileScreenName": null, "ProfileFollower": "82", "ProfileFriends": "82", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/541586802445152256/2w-HLLpl_normal.jpeg", "Likes": null, "Retweet": null, "Text": "Since from day 1 @BiggBoss is Mandana 's show without her show wud've been flop. Mandy shud win #BB9." }, { "ID": "684020061443600384", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 14:34:25 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": null, "ProfileID": "@RakeshMHTre", "ProfileName": "@Rakesh म्हात्रे", "ProfileScreenName": null, "ProfileFollower": "180", "ProfileFriends": "385", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/679643211355283456/n2pDsueX_normal.png", "Likes": null, "Retweet": null, "Text": "Bigg Boss 9: 5 shocking revelations made by Suyyash Rai after getting eliminated from Salman Khan’s show! https://t.co/0H3tMpRfkK\n#BB9" }, { "ID": "684020024047054850", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 14:34:16 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": null, "ProfileID": "@NoorAinShazia21", "ProfileName": "@Noor ain shazia", "ProfileScreenName": null, "ProfileFollower": "1", "ProfileFriends": "37", "ProfilePhotoUrl": "http://abs.twimg.com/sticky/default_profile_images/default_profile_3_normal.png", "Likes": null, "Retweet": null, "Text": "@BiggBoss @PriyaSometimes @princenarula88 she tells this t every captain thr is nothing new #BB9WithSalmanKhan" }, { "ID": "684020006078779392", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 14:34:12 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": null, "ProfileID": "@narg_narg", "ProfileName": "@NARGiS", "ProfileScreenName": null, "ProfileFollower": "31", "ProfileFriends": "23", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/670847707737686016/n7Xo4kmv_normal.jpg", "Likes": null, "Retweet": null, "Text": "@BiggBoss @PriyaSometimes @princenarula88 yes! #bb9" }, { "ID": "684019005854597121", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 14:30:14 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": "http://pbs.twimg.com/media/CX4ENG5VAAAFXTn.png", "ProfileID": "@BiggBoss", "ProfileName": "@Bigg Boss", "ProfileScreenName": null, "ProfileFollower": "432389", "ProfileFriends": "127", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/676298831097495552/aS3JB74V_normal.png", "Likes": null, "Retweet": null, "Text": ".@PriyaSometimes declares @princenarula88 as a biased captain!\nDo you agree with her? Reply using #BB9! https://t.co/UpYPSe34GF" }, { "ID": "684007637797609474", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 13:45:03 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": "http://pbs.twimg.com/media/CX4D_l4UsAAQ5Mq.png", "ProfileID": "@BiggBoss", "ProfileName": "@Bigg Boss", "ProfileScreenName": null, "ProfileFollower": "432389", "ProfileFriends": "127", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/676298831097495552/aS3JB74V_normal.png", "Likes": null, "Retweet": null, "Text": ".@suyyashrai left #BB9 house last night!\nPick an emoticon for his attitude towards the game! https://t.co/JWo9M4VaA7" }, { "ID": "683986269303472128", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 12:20:09 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Positive", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": "http://pbs.twimg.com/media/CX4B4wKUMAECXzV.png", "ProfileID": "@BiggBoss", "ProfileName": "@Bigg Boss", "ProfileScreenName": null, "ProfileFollower": "432389", "ProfileFriends": "127", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/676298831097495552/aS3JB74V_normal.png", "Likes": null, "Retweet": null, "Text": "Is @keithsequeira playing safe to avoid controversies?\nWhat's your take on this? #BB9 https://t.co/v7Ka5o8tfF" }, { "ID": "683974543841607680", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 11:33:33 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Positive", "Gender": "F", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": null, "ProfileID": "@annajawaid", "ProfileName": "@AnnaJaay", "ProfileScreenName": null, "ProfileFollower": "265", "ProfileFriends": "47", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/680931565451513856/ta9dwMdZ_normal.jpg", "Likes": null, "Retweet": null, "Text": "Suyash saying he &amp; Tharki wanted to hit #RishabhSinha ?\n\nWhy? Because hes sexier than yous? Better person than yous? \n\n#BB9 \n\nMorons !!" }, { "ID": "683974540641177600", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 11:33:32 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "F", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": null, "ProfileID": "@saranazo123", "ProfileName": "@sara sultana", "ProfileScreenName": null, "ProfileFollower": "19", "ProfileFriends": "170", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/597763521418375168/9jDbPwdd_normal.jpg", "Likes": null, "Retweet": null, "Text": "#BB9  1" }, { "ID": "683973674429329409", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 11:30:06 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": null, "ProfileID": "@BiggBoss", "ProfileName": "@Bigg Boss", "ProfileScreenName": null, "ProfileFollower": "432294", "ProfileFriends": "127", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/676298831097495552/aS3JB74V_normal.png", "Likes": null, "Retweet": null, "Text": "#AndekhaAction\n'Khatam Karo Yaar' @RochelleMRao to @princenarula88 about his relationship with @Norafatehi! #BB9 https://t.co/AvR5JoysHQ" }, { "ID": "683962453957324800", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 10:45:31 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": null, "ProfileID": "@BiggBoss", "ProfileName": "@Bigg Boss", "ProfileScreenName": null, "ProfileFollower": "432294", "ProfileFriends": "127", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/676298831097495552/aS3JB74V_normal.png", "Likes": null, "Retweet": null, "Text": "From Love birds to the controversial couple!\nWho are you rooting for in tonight's brawl between the duo? #BB9" }, { "ID": "683952059184381952", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 10:04:12 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Positive", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": "http://pbs.twimg.com/media/CX3ixdZUsAAtcp_.png", "ProfileID": "@BiggBoss", "ProfileName": "@Bigg Boss", "ProfileScreenName": null, "ProfileFollower": "432294", "ProfileFriends": "127", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/676298831097495552/aS3JB74V_normal.png", "Likes": null, "Retweet": null, "Text": "One of our housemate very thoughtfully made this statement!\nWho would it be? #BB9 https://t.co/nsmziPjgS4" }, { "ID": "683943345240997889", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 09:29:35 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": "http://pbs.twimg.com/media/CX3a2PSUsAAiBF0.png", "ProfileID": "@BiggBoss", "ProfileName": "@Bigg Boss", "ProfileScreenName": null, "ProfileFollower": "432234", "ProfileFriends": "127", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/676298831097495552/aS3JB74V_normal.png", "Likes": null, "Retweet": null, "Text": "Lost deep in his thoughts!\nShare the best caption for #RishabhSinha's image! #BB9 https://t.co/y4q6UCmYjA" }, { "ID": "683943287405842436", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 09:29:21 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "F", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": null, "ProfileID": "@rafia_baloch", "ProfileName": "@rafia baloch", "ProfileScreenName": null, "ProfileFollower": "42", "ProfileFriends": "195", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/679018988521824256/raJ6PBO4_normal.jpg", "Likes": null, "Retweet": null, "Text": "@BiggBoss @manizhe 0" }, { "ID": "683942788216557568", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 09:27:22 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": null, "ProfileID": "@afreenbaz", "ProfileName": "@Afreen Bazmi", "ProfileScreenName": null, "ProfileFollower": "443", "ProfileFriends": "338", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/672328210412150785/qs90iRXY_normal.jpg", "Likes": null, "Retweet": null, "Text": "@TanishaaMukerji calling Prince the biggest con &amp; Mandy second? Come on! Mandy can be a top ki con artist! #BB9WithSalmanKhan #BB9 #ABtalks" }, { "ID": "683942566174289920", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 09:26:29 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": "http://pbs.twimg.com/media/CX3aIqVWQAAqNn-.jpg", "ProfileID": "@samge4231", "ProfileName": "@♥SAM♥", "ProfileScreenName": null, "ProfileFollower": "1307", "ProfileFriends": "281", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/683919795369177088/eMZKUmkH_normal.jpg", "Likes": null, "Retweet": null, "Text": "@RaoRochelle @keithsequeira Our #KeRo in #BB9 Today Episode Both looks #Fablous 😍 and their hardwork shows in their💪 https://t.co/w2VlgMLy5Y" }, { "ID": "683942459781595136", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 09:26:04 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "NA", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": null, "ProfileID": "@S2T_sahai", "ProfileName": "@IT Waali", "ProfileScreenName": null, "ProfileFollower": "41", "ProfileFriends": "182", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/651399140056825856/6Fs6gRMh_normal.jpg", "Likes": null, "Retweet": null, "Text": "@BiggBoss Kishwar , because she is a woman of steel. Has done all her tasks 100% and speaks up for herself. Very cool, very awesome...#BB9" }, { "ID": "683928481961398272", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 08:30:31 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Positive", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": "http://pbs.twimg.com/media/CX3K5miUkAEaPRC.png", "ProfileID": "@BiggBoss", "ProfileName": "@Bigg Boss", "ProfileScreenName": null, "ProfileFollower": "432234", "ProfileFriends": "127", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/676298831097495552/aS3JB74V_normal.png", "Likes": null, "Retweet": null, "Text": "It's time to rate @manizhe on her ability to perform tasks!\nOn a scale of 1-10, how much would you rate her? #BB9 https://t.co/MmHuuxYPlk" }, { "ID": "683917208536260608", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 07:45:43 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": "http://pbs.twimg.com/media/CX3DE4qU0AMAfHG.png", "ProfileID": "@BiggBoss", "ProfileName": "@Bigg Boss", "ProfileScreenName": null, "ProfileFollower": "432234", "ProfileFriends": "127", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/676298831097495552/aS3JB74V_normal.png", "Likes": null, "Retweet": null, "Text": "Ticket to Finale is up for grabs!\nIf you had the power, Who would you present it to? #BB9 https://t.co/9xRWqi6itC" }, { "ID": "683906183174852609", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 07:01:55 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": "http://pbs.twimg.com/media/CX25DH8UsAA5FZR.png", "ProfileID": "@BiggBoss", "ProfileName": "@Bigg Boss", "ProfileScreenName": null, "ProfileFollower": "432234", "ProfileFriends": "127", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/676298831097495552/aS3JB74V_normal.png", "Likes": null, "Retweet": null, "Text": "Wondering who @PriyaSometimes is talking about?\nFind out tonight at 10:30PM only on @ColorsTV! #BB9 https://t.co/UrO0ocQPHQ" }, { "ID": "683894678404464642", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 06:16:12 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": null, "ProfileID": "@BiggBoss", "ProfileName": "@Bigg Boss", "ProfileScreenName": null, "ProfileFollower": "432234", "ProfileFriends": "127", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/676298831097495552/aS3JB74V_normal.png", "Likes": null, "Retweet": null, "Text": ".@TanishaaMukerji feels @manizhe is the smartest player in #BB9 right now!\nDo you agree with her? #BB9" }, { "ID": "683883142587879425", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 05:30:21 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": "http://pbs.twimg.com/media/CX2j1LtUEAA-cj0.png", "ProfileID": "@BiggBoss", "ProfileName": "@Bigg Boss", "ProfileScreenName": null, "ProfileFollower": "432234", "ProfileFriends": "127", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/676298831097495552/aS3JB74V_normal.png", "Likes": null, "Retweet": null, "Text": ".@Norafatehi &amp; @suyyashrai evicted in Double Eviction weekend!\nWho will you miss the most in #BB9? https://t.co/gY4K006YNj" }, { "ID": "683875087678857216", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 04:58:21 +0000 2016", "Address": null, "Country": "()", "Sentiment": "Neutral", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": null, "ProfileID": "@TeamSalmania", "ProfileName": "@Team Salmania", "ProfileScreenName": null, "ProfileFollower": "17", "ProfileFriends": "51", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/683701375528734720/sfauJMpI_normal.jpg", "Likes": null, "Retweet": null, "Text": "Block me or else I will expose you #bb9  #bigboss9 @biggboss https://t.co/Z9zwC2vajy" }, { "ID": "683875063402110976", "Bookmark": "g1AAAAE0eJzLYWBgYMlgTmFQSklKzi9KdUhJMjTSy83PzyvOyMxL1UvOyS9NScwr0ctLLckBqmVKZEiy____fxaY4-Yc-PxBwwKHb0kMDCrSWSBzFBHm4DMmyQFIJtWjmSTkLwQyyRnNJEt8JuWxAEmGBiAFNGw_immeZkDTlNejmWZG2LQDENNQ3KZ7LAjkNomsLADT_WU9", "Datasource": "Twitter", "DocDate": "Mon Jan 04 04:58:15 +0000 2016", "Address": "United States", "Country": "United States(US)", "Sentiment": "Neutral", "Gender": "M", "VideoUrl": null, "VideoSource": null, "VideoID": null, "PhotoUrl": null, "ProfileID": "@TaniiTweets", "ProfileName": "@❤️Tani❤️", "ProfileScreenName": null, "ProfileFollower": "2163", "ProfileFriends": "197", "ProfilePhotoUrl": "http://pbs.twimg.com/profile_images/683438378155642880/_YhIq2lC_normal.jpg", "Likes": null, "Retweet": null, "Text": "When does #bb9 end 😳" }]
 var type="positive";
 var returnurl="http://bharatmovies.social";
 var title="Popular comments on social media";
 var id="cric_data3009";
 var q="Male";
 
-//React.render(<CommentList data={data} id={id} title={title} returnurl={returnurl} type={type} q={q} container={container}/>, container);
+React.render(<CommentListMaterial data={data} id={id} title={title} returnurl={returnurl} type={type} q={q} container={container}/>, container);
 
 var DetailWidgetRunner = function() {
     var infiniteCardWidget = function(id, container, type, limit, q, dataFromPage,returnUrl) {
@@ -386,4 +402,4 @@ return {
 }();
 
 
-DetailWidgetRunner.infiniteCardWidget("bolly_data327",document.getElementById('comments'),"source",100,"twitter",null,"/comments/");
+//DetailWidgetRunner.infiniteCardWidget("bolly_data327",document.getElementById('comments'),"source",100,"twitter",null,"/comments/");

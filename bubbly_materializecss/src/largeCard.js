@@ -7,17 +7,92 @@ var Photo = require('../../flowly/Photo.js');
 var PhotoLarge = require('../../flowly/PhotoLarge.js');
 
 var LargeCard = React.createClass({
-    
+    getInitialState: function () {
+        return {
+            hover: false,
+            hover1: false,
+            hover2: false
+        };
+    },
+    onMouseEnterHandler: function () {
+        this.setState({
+            hover: true,
+        });
+        console.log('enter');
+    },
+    onMouseLeaveHandler: function () {
+        this.setState({
+            hover: false
+        });
+        console.log('leave');
+    },
+    onMouseEnterfb: function () {
+        this.setState({
+            hover1: true,
+            hover: true
+        });
+        console.log('enter');
+        //$("#fbimage").attr('src','images/fb_blue.png');
+    },
+    onMouseLeavefb: function () {
+        this.setState({
+            hover1: false
+        });
+        console.log('leave');
+        //$("#fbimage").attr('src','images/fb_black.png');
+    },
+    onMouseEntertw: function () {
+        this.setState({
+            hover2: true,
+            hover: true
+        });
+        console.log('enter');
+        //$("#twimage").attr('src','images/tw_blue.png');
+    },
+    onMouseLeavetw: function () {
+        this.setState({
+            hover2: false
+        });
+        console.log('leave');
+        //$("#twimage").attr('src','images/tw_black.png');
+    },
+
+    fbShare: function () {
+        debugger;
+        var winTop = (screen.height / 2) - (380 / 2);
+        var winLeft = (screen.width / 2) - (520 / 2);
+        var url = this.props.returnurl +"?id="+ this.props.id;
+        var url1 = 'http://www.facebook.com/sharer.php?s=100&p[title]=Fb Share&p[summary]=Facebook share popup&p[url]=' + encodeURIComponent(url);
+        window.open(url1, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=548,height=325');
+
+    },
+    onClicktw: function () {
+        var winTop = (screen.height / 2) - (380 / 2);
+        var winLeft = (screen.width / 2) - (520 / 2);
+        var url = this.props.returnurl +"?id="+ this.props.id;
+        window.open("http://twitter.com/share?url=" +
+encodeURIComponent(url) + "&count=none/",
+"tweet", 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=548,height=325')
+
+    }, 
 	render(){
-		console.log('style'+this.props.styles);
-		
+	    console.log('style'+this.props.styles);
+	    var url = this.props.returnurl+'?id=' + this.props.id;
+	    var s2 = {'position': 'absolute', 'list-style-type': 'none', 'margin': '0', 'padding-right': '20px', 'float': 'right', 'overflow': 'hidden', 'display': 'none', 'z-index': '9999  !important' };
+		if (this.state.hover)
+		    s2 = {'position': 'absolute', 'list-style-type': 'none', 'margin': '0', 'padding-right': '20px', 'float': 'right', 'overflow': 'hidden','z-index': '9999  !important'};
+
 		return(
-				
 		            <div className="card large z-depth-3" style={this.props.styles.cardStyle}>
-			            <div className="card-image"  style={this.props.styles.cardImageStyle}>
-			            {this.props.data.Photo ? <Photo share={this.props.data.Photo}  url= {this.props.data.Photo} />
+                        <ul id="icon" style={s2} >
+                           <li style={{'float':'left'}}><img onClick={this.fbShare.bind(this)} onMouseEnter={this.onMouseEnterfb} onMouseLeave={this.onMouseLeavefb} style={{'width':'30px','border-radius': '50%'}} src={this.state.hover1 ? "../Scripts/images/fb_blue.png" : "../Scripts/images/fb_black.png" } /></li>
+                           <li style={{'float':'left'}}><img onClick={this.onClicktw.bind(this)} onMouseEnter={this.onMouseEntertw} onMouseLeave={this.onMouseLeavetw} style={{'width': '30px','border-radius': '50%'}} src={this.state.hover2 ? "../Scripts/images/tw_blue.png": "../Scripts/images/tw_black.png" } /></li>
+                        </ul>
+                        <div className="card-image"  style={this.props.styles.cardImageStyle}>
+			            <a style={{'display': 'block'}} href={url} onMouseEnter={this.onMouseEnterHandler} onMouseLeave={this.onMouseLeaveHandler}>
+                            {this.props.data.Photo ? <Photo url= {this.props.data.Photo} />
                            :<div></div>}
-			              
+			            </a>
 			              <span className="card-title" style={this.props.styles.cardTitleStyle}><a className="socialTitleColor" style={this.props.styles.cardTitleAnchoStyle} href={this.props.returnurl+'?id=' + this.props.id}>{this.props.data.Name}</a></span>
 			            </div>
 			            <div className="card-content" style={this.props.styles.descriptionStyle}>

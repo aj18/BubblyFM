@@ -22,7 +22,8 @@ var SIM = React.createClass({
         var femaleUrl=this.props.returnurl+ '?id=' + this.props.id + '&type=gender&page=1&q=Female';
         var otherGenderUrl=this.props.returnurl+ '?id=' + this.props.id + '&type=gender&page=1&q=Others';
         var total=this.props.data.Stat.PosCount+this.props.data.Stat.NegCount+this.props.data.Stat.NeuCount;
-
+        var s1={'margin-left':'-0.25rem','margin-right':'-0.25rem'};
+        var s2={'margin-left':'0.75rem','margin-right':'0.75rem'};
         return(
        <div className="card z-depth-3">
             <div className="row" style={{"text-align":"center"}}>
@@ -56,7 +57,7 @@ var SIM = React.createClass({
                         </li>
                     </ul>
             </div>    
-            <div className="row">
+            <div className="row" style={s1}>
                     <div className="col s6">
                         <p className="social-collections-title"><a href={fbUrl}><i className='fa fa-facebook fa-1x'></i> Facebook</a></p>
                         <p className="social-collections-content">Count : {this.props.Projects.Meter.Facebook}</p>
@@ -68,7 +69,7 @@ var SIM = React.createClass({
                         <Projectline data={this.props.Projects.Facebook} />
                     </div>
             </div>
-            <div className="row">
+            <div className="row" style={s1}>
                         <div className="col s6">
                             <p className="social-collections-title"><a href={twitUrl}><i className='fa fa-twitter fa-1x'></i> Twitter</a></p>
                             <p className="social-collections-content">Count : {this.props.Projects.Meter.Twitter}</p>
@@ -80,7 +81,7 @@ var SIM = React.createClass({
                             <Projectline data={this.props.Projects.Twitter} />
                         </div>
             </div>
-            <div className="row">
+            <div className="row" style={s2}>
                         <div className="row">
                                 <div className="col s6">
 
@@ -105,7 +106,7 @@ var SIM = React.createClass({
                         </li>
                     </ul>        
             </div>
-            <div className="row">
+            <div className="row" style={s1}>
                     <div className="col s5">
                                     <p className="social-collections-title"><strong></strong> <a href={maleUrl}><i className="fa fa-male fa-1x"></i> Male</a></p>
                                     <p className="social-collections-content">Count : {this.props.Projects.Meter.Male}</p>
@@ -121,7 +122,7 @@ var SIM = React.createClass({
                     </div>
 
             </div>
-            <div className="row">
+            <div className="row" style={s1}>
                     <div className="col s5">
                                     <p className="social-collections-title"><strong></strong> <a href={femaleUrl}><i className="fa fa-female fa-1x"></i> Female</a></p>
                                     <p className="social-collections-content">Count : {this.props.Projects.Meter.Female}</p>
@@ -136,7 +137,7 @@ var SIM = React.createClass({
                     </div>
 
             </div>
-            <div className="row">
+            <div className="row" style={s1}>
                     <div className="col s5">
                                     <p className="social-collections-title"><strong></strong><a href={otherGenderUrl}> Others</a></p>
                                     <p className="social-collections-content">Count : {this.props.Projects.Meter.Others}</p>
@@ -160,57 +161,41 @@ var SIM = React.createClass({
                              
                         </li>
                         <li className="collection-item" style={{"border":"none"}}>
-                            <div className="row">
+                            <div className="row" style={s2}>
                                <StatisticsTable videoCount={this.props.data.VideosCount} photoCount={this.props.data.PhotosCount} id={this.props.id}  returnurl={this.props.returnurl} />
                             </div>
                         </li>
                     </ul>
             </div>
-            
-            <div className="row" >
-                    <ul id="projects-collection" className="collection" style={{"border":"none"}}>
+            <div className="row">
+                    <ul id="projects-collection" className="collection" style={{"border":"none",'margin-bottom':'-20px'}}>
                         <li className="collection-item avatar" style={{"border":"none"}}>
-                                <i className="mdi-communication-location-on circle red darken-2"></i>
-                                <span className="collection-header">Geo Location</span>
-                                <p>World map, world regions, countries</p>
+                            <i className="material-icons circle red darken-2">assessment</i>
+                                    
+                            <span className="social-collection-header">Tags</span>
+                             
+                        </li>
+                        <li className="collection-item" style={{"border":"none",'margin-top':'-25px'}}>
+                            <div className="row" style={s2}>
+                                <TagList  data={this.props.data.Tags}   returnurl={this.props.returnurl} id={this.props.id} />
+                            </div>
                         </li>
                     </ul>
-                    
             </div>
             <div className="row">
-                     <DBTSLocation id={this.props.id} 
-                                polarChartData={this.props.polarChartData} 
-                                wordMarkers={this.props.wordMarkers} 
-                                title = { this.props.title } 
-                                returnurl={this.props.returnurl} />
-
-            </div>
-            <div className="row">
-                    <div className="col s12">
-                        <ul className="tabs tab-demo-active z-depth-1" style={{"width": "100%;"}}>
-                          <li className="tab col s6" style={{"width": "50%;"}}><a className="white-text red darken-1 waves-effect waves-light active" href="#tags1">
-                          <i className="material-icons tiny">perm_identity</i> Tags</a>
-                          </li>
-                          
-
-                          <li className="tab col s6" style={{"width": "50%;"}}><a className="white-text light-blue darken-1 waves-effect waves-light" href="#emotions2">
-                          <i className="material-icons tiny">speaker_notes</i> Emotions</a>
-                          </li>
-                        <div className="indicator" style={{"right": "488px; left: 0px;"}}></div>
-                        <div className="indicator" style={{"right": "488px; left: 0px;"}}></div>
-                        </ul>
-                  </div>
-                  <div className="col s12">
-                    <div id="tags1" className="col s12 lighten-3" style={{"display": "block;"}}>
-                       <TagList  data={this.props.data.Tags}   returnurl={this.props.returnurl} id={this.props.id} />
-
-                    </div>
-                    
-                    <div id="emotions2" className="col s12 lighten-3" style={{"display": "none;"}}>
-                      <EmotionList  data={this.props.data.Emotions} returnurl={this.props.returnurl} id={this.props.id} />
-                    </div>
-                  </div>
-
+                    <ul id="projects-collection" className="collection" style={{"border":"none",'margin-bottom':'-20px'}}>
+                        <li className="collection-item avatar" style={{"border":"none"}}>
+                            <i className="material-icons circle red darken-2">assignment_ind</i>
+                                    
+                            <span className="social-collection-header">Emotions</span>
+                             
+                        </li>
+                        <li className="collection-item" style={{"border":"none",'margin-top':'-25px'}}>
+                            <div className="row" style={s2}>
+                               <EmotionList  data={this.props.data.Emotions} returnurl={this.props.returnurl} id={this.props.id} />
+                            </div>
+                        </li>
+                    </ul>
             </div>
         </div>
                                     

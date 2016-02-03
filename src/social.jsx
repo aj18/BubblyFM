@@ -44,7 +44,7 @@ var SmallMSNStory = require("../bubbly_small_msn/src/smallmsnStory.js");
 var Bubbly = React.createClass({
 	getDefaultProps:function(){
 	    return {
-	      WidgetUrl : "http://s24x7.azurewebsites.net/api/summary/",
+	      WidgetUrl : "http://www.social24x7.com/api/summary/",
 	      styles : "styles",
 	      url : ""
 	    }
@@ -325,7 +325,7 @@ var  BubblyCardRunner = function (campaignId,cardType,returnUrl,styles,clientId,
 
 	} else {
 		console.log("dataFromPage False");
-		var WidgetUrl = "http://s24x7.azurewebsites.net/api/summary/";
+		var WidgetUrl = "http://www.social24x7.com///api/summary/";
 	    var url = WidgetUrl + "?id=" + campaignId;
 	   
 	    jQuery.ajax({

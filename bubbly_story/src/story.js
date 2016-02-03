@@ -26,7 +26,74 @@ var FluidVid = React.createClass({
 
 var Story = React.createClass({
     
-    
+    getInitialState: function () {
+        return {
+            hover: false,
+            hover1: false,
+            hover2: false
+        };
+    },
+    onMouseEnterHandler: function () {
+        this.setState({
+            hover: true,
+        });
+        console.log('enter');
+    },
+    onMouseLeaveHandler: function () {
+        this.setState({
+            hover: false
+        });
+        console.log('leave');
+    },
+    onMouseEnterfb: function () {
+        this.setState({
+            hover1: true,
+            hover: true
+        });
+        console.log('enter');
+        //$("#fbimage").attr('src','images/fb_blue.png');
+    },
+    onMouseLeavefb: function () {
+        this.setState({
+            hover1: false
+        });
+        console.log('leave');
+        //$("#fbimage").attr('src','images/fb_black.png');
+    },
+    onMouseEntertw: function () {
+        this.setState({
+            hover2: true,
+            hover: true
+        });
+        console.log('enter');
+        //$("#twimage").attr('src','images/tw_blue.png');
+    },
+    onMouseLeavetw: function () {
+        this.setState({
+            hover2: false
+        });
+        console.log('leave');
+        //$("#twimage").attr('src','images/tw_black.png');
+    },
+
+    fbShare: function () {
+        debugger;
+        var winTop = (screen.height / 2) - (380 / 2);
+        var winLeft = (screen.width / 2) - (520 / 2);
+        var url = window.location.href;
+        var url1 = 'http://www.facebook.com/sharer.php?s=100&p[title]=Fb Share&p[summary]=Facebook share popup&p[url]=' + encodeURIComponent(url);
+        window.open(url1, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=548,height=325');
+
+    },
+    onClicktw: function () {
+        var winTop = (screen.height / 2) - (380 / 2);
+        var winLeft = (screen.width / 2) - (520 / 2);
+        var url = window.location.href;
+        window.open("http://twitter.com/share?url=" +
+encodeURIComponent(url) + "&count=none/",
+"tweet", 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=548,height=325')
+
+    },  
     render: function () {
         var s1 = { 'font-family': 'georgia','font-size':'16px','line-height':'26px','margin-bottom':'4%','margin-left':'10%','margin-right':'9%' };
         var s2 = { 'width': '100%', 'height': '60px' };
@@ -34,7 +101,8 @@ var Story = React.createClass({
         var s4 = {'padding-top':'20px','width':'100%'};
         var s5 = {'height': '48px','width': '48px','padding': '4px','border-bottom':'none','margin-right':'5px'};
         var s8 = { 'padding-right': '5px', 'color': 'darkgray' };
-        
+        var s10 = {'position': 'absolute', 'list-style-type': 'none', 'margin': '0', 'padding-right': '20px', 'float': 'right', 'overflow': 'hidden'};
+    
         var urlTitle = this.props.returnurl;
         // http://, https://, ftp://
         var urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
@@ -191,7 +259,11 @@ var Story = React.createClass({
                 </h3>
                
                <h5>{this.props.discription}</h5>
-              </div> 
+              </div>
+                <ul id="icon" style={s10} >
+                    <li><img onClick={this.fbShare.bind(this)} onMouseEnter={this.onMouseEnterfb} onMouseLeave={this.onMouseLeavefb} style={{'width':'30px','border-radius': '50%'}} src={this.state.hover1 ? "../Scripts/images/fb_blue.png" : "../Scripts/images/fb_black.png" } /></li>
+                    <li><img onClick={this.onClicktw.bind(this)} onMouseEnter={this.onMouseEntertw} onMouseLeave={this.onMouseLeavetw} style={{'width': '30px','border-radius': '50%'}} src={this.state.hover2 ? "../Scripts/images/tw_blue.png": "../Scripts/images/tw_black.png" } /></li>
+                </ul>
               <div>
                    {commentNodes}
                </div>

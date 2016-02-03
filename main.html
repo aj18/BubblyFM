@@ -1,42 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Bubbly</title>	
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
-	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css'/>
+    <title>Bubbly</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css' />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css">
-	
 
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css">
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css">
 
     <link href="./css/bubbly.css" rel="stylesheet" />
 
     <link href="./materialize/js/plugins/jvectormap/jquery-jvectormap.css" type="text/css" rel="stylesheet" media="screen,projection">
     <link href="./materialize/js/plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection">
-	
+
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-   
-   <!--<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.3.15/slick.css" />-->
-   
-   <link rel="stylesheet" type="text/css" href="js/fancybox/jquery.fancybox.css?v=2.1.5" media="screen" />
-  <!-- Compiled and minified JavaScript -->
-   
+
+    <!--<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.3.15/slick.css" />-->
+
+    <link rel="stylesheet" type="text/css" href="js/fancybox/jquery.fancybox.css?v=2.1.5" media="screen" />
+    <!-- Compiled and minified JavaScript -->
+    <style>
+        .pack-layout {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            position: relative;
+        }
+
+            .pack-layout li {
+                width: 340px;
+                position: absolute;
+            }
+
+        
+    </style>
     <script type="text/javascript" src="http://www.youtube.com/player_api"></script>
 
-<!--<link type="text/css" rel="stylesheet" href="./materialize/css/materialize.min.css"  media="screen,projection"/>-->
- 	<script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <!--<link type="text/css" rel="stylesheet" href="./materialize/css/materialize.min.css"  media="screen,projection"/>-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
     <script src="./js/owl.carousel.min.js" type="text/javascript"></script>
     <script src="./js/jquery.prettyPhoto.js" type="text/javascript"></script>
-    <script src="./js/jquery.mixitup.min.js" type="text/javascript"></script> 
+    <script src="./js/jquery.mixitup.min.js" type="text/javascript"></script>
     <script src="./js/morris.js"></script>
-	<script src="./js/raphael.js"></script>
-	<script src="./js/sparklines.js"></script>
-	
-	<script  src="./materialize/js/plugins/chartjs/chart.min.js" type="text/javascript"></script>
-	<script src="./js/sliderengine/amazingslider.js"></script>
-	
+    <script src="./js/raphael.js"></script>
+    <script src="./js/sparklines.js"></script>
 
-	<script src="./js/imagesloaded.pkgd.js"></script>
+    <script src="./materialize/js/plugins/chartjs/chart.min.js" type="text/javascript"></script>
+    <script src="./js/sliderengine/amazingslider.js"></script>
+
+
+    <script src="./js/imagesloaded.pkgd.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.1/masonry.pkgd.js"></script>
     <script src="//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.2" async></script>
@@ -45,254 +59,270 @@
     <script async src="https://secure.assets.tumblr.com/post.js"></script>
     <script async defer src="//platform.instagram.com/en_US/embeds.js"></script>
     <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
-	
-	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
-	<script src="./dist/bubbly.js"></script>
-	
-	<script type="text/javascript" src="data.js"></script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
-	<script type="text/javascript" src="./materialize/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+
+    <script type="text/javascript" src="data.js"></script>
+
+    <script type="text/javascript" src="./materialize/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
     <script type="text/javascript" src="./materialize/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
     <script type="text/javascript" src="./materialize/js/plugins/jvectormap/vectormap-script.js"></script>
-    
-   
-        
+    <script type="text/javascript" src="./materialize/js/jquery-1.11.2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
+
+    <!--materialize js-->
+    <!--prism-->
+    <script type="text/javascript" src="./materialize/js/prism.js"></script>
+    <!--scrollbar-->
+    <script type="text/javascript" src="./materialize/js/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <!-- chartist -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.1/masonry.pkgd.js"></script>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+</head>
 <body id="body">
-	<div class="row">
-      <div class="col s1">1</div>
-      <div class="col s1">2</div>
-      <div class="col s1">3</div>
-      <div class="col s1">4</div>
-      <div class="col s1">5</div>
-      <div class="col s1">6</div>
-      <div class="col s1">7</div>
-      <div class="col s1">8</div>
-      <div class="col s1">9</div>
-      <div class="col s1">10</div>
-      <div class="col s1">11</div>
-      <div class="col s1">12</div>
+    <div class="row">
+        <div class="col s1">1</div>
+        <div class="col s1">2</div>
+        <div class="col s1">3</div>
+        <div class="col s1">4</div>
+        <div class="col s1">5</div>
+        <div class="col s1">6</div>
+        <div class="col s1">7</div>
+        <div class="col s1">8</div>
+        <div class="col s1">9</div>
+        <div class="col s1">10</div>
+        <div class="col s1">11</div>
+        <div class="col s1">12</div>
     </div>
-		<div class="row">
-	  	  
-		   		
-		   	     <div class="col s3"> <div id="small1"></div></div>
-		   	     <div class="col s3"> <div id="small2"></div></div>
-		   	     <div class="col s3"> <div id="small3"></div></div>
-		   	     <div class="col s3"> <div id="small4"></div></div>
-		   	    
-		   	    
-		</div>
-		<div class="row">
-	  	   <div class="col s3">
-		   		
-		   	     <div id="medium1"></div>
-		   	</div>       
-		
-	  	   <div class="col s3">
-		   		
-		   	     <div id="medium2"></div>
-		   	</div>       
-		
-	  	   <div class="col s3">
-		   		
-		   	     <div id="medium3"></div>
-		   	</div>  
-
-		   	<div class="col s3">
-		   		
-		   	     <div id="medium4"></div>
-		   	</div>          
-		</div>
-
-		
-
-		
-
-		<div class="row">
-	  	   <div class="col s3">
-		   		
-		   	     <div id="large1"></div>
-		   	</div>       
-		
-	  	   <div class="col s3">
-		   		
-		   	     <div id="large2"></div>
-		   	</div>       
-		
-	  	   <div class="col s3">
-		   		
-		   	     <div id="large3"></div>
-		   	</div>  
-
-		   	<div class="col s3">
-		   		
-		   	     <div id="large4"></div>
-		   	</div>          
-		</div>
-
-		<div class="row">
-	  	   <div class="col s3">
-		   		
-		   	     <div id="smallvertical1"></div>
-		   	</div>       
-		
-	  	   <div class="col s3">
-		   		
-		   	     <div id="smallvertical2"></div>
-		   	</div>       
-		
-	  	   <div class="col s3">
-		   		
-		   	     <div id="smallvertical3"></div>
-		   	</div>  
-
-		   	<div class="col s3">
-		   		
-		   	     <div id="smallvertical4"></div>
-		   	</div>          
-		</div>
-
-		<div class="row">
-	  	   <div class="col s12">
-		   		
-		   	     <div id="pc"></div>
-		   	</div>       
-		
-	  	      
-		</div>
-
-		<div class="row">
-	  	   <div class="col s12">
-		   		
-		   	     <div id="vc"></div>
-		   	</div>       
-		
-	  	      
-		</div>
-
-		
-		
-		<div class="row">
-		   		<div class="col s9">
-		   		<h1> RSS </h1>
-		   	     <div id="rsslistdesc"></div>
-		   	    </div>
-		   	    <div class="col s3">
-		   	    <h1> Text </h1>
-		   	    <div id="st"></div>
-		   	    <div id="SI"></div>
-		</div>
-
-		   		
-		</div>
-
-		<div class="row">
-		   		<div class="col l6">
-		   		<h1> RSS Image Gallery</h1>
-		   	     <div id="rsslistimg"></div>
-		   	    </div>
-		   	    <div class="col l6">
-		   	    <h1> Image Gallery</h1>
-		   	     <div id="imggallery"></div>
-		   	    </div>
-
-		   		
-		</div>
-
-		
-
-		<div class="row"></div>
-		   		
-		   	     
-		  <div class="col s9">
-		   	     <div id="comments"></div>
-		  </div>
-		  	
-		 		
-		</div>
+    <div class="row">
 
 
-		<div class="row">
-	  	   <div class="col s12">
-		   		
-		   	    <div class="col s4">
-			   		  <h1>PCARD</h1>
-			   	     <div id="PCARD"></div>
-			   	</div>    
-			   	<div class="col s4">
-			   	    <h1> VCARD</h1>
-			   	     <div id="VCARD"></div>
-			   	</div>
-			   	<div class="col s4">
-			   	     <h1>CARDPANEL</h1>
-			   	     <div id="CARDPANEL"></div>
-		   	    </div>
-		   	</div>       
-		
-	  	      
-		</div>
-		<div class="row">
-				<div class="col s4">
-					<h5> VCARDAUTO</h5>
-					<div id="VCARDAUTO"></div>
+        <div class="col s3"> <div id="small1"></div></div>
+        <div class="col s3"> <div id="small2"></div></div>
+        <div class="col s3"> <div id="small3"></div></div>
+        <div class="col s3"> <div id="small4"></div></div>
 
-				</div>
-		</div>
-		<div class="row">
-	  	   <div id="WALL"></div>
-	  	      
-		</div>
 
-		<div class="row">
-			 <div class="col s12">
-					<div class="col s4">
-							<h5> STORYPCARD</h5>
-							<div id="storypcard"></div>
-							</div>
-					</div>
-					<div class="col s4">
-							<h5> STORYVCARD</h5>
-							<div id="storyvcard"></div>
-							</div>
-					</div>
-					<div class="col s4">
-							<h5> CARDPANELSTORY</h5>
-							<div id="cardpanelstory"></div>
-							</div>
-					</div>
-					<div class="col s4">
-							<h5> SMALLCARD</h5>
-							<div id="smallstory"></div>
-							</div>
-					</div>
-			</div>
-   		</div>
+    </div>
+    <div class="row">
+        <div class="col s3">
 
-   		<div class="row">
-   			<div class="col s12 l6">
-   					<div>
-   						<h5> STORY</h5>
-   						<div id="story"></div>
-   					</div>
+            <div id="medium1"></div>
+        </div>
 
-   			</div>
+        <div class="col s3">
 
-   		</div>
+            <div id="medium2"></div>
+        </div>
 
-   		<div class="row">
-   			<div class="col s12">
-   					<div>
-   						<h5> STORYSLIDER</h5>
-   						<div id="storyslider"></div>
-   					</div>
+        <div class="col s3">
 
-   			</div>
+            <div id="medium3"></div>
+        </div>
 
-   		</div>
-    
+        <div class="col s3">
+
+            <div id="medium4"></div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="row">
+        <div class="col s3">
+
+            <div id="large1"></div>
+        </div>
+
+        <div class="col s3">
+
+            <div id="large2"></div>
+        </div>
+
+        <div class="col s3">
+
+            <div id="large3"></div>
+        </div>
+
+        <div class="col s3">
+
+            <div id="large4"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s3">
+
+            <div id="smallvertical1"></div>
+        </div>
+
+        <div class="col s3">
+
+            <div id="smallvertical2"></div>
+        </div>
+
+        <div class="col s3">
+
+            <div id="smallvertical3"></div>
+        </div>
+
+        <div class="col s3">
+
+            <div id="smallvertical4"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+
+            <div id="pc"></div>
+        </div>
+
+
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+
+            <div id="vc"></div>
+        </div>
+
+
+    </div>
+
+
+
+    <div class="row">
+        <div class="col s4">
+            <h1> RSS </h1>
+            <div id="rsslistdesc"></div>
+        </div>
+        <div class="col s5">
+            <h1> BM </h1>
+            <div id="bmcard"></div>
+        </div>
+        <div class="col s3">
+            <h1> Text </h1>
+            <div id="st"></div>
+            <div id="SI"></div>
+        </div>
+
+
+    </div>
+
+    <div class="row">
+        <div class="col l6">
+            <h1> RSS Image Gallery</h1>
+            <div id="rsslistimg"></div>
+        </div>
+        <div class="col l6">
+            <h1> Image Gallery</h1>
+            <div id="imggallery"></div>
+        </div>
+
+
+    </div>
+
+
+
+    <div class="row"></div>
+
+
+    <div class="col s9">
+        <div id="comments"></div>
+    </div>
+
+
+    </div>
+
+
+    <div class="row">
+        <div class="col s12">
+
+            <div class="col s4">
+                <h1>PCARD</h1>
+                <div id="PCARD"></div>
+            </div>
+            <div class="col s4">
+                <h1> VCARD</h1>
+                <div id="VCARD"></div>
+            </div>
+            <div class="col s4">
+                <h1>CARDPANEL</h1>
+                <div id="CARDPANEL"></div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div class="col s4">
+            <h5> VCARDAUTO</h5>
+            <div id="VCARDAUTO"></div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div id="WALL"></div>
+
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <div class="col s4">
+                <h5> STORYPCARD</h5>
+                <div id="storypcard"></div>
+            </div>
+        </div>
+        <div class="col s4">
+            <h5> STORYVCARD</h5>
+            <div id="storyvcard"></div>
+        </div>
+    </div>
+    <div class="col s4">
+        <h5> CARDPANELSTORY</h5>
+        <div id="cardpanelstory"></div>
+    </div>
+    </div>
+    <div class="col s4">
+        <h5> SMALLCARD</h5>
+        <div id="smallstory"></div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12 l6">
+            <div>
+                <h5> STORY</h5>
+                <div id="story"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <div>
+                <h5> STORYSLIDER</h5>
+                <div id="storyslider"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="./dist/bubbly.js"></script>
+    <!--<script src="src/layout-pack.js"></script>-->
     <script type="text/javascript">
-   
+
 	var Bubbly = new BubblyCard();
 		//
 	var paraImgGallery ={
@@ -305,14 +335,14 @@
 	   					cardTitleStyle:{'z-index':'10 !important','bottom':'80px !important;'},
         				cardSubTitleStyle:{'z-index':'9999 !important','bottom':'70px !important;'},
     					},
-			"clientId" : "100" 
+			"clientId" : "100"
 	};
- 
+
 	//Bubbly.showCard(paraImgGallery,null,document.getElementById('imggallery') );
 	//
-	Bubbly.showCard({ "campaignId": "bolly_data3703", "cardType": "SIM", "returnUrl": "returnUrl3", "styles": {}, "clientId": 100 },null, document.getElementById("SI"));
+	//Bubbly.showCard({ "campaignId": "golf_data3802", "cardType": "SIM", "returnUrl": "http://www.golf24x7.social/Home/comments", "styles": {}, "clientId": 100 }, null, document.getElementById("SI"));
 
-	
+
 
 	var siDataFromPage = null ;
 	var siReturnUrl = returnurlSI;
@@ -323,22 +353,71 @@
 	    "returnUrl" : "http://bharatmovies.social/comments",
 	    "returnUrl3" : "",
 	    "styles" : {} ,
-	    "clientId" : "100" 
+	    "clientId" : "100"
 	};
 
 	var containersStory = document.getElementById('storypcard') ;
 	var paraStory ={
-		"campaignId" : "bolly_data3618",
+	    "campaignId": "bolly_data3951",
 		"cardType" : "STORYPCARD",
 	    "returnUrl" : "http://bharatmovies.social",
-	    "styles" : { },
+	    "styles": {
+	        panelStyle: {
+	            'padding': '0px;',
+	            'height': '503px;',
+	            'border-radius': '5px !important;',
+	            'cursor': 'pointer;'
+	        },
+	        titleStyle: {
+	            'position': 'relative;',
+	            'height': '35px;',
+	            'left': '0px;',
+	            'padding': '5px;',
+	            'display': 'inline-block;',
+	            'max-width': '65%;',
+	            'text-overflow': 'ellipsis;',
+	            'white-space': 'nowrap;',
+	            'overflow': 'hidden;',
+	            'background-color': 'rgba(255, 80, 10, 0.85);',
+	            'font-size': '16px;',
+	            'color': '#fff;',
+	            'bottom': '90px;',
+	        },
+	        subTitleStyle: {
+	            'background-color': 'rgba(255, 255, 255, 0.65);',
+	            'font-size': '14px;',
+	            'color': '#000;',
+	            'text-overflow': 'ellipsis;',
+	            'white-space': 'nowrap;',
+	            'overflow': 'hidden;',
+	            'bottom': '90px',
+	            'position': 'relative;',
+	            'padding': '5px;'
+	        },
+	        pictureStyle: {
+	            'height': '503px !important;',
+	            'border-radius': '5px !important;'
+	        }
+	    },
+	    "storyLB":true,
 	    "title" : "",
 	    "description" : "",
 	    "clientId" : "100" ,
-	    "storyId" : "story_default"
+	    "storyId": "Story_60b396ad-aed6-4ed6-925d-f8bd3e88157b"
 	};
 	//Bubbly.showStoryCards(paraStory,null,containersStory);
 
+	var paraStory = {
+	    "campaignId": "bolly_data3927",
+	    "cardType": "STORY",
+	    "returnUrl": "",
+	    "styles": {},
+	    "title": "",
+	    "description": "",
+	    "clientId": "100",
+	    "storyId": "Story_15bd6733-4f2d-40d7-a423-20b8d7cacb6e"
+	};
+	//Bubbly.showStoryCards(paraStory, null, document.getElementById("story"));
 
 	var containersSmall = document.getElementById('small1') ;
 	var paraSmall ={
@@ -346,14 +425,14 @@
 		"cardType" : "SMALL",
 	    "returnUrl" : "http://bharatmovies.social",
 	    "styles" : {} ,
-	    "clientId" : "100" 
+	    "clientId" : "100"
 	};
 
 	var containersStoryDetail = document.getElementById('story') ;
 	var paraPCardMStory ={
-	  "campaignId" : "bolly_data262",
+	  "campaignId" : "bolly_data3951",
 	  "cardType" : "STORYPCARD",
-	  "returnUrl" : "http://www.bharatmovies.com",
+	  "returnUrl": "http://www.golf24x7.social/Home/story",
 	  "storyLB" : true,
 	  "styles" :{panelStyle:{'padding':'0px;','height':'299px !important;'},
 	  titleStyle:{
@@ -366,9 +445,9 @@
 	  "clientId" : "100",
 	  "title" : "",
 	  "description" : "",
-	  "storyId" : "Story_964d96d5-6395-4b66-beeb-64e29e7108e5" 
+	  "storyId" : "Story_60b396ad-aed6-4ed6-925d-f8bd3e88157b"
 	 };
-	Bubbly.showStoryCards(paraPCardMStory,null,containersStoryDetail);
+	//Bubbly.showStoryCards(paraPCardMStory,null,containersStoryDetail);
 
 	var containersStoryNew = document.getElementById('storyslider') ;
 	var paraStoryNew ={
@@ -405,7 +484,7 @@
 		"clientId" : "100",
 		"title" : "",
 	    "description" : "",
-		"storyId" : "Story_964d96d5-6395-4b66-beeb-64e29e7108e5" 
+		"storyId" : "Story_964d96d5-6395-4b66-beeb-64e29e7108e5"
 	};
 	//Bubbly.showStoryCards(paraVCardMStory,null,document.getElementById('storyvcard'));
 
@@ -425,13 +504,13 @@
 		"clientId" : "100",
 		"title" : "",
 	    "description" : "",
-		"storyId" : "Story_964d96d5-6395-4b66-beeb-64e29e7108e5" 
+		"storyId" : "Story_964d96d5-6395-4b66-beeb-64e29e7108e5"
 	};
 	//Bubbly.showStoryCards(paraVCardMStory,null,document.getElementById('storyvcard'));
 
 
 	var paraPanelCardM2 ={
-		"campaignId" : "bolly_data262",
+		"campaignId" : "bolly_data3951",
 		"cardType" : "STORYCARDPANEL",
 		"storyLB" : true,
 	    "returnUrl" : "http://"+":30000/news?id=bolly_data327",
@@ -443,14 +522,14 @@
 	    "clientId" : "100",
 	    "title" : "",
 	    "description" : "",
-		"storyId" : "Story_964d96d5-6395-4b66-beeb-64e29e7108e5"  
+		"storyId" : "Story_60b396ad-aed6-4ed6-925d-f8bd3e88157b"
 	};
-	
-	
+
+
 	Bubbly.showStoryCards(paraPanelCardM2,null, document.getElementById('cardpanelstory'));
 
 	var paraPanelCardSmall ={
-		"campaignId" : "bolly_data262",
+	    "campaignId": "bolly_data3951",
 		"cardType" : "STORYSMALL",
 	    "returnUrl" : "http://"+":30000/news?id=bolly_data327",
 	    "storyLB" : true,
@@ -458,11 +537,11 @@
 	    "clientId" : "100",
 	    "title" : "",
 	    "description" : "",
-		"storyId" : "Story_964d96d5-6395-4b66-beeb-64e29e7108e5"  
+	    "storyId": "Story_60b396ad-aed6-4ed6-925d-f8bd3e88157b"
 	};
-	
-	
-	Bubbly.showStoryCards(paraPanelCardSmall,null, document.getElementById('smallstory'));
+
+
+	//Bubbly.showStoryCards(paraPanelCardSmall,null, document.getElementById('smallstory'));
 
 
 	//Bubbly.showCard(paraSmall,null,containersSmall);
@@ -476,26 +555,26 @@
 	    "returnUrl" : "http://bharatmovies.social",
 	    "returnUrl3" : "http://bharatmovies.social/comments",
 	    "styles" : {} ,
-	    "clientId" : "100" 
+	    "clientId" : "100"
 	};
-	Bubbly.showCard(para16,null,containerspc);*/
+	//Bubbly.showCard(para16,null,containerspc);*/
 
-	
+
 	var containersbm = document.getElementById('bmcard') ;
 	var para15 ={
-		"campaignId" : "bolly_data327",
+	    "campaignId": "bolly_data236",
 		"cardType" : "BM",
 	    "returnUrl" : "http://bharatmovies.social",
 	    "returnUrl3" : "http://bharatmovies.social",
 	    "styles" : {} ,
-	    "clientId" : "100" 
+	    "clientId" : "100"
 	};
 	//Bubbly.showCard(para15,null,containersbm);
 
 	var containers7 = document.getElementById('large1') ;
-	
+
 	var para7 ={
-		"campaignId" : "bolly_data3343",
+	    "campaignId": "bolly_data3951",
 		"cardType" : "LARGE",
 	    "returnUrl" : "http://bharatmovies.social",
 	     "styles" : {cardStyle : {'background-color': '#7b1fa2;','box-shadow': '0 20px 15px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);'},
@@ -505,15 +584,15 @@
 					descriptionStyle : {'color': '#FBF8F8 !important'},
 					actionStyle : {}
 		 } ,
-	    "clientId" : "100" 
+	    "clientId" : "100"
 	};
 
-	//Bubbly.showCard(para7,null,containers7);
+//	Bubbly.showCard(para7,null,containers7);
 
 	var containersMedium = document.getElementById('medium1') ;
-	
+
 	var paraMedium ={
-		"campaignId" : "bolly_data3343",
+		"campaignId" : "bolly_data167",
 		"cardType" : "MEDIUM",
 	    "returnUrl" : "http://bharatmovies.social",
 	     "styles" : {cardStyle : {'background-color': '#7b1fa2;','box-shadow': '0 20px 15px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);'},
@@ -523,13 +602,13 @@
 					descriptionStyle : {'color': '#FBF8F8 !important'},
 					actionStyle : {}
 		 } ,
-	    "clientId" : "100" 
+	    "clientId" : "100"
 	};
 
-	//Bubbly.showCard(paraMedium,null,containersMedium);
+   //Bubbly.showCard(paraMedium,null,containersMedium);
 
 	var containersSmallVertical = document.getElementById('small1') ;
-	
+
 	var paraSmallVertical ={
 		"campaignId" : "bolly_data3343",
 		"cardType" : "SMALLVERTICAL",
@@ -541,7 +620,7 @@
 					descriptionStyle : {'color': '#FBF8F8 !important'},
 					actionStyle : {}
 		 } ,
-	    "clientId" : "100" 
+	    "clientId" : "100"
 	};
 
 	//Bubbly.showCard(paraSmallVertical,null,containersSmallVertical);
@@ -549,7 +628,7 @@
 
 
 var containersSmall = document.getElementById('small2') ;
-	
+
 	var paraSmall ={
 		"campaignId" : "bolly_data3343",
 		"cardType" : "SMALL",
@@ -561,27 +640,30 @@ var containersSmall = document.getElementById('small2') ;
 					descriptionStyle : { 'color':'#ffffff', 'font-size': '14px;',  'line-height': '1.184;','position': 'relative;',  'font-weight': 'bolder;','margin-bottom':'5px;','margin-bottom':'5px;','overflow':'hidden;','height':'70px;', 'margin': '0px;', 'padding': '5px;'},
 					actionStyle : {}
 		 } ,
-	    "clientId" : "100" 
+	    "clientId" : "100"
 	};
 
-	//Bubbly.showCard(paraSmall,null,containersSmall);
-	/*var commentsDataFromPage = dataComments ;
-	//var commentsDataFromPage = null ;
+        //Bubbly.showCard(paraSmall,null,containersSmall);
+
+	//Bubbly.showComments({ "campaignId": "bolly_data3951", "cardType": "COMMENTS", "returnUrl": "http://cricket24x7.social", "styles": {}, "clientId": 100, "commentsType": "geo", "commentsTitle": "", "commentsQ": "us", "commentsSkipBy": "1", "commentsLimit": "20" }, null, document.getElementById("comments"));
+	var commentsDataFromPage = dataComments ;
+	var commentsDataFromPage = null ;
 	var commentsReturnUrl = "http://cricket24x7.social";
 	var containerComments = document.getElementById('comments') ;
 	var paraComments ={
-		"campaignId" : "bolly_data337",
+	    "campaignId": "bolly_data3951",
 		"cardType" : "COMMENTS",
 	    "returnUrl" : commentsReturnUrl,
 	    "styles" : {} ,
-	    "clientId" : "100", 
-	    "commentsType" : "celebrity",
+	    "clientId" : "100",
+	    "commentsType" : "source",
 		"commentsTitle" : "",
-		"commentsQ" : "",
+		"commentsQ" : "twitter",
 		"commentsSkipBy" : "1",
 		"commentsLimit" : "25"
 	};
-	Bubbly.showComments(paraComments,commentsDataFromPage,containerComments);*/
+	//Bubbly.showComments(paraComments,commentsDataFromPage,containerComments);
+Bubbly.showComments({ "campaignId": "bolly_data3951", "cardType": "COMMENTS", "returnUrl": commentsReturnUrl, "styles": {}, "clientId": 100, "commentsType":"source", "commentsTitle": "", "commentsQ": "twitter", "commentsSkipBy": "1", "commentsLimit": "20" }, null, document.getElementById("comments"));
 	//
 	/*Bubbly.showComments({"campaignId":"bolly_data327","cardType":"COMMENTS","returnUrl":"http:\/\/bollywood24x7.staging.wpengine.com","styles":{},"clientId":100,"commentsType":"source","commentsTitle":"","commentsQ":"Twitter","commentsSkipBy":"1","commentsLimit":"25"},null,document.getElementById("comments"));*/
 	//
@@ -592,7 +674,7 @@ var containersSmall = document.getElementById('small2') ;
 		"cardType" : "PC",
 	    "returnUrl" : "http://bharatmovies.social",
 	    "styles" : {} ,
-	    "clientId" : "100" 
+	    "clientId" : "100"
 	};
 	//Bubbly.showCard(para16,null,containerspc);
 
@@ -603,11 +685,11 @@ var containersSmall = document.getElementById('small2') ;
 		"cardType" : "SMALLTEXT",
 	    "returnUrl" : "http://bharatmovies.social",
 	    "styles" : {} ,
-	    "clientId" : "100" 
+	    "clientId" : "100"
 	};
 	//Bubbly.showCard(paraST,null,containersst);
 
-	
+
 
 
 	var rssDescDataFromPage = null ;
@@ -619,7 +701,7 @@ var containersSmall = document.getElementById('small2') ;
 	    "returnUrl" : rssDescReturnUrl,
 	    "styles" : {} ,
 	    "clientId" : "100",
-	    "rssCriteria" : "cricket" 
+	    "rssCriteria" : "cricket"
 	};
 	//Bubbly.showRSSCard(paraRSSDesc,rssDescDataFromPage,containerRSSDesc);
 
@@ -633,12 +715,12 @@ var containersSmall = document.getElementById('small2') ;
 	    "returnUrl" : rssDescReturnUrl,
 	    "styles" : {} ,
 	    "clientId" : "100",
-	    "rssCriteria" : "cricket" 
+	    "rssCriteria" : "cricket"
 	};
 	//Bubbly.showRSSCard(paraRSSImg,rssImgDataFromPage,containerRSSImg);*/
 
 
-	
+
 
 	/*var containersImgGallery = document.getElementById('imggallery') ;
 	var paraImgGalleryThumbnail ={
@@ -646,11 +728,11 @@ var containersSmall = document.getElementById('small2') ;
 		"cardType" : "IMAGEGALLERYTHUMBNAIL",
 	    "returnUrl" : "http://bharatmovies.social",
 	    "styles" : {} ,
-	    "clientId" : "100" 
+	    "clientId" : "100"
 	};
 	//Bubbly.showCard(paraImgGallery,null,containersImgGallery);
 	//
-	
+
 	var vcDataFromPage = dataVC ;
 	var containersvc = document.getElementById('vc') ;
 	var para17 ={
@@ -658,7 +740,7 @@ var containersSmall = document.getElementById('small2') ;
 		"cardType" : "VC",
 	    "returnUrl" : "http://bharatmovies.social",
 	    "styles" : {} ,
-	    "clientId" : "100" 
+	    "clientId" : "100"
 	};*/
 	//Bubbly.showCard(para17,null,containersvc);
 
@@ -670,14 +752,14 @@ var containersSmall = document.getElementById('small2') ;
 		"cardType" : "PC",
 	    "returnUrl" : "http://bharatmovies.social",
 	    "styles" : {} ,
-	    "clientId" : "100" 
+	    "clientId" : "100"
 	};
 	Bubbly.showCard(para16,null,containerspc);*/
 
-/*
+
 	var containerpcard = document.getElementById('PCARD') ;
 	var paraPCard ={
-		"campaignId" : "bolly_data327",
+	    "campaignId": "bolly_data3881",
 		"cardType" : "PCARD",
 	    "returnUrl" : "http://bharatmovies.social",
 	    "styles" : {panelStyle:{'padding':'0px;','height':'500px;'},
@@ -687,10 +769,10 @@ var containersSmall = document.getElementById('small2') ;
         subTitleStyle:{'background-color': 'rgba(255, 255, 255, 0.65);',
     	'font-size': '14px;','color':'#000;'},
     	pictureStyle:{'height':'500px !important'}} ,
-	    "clientId" : "100" 
+	    "clientId" : "100"
 	};
-//	Bubbly.showCard(paraPCard,null,containerpcard);
-	
+	//Bubbly.showCard(paraPCard,null,containerpcard);
+        /*
 
 
 
@@ -707,7 +789,7 @@ var containersSmall = document.getElementById('small2') ;
     	'font-size': '14px;','color':'#000;'},
     	pictureStyle:{'height':'500px !important','border':'none;'},
     	iconStyle:{'color':'rgba(75, 188, 150, 0.85);'}},
-	    "clientId" : "100" 
+	    "clientId" : "100"
 	};
 //	Bubbly.showCard(paraVCard,null,containersvcard);
 
@@ -724,13 +806,13 @@ var containersSmall = document.getElementById('small2') ;
     	'font-size': '14px;','color':'#000;'},
     	pictureStyle:{'height':'500px !important','border':'none;'},
     	iconStyle:{'color':'rgba(75, 188, 150, 0.85);'}},
-	    "clientId" : "100" 
+	    "clientId" : "100"
 	};
 //	Bubbly.showCard(paraVACard,null,containersvacard);
 
 	var containerscardpanel = document.getElementById('CARDPANEL') ;
 	var paraPanelCard ={
-		"campaignId" : "bolly_data327",
+		"campaignId" : "bolly_data262",
 		"cardType" : "CARDPANEL",
 	    "returnUrl" : "http://bharatmovies.social",
 	    "styles" : {cardStyle:{'background-color': '#7b1fa2','min-height': '400px',
@@ -738,9 +820,9 @@ var containersSmall = document.getElementById('small2') ;
 	            	'vertical-align': 'middle;','height': '400px !important;','display': 'table-cell;'}
 	                ,cardTitleStyle:{'color': '#FBF8F8 !important','text-align':'center;','font-size':'18px;','font-weight':'bold'}
 	            	,cardDiscriptionStyle:{'color': '#FBF8F8 !important'}},
-	    "clientId" : "100" 
+	    "clientId" : "100"
 	};
-//	Bubbly.showCard(paraPanelCard,null,containerscardpanel);
+	Bubbly.showCard(paraPanelCard,null,containerscardpanel);
 
 	var commentsReturnUrl = "http://cricket24x7.social";
 	var containerComments = document.getElementById('WALL') ;
@@ -749,7 +831,7 @@ var containersSmall = document.getElementById('small2') ;
 		"cardType" : "WALL",
 	    "returnUrl" : commentsReturnUrl,
 	    "styles" : {} ,
-	    "clientId" : "100", 
+	    "clientId" : "100",
 	    "commentsType" : "popular",
 		"commentsTitle" : "Popular Comments on Social Media",
 		"commentsQ" : "",
@@ -757,25 +839,13 @@ var containersSmall = document.getElementById('small2') ;
 		"commentsLimit" : "25"
 	};*/
 	//Bubbly.showComments(paraWall,dataWall,containerComments);
- 
 
 
 
-	</script>
-	 
-	 
- 	<script type="text/javascript" src="./materialize/js/jquery-1.11.2.min.js"></script>    
- 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
- 	
-    <!--materialize js-->
-    <!--prism-->
-    <script type="text/javascript" src="./materialize/js/prism.js"></script>
-    <!--scrollbar-->
-    <script type="text/javascript" src="./materialize/js/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <!-- chartist -->
-  
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.1/masonry.pkgd.js"></script>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+    </script>
+
+
+
 </body>
-
 </html>

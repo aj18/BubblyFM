@@ -21,7 +21,7 @@ var  BubblyCardRunner = function (campaignId,cardType,returnUrl,styles,clientId,
 
 	} else {
 		console.log("dataFromPage False");
-		var WidgetUrl = "http://s24x7.azurewebsites.net/api/summary/min";
+		var WidgetUrl = "http://www.social24x7.com/api/summary/min";
     if(cardType=="BM" || 
        cardType=="BMYAHOO" || 
        cardType=="IMGGALLERY" || 
@@ -30,7 +30,7 @@ var  BubblyCardRunner = function (campaignId,cardType,returnUrl,styles,clientId,
        cardType=="SI" || 
        cardType=="BMOLD" || cardType==="SIM" || cardType==="PC" || cardType==="VC"){
 
-      WidgetUrl = "http://s24x7.azurewebsites.net/api/summary/";
+      WidgetUrl = "http://www.social24x7.com/api/summary/";
     
     }
 	  var url = WidgetUrl + "?id=" + campaignId;
@@ -67,7 +67,7 @@ var  BubblyRSSCardRunner = function (campaignId,cardType,returnUrl,styles,client
 
   } else {
     console.log("dataFromPage False");
-    var WidgetUrl =  'http://s24x7.azurewebsites.net/api/summary/rss';
+    var WidgetUrl =  'http://www.social24x7.com/api/summary/rss';
         
     var url = WidgetUrl + "?id=" + rssCriteria;
      
@@ -112,7 +112,7 @@ var BubblyStoryRunner = function (id, storyIdPara, container, dataFromPage, retu
         }
         
         if (dataFromPage == null || dataFromPage == "") {
-            var weburl = 'http://s24x7.azurewebsites.net/api/summary/story';
+            var weburl = 'http://www.social24x7.com/api/summary/story';
             var url = weburl + '?id=' + id + '&storyid=' + storyIdLocal;
 
             jQuery.ajax({
@@ -247,7 +247,7 @@ var BubblyCommentsRunner = function(campaignId,cardType,returnUrl,styles,clientI
         {
             returnurl=returnUrl;
         }
-        var weburl = 'http://s24x7.azurewebsites.net/api/summary/comments';
+        var weburl = 'http://www.social24x7.com/api/summary/comments';
         var url = weburl + '?id=' + campaignId + '&type=' + commentsType + '&skipby=' + commentsSkipBy +'&limit=' + commentsLimit + '&q=' + commentsQ;
        console.log("Url : " + url);
         jQuery.ajax({

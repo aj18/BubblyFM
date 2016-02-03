@@ -9,7 +9,7 @@ var PhotoSmall = React.createClass({
 		      width: '35%'
 		    },
 		    photoStyle: {
-		    	opacity: '1',float: 'left',height:'90px',width:'40%', display: 'block',
+		        opacity: '1',float: 'left',height:'90px',width:'100%', display: 'block',
 		    	 backgroundImage: 'url('+this.props.url+')',
 		    	 backgroundSize: 'cover',
 		    	 backgroundPosition:'50% 0%', 
